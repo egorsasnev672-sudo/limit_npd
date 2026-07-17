@@ -10,7 +10,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="application-name" content="Лимит.НПД">
 <meta name="description" content="Профессиональный налоговый калькулятор для самозанятых, ИП и ООО с AR-распознаванием чеков">
-<title>Лимит.НПД - налоговый калькулятор PRO</title>
+<title>Лимит.НПД — налоговый калькулятор</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23198754'/><text x='16' y='22' font-family='Arial,sans-serif' font-size='20' font-weight='bold' fill='white' text-anchor='middle'>Л</text></svg>">
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'><rect width='180' height='180' rx='38' fill='%23198754'/><text x='90' y='122' font-family='Arial,sans-serif' font-size='115' font-weight='bold' fill='white' text-anchor='middle'>Л</text></svg>">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
@@ -197,15 +197,15 @@ body {
 </style>
 </head>
 <body>
-<div class="hdr"><div class="hdr-brand"><div class="logo">Л</div>Лимит.НПД PRO</div><button onclick="toggleTheme()" id="theme-btn" aria-label="Тема">☀️</button></div>
+<div class="hdr"><div class="hdr-brand"><div class="logo">Л</div>Лимит.НПД</div><button onclick="toggleTheme()" id="theme-btn" aria-label="Тема">☀️</button></div>
 <div class="disc">Ставки актуальны на июль 2026. НПД: 2.4 млн. НДС-порог: 20 млн (заморожен до 2029). УСН макс: 250 млн.</div>
 
 <div class="tab active" id="tab-calc">
 
-<!-- AR-сканер -->
+<!-- AR-сканер с загрузкой скриншотов -->
 <div class="ar-scanner-card">
   <h3>Сканер чеков НПД</h3>
-  <p style="font-size:12px;opacity:0.8;margin-bottom:10px">Наведите камеру на чек из приложения "Мой налог" - сумма автоматически подставится в калькулятор</p>
+  <p style="font-size:12px;opacity:0.8;margin-bottom:10px">Наведите камеру на чек или загрузите скриншот из галереи – сумма подставится автоматически</p>
   <div class="ar-viewport" id="ar-viewport">
     <video id="ar-video" autoplay playsinline></video>
     <div class="scan-line"></div>
@@ -213,7 +213,13 @@ body {
   <div class="flex-row">
     <button class="btn btn-s" id="ar-start-btn" onclick="startARScanner()" style="background:#e94560;color:#fff;border:none">Запустить камеру</button>
     <button class="btn btn-s" id="ar-stop-btn" onclick="stopARScanner()" style="background:#555;color:#fff;border:none;display:none">Остановить</button>
-    <button class="btn btn-s" onclick="captureARFrame()" style="background:#0f3460;color:#fff;border:none">Распознать</button>
+    <button class="btn btn-s" onclick="captureARFrame()" style="background:#0f3460;color:#fff;border:none">Распознать с камеры</button>
+  </div>
+  <div style="margin:8px 0;text-align:center">
+    <label style="background:#2d3748;color:#fff;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px;display:inline-block">
+      📁 Загрузить скриншот чека
+      <input type="file" id="ar-file-input" accept="image/*" style="display:none" onchange="handleFileUpload(event)">
+    </label>
   </div>
   <div class="ar-result" id="ar-result" style="display:none"></div>
   <p style="font-size:10px;opacity:0.6;margin-top:6px">Распознавание происходит локально на устройстве. Данные не передаются.</p>
@@ -221,14 +227,14 @@ body {
 
 <div class="download-section">
 <h4>Установите приложение</h4>
-<p>Для установки как отдельного приложения нажмите кнопку ниже или используйте меню браузера "Добавить на главный экран"</p>
+<p>Для установки на главный экран нажмите «Установить» или используйте меню браузера «Добавить на главный экран».</p>
 <div class="flex-row">
-<button class="btn btn-g btn-s" onclick="installApp()" style="flex:2">Установить как приложение</button>
-<button class="btn btn-apk btn-s" onclick="downloadAPK()" style="flex:1">Скачать APK</button>
+<button class="btn btn-g btn-s" onclick="installApp()" style="flex:2">Установить</button>
+<button class="btn btn-o btn-s" onclick="showInstallInstructions()" style="flex:1">Инструкция</button>
 </div>
 </div>
 
-<!-- АВТО-ОПРЕДЕЛИТЕЛЬ РЕЖИМА (переработанный) -->
+<!-- АВТО-ОПРЕДЕЛИТЕЛЬ РЕЖИМА -->
 <div class="card" style="border:2px solid var(--p)">
   <h3>Авто-определитель налогового режима</h3>
   <div class="auto-help">
@@ -278,7 +284,7 @@ body {
 <div class="card"><h3>История расчётов</h3><div id="history"></div><button class="btn btn-red" onclick="clearHistory()" style="margin-top:10px">Очистить историю</button></div>
 </div>
 
-<!-- ОСТАЛЬНЫЕ ВКЛАДКИ (риски, льготы, сравнение, база знаний) - БЕЗ ИЗМЕНЕНИЙ -->
+<!-- ОСТАЛЬНЫЕ ВКЛАДКИ -->
 <div class="tab" id="tab-risk">
 <div class="card"><h3>Комплаенс-анализ рисков по 115-ФЗ</h3><p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px">Ответьте на 25 вопросов для оценки рисков блокировки счетов и налоговых проверок</p><div id="risk-qs">Загрузка вопросов...</div><button class="btn btn-g" onclick="assessRisk()">Оценить риски</button><div id="risk-res" style="display:none;margin-top:10px"></div><div id="risk-advice" style="display:none;margin-top:10px"></div><button class="btn btn-o" id="save-risk-btn" style="display:none" onclick="saveRiskPDF()">Сохранить отчёт PDF</button></div>
 </div>
@@ -388,7 +394,7 @@ body {
 <script>
 // ========== PWA ==========
 var manifest = {
-  name: "Лимит.НПД PRO", short_name: "Лимит.НПД",
+  name: "Лимит.НПД", short_name: "Лимит.НПД",
   description: "Налоговый калькулятор с AR-сканером чеков",
   start_url: location.href.split('?')[0], scope: location.href.split('?')[0],
   display: "standalone", background_color: "#0d6b3d", theme_color: "#0d6b3d",
@@ -438,7 +444,7 @@ function installApp() {
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then(function(r) { deferredPrompt = null; document.getElementById('install-banner').classList.remove('show'); });
   } else {
-    alert('Откройте сайт в Chrome и выберите "Добавить на главный экран" в меню браузера.');
+    showInstallInstructions();
   }
 }
 
@@ -447,24 +453,13 @@ function closeInstallBanner() {
   document.getElementById('install-banner').classList.remove('show');
 }
 
-// ========== БЫСТРОЕ СКАЧИВАНИЕ APK (без ZIP) ==========
-function downloadAPK() {
-  showToast('Подготовка APK...');
-  
-  // Создаём минимальный HTML-файл с мета-тегами для Android
-  var html = '<!DOCTYPE html>\n<html lang="ru">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n<meta name="theme-color" content="#0d6b3d">\n<meta name="mobile-web-app-capable" content="yes">\n<meta name="apple-mobile-web-app-capable" content="yes">\n<title>Лимит.НПД</title>\n</head>\n<body style="font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;background:#0d6b3d;color:#fff;text-align:center;margin:0">\n<div><h1>Лимит.НПД</h1><p>Откройте в Chrome и выберите "Установить приложение"</p></div>\n</body>\n</html>';
-  
-  var blob = new Blob([html], {type: 'text/html'});
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement('a');
-  a.href = url;
-  a.download = 'LimitNPD.html';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  
-  showToast('Файл скачан! Откройте его в Chrome и установите как приложение.');
+function showInstallInstructions() {
+  var msg = 'Как установить приложение:\n\n' +
+            '— В Google Chrome: нажмите ⋮ (меню) → «Добавить на главный экран»\n' +
+            '— В Safari: нажмите Share → «На экран «Домой»»\n' +
+            '— В Samsung Internet: нажмите ☰ → «Добавить страницу на главный экран»\n\n' +
+            'После установки приложение будет работать без адресной строки и браузерных вкладок.';
+  alert(msg);
 }
 
 // ========== ДАННЫЕ ==========
@@ -478,7 +473,7 @@ var holidayRegions={'Москва':{law:'Закон г. Москвы № 10 от
 
 var chart=null,isDark=false,taxHistory=JSON.parse(localStorage.getItem('taxHistory')||'[]'),userNotes=JSON.parse(localStorage.getItem('userNotes')||'{}'),currentMonth=6,currentYear=2026,lastQuizResult=null,noteTimers={};
 
-// ========== AR-сканер ==========
+// ========== AR-сканер + загрузка файлов ==========
 var arStream = null;
 var arCanvas = document.createElement('canvas');
 var arCtx = arCanvas.getContext('2d');
@@ -500,7 +495,7 @@ function startARScanner() {
       video.play();
       startBtn.style.display = 'none';
       stopBtn.style.display = 'inline-block';
-      showToast('Камера запущена. Наведите на чек и нажмите "Распознать"');
+      showToast('Камера запущена. Наведите на чек и нажмите "Распознать с камеры"');
     })
     .catch(function(err) {
       showToast('Ошибка доступа к камере');
@@ -528,9 +523,31 @@ function captureARFrame() {
   arCanvas.height = video.videoHeight;
   arCtx.drawImage(video, 0, 0, arCanvas.width, arCanvas.height);
   
+  recognizeImage(arCanvas);
+}
+
+function handleFileUpload(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var img = new Image();
+    img.onload = function() {
+      arCanvas.width = img.width;
+      arCanvas.height = img.height;
+      arCtx.drawImage(img, 0, 0);
+      recognizeImage(arCanvas);
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+  // Очищаем input, чтобы можно было загрузить тот же файл повторно
+  event.target.value = '';
+}
+
+function recognizeImage(canvas) {
   showToast('Распознавание... Анализ изображения');
-  
-  Tesseract.recognize(arCanvas, 'rus+eng', { logger: function(m) {} })
+  Tesseract.recognize(canvas, 'rus+eng', { logger: function(m) {} })
     .then(function(result) {
       var text = result.data.text;
       var extracted = extractCheckData(text);
@@ -584,11 +601,11 @@ function displayARResult(data) {
     calcTax();
     showToast('Сумма ' + data.mainAmount.toLocaleString() + ' руб. подставлена!');
   } else {
-    resultDiv.innerHTML = '<b>Не удалось распознать сумму</b><br><small>Попробуйте лучше осветить чек</small>';
+    resultDiv.innerHTML = '<b>Не удалось распознать сумму</b><br><small>Попробуйте более чёткое изображение</small>';
   }
 }
 
-// ========== АВТО-ОПРЕДЕЛИТЕЛЬ РЕЖИМА (переработанный) ==========
+// ========== АВТО-ОПРЕДЕЛИТЕЛЬ РЕЖИМА ==========
 function autoDetectRegime() {
   var inc = parseFloat(document.getElementById('auto-income').value) || 0;
   var exp = parseFloat(document.getElementById('auto-expenses').value) || 0;
