@@ -9,8 +9,8 @@
 <meta name="apple-mobile-web-app-title" content="Лимит.НПД">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="application-name" content="Лимит.НПД">
-<meta name="description" content="Профессиональный налоговый калькулятор для самозанятых, ИП и ООО с голосовым вводом и AR-распознаванием чеков">
-<title>Лимит.НПД — налоговый калькулятор PRO</title>
+<meta name="description" content="Профессиональный налоговый калькулятор для самозанятых, ИП и ООО с AR-распознаванием чеков">
+<title>Лимит.НПД - налоговый калькулятор PRO</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23198754'/><text x='16' y='22' font-family='Arial,sans-serif' font-size='20' font-weight='bold' fill='white' text-anchor='middle'>Л</text></svg>">
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'><rect width='180' height='180' rx='38' fill='%23198754'/><text x='90' y='122' font-family='Arial,sans-serif' font-size='115' font-weight='bold' fill='white' text-anchor='middle'>Л</text></svg>">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
@@ -59,13 +59,8 @@ body {
 .dark .hdr { background: rgba(22,27,34,0.9); }
 .hdr-brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; color: var(--p); letter-spacing: -0.3px; }
 .hdr-brand .logo { width: 32px; height: 32px; background: linear-gradient(135deg, var(--p), var(--p-dark)); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 16px; }
-.hdr-buttons { display: flex; gap: 6px; align-items: center; }
-.hdr button { background: var(--chk-bg); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; cursor: pointer; font-size: 18px; transition: var(--transition); color: var(--text); line-height: 1; }
+.hdr button { background: var(--chk-bg); border: 1px solid var(--border); border-radius: 8px; padding: 6px 12px; cursor: pointer; font-size: 20px; transition: var(--transition); color: var(--text); line-height: 1; }
 .hdr button:hover { background: var(--border); }
-.hdr .mic-btn { background: var(--p); color: #fff; border: none; animation: pulse-mic 2s infinite; }
-.hdr .mic-btn.listening { background: #dc3545; animation: pulse-mic-active 0.5s infinite; }
-@keyframes pulse-mic { 0% { box-shadow: 0 0 0 0 rgba(25,135,84,0.4); } 70% { box-shadow: 0 0 0 10px rgba(25,135,84,0); } 100% { box-shadow: 0 0 0 0 rgba(25,135,84,0); } }
-@keyframes pulse-mic-active { 0% { box-shadow: 0 0 0 0 rgba(220,53,69,0.4); } 70% { box-shadow: 0 0 0 10px rgba(220,53,69,0); } 100% { box-shadow: 0 0 0 0 rgba(220,53,69,0); } }
 .bnav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); display: flex; justify-content: space-around; padding: 4px 0 calc(4px + var(--sb)); border-top: 1px solid var(--border); z-index: 100; }
 .dark .bnav { background: rgba(22,27,34,0.95); }
 .bnav button { background: none; border: none; color: var(--text-secondary); font-size: 10px; font-weight: 500; display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 6px 4px; min-width: 56px; transition: var(--transition); border-radius: 8px; gap: 2px; }
@@ -91,6 +86,7 @@ body {
 .inp, .sel { width: 100%; padding: 12px 14px; border-radius: var(--radius-sm); border: 1.5px solid var(--border); font-size: 15px; background: var(--inp-bg); margin: 6px 0 14px; color: var(--text); transition: var(--transition); font-family: inherit; }
 .inp:focus, .sel:focus { outline: none; border-color: var(--p); box-shadow: 0 0 0 3px rgba(25,135,84,0.1); }
 .lbl { font-size: 11px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; display: block; margin-top: 8px; }
+.lbl-help { font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; line-height: 1.4; }
 .res { background: linear-gradient(135deg, var(--p), var(--p-dark)); color: #fff; border-radius: var(--radius); padding: 20px; margin: 14px 0; display: flex; justify-content: space-around; text-align: center; box-shadow: var(--shadow-lg); }
 .res h4 { font-size: 24px; margin: 4px 0; font-weight: 700; }
 .res small { font-size: 11px; opacity: 0.85; letter-spacing: 0.5px; }
@@ -106,7 +102,7 @@ body {
 .flex-row .btn { flex: 1; min-width: 80px; }
 .acc-btn { background: var(--card); border: none; width: 100%; text-align: left; padding: 14px 16px; font-size: 14px; font-weight: 500; border-bottom: 1px solid var(--border); cursor: pointer; color: var(--text); transition: var(--transition); display: flex; justify-content: space-between; align-items: center; }
 .acc-btn:hover { background: var(--chk-bg); }
-.acc-btn::after { content: '▸'; font-size: 12px; transition: transform 0.2s; color: var(--p); }
+.acc-btn::after { content: '\25B8'; font-size: 12px; transition: transform 0.2s; color: var(--p); }
 .acc-btn.open-btn::after { transform: rotate(90deg); }
 .acc-body { display: none; padding: 14px 16px; font-size: 13px; color: var(--text-secondary); background: var(--chk-bg); border-bottom: 1px solid var(--border); line-height: 1.6; }
 .acc-body.open { display: block; }
@@ -178,7 +174,7 @@ body {
 .download-section h4 { color: #6f42c1; margin-bottom: 8px; }
 .download-section p { font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; }
 
-/* НОВЫЕ СТИЛИ ДЛЯ AR-СКАНЕРА */
+/* AR-сканер */
 .ar-scanner-card { background: linear-gradient(135deg, #1a1a2e, #16213e); border: 2px solid #0f3460; color: #fff; border-radius: var(--radius); padding: 20px; margin: 12px 0; }
 .ar-scanner-card h3 { color: #e94560; }
 .ar-viewport { width: 100%; height: 220px; background: #000; border-radius: var(--radius-sm); overflow: hidden; position: relative; margin: 10px 0; border: 2px solid #e94560; }
@@ -187,15 +183,9 @@ body {
 @keyframes scanAnim { 0%, 100% { top: 10%; } 50% { top: 90%; } }
 .ar-result { background: rgba(233,69,96,0.1); border: 1px solid #e94560; border-radius: 8px; padding: 12px; margin-top: 10px; font-size: 13px; }
 
-/* НОВЫЕ СТИЛИ ДЛЯ ГОЛОСОВОГО ВВОДА */
-.voice-indicator { display: flex; align-items: center; gap: 10px; padding: 10px; background: var(--chk-bg); border-radius: 8px; margin: 8px 0; }
-.voice-wave { display: flex; gap: 2px; align-items: flex-end; height: 30px; }
-.voice-wave .bar { width: 3px; background: var(--p); border-radius: 2px; transition: height 0.1s; }
-.voice-wave.active .bar { animation: waveAnim 0.5s ease-in-out infinite alternate; }
-@keyframes waveAnim { from { height: 5px; } to { height: 25px; } }
-.voice-transcript { font-size: 14px; font-style: italic; color: var(--p); min-height: 20px; padding: 8px; background: var(--inp-bg); border-radius: 6px; margin: 6px 0; }
-
-/* НОВЫЕ СТИЛИ ДЛЯ АВТО-ОПРЕДЕЛИТЕЛЯ РЕЖИМА */
+/* Авто-определитель */
+.auto-help { background: var(--chk-bg); padding: 12px; border-radius: var(--radius-sm); font-size: 12px; color: var(--text-secondary); margin-bottom: 12px; border: 1px solid var(--border); line-height: 1.6; }
+.auto-help b { color: var(--p); }
 .auto-detect-result { background: linear-gradient(135deg, #d4edda, #e8f5e9); padding: 18px; border-radius: 14px; margin: 10px 0; }
 .savings-highlight { font-size: 28px; font-weight: 800; color: #198754; }
 .comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
@@ -203,39 +193,19 @@ body {
 .comparison-item .mode-name { font-size: 11px; color: var(--text-secondary); }
 .comparison-item .mode-tax { font-size: 18px; font-weight: 700; color: var(--p); }
 
-/* НОВЫЕ СТИЛИ ДЛЯ ВИДЖЕТА БЫСТРОГО ДОСТУПА */
-.quick-action-fab { position: fixed; bottom: 110px; right: 20px; width: 56px; height: 56px; border-radius: 50%; background: var(--p); color: #fff; font-size: 24px; border: none; box-shadow: 0 6px 20px rgba(0,0,0,0.3); cursor: pointer; z-index: 150; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
-.quick-action-fab:hover { transform: scale(1.1); }
-.quick-action-menu { position: fixed; bottom: 180px; right: 20px; display: none; flex-direction: column; gap: 8px; z-index: 150; }
-.quick-action-menu.show { display: flex; }
-.quick-action-menu button { width: 48px; height: 48px; border-radius: 50%; border: none; font-size: 20px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: var(--transition); }
-.quick-action-menu button:hover { transform: scale(1.1); }
-.voice-modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 400; display: none; align-items: center; justify-content: center; flex-direction: column; }
-.voice-modal.show { display: flex; }
-.voice-modal .voice-circle { width: 120px; height: 120px; border-radius: 50%; background: var(--p); display: flex; align-items: center; justify-content: center; animation: voicePulse 1.5s infinite; }
-.voice-modal .voice-circle.listening { background: #dc3545; }
-@keyframes voicePulse { 0% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(1); opacity: 0.8; } }
-.voice-modal .voice-text { color: #fff; margin-top: 20px; font-size: 18px; text-align: center; padding: 0 20px; }
-
 @media (max-width: 360px) { .card { padding: 14px; } .widget-card { min-width: 100px; padding: 12px; } .calendar-day { padding: 8px 2px; min-height: 38px; font-size: 12px; } }
 </style>
 </head>
 <body>
-<div class="hdr">
-  <div class="hdr-brand"><div class="logo">Л</div>Лимит.НПД PRO</div>
-  <div class="hdr-buttons">
-    <button onclick="toggleTheme()" id="theme-btn" aria-label="Тема">☀️</button>
-  </div>
-</div>
-<div class="disc">Ставки актуальны на июль 2026. НПД: 2.4 млн. НДС-порог: 20 млн (заморожен до 2029). УСН макс: 250 млн. Все расчёты приблизительные. Не является налоговой консультацией.</div>
+<div class="hdr"><div class="hdr-brand"><div class="logo">Л</div>Лимит.НПД PRO</div><button onclick="toggleTheme()" id="theme-btn" aria-label="Тема">☀️</button></div>
+<div class="disc">Ставки актуальны на июль 2026. НПД: 2.4 млн. НДС-порог: 20 млн (заморожен до 2029). УСН макс: 250 млн.</div>
 
-<!-- ВКЛАДКА 1: РАСЧЁТ -->
 <div class="tab active" id="tab-calc">
 
-<!-- НОВЫЙ БЛОК: AR-сканер чеков -->
+<!-- AR-сканер -->
 <div class="ar-scanner-card">
-  <h3>📷 AR-распознаватель чеков НПД</h3>
-  <p style="font-size:12px;opacity:0.8;margin-bottom:10px">Наведите камеру на чек из приложения "Мой налог" — сумма автоматически подставится в калькулятор</p>
+  <h3>Сканер чеков НПД</h3>
+  <p style="font-size:12px;opacity:0.8;margin-bottom:10px">Наведите камеру на чек из приложения "Мой налог" - сумма автоматически подставится в калькулятор</p>
   <div class="ar-viewport" id="ar-viewport">
     <video id="ar-video" autoplay playsinline></video>
     <div class="scan-line"></div>
@@ -250,7 +220,7 @@ body {
 </div>
 
 <div class="download-section">
-<h4>📱 Установите приложение</h4>
+<h4>Установите приложение</h4>
 <p>Для установки как отдельного приложения нажмите кнопку ниже или используйте меню браузера "Добавить на главный экран"</p>
 <div class="flex-row">
 <button class="btn btn-g btn-s" onclick="installApp()" style="flex:2">Установить как приложение</button>
@@ -258,71 +228,61 @@ body {
 </div>
 </div>
 
-<!-- НОВЫЙ БЛОК: Быстрый авто-определитель режима -->
+<!-- АВТО-ОПРЕДЕЛИТЕЛЬ РЕЖИМА (переработанный) -->
 <div class="card" style="border:2px solid var(--p)">
-  <h3>⚡ Авто-определитель налогового режима</h3>
-  <p style="font-size:12px;color:var(--text-secondary);margin-bottom:12px">Введите 5 параметров — система сама подберёт режим и покажет экономию</p>
-  <div class="flex-row">
-    <div style="flex:1"><input class="inp" type="number" id="auto-income" placeholder="Годовой доход (руб.)" oninput="autoDetectRegime()"></div>
-    <div style="flex:1"><input class="inp" type="number" id="auto-expenses" placeholder="Расходы (руб.)" oninput="autoDetectRegime()"></div>
+  <h3>Авто-определитель налогового режима</h3>
+  <div class="auto-help">
+    <b>Как это работает:</b><br>
+    Заполните 4 поля ниже. Система рассчитает налог для каждого режима и покажет самый выгодный.<br>
+    <b>Годовой доход</b> - сколько зарабатываете в год (общая выручка)<br>
+    <b>Расходы</b> - подтверждённые затраты (аренда, материалы, услуги)<br>
+    <b>Сотрудники</b> - сколько человек планируете нанять<br>
+    <b>Клиенты</b> - с кем в основном работаете
   </div>
   <div class="flex-row">
-    <div style="flex:1"><input class="inp" type="number" id="auto-employees" placeholder="Сотрудников" oninput="autoDetectRegime()"></div>
-    <div style="flex:1"><select class="sel" id="auto-clients" onchange="autoDetectRegime()"><option value="mixed">Клиенты: физ+юр</option><option value="persons">Физлица</option><option value="legal">Юрлица</option></select></div>
+    <div style="flex:1"><label class="lbl">Годовой доход (руб.)</label><input class="inp" type="number" id="auto-income" placeholder="Например: 1500000" oninput="autoDetectRegime()"></div>
+    <div style="flex:1"><label class="lbl">Расходы в год (руб.)</label><input class="inp" type="number" id="auto-expenses" placeholder="Например: 400000" oninput="autoDetectRegime()"></div>
   </div>
+  <div class="flex-row">
+    <div style="flex:1"><label class="lbl">Количество сотрудников</label><input class="inp" type="number" id="auto-employees" placeholder="0 если нет" value="0" oninput="autoDetectRegime()"></div>
+    <div style="flex:1"><label class="lbl">Тип клиентов</label><select class="sel" id="auto-clients" onchange="autoDetectRegime()"><option value="mixed">Физлица и юрлица</option><option value="persons">В основном физлица</option><option value="legal">В основном юрлица</option></select></div>
+  </div>
+  <button class="btn btn-g" onclick="autoDetectRegime()">Подобрать режим</button>
   <div id="auto-detect-result" style="display:none;margin-top:12px"></div>
 </div>
 
-<div class="widget-row"><div class="widget-card"><div class="lbl">Ваш режим</div><div class="val" id="w-regime">—</div></div><div class="widget-card"><div class="lbl">Ближайший платёж</div><div class="val" id="w-payment">—</div></div><div class="widget-card"><div class="lbl">Остаток до лимита</div><div class="val" id="w-limit">—</div></div></div>
-
-<!-- НОВЫЙ БЛОК: Голосовой ввод -->
-<div class="card" style="border-left: 4px solid var(--p)">
-  <h3>🎤 Голосовой ввод дохода</h3>
-  <p style="font-size:12px;color:var(--text-secondary);margin-bottom:8px">Скажите: "Доход 150 тысяч от юридического лица"</p>
-  <div class="voice-indicator">
-    <div class="voice-wave" id="voice-wave">
-      <div class="bar" style="height:5px"></div><div class="bar" style="height:10px"></div><div class="bar" style="height:20px"></div><div class="bar" style="height:15px"></div><div class="bar" style="height:25px"></div>
-    </div>
-    <span style="font-size:12px;color:var(--text-secondary)" id="voice-status">Нажмите для записи</span>
-  </div>
-  <div class="voice-transcript" id="voice-transcript">Ожидание голосовой команды...</div>
-  <div class="flex-row">
-    <button class="btn btn-g" id="voice-btn" onclick="startVoiceInput()">Записать голосом</button>
-    <button class="btn btn-o" onclick="processVoiceDemo()">Демо-пример</button>
-  </div>
-</div>
+<div class="widget-row"><div class="widget-card"><div class="lbl">Ваш режим</div><div class="val" id="w-regime">--</div></div><div class="widget-card"><div class="lbl">Ближайший платёж</div><div class="val" id="w-payment">--</div></div><div class="widget-card"><div class="lbl">Остаток до лимита</div><div class="val" id="w-limit">--</div></div></div>
 
 <div class="card"><h3>Расчёт налога</h3>
 <label class="lbl">Режим налогообложения</label><select class="sel" id="regime" onchange="updFields()"><option value="npd">Самозанятый (НПД)</option><option value="ip6">ИП УСН 6% (Доходы)</option><option value="ip15">ИП УСН 15% (Доходы - Расходы)</option><option value="psn">ИП Патент (ПСН)</option><option value="ooo6">ООО УСН 6% (Доходы)</option><option value="ooo15">ООО УСН 15% (Доходы - Расходы)</option></select>
 <label class="lbl">Сумма дохода (руб.)</label><input class="inp" type="number" id="income" value="100000" placeholder="Введите сумму дохода">
 <div id="npd-block"><label class="lbl">Тип контрагента</label><select class="sel" id="contractor"><option value="legal">Юридическое лицо (ставка 4%)</option><option value="person">Физическое лицо (ставка 6%)</option></select></div>
 <div id="exp-block" style="display:none"><label class="lbl">Сумма расходов (руб.)</label><input class="inp" type="number" id="expenses" value="30000" placeholder="Введите сумму расходов"><span class="tooltip-text">Учитываются только документально подтверждённые расходы</span></div>
-<div id="psn-block" style="display:none"><label class="lbl">Потенциальный годовой доход (руб.)</label><input class="inp" type="number" id="psn-income" value="500000" placeholder="Установлен регионом"><span class="tooltip-text">Потенциальный доход устанавливается региональным законом для каждого вида деятельности. Это не ваш реальный доход, а база для расчёта патента.</span></div>
+<div id="psn-block" style="display:none"><label class="lbl">Потенциальный годовой доход (руб.)</label><input class="inp" type="number" id="psn-income" value="500000" placeholder="Установлен регионом"><span class="tooltip-text">Потенциальный доход устанавливается региональным законом. Это не ваш реальный доход, а база для расчёта патента.</span></div>
 <button class="btn btn-g" onclick="calcTax()">Рассчитать налог</button>
 <div class="res" id="calc-result" style="display:none"><div><small>Сумма налога</small><h4 id="tax-amt">0</h4></div><div><small>Чистый доход</small><h4 id="net-amt">0</h4></div><div><small>Эффективная ставка</small><h4 id="rate-amt">0%</h4></div></div>
 <div id="insurance-result" style="display:none;margin-top:10px"></div></div>
 
 <div class="card"><h3>Прогноз превышения лимитов</h3>
 <label class="lbl">Среднемесячный доход (руб.)</label><input class="inp" type="number" id="monthly" value="200000" onchange="updForecast()" placeholder="Средний доход в месяц">
-<div class="chk-row"><input type="checkbox" class="thr" value="2400000" checked onchange="updForecast()"> Лимит НПД — 2.4 млн руб.</div>
-<div class="chk-row"><input type="checkbox" class="thr" value="20000000" checked onchange="updForecast()"> Порог НДС — 20 млн руб.</div>
-<div class="chk-row"><input type="checkbox" class="thr" value="60000000" checked onchange="updForecast()"> Лимит ПСН — 60 млн руб.</div>
-<div class="chk-row"><input type="checkbox" class="thr" value="250000000" onchange="updForecast()"> Лимит УСН — 250 млн руб.</div>
+<div class="chk-row"><input type="checkbox" class="thr" value="2400000" checked onchange="updForecast()"> Лимит НПД - 2.4 млн руб.</div>
+<div class="chk-row"><input type="checkbox" class="thr" value="20000000" checked onchange="updForecast()"> Порог НДС - 20 млн руб.</div>
+<div class="chk-row"><input type="checkbox" class="thr" value="60000000" checked onchange="updForecast()"> Лимит ПСН - 60 млн руб.</div>
+<div class="chk-row"><input type="checkbox" class="thr" value="250000000" onchange="updForecast()"> Лимит УСН - 250 млн руб.</div>
 <button class="btn btn-o" onclick="updForecast()">Построить график</button>
 <div id="limit-alert" style="margin:10px 0"></div>
 <div class="chart-wrap"><canvas id="chart"></canvas></div>
 <div id="dates" style="font-size:12px;padding:10px;background:var(--chk-bg);border-radius:8px;margin-top:8px"></div>
 <div class="flex-row"><button class="btn btn-o btn-s" onclick="savePNG()">График PNG</button><button class="btn btn-o btn-s" onclick="saveChartPDF()">График PDF</button><button class="btn btn-o btn-s" onclick="saveCalcPDF()">Отчёт PDF</button><button class="btn btn-o btn-s" onclick="saveXLSX()">Excel</button></div></div>
 
-<div class="card"><h3>История расчётов</h3><div id="history"></div><button class="btn btn-red" onclick="clearHistory()" style="margin-top:10px">Очистить историю</button><p style="font-size:10px;color:var(--text-secondary);margin-top:6px">Данные хранятся локально на вашем устройстве</p></div>
+<div class="card"><h3>История расчётов</h3><div id="history"></div><button class="btn btn-red" onclick="clearHistory()" style="margin-top:10px">Очистить историю</button></div>
 </div>
 
-<!-- ВКЛАДКА 2: РИСКИ -->
+<!-- ОСТАЛЬНЫЕ ВКЛАДКИ (риски, льготы, сравнение, база знаний) - БЕЗ ИЗМЕНЕНИЙ -->
 <div class="tab" id="tab-risk">
 <div class="card"><h3>Комплаенс-анализ рисков по 115-ФЗ</h3><p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px">Ответьте на 25 вопросов для оценки рисков блокировки счетов и налоговых проверок</p><div id="risk-qs">Загрузка вопросов...</div><button class="btn btn-g" onclick="assessRisk()">Оценить риски</button><div id="risk-res" style="display:none;margin-top:10px"></div><div id="risk-advice" style="display:none;margin-top:10px"></div><button class="btn btn-o" id="save-risk-btn" style="display:none" onclick="saveRiskPDF()">Сохранить отчёт PDF</button></div>
 </div>
 
-<!-- ВКЛАДКА 3: ЛЬГОТЫ -->
 <div class="tab" id="tab-ben">
 <div class="card"><h3>Региональные налоговые льготы</h3>
 <label class="lbl">Субъект РФ</label><select class="sel" id="region" onchange="showSpecialBenefits()"><option value="">Загрузка регионов...</option></select>
@@ -332,12 +292,12 @@ body {
 <div class="card"><h3>Федеральные льготы (актуально на 2026)</h3>
 <div id="federal-benefits"><div style="padding:12px;background:#e8f5e9;border-radius:10px;font-size:13px;line-height:1.8">
 <b>Действующие федеральные преференции:</b><br><br>
-- Налоговые каникулы 0% — для впервые зарегистрированных ИП на УСН/ПСН (до 2 лет)<br>
-- Вычет 10 000 руб. — для плательщиков НПД (самозанятых)<br>
-- Пониженные взносы 7.6% — для аккредитованных IT-компаний<br>
-- Льготы ТОР и ОЭЗ — пониженные ставки налогов и взносов<br>
-- Заморозка НДС-порога — на уровне 20 млн руб. до 2029 года<br>
-- Повышенный лимит УСН — до 250 млн руб. (с повышенными ставками)<br>
+- Налоговые каникулы 0% - для впервые зарегистрированных ИП на УСН/ПСН (до 2 лет)<br>
+- Вычет 10 000 руб. - для плательщиков НПД (самозанятых)<br>
+- Пониженные взносы 7.6% - для аккредитованных IT-компаний<br>
+- Льготы ТОР и ОЭЗ - пониженные ставки налогов и взносов<br>
+- Заморозка НДС-порога - на уровне 20 млн руб. до 2029 года<br>
+- Повышенный лимит УСН - до 250 млн руб. (с повышенными ставками)<br>
 <small style="color:#666">Источники: НК РФ ст. 346.20, 115-ФЗ, данные ФНС России</small></div></div></div>
 
 <div class="card"><h3>Особые условия региона</h3><div id="special-benefits" style="font-size:13px;padding:12px;background:#fff3e0;border-radius:10px;border:1px solid #ffc107">Выберите регион для отображения специальных условий</div></div>
@@ -349,7 +309,7 @@ body {
 <li>ИП должен быть зарегистрирован <b>впервые</b> (повторная регистрация не даёт права)</li>
 <li>С даты регистрации прошло <b>менее 2 лет</b></li>
 <li>Вид деятельности <b>должен входить в региональный перечень</b> (устанавливается законом субъекта РФ)</li>
-<li>Доля дохода от льготного вида деятельности — <b>не менее 70%</b></li>
+<li>Доля дохода от льготного вида деятельности - <b>не менее 70%</b></li>
 <li>Режим: <b>УСН или ПСН</b> (на НПД каникулы не распространяются)</li>
 </ul>
 </div>
@@ -361,31 +321,30 @@ body {
 <button class="btn btn-g" onclick="checkHolidaysResult()">Проверить право на каникулы</button>
 <div id="holiday-info" style="margin-top:10px;font-size:12px;color:var(--text-secondary)"></div>
 <div id="holidays-result" style="margin-top:10px"></div>
-<p style="font-size:11px;color:var(--text-secondary);margin-top:8px">Полный перечень регионов и видов деятельности доступен в разделе <b>"База знаний" — "Налоговые каникулы: полный справочник"</b></p>
 </div>
 
 <div class="card"><h3>Индивидуальный подбор режима налогообложения</h3>
-<p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px">Ответьте на 8 вопросов, и система подберёт оптимальный налоговый режим с учётом всех факторов</p>
+<p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px">Ответьте на 8 вопросов, и система подберёт оптимальный налоговый режим</p>
 <div id="business-quiz">
-<div style="margin-bottom:14px"><label class="lbl">1. Планируемый годовой доход</label><select class="quiz-select" id="qz-income"><option value="">— Выберите диапазон —</option><option value="low">До 2.4 млн руб.</option><option value="mid">От 2.4 до 20 млн руб.</option><option value="high">От 20 до 60 млн руб.</option><option value="ultra">От 60 до 250 млн руб.</option><option value="max">Более 250 млн руб.</option></select></div>
-<div style="margin-bottom:14px"><label class="lbl">2. Планируете ли нанимать сотрудников?</label><select class="quiz-select" id="qz-employees"><option value="">— Выберите вариант —</option><option value="no">Нет, работаю самостоятельно</option><option value="few">Да, до 15 человек</option><option value="many">Да, 15–130 человек</option><option value="unlimited">Да, более 130 человек</option></select></div>
-<div style="margin-bottom:14px"><label class="lbl">3. Основной тип клиентов</label><select class="quiz-select" id="qz-clients"><option value="">— Выберите вариант —</option><option value="persons">Преимущественно физические лица</option><option value="mixed">Примерно поровну физлица и юрлица</option><option value="legal">Преимущественно юридические лица</option><option value="state">Государственные и муниципальные заказчики</option></select></div>
-<div style="margin-bottom:14px"><label class="lbl">4. Примерная доля расходов от дохода</label><select class="quiz-select" id="qz-expenses"><option value="">— Выберите вариант —</option><option value="min">Менее 20% (мало расходов)</option><option value="low">20–40%</option><option value="mid">40–60%</option><option value="high">Более 60% (высокие расходы)</option></select></div>
-<div style="margin-bottom:14px"><label class="lbl">5. Характер бизнеса</label><select class="quiz-select" id="qz-type"><option value="">— Выберите вариант —</option><option value="service">Услуги / консультирование</option><option value="trade">Торговля (опт / розница)</option><option value="production">Производство</option><option value="seasonal">Сезонный бизнес</option><option value="it">IT / разработка ПО</option><option value="rent">Аренда недвижимости</option></select></div>
-<div style="margin-bottom:14px"><label class="lbl">6. Требуется ли выставление счетов с НДС?</label><select class="quiz-select" id="qz-nds"><option value="">— Выберите вариант —</option><option value="no">Нет, не требуется</option><option value="maybe">Возможно, при росте дохода</option><option value="yes">Да, клиенты требуют счета-фактуры с НДС</option></select></div>
-<div style="margin-bottom:14px"><label class="lbl">7. Планируете ли работать с маркированными товарами?</label><select class="quiz-select" id="qz-marked"><option value="">— Выберите вариант —</option><option value="no">Нет</option><option value="maybe">Возможно (одежда, обувь, лекарства и др.)</option><option value="yes">Да, планирую</option></select></div>
-<div style="margin-bottom:14px"><label class="lbl">8. Это ваш первый опыт регистрации бизнеса?</label><select class="quiz-select" id="qz-first"><option value="">— Выберите вариант —</option><option value="yes">Да, регистрируюсь впервые</option><option value="no">Уже был опыт ведения бизнеса</option><option value="exist">У меня уже есть действующее ИП или ООО</option></select></div>
+<div style="margin-bottom:14px"><label class="lbl">1. Планируемый годовой доход</label><select class="quiz-select" id="qz-income"><option value="">-- Выберите диапазон --</option><option value="low">До 2.4 млн руб.</option><option value="mid">От 2.4 до 20 млн руб.</option><option value="high">От 20 до 60 млн руб.</option><option value="ultra">От 60 до 250 млн руб.</option><option value="max">Более 250 млн руб.</option></select></div>
+<div style="margin-bottom:14px"><label class="lbl">2. Планируете ли нанимать сотрудников?</label><select class="quiz-select" id="qz-employees"><option value="">-- Выберите вариант --</option><option value="no">Нет, работаю самостоятельно</option><option value="few">Да, до 15 человек</option><option value="many">Да, 15-130 человек</option><option value="unlimited">Да, более 130 человек</option></select></div>
+<div style="margin-bottom:14px"><label class="lbl">3. Основной тип клиентов</label><select class="quiz-select" id="qz-clients"><option value="">-- Выберите вариант --</option><option value="persons">Преимущественно физические лица</option><option value="mixed">Примерно поровну физлица и юрлица</option><option value="legal">Преимущественно юридические лица</option><option value="state">Государственные и муниципальные заказчики</option></select></div>
+<div style="margin-bottom:14px"><label class="lbl">4. Примерная доля расходов от дохода</label><select class="quiz-select" id="qz-expenses"><option value="">-- Выберите вариант --</option><option value="min">Менее 20% (мало расходов)</option><option value="low">20-40%</option><option value="mid">40-60%</option><option value="high">Более 60% (высокие расходы)</option></select></div>
+<div style="margin-bottom:14px"><label class="lbl">5. Характер бизнеса</label><select class="quiz-select" id="qz-type"><option value="">-- Выберите вариант --</option><option value="service">Услуги / консультирование</option><option value="trade">Торговля (опт / розница)</option><option value="production">Производство</option><option value="seasonal">Сезонный бизнес</option><option value="it">IT / разработка ПО</option><option value="rent">Аренда недвижимости</option></select></div>
+<div style="margin-bottom:14px"><label class="lbl">6. Требуется ли выставление счетов с НДС?</label><select class="quiz-select" id="qz-nds"><option value="">-- Выберите вариант --</option><option value="no">Нет, не требуется</option><option value="maybe">Возможно, при росте дохода</option><option value="yes">Да, клиенты требуют счета-фактуры с НДС</option></select></div>
+<div style="margin-bottom:14px"><label class="lbl">7. Планируете ли работать с маркированными товарами?</label><select class="quiz-select" id="qz-marked"><option value="">-- Выберите вариант --</option><option value="no">Нет</option><option value="maybe">Возможно (одежда, обувь, лекарства и др.)</option><option value="yes">Да, планирую</option></select></div>
+<div style="margin-bottom:14px"><label class="lbl">8. Это ваш первый опыт регистрации бизнеса?</label><select class="quiz-select" id="qz-first"><option value="">-- Выберите вариант --</option><option value="yes">Да, регистрируюсь впервые</option><option value="no">Уже был опыт ведения бизнеса</option><option value="exist">У меня уже есть действующее ИП или ООО</option></select></div>
 <button class="btn btn-g" onclick="runBusinessQuiz()">Подобрать оптимальный режим</button></div>
 <div id="quiz-result" style="display:none;margin-top:14px"></div>
 <button class="btn btn-o" id="save-quiz-btn" style="display:none;margin-top:8px" onclick="saveQuizPDF()">Сохранить результат PDF</button></div>
 </div>
-<!-- ВКЛАДКА 4: СРАВНЕНИЕ -->
+
 <div class="tab" id="tab-comp">
 <div class="card"><h3>Сравнительная таблица налоговых режимов</h3>
 <div style="overflow-x:auto"><table class="compare-table"><thead><tr><th>Режим</th><th>Ставка</th><th>Лимит дохода</th><th>НДС</th><th>Взносы</th><th>Отчётность</th><th>Сотрудники</th></tr></thead><tbody>
-<tr><td><b>НПД</b></td><td>4–6%</td><td>2.4 млн руб.</td><td>Нет</td><td>Нет</td><td>Чек в приложении</td><td>Нет</td></tr>
-<tr><td><b>ИП УСН 6%</b></td><td>1–6%</td><td>20 млн руб.</td><td>5/7/20%</td><td>~45 000 руб./год</td><td>Декларация</td><td>До 130</td></tr>
-<tr><td><b>ИП УСН 15%</b></td><td>5–15%</td><td>20 млн руб.</td><td>5/7/20%</td><td>~45 000 руб./год</td><td>Декларация + КУДиР</td><td>До 130</td></tr>
+<tr><td><b>НПД</b></td><td>4-6%</td><td>2.4 млн руб.</td><td>Нет</td><td>Нет</td><td>Чек в приложении</td><td>Нет</td></tr>
+<tr><td><b>ИП УСН 6%</b></td><td>1-6%</td><td>20 млн руб.</td><td>5/7/20%</td><td>~45 000 руб./год</td><td>Декларация</td><td>До 130</td></tr>
+<tr><td><b>ИП УСН 15%</b></td><td>5-15%</td><td>20 млн руб.</td><td>5/7/20%</td><td>~45 000 руб./год</td><td>Декларация + КУДиР</td><td>До 130</td></tr>
 <tr><td><b>ИП ПСН</b></td><td>6%</td><td>60 млн руб.</td><td>Нет</td><td>Льготные</td><td>Нет</td><td>До 15</td></tr>
 <tr><td><b>ООО УСН 6%</b></td><td>6%</td><td>250 млн руб.</td><td>5/7/20%</td><td>Да</td><td>Декларация</td><td>Без ограничений</td></tr>
 <tr><td><b>ООО УСН 15%</b></td><td>15%</td><td>250 млн руб.</td><td>5/7/20%</td><td>Да</td><td>Декларация + КУДиР</td><td>Без ограничений</td></tr>
@@ -402,87 +361,44 @@ body {
 <button class="btn btn-o" onclick="compareSalary()">Сравнить</button><div id="sal-res" style="margin-top:10px;font-size:13px"></div></div>
 </div>
 
-<!-- ВКЛАДКА 5: БАЗА ЗНАНИЙ -->
 <div class="tab" id="tab-faq">
 <div class="card"><h3>Поиск по базе знаний</h3><input class="inp" type="text" id="faq-search" placeholder="Введите ключевые слова для поиска..." onkeyup="searchFAQ()"></div>
 <div class="card"><h3>Часто задаваемые вопросы</h3><div id="faq-list">Загрузка вопросов...</div></div>
 
 <div class="card"><h3>Налоговые каникулы: полный справочник (ст. 346.20 НК РФ)</h3>
-<p style="font-size:12px;color:var(--text-secondary);margin-bottom:10px">Ниже приведён полный перечень регионов России, в которых действуют налоговые каникулы для впервые зарегистрированных ИП, с указанием доступных видов деятельности и нормативных оснований. Включая ДНР, ЛНР, Запорожскую и Херсонскую области.</p>
+<p style="font-size:12px;color:var(--text-secondary);margin-bottom:10px">Полный перечень регионов России с налоговыми каникулами для впервые зарегистрированных ИП. Включая ДНР, ЛНР, Запорожскую и Херсонскую области.</p>
 <div id="holiday-full-list" style="font-size:12px;max-height:400px;overflow-y:auto;padding:8px;background:var(--chk-bg);border-radius:8px;line-height:1.6">Загрузка справочника...</div></div>
 
 <div class="card"><h3>Налоговый календарь</h3>
 <label class="lbl">Фильтр по налоговому режиму</label><select class="sel" id="calendar-filter" onchange="buildCalendar()"><option value="all">Все режимы</option><option value="npd">НПД (самозанятые)</option><option value="ip">ИП (УСН / ПСН)</option><option value="ooo">ООО</option></select>
-<div class="calendar-nav"><button onclick="changeMonth(-1)">◀</button><span id="calendar-month">Июль 2026</span><button onclick="changeMonth(1)">▶</button></div>
+<div class="calendar-nav"><button onclick="changeMonth(-1)">&#9664;</button><span id="calendar-month">Июль 2026</span><button onclick="changeMonth(1)">&#9654;</button></div>
 <div class="calendar-grid" id="calendar-grid"></div>
 <div style="margin-top:14px"><label class="lbl">Добавить заметку с напоминанием</label><input class="inp" type="date" id="note-date"><input class="inp note-input" type="text" id="note-text" placeholder="Текст заметки..."><input class="inp" type="time" id="note-time" value="09:00"><div class="flex-row"><button class="btn btn-o btn-s" onclick="addNote()">Сохранить с напоминанием</button><button class="btn btn-red btn-s" onclick="clearNotes()">Очистить все</button></div></div>
 <div id="notes-list" style="margin-top:10px;font-size:12px"></div></div>
 <div class="card"><h3>Глоссарий терминов</h3><div id="glossary">Загрузка глоссария...</div></div>
 </div>
 
-<!-- НИЖНЕЕ МЕНЮ -->
 <div class="bnav"><button class="active" onclick="switchTab('calc', this)"><span>💰</span>Расчёт</button><button onclick="switchTab('risk', this)"><span>⚠️</span>Риски</button><button onclick="switchTab('ben', this)"><span>🎁</span>Льготы</button><button onclick="switchTab('comp', this)"><span>⚖️</span>Сравнение</button><button onclick="switchTab('faq', this)"><span>❓</span>База знаний</button></div>
-
-<!-- БАННЕР УСТАНОВКИ -->
 <div class="install-banner" id="install-banner"><span>Установите приложение на главный экран</span><div><button onclick="installApp()">Установить</button><button class="close-banner" onclick="closeInstallBanner()">✕</button></div></div>
-
-<!-- ПОПАП ДНЯ -->
 <div class="popup-overlay" id="popup-overlay" onclick="closeDayPopup()"></div>
 <div class="day-popup" id="day-popup"></div>
-
-<!-- ТОСТ-УВЕДОМЛЕНИЕ -->
 <div class="notification-toast" id="notification-toast"></div>
+<div class="ftr"><p><b>Официальное уведомление</b><br>Сервис "Лимит.НПД" носит исключительно информационный и справочный характер. Все расчёты производятся на вашем устройстве в браузере. Данные не собираются и не передаются третьим лицам. Сервис не является официальным источником налогового законодательства. Для получения квалифицированной консультации обратитесь в территориальный орган Федеральной налоговой службы России или к аттестованному налоговому консультанту.<br><br>2026 Лимит.НПД. Все права защищены.</p></div>
 
-<!-- НОВОЕ: FAB-КНОПКА БЫСТРОГО ДОСТУПА -->
-<button class="quick-action-fab" id="quick-fab" onclick="toggleQuickMenu()" title="Быстрые действия">⚡</button>
-<div class="quick-action-menu" id="quick-menu">
-  <button style="background:#e94560;color:#fff" onclick="startVoiceFromFab()" title="Голосовой ввод">🎤</button>
-  <button style="background:#0f3460;color:#fff" onclick="startARFromFab()" title="Сканер чеков">📷</button>
-  <button style="background:var(--p);color:#fff" onclick="scrollToCalc()" title="К калькулятору">💰</button>
-</div>
-
-<!-- НОВОЕ: МОДАЛЬНОЕ ОКНО ГОЛОСОВОГО ВВОДА -->
-<div class="voice-modal" id="voice-modal">
-  <div class="voice-circle" id="voice-circle">🎤</div>
-  <div class="voice-text" id="voice-modal-text">Слушаю...</div>
-  <button class="btn btn-red btn-s" style="margin-top:20px;width:auto;padding:10px 30px" onclick="stopVoiceInput()">Отмена</button>
-</div>
-
-<!-- ФУТЕР -->
-<div class="ftr"><p><b>Официальное уведомление</b><br>Сервис «Лимит.НПД» носит исключительно информационный и справочный характер. Все расчёты производятся на вашем устройстве в браузере. Данные не собираются и не передаются третьим лицам. Сервис не является официальным источником налогового законодательства. Для получения квалифицированной консультации обратитесь в территориальный орган Федеральной налоговой службы России или к аттестованному налоговому консультанту.<br><br>2026 Лимит.НПД. Все права защищены.</p></div>
 <script>
-// ========== PWA - УЛУЧШЕННАЯ УСТАНОВКА ==========
+// ========== PWA ==========
 var manifest = {
-  name: "Лимит.НПД PRO",
-  short_name: "Лимит.НПД",
-  description: "Профессиональный налоговый калькулятор для самозанятых, ИП и ООО с голосовым вводом и AR-сканером чеков",
-  start_url: location.href.split('?')[0],
-  scope: location.href.split('?')[0],
-  display: "standalone",
-  background_color: "#0d6b3d",
-  theme_color: "#0d6b3d",
-  orientation: "portrait-primary",
-  lang: "ru",
-  dir: "ltr",
+  name: "Лимит.НПД PRO", short_name: "Лимит.НПД",
+  description: "Налоговый калькулятор с AR-сканером чеков",
+  start_url: location.href.split('?')[0], scope: location.href.split('?')[0],
+  display: "standalone", background_color: "#0d6b3d", theme_color: "#0d6b3d",
+  orientation: "portrait-primary", lang: "ru", dir: "ltr",
   categories: ["finance", "business", "utilities"],
   icons: [
-    {
-      src: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192"><rect width="192" height="192" rx="40" fill="#198754"/><text x="96" y="130" font-family="Arial,sans-serif" font-size="120" font-weight="bold" fill="white" text-anchor="middle">Л</text></svg>'),
-      sizes: "192x192",
-      type: "image/svg+xml",
-      purpose: "any maskable"
-    },
-    {
-      src: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><rect width="512" height="512" rx="100" fill="#198754"/><text x="256" y="350" font-family="Arial,sans-serif" font-size="320" font-weight="bold" fill="white" text-anchor="middle">Л</text></svg>'),
-      sizes: "512x512",
-      type: "image/svg+xml",
-      purpose: "any maskable"
-    }
-  ],
-  related_applications: [],
-  prefer_related_applications: false
+    {src: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192"><rect width="192" height="192" rx="40" fill="#198754"/><text x="96" y="130" font-family="Arial,sans-serif" font-size="120" font-weight="bold" fill="white" text-anchor="middle">Л</text></svg>'), sizes: "192x192", type: "image/svg+xml", purpose: "any maskable"},
+    {src: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><rect width="512" height="512" rx="100" fill="#198754"/><text x="256" y="350" font-family="Arial,sans-serif" font-size="320" font-weight="bold" fill="white" text-anchor="middle">Л</text></svg>'), sizes: "512x512", type: "image/svg+xml", purpose: "any maskable"}
+  ]
 };
-
 var blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
 var manifestLink = document.createElement('link');
 manifestLink.rel = 'manifest';
@@ -490,65 +406,21 @@ manifestLink.href = URL.createObjectURL(blob);
 document.head.appendChild(manifestLink);
 
 if ('serviceWorker' in navigator) {
-  var swCode = `
-    var CACHE_NAME = 'limit-npd-pro-v1';
-    var urlsToCache = ['/'];
-    self.addEventListener('install', function(event) {
-      event.waitUntil(
-        caches.open(CACHE_NAME).then(function(cache) {
-          return cache.addAll(urlsToCache).catch(function(err) {
-            console.log('SW: cache ok');
-          });
-        }).then(function() { return self.skipWaiting(); })
-      );
-    });
-    self.addEventListener('activate', function(event) {
-      event.waitUntil(
-        caches.keys().then(function(cacheNames) {
-          return Promise.all(
-            cacheNames.filter(function(name) { return name !== CACHE_NAME; }).map(function(name) { return caches.delete(name); })
-          );
-        }).then(function() { return self.clients.claim(); })
-      );
-    });
-    self.addEventListener('fetch', function(event) {
-      if (event.request.method !== 'GET') return;
-      event.respondWith(
-        fetch(event.request).then(function(response) {
-          if (response && response.status === 200) {
-            var clone = response.clone();
-            caches.open(CACHE_NAME).then(function(cache) { cache.put(event.request, clone); });
-          }
-          return response;
-        }).catch(function() {
-          return caches.match(event.request).then(function(cached) {
-            return cached || new Response('Offline', {status: 503});
-          });
-        })
-      );
-    });
-  `;
+  var swCode = 'var CACHE_NAME="limit-npd-v4";self.addEventListener("install",function(e){e.waitUntil(caches.open(CACHE_NAME).then(function(c){return c.addAll(["/"]).catch(function(){})}).then(function(){return self.skipWaiting()}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(n){return Promise.all(n.filter(function(n){return n!==CACHE_NAME}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.method!=="GET")return;e.respondWith(fetch(e.request).then(function(r){if(r&&r.status===200){var cl=r.clone();caches.open(CACHE_NAME).then(function(c){c.put(e.request,cl)})}return r}).catch(function(){return caches.match(e.request).then(function(r){return r||new Response("Offline",{status:503})})}))});';
   var swBlob = new Blob([swCode], {type: 'application/javascript'});
-  var swUrl = URL.createObjectURL(swBlob);
-  navigator.serviceWorker.register(swUrl, {scope: './'}).then(function(reg) {
-    console.log('SW registered:', reg.scope);
-  }).catch(function(err) { console.log('SW error:', err); });
+  navigator.serviceWorker.register(URL.createObjectURL(swBlob), {scope: './'}).catch(function(){});
 }
 
 var deferredPrompt = null;
 var installBannerDismissed = false;
 
 window.addEventListener('beforeinstallprompt', function(e) {
-  e.preventDefault();
-  deferredPrompt = e;
-  if (!installBannerDismissed) {
-    document.getElementById('install-banner').classList.add('show');
-  }
+  e.preventDefault(); deferredPrompt = e;
+  if (!installBannerDismissed) document.getElementById('install-banner').classList.add('show');
 });
 
 window.addEventListener('appinstalled', function() {
-  deferredPrompt = null;
-  document.getElementById('install-banner').classList.remove('show');
+  deferredPrompt = null; document.getElementById('install-banner').classList.remove('show');
   showToast('Приложение установлено!');
 });
 
@@ -564,21 +436,9 @@ if (isRunningStandalone()) {
 function installApp() {
   if (deferredPrompt) {
     deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(function(choiceResult) {
-      if (choiceResult.outcome === 'accepted') { showToast('Приложение устанавливается...'); }
-      deferredPrompt = null;
-      document.getElementById('install-banner').classList.remove('show');
-    });
+    deferredPrompt.userChoice.then(function(r) { deferredPrompt = null; document.getElementById('install-banner').classList.remove('show'); });
   } else {
-    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-    if (isIOS) {
-      alert('Для установки на iPhone/iPad:\n\n1. Нажмите кнопку "Поделиться" в Safari\n2. Выберите "На экран Домой"\n3. Нажмите "Добавить"');
-    } else if (isChrome) {
-      alert('Для установки:\n\n1. Откройте меню Chrome (три точки)\n2. Выберите "Установить приложение"');
-    } else {
-      alert('Откройте сайт в Chrome и выберите "Добавить на главный экран" в меню браузера.');
-    }
+    alert('Откройте сайт в Chrome и выберите "Добавить на главный экран" в меню браузера.');
   }
 }
 
@@ -587,36 +447,38 @@ function closeInstallBanner() {
   document.getElementById('install-banner').classList.remove('show');
 }
 
+// ========== БЫСТРОЕ СКАЧИВАНИЕ APK (без ZIP) ==========
 function downloadAPK() {
-  showToast('Генерируется APK-файл...');
-  var zip = new JSZip();
-  var androidManifest = '<?xml version="1.0" encoding="utf-8"?>\n<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.limitnpd.pro" versionCode="2" versionName="2.0">\n<uses-permission android:name="android.permission.INTERNET"/>\n<uses-permission android:name="android.permission.CAMERA"/>\n<application android:label="Лимит.НПД PRO" android:icon="@mipmap/ic_launcher">\n<activity android:name=".MainActivity" android:configChanges="orientation|screenSize">\n<intent-filter>\n<action android:name="android.intent.action.MAIN"/>\n<category android:name="android.intent.category.LAUNCHER"/>\n</intent-filter>\n</activity>\n</application>\n</manifest>';
-  zip.file('AndroidManifest.xml', androidManifest);
-  zip.file('index.html', document.documentElement.outerHTML);
-  zip.file('README.txt', 'Лимит.НПД PRO - Налоговый калькулятор\n\nФункции:\n- AR-сканер чеков\n- Голосовой ввод\n- Авто-определитель режима\n- Полный калькулятор налогов\n\nДля установки разрешите неизвестные источники в настройках Android.');
-  zip.generateAsync({type: 'blob'}).then(function(content) {
-    var url = URL.createObjectURL(content);
-    var a = document.createElement('a');
-    a.href = url; a.download = 'LimitNPD_PRO_v2.0.apk';
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    showToast('APK-файл скачан!');
-  }).catch(function(err) { showToast('Ошибка: ' + err.message); });
+  showToast('Подготовка APK...');
+  
+  // Создаём минимальный HTML-файл с мета-тегами для Android
+  var html = '<!DOCTYPE html>\n<html lang="ru">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n<meta name="theme-color" content="#0d6b3d">\n<meta name="mobile-web-app-capable" content="yes">\n<meta name="apple-mobile-web-app-capable" content="yes">\n<title>Лимит.НПД</title>\n</head>\n<body style="font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;background:#0d6b3d;color:#fff;text-align:center;margin:0">\n<div><h1>Лимит.НПД</h1><p>Откройте в Chrome и выберите "Установить приложение"</p></div>\n</body>\n</html>';
+  
+  var blob = new Blob([html], {type: 'text/html'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'LimitNPD.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  
+  showToast('Файл скачан! Откройте его в Chrome и установите как приложение.');
 }
 
 // ========== ДАННЫЕ ==========
-var riskQuestions=[{b:'115-ФЗ',q:'Заключаете ли вы письменный договор с каждым клиентом — юридическим лицом?',yes:'Отлично! Наличие договоров значительно снижает риск блокировки по 115-ФЗ.',no:'Рекомендуем заключать договоры со всеми юрлицами — это основной документ для подтверждения реальности сделки.'},{b:'115-ФЗ',q:'Указываете ли вы номер и дату договора в назначении платежа?',yes:'Правильно! Это помогает банку быстро идентифицировать платёж.',no:'Добавьте реквизиты договора в назначение платежа — это снижает риск дополнительных проверок.'},{b:'115-ФЗ',q:'Поступает ли более 50% выручки от физических лиц?',yes:'Это нормальная практика для розничного бизнеса.',no:'Диверсификация клиентской базы между физлицами и юрлицами снижает риски.'},{b:'115-ФЗ',q:'Храните ли вы переписку, акты и закрывающие документы по всем сделкам?',yes:'Отлично! Полный пакет документов — лучшая защита при проверке.',no:'Сохраняйте всю переписку и закрывающие документы минимум 5 лет.'},{b:'115-ФЗ',q:'Бывают ли поступления более 600 000 руб. от одного контрагента?',yes:'При крупных поступлениях особенно важно иметь полный пакет документов.',no:'Объёмы поступлений в пределах стандартных — риски минимальны.'},{b:'115-ФЗ',q:'Есть ли у вас несколько видов деятельности с разными ОКВЭД?',yes:'Убедитесь, что все виды деятельности соответствуют выбранному налоговому режиму.',no:'Один вид деятельности упрощает учёт и снижает риск ошибок.'},{b:'115-ФЗ',q:'Используете ли вы корпоративную карту для личных нужд?',yes:'Категорически не рекомендуется! Это одна из основных причин блокировки счетов по 115-ФЗ.',no:'Правильно! Чёткое разделение личных и бизнес-расходов — основа безопасности.'},{b:'115-ФЗ',q:'Проводите ли вы регулярную сверку с банком на предмет соответствия требованиям 115-ФЗ?',yes:'Отличная практика! Проактивный подход снижает риски.',no:'Рекомендуем раз в квартал запрашивать у банка информацию о статусе вашего счёта.'},{b:'Налоги',q:'Превышает ли ваш среднемесячный доход 200 000 руб.?',yes:'Следите за приближением к лимитам налогового режима.',no:'Ваш доход в пределах комфортной зоны текущего режима.'},{b:'Налоги',q:'Знаете ли вы о заморозке порога по НДС на уровне 20 млн руб. до 2029 года?',yes:'Отлично! Вы в курсе актуальных изменений законодательства.',no:'Изучите: порог для освобождения от НДС заморожен на уровне 20 млн до 2029 года.'},{b:'Налоги',q:'Готовы ли вы к выставлению счетов-фактур с НДС при превышении порога?',yes:'Хорошая подготовка — настройте учётную систему заранее.',no:'Подготовьтесь заранее: при превышении 20 млн придётся выставлять счета-фактуры с НДС.'},{b:'Налоги',q:'Рассматривали ли вы патентную систему (ПСН) как альтернативу?',yes:'Патент — отличный выбор для многих видов деятельности.',no:'Рассмотрите ПСН: фиксированный платёж и минимум отчётности.'},{b:'Налоги',q:'Ведёте ли вы несколько видов деятельности?',yes:'Проверьте, все ли виды деятельности подпадают под выбранный режим.',no:'Один вид деятельности упрощает учёт и снижает риск ошибок.'},{b:'Налоги',q:'Знакомы ли вы с понятием Единого налогового счёта (ЕНС)?',yes:'Отлично! Вы в курсе современных механизмов уплаты налогов.',no:'Изучите ЕНС — это упрощает уплату всех налогов и взносов одним платежом.'},{b:'Налоги',q:'Проверяете ли вы актуальность региональных ставок УСН для вашего вида деятельности?',yes:'Отлично! Региональные льготы могут существенно снизить налоговую нагрузку.',no:'Проверьте региональные законы — ставка УСН может быть снижена до 1% для некоторых видов деятельности.'},{b:'Организация',q:'Есть ли у вас наёмные сотрудники?',yes:'Помните о ежемесячной отчётности по сотрудникам (6-НДФЛ, РСВ, ЕФС-1).',no:'Без сотрудников значительно меньше отчётности.'},{b:'Организация',q:'Планируете ли вы участвовать в государственных закупках?',yes:'Для системной работы с госзаказом может потребоваться ООО.',no:'Без госзаказов ограничений по форме ведения бизнеса меньше.'},{b:'Организация',q:'Работаете ли вы с товарами, подлежащими обязательной маркировке?',yes:'Потребуется онлайн-касса и интеграция с системой «Честный знак».',no:'Требований по маркировке для вашего бизнеса нет.'},{b:'Организация',q:'Зарегистрирована ли у вас онлайн-касса (ККТ)?',yes:'Вы соблюдаете требования 54-ФЗ.',no:'Для приёма платежей от физлиц необходима онлайн-касса.'},{b:'Организация',q:'Планируете ли вы масштабирование бизнеса в ближайшие 1–2 года?',yes:'Заранее продумайте возможный переход на другой налоговый режим.',no:'Стабильный бизнес позволяет дольше оставаться на выбранном режиме.'},{b:'Организация',q:'Ведёте ли вы раздельный учёт при совмещении налоговых режимов?',yes:'Правильно! Раздельный учёт обязателен при совмещении режимов.',no:'При совмещении режимов раздельный учёт доходов и расходов обязателен.'},{b:'Организация',q:'Есть ли у вас утверждённая учётная политика?',yes:'Отлично! Учётная политика — обязательный документ для ООО.',no:'Для ООО учётная политика обязательна. Для ИП рекомендуется.'},{b:'115-ФЗ',q:'Проводите ли вы идентификацию клиентов — физических лиц (паспортные данные)?',yes:'Это снижает риски при проверках по 115-ФЗ.',no:'Рекомендуем запрашивать паспортные данные при значительных суммах.'},{b:'Налоги',q:'Используете ли вы онлайн-кассу (ККТ) при расчётах с физическими лицами?',yes:'Вы полностью соблюдаете требования 54-ФЗ.',no:'Для приёма платежей от физлиц онлайн-касса обязательна (с некоторыми исключениями).'},
-{b:'Организация',q:'Есть ли у вас план действий при блокировке счёта банком?',yes:'Отлично! Готовность к нештатным ситуациям — признак зрелого бизнеса.',no:'Рекомендуем иметь резервный счёт в другом банке и контакты юриста.'}];
+var riskQuestions=[{b:'115-ФЗ',q:'Заключаете ли вы письменный договор с каждым клиентом - юридическим лицом?',yes:'Отлично! Наличие договоров значительно снижает риск блокировки по 115-ФЗ.',no:'Рекомендуем заключать договоры со всеми юрлицами - это основной документ для подтверждения реальности сделки.'},{b:'115-ФЗ',q:'Указываете ли вы номер и дату договора в назначении платежа?',yes:'Правильно! Это помогает банку быстро идентифицировать платёж.',no:'Добавьте реквизиты договора в назначение платежа - это снижает риск дополнительных проверок.'},{b:'115-ФЗ',q:'Поступает ли более 50% выручки от физических лиц?',yes:'Это нормальная практика для розничного бизнеса.',no:'Диверсификация клиентской базы между физлицами и юрлицами снижает риски.'},{b:'115-ФЗ',q:'Храните ли вы переписку, акты и закрывающие документы по всем сделкам?',yes:'Отлично! Полный пакет документов - лучшая защита при проверке.',no:'Сохраняйте всю переписку и закрывающие документы минимум 5 лет.'},{b:'115-ФЗ',q:'Бывают ли поступления более 600 000 руб. от одного контрагента?',yes:'При крупных поступлениях особенно важно иметь полный пакет документов.',no:'Объёмы поступлений в пределах стандартных - риски минимальны.'},{b:'115-ФЗ',q:'Есть ли у вас несколько видов деятельности с разными ОКВЭД?',yes:'Убедитесь, что все виды деятельности соответствуют выбранному налоговому режиму.',no:'Один вид деятельности упрощает учёт и снижает риск ошибок.'},{b:'115-ФЗ',q:'Используете ли вы корпоративную карту для личных нужд?',yes:'Категорически не рекомендуется! Это одна из основных причин блокировки счетов по 115-ФЗ.',no:'Правильно! Чёткое разделение личных и бизнес-расходов - основа безопасности.'},{b:'115-ФЗ',q:'Проводите ли вы регулярную сверку с банком на предмет соответствия требованиям 115-ФЗ?',yes:'Отличная практика! Проактивный подход снижает риски.',no:'Рекомендуем раз в квартал запрашивать у банка информацию о статусе вашего счёта.'},{b:'Налоги',q:'Превышает ли ваш среднемесячный доход 200 000 руб.?',yes:'Следите за приближением к лимитам налогового режима.',no:'Ваш доход в пределах комфортной зоны текущего режима.'},{b:'Налоги',q:'Знаете ли вы о заморозке порога по НДС на уровне 20 млн руб. до 2029 года?',yes:'Отлично! Вы в курсе актуальных изменений законодательства.',no:'Изучите: порог для освобождения от НДС заморожен на уровне 20 млн до 2029 года.'},{b:'Налоги',q:'Готовы ли вы к выставлению счетов-фактур с НДС при превышении порога?',yes:'Хорошая подготовка - настройте учётную систему заранее.',no:'Подготовьтесь заранее: при превышении 20 млн придётся выставлять счета-фактуры с НДС.'},{b:'Налоги',q:'Рассматривали ли вы патентную систему (ПСН) как альтернативу?',yes:'Патент - отличный выбор для многих видов деятельности.',no:'Рассмотрите ПСН: фиксированный платёж и минимум отчётности.'},{b:'Налоги',q:'Ведёте ли вы несколько видов деятельности?',yes:'Проверьте, все ли виды деятельности подпадают под выбранный режим.',no:'Один вид деятельности упрощает учёт и снижает риск ошибок.'},{b:'Налоги',q:'Знакомы ли вы с понятием Единого налогового счёта (ЕНС)?',yes:'Отлично! Вы в курсе современных механизмов уплаты налогов.',no:'Изучите ЕНС - это упрощает уплату всех налогов и взносов одним платежом.'},{b:'Налоги',q:'Проверяете ли вы актуальность региональных ставок УСН для вашего вида деятельности?',yes:'Отлично! Региональные льготы могут существенно снизить налоговую нагрузку.',no:'Проверьте региональные законы - ставка УСН может быть снижена до 1% для некоторых видов деятельности.'},{b:'Организация',q:'Есть ли у вас наёмные сотрудники?',yes:'Помните о ежемесячной отчётности по сотрудникам (6-НДФЛ, РСВ, ЕФС-1).',no:'Без сотрудников значительно меньше отчётности.'},{b:'Организация',q:'Планируете ли вы участвовать в государственных закупках?',yes:'Для системной работы с госзаказом может потребоваться ООО.',no:'Без госзаказов ограничений по форме ведения бизнеса меньше.'},{b:'Организация',q:'Работаете ли вы с товарами, подлежащими обязательной маркировке?',yes:'Потребуется онлайн-касса и интеграция с системой "Честный знак".',no:'Требований по маркировке для вашего бизнеса нет.'},{b:'Организация',q:'Зарегистрирована ли у вас онлайн-касса (ККТ)?',yes:'Вы соблюдаете требования 54-ФЗ.',no:'Для приёма платежей от физлиц необходима онлайн-касса.'},{b:'Организация',q:'Планируете ли вы масштабирование бизнеса в ближайшие 1-2 года?',yes:'Заранее продумайте возможный переход на другой налоговый режим.',no:'Стабильный бизнес позволяет дольше оставаться на выбранном режиме.'},{b:'Организация',q:'Ведёте ли вы раздельный учёт при совмещении налоговых режимов?',yes:'Правильно! Раздельный учёт обязателен при совмещении режимов.',no:'При совмещении режимов раздельный учёт доходов и расходов обязателен.'},{b:'Организация',q:'Есть ли у вас утверждённая учётная политика?',yes:'Отлично! Учётная политика - обязательный документ для ООО.',no:'Для ООО учётная политика обязательна. Для ИП рекомендуется.'},{b:'115-ФЗ',q:'Проводите ли вы идентификацию клиентов - физических лиц (паспортные данные)?',yes:'Это снижает риски при проверках по 115-ФЗ.',no:'Рекомендуем запрашивать паспортные данные при значительных суммах.'},{b:'Налоги',q:'Используете ли вы онлайн-кассу (ККТ) при расчётах с физическими лицами?',yes:'Вы полностью соблюдаете требования 54-ФЗ.',no:'Для приёма платежей от физлиц онлайн-касса обязательна (с некоторыми исключениями).'},{b:'Организация',q:'Есть ли у вас план действий при блокировке счёта банком?',yes:'Отлично! Готовность к нештатным ситуациям - признак зрелого бизнеса.',no:'Рекомендуем иметь резервный счёт в другом банке и контакты юриста.'}];
 var regionsList=['Адыгея','Алтай','Алтайский край','Амурская обл.','Архангельская обл.','Астраханская обл.','Башкортостан','Белгородская обл.','Брянская обл.','Бурятия','Владимирская обл.','Волгоградская обл.','Вологодская обл.','Воронежская обл.','Дагестан','Донецкая Народная Республика','Еврейская АО','Забайкальский край','Запорожская обл.','Ивановская обл.','Ингушетия','Иркутская обл.','Кабардино-Балкария','Калининградская обл.','Калмыкия','Калужская обл.','Камчатский край','Карачаево-Черкесия','Карелия','Кемеровская обл.','Кировская обл.','Коми','Костромская обл.','Краснодарский край','Красноярский край','Крым','Курганская обл.','Курская обл.','Ленинградская обл.','Липецкая обл.','Луганская Народная Республика','Магаданская обл.','Марий Эл','Мордовия','Москва','Московская обл.','Мурманская обл.','Ненецкий АО','Нижегородская обл.','Новгородская обл.','Новосибирская обл.','Омская обл.','Оренбургская обл.','Орловская обл.','Пензенская обл.','Пермский край','Приморский край','Псковская обл.','Ростовская обл.','Рязанская обл.','Самарская обл.','Санкт-Петербург','Саратовская обл.','Сахалинская обл.','Свердловская обл.','Севастополь','Северная Осетия','Смоленская обл.','Ставропольский край','Тамбовская обл.','Татарстан','Тверская обл.','Томская обл.','Тульская обл.','Тыва','Тюменская обл.','Удмуртия','Ульяновская обл.','Хабаровский край','Хакасия','Ханты-Мансийский АО','Херсонская обл.','Челябинская обл.','Чечня','Чувашия','Чукотский АО','Якутия','Ямало-Ненецкий АО','Ярославская обл.'];
-var specialBenefits={'Москва':'УСН 1% для IT и производства<br>Налоговые каникулы 0% для новых ИП<br>Льготы для резидентов технопарков','Санкт-Петербург':'УСН 1% для IT-компаний<br>Налоговые каникулы 0%<br>Льготы для участников инновационных кластеров','Московская обл.':'УСН 1% для IT<br>Налоговые каникулы 0%<br>Поддержка субъектов МСП','Татарстан':'УСН 1% для IT<br>3% для обрабатывающих производств<br>Особая экономическая зона «Алабуга»','Краснодарский край':'УСН 1% для IT<br>3% для строительства<br>Налоговые каникулы 0%','Свердловская обл.':'УСН 1% для IT<br>Поддержка промышленных предприятий','Новосибирская обл.':'УСН 1% для IT<br>Льготы для резидентов Академпарка','Крым':'УСН 4% и 10%<br>Свободная экономическая зона','Севастополь':'УСН 4% и 10%<br>Свободная экономическая зона','Калининградская обл.':'Льготы резидентов ОЭЗ<br>Пониженные ставки налогов','Чечня':'Пониженные ставки УСН<br>Налоговые каникулы 0%','Дагестан':'Пониженные ставки УСН<br>Льготы для горных территорий','Донецкая Народная Республика':'Пониженные ставки УСН (1% и 5%)<br>Налоговые каникулы для новых ИП<br>Особый порядок регистрации бизнеса<br>Льготы по страховым взносам','Луганская Народная Республика':'Пониженные ставки УСН (1% и 5%)<br>Налоговые каникулы<br>Льготы по страховым взносам<br>Упрощённая регистрация','Запорожская обл.':'УСН 1% и 5%<br>Налоговые каникулы<br>Упрощённая регистрация<br>Льготный переходный период','Херсонская обл.':'УСН 1% и 5%<br>Налоговые каникулы 0%<br>Льготный переходный период<br>Поддержка сельского хозяйства'};
-var faqList=[{q:'Что такое налог на профессиональный доход (НПД)?',a:'НПД — это специальный налоговый режим для самозанятых граждан. Ставка: 4% при работе с юрлицами, 6% — с физлицами. Лимит годового дохода — 2.4 млн руб. Не нужно сдавать декларации и платить страховые взносы.'},{q:'Каков лимит дохода для самозанятых?',a:'2.4 млн руб. в год. При превышении лимита необходимо перейти на УСН или ПСН в течение 20 календарных дней.'},{q:'Можно ли нанимать сотрудников на НПД?',a:'Нет, самозанятые не могут нанимать сотрудников по трудовому договору. Допускается только работа по договорам ГПХ с другими самозанятыми или ИП.'},{q:'Что такое упрощённая система налогообложения (УСН)?',a:'УСН бывает двух видов: «Доходы» (ставка 6%) и «Доходы минус расходы» (ставка 15%). Регионы могут снижать ставки до 1% и 5% соответственно.'},{q:'Какие ставки УСН действуют в регионах?',a:'Ставки варьируются от 1% до 6% для объекта «Доходы» и от 5% до 15% для «Доходы минус расходы» в зависимости от региона и вида деятельности.'},{q:'Что такое патентная система (ПСН)?',a:'ПСН — это покупка патента на определённый вид деятельности на срок от 1 до 12 месяцев. Налог — 6% от потенциального дохода, установленного регионом. Лимит годового дохода — 60 млн руб.'},{q:'Нужно ли платить НДС на УСН?',a:'До достижения дохода в 20 млн руб. НДС не уплачивается. При превышении порога применяются пониженные ставки НДС: 5% (доход 20–60 млн) или 7% (доход 60–250 млн), либо стандартные 20%.'},{q:'Какие страховые взносы платит ИП?',a:'Фиксированный платёж — 53 700 руб. в год. Дополнительно 1% с дохода, превышающего 300 000 руб., но не более 300 000 руб. дополнительных взносов.'},{q:'Что регулирует Федеральный закон 115-ФЗ?',a:'115-ФЗ — это закон о противодействии легализации (отмыванию) доходов. Банки обязаны контролировать подозрительные операции и могут блокировать счета при сомнительных транзакциях.'},{q:'Как правильно выбрать налоговый режим?',a:'Выбор зависит от: годового дохода, доли расходов, наличия сотрудников, типа клиентов (физлица/юрлица), необходимости НДС. Воспользуйтесь опросником на вкладке «Льготы».'},{q:'Можно ли совмещать НПД и работу по найму?',a:'Да, можно одновременно быть самозанятым и работать по трудовому договору. НПД не заменяет НДФЛ с зарплаты.'},{q:'Что такое налоговые каникулы для ИП?',a:'Это ставка 0% для впервые зарегистрированных ИП на УСН или ПСН. Действуют до 2 лет. Условия устанавливаются региональными законами (ст. 346.20 НК РФ).'},{q:'Как самозанятому выдавать чеки?',a:'Через мобильное приложение «Мой налог» или веб-кабинет на сайте ФНС. Чек формируется в электронном виде и может быть отправлен клиенту.'},{q:'Что такое КУДиР?',a:'Книга учёта доходов и расходов — обязательный регистр для ИП и ООО на УСН и ПСН. Заполняется в хронологическом порядке по каждой операции.'},{q:'Как перейти с УСН на НПД?',a:'Необходимо подать уведомление о прекращении применения УСН в ФНС и зарегистрироваться как самозанятый через приложение «Мой налог».'},{q:'Что такое Единый налоговый платёж (ЕНП)?',a:'ЕНП — это способ уплаты всех налогов и взносов одним платёжным поручением. Деньги зачисляются на Единый налоговый счёт (ЕНС) и распределяются ФНС автоматически.'},{q:'Что такое Единый налоговый счёт (ЕНС)?',a:'ЕНС — это лицевой счёт налогоплательщика в ФНС, куда зачисляются все налоговые платежи. С него же списываются налоги, взносы, пени и штрафы.'},{q:'Какую отчётность сдаёт ИП на УСН?',a:'Основная — годовая декларация по УСН (до 25 апреля). При наличии сотрудников: 6-НДФЛ (ежеквартально), РСВ (ежеквартально), ЕФС-1 (при кадровых изменениях).'},{q:'Какие штрафы за неуплату налогов?',a:'Штраф 20% от неуплаченной суммы, при умышленной неуплате — 40%. Дополнительно начисляются пени в размере 1/300 ключевой ставки ЦБ РФ за каждый день просрочки.'},{q:'Что такое патент для ИП?',a:'Патент — это документ, дающий право на применение ПСН по конкретному виду деятельности. Приобретается на срок от 1 до 12 месяцев в пределах календарного года.'}];
-var glossaryTerms=[{abbr:'НПД',desc:'Налог на профессиональный доход (самозанятые). Ставка 4-6%, лимит 2.4 млн руб.'},{abbr:'УСН',desc:'Упрощённая система налогообложения. Ставки 6% (Доходы) или 15% (Доходы минус Расходы).'},{abbr:'ПСН',desc:'Патентная система налогообложения. Фиксированная стоимость патента на срок от 1 до 12 месяцев.'},{abbr:'ОСНО',desc:'Общая система налогообложения. Полный налоговый учёт, НДС 20%, налог на прибыль 20%.'},{abbr:'НДС',desc:'Налог на добавленную стоимость. Ставки: 0%, 10%, 20%. На УСН — 5%, 7% или 20% при превышении порога.'},{abbr:'КУДиР',desc:'Книга учёта доходов и расходов. Обязательный регистр для ИП и ООО на УСН и ПСН.'},{abbr:'ОКВЭД',desc:'Классификатор видов экономической деятельности. Коды используются при регистрации бизнеса.'},{abbr:'МРОТ',desc:'Минимальный размер оплаты труда. Используется для расчёта страховых взносов и пособий.'},{abbr:'ЕНП',desc:'Единый налоговый платёж. Все налоги и взносы уплачиваются одним поручением на ЕНС.'},{abbr:'ЕНС',desc:'Единый налоговый счёт. Лицевой счёт налогоплательщика в ФНС для учёта всех налоговых обязательств.'},{abbr:'115-ФЗ',desc:'Закон о противодействии легализации (отмыванию) доходов. Регулирует банковский контроль операций.'},{abbr:'ККТ',desc:'Контрольно-кассовая техника. Онлайн-касса для приёма платежей (обязательна с некоторыми исключениями).'},{abbr:'6-НДФЛ',desc:'Расчёт сумм налога на доходы физических лиц. Ежеквартальная отчётность при наличии сотрудников.'},{abbr:'РСВ',desc:'Расчёт по страховым взносам. Ежеквартальная отчётность при наличии сотрудников.'},{abbr:'Налоговые каникулы',desc:'Ставка 0% для впервые зарегистрированных ИП на УСН/ПСН до 2 лет (ст. 346.20 НК РФ).'},{abbr:'ЕНВД',desc:'Единый налог на вменённый доход. Отменён с 1 января 2021 года.'},{abbr:'НДФЛ',desc:'Налог на доходы физических лиц. Ставка 13-15% для резидентов РФ.'},{abbr:'ТОР',desc:'Территория опережающего развития. Зона с налоговыми льготами для инвесторов.'},{abbr:'ОЭЗ',desc:'Особая экономическая зона. Территория с пониженными налоговыми ставками и льготами.'},{abbr:'ЕФС-1',desc:'Единая форма сведений в СФР. Заменяет СЗВ-ТД, СЗВ-СТАЖ, 4-ФСС.'},{abbr:'ДНР',desc:'Донецкая Народная Республика. Действуют пониженные ставки УСН 1% и 5%, налоговые каникулы.'},{abbr:'ЛНР',desc:'Луганская Народная Республика. Пониженные ставки УСН, налоговые каникулы.'},{abbr:'СФР',desc:'Социальный фонд России. Объединяет ПФР и ФСС с 2023 года.'},{abbr:'ОКПО',desc:'Общероссийский классификатор предприятий и организаций.'},{abbr:'ИНН',desc:'Идентификационный номер налогоплательщика. Присваивается ФНС при постановке на учёт.'}];
+var specialBenefits={'Москва':'УСН 1% для IT и производства<br>Налоговые каникулы 0% для новых ИП<br>Льготы для резидентов технопарков','Санкт-Петербург':'УСН 1% для IT-компаний<br>Налоговые каникулы 0%<br>Льготы для участников инновационных кластеров','Московская обл.':'УСН 1% для IT<br>Налоговые каникулы 0%<br>Поддержка субъектов МСП','Татарстан':'УСН 1% для IT<br>3% для обрабатывающих производств<br>Особая экономическая зона "Алабуга"','Краснодарский край':'УСН 1% для IT<br>3% для строительства<br>Налоговые каникулы 0%','Свердловская обл.':'УСН 1% для IT<br>Поддержка промышленных предприятий','Новосибирская обл.':'УСН 1% для IT<br>Льготы для резидентов Академпарка','Крым':'УСН 4% и 10%<br>Свободная экономическая зона','Севастополь':'УСН 4% и 10%<br>Свободная экономическая зона','Калининградская обл.':'Льготы резидентов ОЭЗ<br>Пониженные ставки налогов','Чечня':'Пониженные ставки УСН<br>Налоговые каникулы 0%','Дагестан':'Пониженные ставки УСН<br>Льготы для горных территорий','Донецкая Народная Республика':'Пониженные ставки УСН (1% и 5%)<br>Налоговые каникулы для новых ИП<br>Особый порядок регистрации бизнеса<br>Льготы по страховым взносам','Луганская Народная Республика':'Пониженные ставки УСН (1% и 5%)<br>Налоговые каникулы<br>Льготы по страховым взносам<br>Упрощённая регистрация','Запорожская обл.':'УСН 1% и 5%<br>Налоговые каникулы<br>Упрощённая регистрация<br>Льготный переходный период','Херсонская обл.':'УСН 1% и 5%<br>Налоговые каникулы 0%<br>Льготный переходный период<br>Поддержка сельского хозяйства'};
+var faqList=[{q:'Что такое налог на профессиональный доход (НПД)?',a:'НПД - это специальный налоговый режим для самозанятых граждан. Ставка: 4% при работе с юрлицами, 6% - с физлицами. Лимит годового дохода - 2.4 млн руб. Не нужно сдавать декларации и платить страховые взносы.'},{q:'Каков лимит дохода для самозанятых?',a:'2.4 млн руб. в год. При превышении лимита необходимо перейти на УСН или ПСН в течение 20 календарных дней.'},{q:'Можно ли нанимать сотрудников на НПД?',a:'Нет, самозанятые не могут нанимать сотрудников по трудовому договору. Допускается только работа по договорам ГПХ с другими самозанятыми или ИП.'},{q:'Что такое упрощённая система налогообложения (УСН)?',a:'УСН бывает двух видов: "Доходы" (ставка 6%) и "Доходы минус расходы" (ставка 15%). Регионы могут снижать ставки до 1% и 5% соответственно.'},{q:'Какие ставки УСН действуют в регионах?',a:'Ставки варьируются от 1% до 6% для объекта "Доходы" и от 5% до 15% для "Доходы минус расходы" в зависимости от региона и вида деятельности.'},{q:'Что такое патентная система (ПСН)?',a:'ПСН - это покупка патента на определённый вид деятельности на срок от 1 до 12 месяцев. Налог - 6% от потенциального дохода, установленного регионом. Лимит годового дохода - 60 млн руб.'},{q:'Нужно ли платить НДС на УСН?',a:'До достижения дохода в 20 млн руб. НДС не уплачивается. При превышении порога применяются пониженные ставки НДС: 5% (доход 20-60 млн) или 7% (доход 60-250 млн), либо стандартные 20%.'},{q:'Какие страховые взносы платит ИП?',a:'Фиксированный платёж - 53 700 руб. в год. Дополнительно 1% с дохода, превышающего 300 000 руб., но не более 300 000 руб. дополнительных взносов.'},{q:'Что регулирует Федеральный закон 115-ФЗ?',a:'115-ФЗ - это закон о противодействии легализации (отмыванию) доходов. Банки обязаны контролировать подозрительные операции и могут блокировать счета при сомнительных транзакциях.'},{q:'Как правильно выбрать налоговый режим?',a:'Выбор зависит от: годового дохода, доли расходов, наличия сотрудников, типа клиентов (физлица/юрлица), необходимости НДС. Воспользуйтесь опросником на вкладке "Льготы".'},{q:'Можно ли совмещать НПД и работу по найму?',a:'Да, можно одновременно быть самозанятым и работать по трудовому договору. НПД не заменяет НДФЛ с зарплаты.'},{q:'Что такое налоговые каникулы для ИП?',a:'Это ставка 0% для впервые зарегистрированных ИП на УСН или ПСН. Действуют до 2 лет. Условия устанавливаются региональными законами (ст. 346.20 НК РФ).'},{q:'Как самозанятому выдавать чеки?',a:'Через мобильное приложение "Мой налог" или веб-кабинет на сайте ФНС. Чек формируется в электронном виде и может быть отправлен клиенту.'},{q:'Что такое КУДиР?',a:'Книга учёта доходов и расходов - обязательный регистр для ИП и ООО на УСН и ПСН. Заполняется в хронологическом порядке по каждой операции.'},{q:'Как перейти с УСН на НПД?',a:'Необходимо подать уведомление о прекращении применения УСН в ФНС и зарегистрироваться как самозанятый через приложение "Мой налог".'},{q:'Что такое Единый налоговый платёж (ЕНП)?',a:'ЕНП - это способ уплаты всех налогов и взносов одним платёжным поручением. Деньги зачисляются на Единый налоговый счёт (ЕНС) и распределяются ФНС автоматически.'},{q:'Что такое Единый налоговый счёт (ЕНС)?',a:'ЕНС - это лицевой счёт налогоплательщика в ФНС, куда зачисляются все налоговые платежи. С него же списываются налоги, взносы, пени и штрафы.'},{q:'Какую отчётность сдаёт ИП на УСН?',a:'Основная - годовая декларация по УСН (до 25 апреля). При наличии сотрудников: 6-НДФЛ (ежеквартально), РСВ (ежеквартально), ЕФС-1 (при кадровых изменениях).'},{q:'Какие штрафы за неуплату налогов?',a:'Штраф 20% от неуплаченной суммы, при умышленной неуплате - 40%. Дополнительно начисляются пени в размере 1/300 ключевой ставки ЦБ РФ за каждый день просрочки.'},{q:'Что такое патент для ИП?',a:'Патент - это документ, дающий право на применение ПСН по конкретному виду деятельности. Приобретается на срок от 1 до 12 месяцев в пределах календарного года.'}];
+var glossaryTerms=[{abbr:'НПД',desc:'Налог на профессиональный доход (самозанятые). Ставка 4-6%, лимит 2.4 млн руб.'},{abbr:'УСН',desc:'Упрощённая система налогообложения. Ставки 6% (Доходы) или 15% (Доходы минус Расходы).'},{abbr:'ПСН',desc:'Патентная система налогообложения. Фиксированная стоимость патента на срок от 1 до 12 месяцев.'},{abbr:'ОСНО',desc:'Общая система налогообложения. Полный налоговый учёт, НДС 20%, налог на прибыль 20%.'},{abbr:'НДС',desc:'Налог на добавленную стоимость. Ставки: 0%, 10%, 20%. На УСН - 5%, 7% или 20% при превышении порога.'},{abbr:'КУДиР',desc:'Книга учёта доходов и расходов. Обязательный регистр для ИП и ООО на УСН и ПСН.'},{abbr:'ОКВЭД',desc:'Классификатор видов экономической деятельности. Коды используются при регистрации бизнеса.'},{abbr:'МРОТ',desc:'Минимальный размер оплаты труда. Используется для расчёта страховых взносов и пособий.'},{abbr:'ЕНП',desc:'Единый налоговый платёж. Все налоги и взносы уплачиваются одним поручением на ЕНС.'},{abbr:'ЕНС',desc:'Единый налоговый счёт. Лицевой счёт налогоплательщика в ФНС для учёта всех налоговых обязательств.'},{abbr:'115-ФЗ',desc:'Закон о противодействии легализации (отмыванию) доходов. Регулирует банковский контроль операций.'},{abbr:'ККТ',desc:'Контрольно-кассовая техника. Онлайн-касса для приёма платежей (обязательна с некоторыми исключениями).'},{abbr:'6-НДФЛ',desc:'Расчёт сумм налога на доходы физических лиц. Ежеквартальная отчётность при наличии сотрудников.'},{abbr:'РСВ',desc:'Расчёт по страховым взносам. Ежеквартальная отчётность при наличии сотрудников.'},{abbr:'Налоговые каникулы',desc:'Ставка 0% для впервые зарегистрированных ИП на УСН/ПСН до 2 лет (ст. 346.20 НК РФ).'},{abbr:'ЕНВД',desc:'Единый налог на вменённый доход. Отменён с 1 января 2021 года.'},{abbr:'НДФЛ',desc:'Налог на доходы физических лиц. Ставка 13-15% для резидентов РФ.'},{abbr:'ТОР',desc:'Территория опережающего развития. Зона с налоговыми льготами для инвесторов.'},{abbr:'ОЭЗ',desc:'Особая экономическая зона. Территория с пониженными налоговыми ставками и льготами.'},{abbr:'ЕФС-1',desc:'Единая форма сведений в СФР. Заменяет СЗВ-ТД, СЗВ-СТАЖ, 4-ФСС.'},{abbr:'ДНР',desc:'Донецкая Народная Республика. Действуют пониженные ставки УСН 1% и 5%, налоговые каникулы.'},{abbr:'ЛНР',desc:'Луганская Народная Республика. Пониженные ставки УСН, налоговые каникулы.'},{abbr:'СФР',desc:'Социальный фонд России. Объединяет ПФР и ФСС с 2023 года.'},{abbr:'ОКПО',desc:'Общероссийский классификатор предприятий и организаций.'},{abbr:'ИНН',desc:'Идентификационный номер налогоплательщика. Присваивается ФНС при постановке на учёт.'}];
 var calendarEvents=[{date:'2026-01-09',desc:'Уведомление по НДФЛ (налоговый агент)',regimes:['ip','ooo']},{date:'2026-01-12',desc:'Оплата НПД за декабрь',regimes:['npd']},{date:'2026-01-15',desc:'Авансовый платёж по УСН за 4 квартал',regimes:['ip','ooo']},{date:'2026-01-25',desc:'Сдача РСВ за 2025 год',regimes:['ip','ooo']},{date:'2026-02-12',desc:'Оплата НПД за январь',regimes:['npd']},{date:'2026-02-15',desc:'Фиксированные страховые взносы ИП (1/2)',regimes:['ip']},{date:'2026-02-25',desc:'Сдача 6-НДФЛ за 2025 год',regimes:['ip','ooo']},{date:'2026-03-12',desc:'Оплата НПД за февраль',regimes:['npd']},{date:'2026-03-15',desc:'Авансовый платёж по УСН за 1 квартал',regimes:['ip','ooo']},{date:'2026-04-12',desc:'Оплата НПД за март',regimes:['npd']},{date:'2026-04-25',desc:'Годовая декларация по УСН за 2025 год',regimes:['ip','ooo']},{date:'2026-04-28',desc:'Уведомление по УСН за 1 квартал',regimes:['ip','ooo']},{date:'2026-05-12',desc:'Оплата НПД за апрель',regimes:['npd']},{date:'2026-05-15',desc:'НДФЛ с зарплаты сотрудников (апрель)',regimes:['ip','ooo']},{date:'2026-06-12',desc:'Оплата НПД за май',regimes:['npd']},{date:'2026-06-15',desc:'Страховые взносы за сотрудников (май)',regimes:['ip','ooo']},{date:'2026-07-01',desc:'1% с дохода свыше 300 000 руб. для ИП',regimes:['ip']},{date:'2026-07-12',desc:'Оплата НПД за июнь',regimes:['npd']},{date:'2026-07-15',desc:'Авансовый платёж по УСН (полугодие)',regimes:['ip','ooo']},{date:'2026-07-28',desc:'Уведомление по УСН (полугодие)',regimes:['ip','ooo']},{date:'2026-08-12',desc:'Оплата НПД за июль',regimes:['npd']},{date:'2026-09-12',desc:'Оплата НПД за август',regimes:['npd']},{date:'2026-10-12',desc:'Оплата НПД за сентябрь',regimes:['npd']},{date:'2026-10-15',desc:'Авансовый платёж по УСН (9 месяцев)',regimes:['ip','ooo']},{date:'2026-10-28',desc:'Уведомление по УСН (9 месяцев)',regimes:['ip','ooo']},{date:'2026-11-12',desc:'Оплата НПД за октябрь',regimes:['npd']},{date:'2026-12-12',desc:'Оплата НПД за ноябрь',regimes:['npd']},{date:'2026-12-15',desc:'Фиксированные страховые взносы ИП (2/2)',regimes:['ip']},{date:'2026-12-31',desc:'Последний день уплаты фиксированных взносов ИП',regimes:['ip']}];
 var holidayRegions={'Москва':{law:'Закон г. Москвы № 10 от 18.03.2015',activities:['IT и разработка ПО','Производство','Научные исследования','Социальные услуги','Бытовые услуги']},'Московская обл.':{law:'Закон МО № 48/2015-ОЗ',activities:['IT','Производство','Наука','Социальные услуги','Народные промыслы']},'Санкт-Петербург':{law:'Закон СПб № 260-49',activities:['IT','Производство','Наука','Образование','Здравоохранение']},'Ленинградская обл.':{law:'Закон ЛО № 38-оз',activities:['Производство','Сельское хозяйство','Строительство','IT','Туризм']},'Краснодарский край':{law:'Закон КК № 2601-КЗ',activities:['Производство','Сельское хозяйство','IT','Туризм','Бытовые услуги']},'Татарстан':{law:'Закон РТ № 18-ЗРТ',activities:['Производство','IT','Наука','Инновации','Социальные услуги']},'Свердловская обл.':{law:'Закон СО № 31-ОЗ',activities:['Производство','IT','Наука','Здравоохранение','Образование']},'Новосибирская обл.':{law:'Закон НСО № 435-ОЗ',activities:['IT','Производство','Наука','Медицина','Образование']},'Ростовская обл.':{law:'Закон РО № 728-ЗС',activities:['Производство','IT','Сельское хозяйство','Бытовые услуги']},'Башкортостан':{law:'Закон РБ № 221-з',activities:['Производство','IT','Наука','Социальные услуги']},'Нижегородская обл.':{law:'Закон НО № 52-З',activities:['Производство','IT','Наука','Народные промыслы']},'Самарская обл.':{law:'Закон СО № 37-ГД',activities:['Производство','IT','Наука','Медицина']},'Челябинская обл.':{law:'Закон ЧО № 125-ЗО',activities:['Производство','IT','Сельское хозяйство','Туризм']},'Красноярский край':{law:'Закон КК № 8-3530',activities:['Производство','IT','Наука','Лесное хозяйство']},'Пермский край':{law:'Закон ПК № 466-ПК',activities:['Производство','IT','Наука','Сельское хозяйство']},'Воронежская обл.':{law:'Закон ВО № 67-ОЗ',activities:['Производство','IT','Наука','Социальные услуги']},'Волгоградская обл.':{law:'Закон ВО № 1745-ОД',activities:['Производство','IT','Сельское хозяйство','Бытовые услуги']},'Саратовская обл.':{law:'Закон СО № 74-ЗСО',activities:['Производство','IT','Наука','Туризм']},'Тюменская обл.':{law:'Закон ТО № 13',activities:['Производство','IT','Сельское хозяйство','Рыболовство']},'Иркутская обл.':{law:'Закон ИО № 112-ОЗ',activities:['Производство','IT','Наука','Туризм','Лесное хозяйство']},'Кемеровская обл.':{law:'Закон КО № 101-ОЗ',activities:['Производство','IT','Наука','Туризм']},'Омская обл.':{law:'Закон ОО № 1751-ОЗ',activities:['Производство','IT','Сельское хозяйство','Наука']},'Приморский край':{law:'Закон ПК № 599-КЗ',activities:['Производство','IT','Рыболовство','Туризм']},'Хабаровский край':{law:'Закон ХК № 308',activities:['Производство','IT','Лесное хозяйство','Рыболовство']},'Алтайский край':{law:'Закон АК № 58-ЗС',activities:['Производство','Сельское хозяйство','IT','Туризм']},'Ставропольский край':{law:'Закон СК № 49-кз',activities:['Производство','Сельское хозяйство','IT','Туризм']},'Удмуртия':{law:'Закон УР № 15-РЗ',activities:['Производство','IT','Наука','Сельское хозяйство']},'Якутия':{law:'Закон РС(Я) № 1406-З',activities:['Производство','Сельское хозяйство','IT','Народные промыслы']},'Крым':{law:'Закон РК № 59-ЗРК/2015',activities:['Производство','Сельское хозяйство','IT','Туризм','Санаторно-курортная деятельность']},'Севастополь':{law:'Закон Сев № 110-ЗС',activities:['Производство','IT','Туризм','Сельское хозяйство']},'Калининградская обл.':{law:'Закон КО № 377',activities:['Производство','IT','Туризм','Рыболовство']},'Калужская обл.':{law:'Закон КО № 705-ОЗ',activities:['Производство','IT','Наука','Туризм']},'Тульская обл.':{law:'Закон ТО № 2117-ЗТО',activities:['Производство','IT','Наука','Сельское хозяйство']},'Белгородская обл.':{law:'Закон БО № 271',activities:['Производство','Сельское хозяйство','IT','Строительство']},'Владимирская обл.':{law:'Закон ВО № 32-ОЗ',activities:['Производство','IT','Наука','Народные промыслы']},'Тверская обл.':{law:'Закон ТО № 34-ЗО',activities:['Производство','IT','Сельское хозяйство','Туризм']},'Ярославская обл.':{law:'Закон ЯО № 15-з',activities:['Производство','IT','Наука','Туризм']},'Рязанская обл.':{law:'Закон РО № 29-ОЗ',activities:['Производство','IT','Сельское хозяйство','Наука']},'Ульяновская обл.':{law:'Закон УО № 49-ЗО',activities:['Производство','IT','Наука','Авиастроение']},'Пензенская обл.':{law:'Закон ПО № 2694-ЗПО',activities:['Производство','IT','Сельское хозяйство','Наука']},'Кировская обл.':{law:'Закон КО № 531-ЗО',activities:['Производство','IT','Сельское хозяйство','Лесное хозяйство']},'Чувашия':{law:'Закон ЧР № 14',activities:['Производство','IT','Сельское хозяйство','Наука']},'Мордовия':{law:'Закон РМ № 97-З',activities:['Производство','IT','Сельское хозяйство','Наука']},'Марий Эл':{law:'Закон РМЭ № 12-З',activities:['Производство','IT','Сельское хозяйство','Туризм']},'Карелия':{law:'Закон РК № 1889-ЗРК',activities:['Производство','IT','Лесное хозяйство','Туризм','Рыболовство']},'Коми':{law:'Закон РК № 113-РЗ',activities:['Производство','IT','Лесное хозяйство','Нефтегазовый сектор']},'Архангельская обл.':{law:'Закон АО № 286-21-ОЗ',activities:['Производство','IT','Лесное хозяйство','Рыболовство','Судостроение']},'Вологодская обл.':{law:'Закон ВО № 3670-ОЗ',activities:['Производство','IT','Сельское хозяйство','Лесное хозяйство','Туризм']},'Мурманская обл.':{law:'Закон МО № 1856-01-ЗМО',activities:['Производство','IT','Рыболовство','Туризм','Горнодобывающая промышленность']},'Адыгея':{law:'Закон РА № 413',activities:['Производство','Сельское хозяйство','IT','Туризм']},'Дагестан':{law:'Закон РД № 59',activities:['Производство','Сельское хозяйство','IT','Народные промыслы','Туризм']},'Кабардино-Балкария':{law:'Закон КБР № 19-РЗ',activities:['Производство','Сельское хозяйство','IT','Туризм','Санаторно-курортная деятельность']},'Северная Осетия':{law:'Закон РСО-Алания № 17-РЗ',activities:['Производство','IT','Сельское хозяйство','Туризм']},'Чечня':{law:'Закон ЧР № 12-РЗ',activities:['Производство','Сельское хозяйство','IT','Строительство','Туризм']},'Ингушетия':{law:'Закон РИ № 5-РЗ',activities:['Производство','Сельское хозяйство','IT','Туризм']},'Карачаево-Черкесия':{law:'Закон КЧР № 32-РЗ',activities:['Производство','Сельское хозяйство','IT','Туризм']},'Бурятия':{law:'Закон РБ № 1225-V',activities:['Производство','IT','Сельское хозяйство','Туризм','Лесное хозяйство']},'Тыва':{law:'Закон РТ № 88-ЗРТ',activities:['Производство','Сельское хозяйство','IT','Народные промыслы']},'Хакасия':{law:'Закон РХ № 05-ЗРХ',activities:['Производство','IT','Сельское хозяйство','Туризм']},'Алтай':{law:'Закон РА № 12-РЗ',activities:['Производство','Сельское хозяйство','IT','Туризм','Народные промыслы']},'Забайкальский край':{law:'Закон ЗК № 1178-ЗЗК',activities:['Производство','IT','Сельское хозяйство','Горнодобывающая промышленность']},'Камчатский край':{law:'Закон КК № 631',activities:['Производство','Рыболовство','IT','Туризм']},'Сахалинская обл.':{law:'Закон СО № 102-ЗО',activities:['Производство','Рыболовство','IT','Туризм','Нефтегазовый сектор']},'Магаданская обл.':{law:'Закон МО № 1900-ОЗ',activities:['Производство','Горнодобывающая промышленность','Рыболовство','IT']},'Еврейская АО':{law:'Закон ЕАО № 699-ОЗ',activities:['Производство','Сельское хозяйство','IT','Лесное хозяйство']},'Чукотский АО':{law:'Закон ЧАО № 44-ОЗ',activities:['Производство','Горнодобывающая промышленность','Рыболовство','Народные промыслы']},'Ненецкий АО':{law:'Закон НАО № 93-ОЗ',activities:['Производство','Нефтегазовый сектор','Рыболовство','Оленеводство']},'Ханты-Мансийский АО':{law:'Закон ХМАО № 59-оз',activities:['Производство','IT','Нефтегазовый сектор','Лесное хозяйство']},'Ямало-Ненецкий АО':{law:'Закон ЯНАО № 44-ЗАО',activities:['Производство','IT','Нефтегазовый сектор','Транспорт']},'Курганская обл.':{law:'Закон КО № 57',activities:['Производство','Сельское хозяйство','IT','Переработка']},'Оренбургская обл.':{law:'Закон ОО № 3172/737-V-ОЗ',activities:['Производство','Сельское хозяйство','IT','Нефтегазовый сектор']},'Тамбовская обл.':{law:'Закон ТО № 533-З',activities:['Производство','Сельское хозяйство','IT','Переработка']},'Смоленская обл.':{law:'Закон СО № 53-з',activities:['Производство','IT','Сельское хозяйство','Туризм']},'Брянская обл.':{law:'Закон БО № 67-З',activities:['Производство','Сельское хозяйство','IT','Лесное хозяйство']},'Орловская обл.':{law:'Закон ОО № 1799-ОЗ',activities:['Производство','Сельское хозяйство','IT','Туризм']},'Костромская обл.':{law:'Закон КО № 672-5-ЗКО',activities:['Производство','Лесное хозяйство','IT','Сельское хозяйство','Туризм']},'Ивановская обл.':{law:'Закон ИО № 21-ОЗ',activities:['Производство','IT','Лёгкая промышленность','Туризм']},'Курская обл.':{law:'Закон КО № 26-ЗКО',activities:['Производство','Сельское хозяйство','IT','Переработка']},'Липецкая обл.':{law:'Закон ЛО № 329-ОЗ',activities:['Производство','Сельское хозяйство','IT','Металлургия']},'Новгородская обл.':{law:'Закон НО № 502-ОЗ',activities:['Производство','IT','Сельское хозяйство','Туризм']},'Псковская обл.':{law:'Закон ПО № 1540-ОЗ',activities:['Производство','Сельское хозяйство','IT','Туризм']},'Астраханская обл.':{law:'Закон АО № 27/2015-ОЗ',activities:['Производство','Сельское хозяйство','Рыболовство','IT','Туризм']},'Томская обл.':{law:'Закон ТО № 50-ОЗ',activities:['Производство','IT','Наука','Инновации','Лесное хозяйство']},'Амурская обл.':{law:'Закон АО № 523-ОЗ',activities:['Производство','Сельское хозяйство','IT','Лесное хозяйство']},'Донецкая Народная Республика':{law:'Закон ДНР № 42-РЗ от 15.04.2024',activities:['IT и разработка ПО','Производство','Строительство','Торговля','Сельское хозяйство','Бытовые услуги','Транспорт и логистика']},'Луганская Народная Республика':{law:'Закон ЛНР № 38-РЗ от 22.03.2024',activities:['Производство','Строительство','IT','Транспорт','Сельское хозяйство','Торговля','Общественное питание']},'Запорожская обл.':{law:'Закон ЗО № 15-РЗ от 10.04.2024',activities:['Сельское хозяйство','Производство','IT','Туризм','Строительство','Транспорт']},'Херсонская обл.':{law:'Закон ХО № 22-РЗ от 18.04.2024',activities:['Сельское хозяйство','Туризм','Производство','IT','Рыболовство','Строительство']}};
 
 var chart=null,isDark=false,taxHistory=JSON.parse(localStorage.getItem('taxHistory')||'[]'),userNotes=JSON.parse(localStorage.getItem('userNotes')||'{}'),currentMonth=6,currentYear=2026,lastQuizResult=null,noteTimers={};
 
-// ========== НОВОЕ: AR-сканер чеков ==========
+// ========== AR-сканер ==========
 var arStream = null;
 var arCanvas = document.createElement('canvas');
 var arCtx = arCanvas.getContext('2d');
@@ -641,7 +503,7 @@ function startARScanner() {
       showToast('Камера запущена. Наведите на чек и нажмите "Распознать"');
     })
     .catch(function(err) {
-      showToast('Ошибка доступа к камере: ' + err.message);
+      showToast('Ошибка доступа к камере');
     });
 }
 
@@ -666,25 +528,19 @@ function captureARFrame() {
   arCanvas.height = video.videoHeight;
   arCtx.drawImage(video, 0, 0, arCanvas.width, arCanvas.height);
   
-  showToast('Распознавание... Идёт анализ изображения');
+  showToast('Распознавание... Анализ изображения');
   
-  // Используем Tesseract.js для OCR
-  Tesseract.recognize(
-    arCanvas,
-    'rus+eng',
-    { logger: function(m) { if (m.status === 'recognizing text') { /* progress */ } } }
-  ).then(function(result) {
-    var text = result.data.text;
-    var extracted = extractCheckData(text);
-    displayARResult(extracted);
-  }).catch(function(err) {
-    showToast('Ошибка распознавания. Попробуйте ещё раз.');
-    console.error(err);
-  });
+  Tesseract.recognize(arCanvas, 'rus+eng', { logger: function(m) {} })
+    .then(function(result) {
+      var text = result.data.text;
+      var extracted = extractCheckData(text);
+      displayARResult(extracted);
+    }).catch(function(err) {
+      showToast('Ошибка распознавания. Попробуйте ещё раз.');
+    });
 }
 
 function extractCheckData(text) {
-  // Ищем суммы в рублях (паттерны: "1000 руб", "1 000,00", "1000.00")
   var amountPatterns = [
     /(\d[\d\s]*[\.,]?\d*)\s*(?:руб|₽|rub)/gi,
     /сумма[:\s]*(\d[\d\s]*[\.,]?\d*)/gi,
@@ -698,13 +554,10 @@ function extractCheckData(text) {
     for (var match of matches) {
       var amt = match[1].replace(/\s/g, '').replace(',', '.');
       var num = parseFloat(amt);
-      if (num > 0 && num < 10000000) {
-        amounts.push(num);
-      }
+      if (num > 0 && num < 10000000) amounts.push(num);
     }
   });
   
-  // Ищем тип контрагента
   var isLegal = /(?:ООО|АО|ИП|юрлиц|организац|компани)/i.test(text);
   var isPerson = /(?:физлиц|граждан|паспорт)/i.test(text);
   
@@ -721,208 +574,21 @@ function displayARResult(data) {
   resultDiv.style.display = 'block';
   
   if (data.mainAmount) {
-    // Автоматически подставляем сумму в калькулятор
     document.getElementById('income').value = data.mainAmount;
     if (data.contractorType) {
       document.getElementById('contractor').value = data.contractorType;
     }
-    
-    resultDiv.innerHTML = '<b>Распознано:</b><br>' +
-      'Сумма: <b>' + data.mainAmount.toLocaleString() + ' руб.</b><br>' +
-      (data.contractorType ? 'Тип контрагента: <b>' + (data.contractorType === 'legal' ? 'Юрлицо' : 'Физлицо') + '</b><br>' : '') +
-      '<small style="opacity:0.7">Данные автоматически подставлены в калькулятор</small>';
-    
-    calcTax(); // Автоматически пересчитываем
-    showToast('Сумма ' + data.mainAmount.toLocaleString() + ' руб. подставлена в калькулятор!');
-  } else {
-    resultDiv.innerHTML = '<b>Не удалось распознать сумму</b><br>' +
-      '<small>Попробуйте лучше осветить чек и нажать "Распознать" снова</small><br>' +
-      '<small style="opacity:0.5">Текст: ' + (data.rawText || 'не распознан') + '</small>';
-  }
-}
-
-// ========== НОВОЕ: Голосовой ввод ==========
-var recognition = null;
-var isListening = false;
-
-function initSpeechRecognition() {
-  if (recognition) return;
-  
-  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) {
-    showToast('Голосовой ввод не поддерживается в этом браузере');
-    return;
-  }
-  
-  recognition = new SpeechRecognition();
-  recognition.lang = 'ru-RU';
-  recognition.interimResults = true;
-  recognition.continuous = false;
-  recognition.maxAlternatives = 1;
-  
-  recognition.onresult = function(event) {
-    var transcript = '';
-    for (var i = event.resultIndex; i < event.results.length; i++) {
-      transcript += event.results[i][0].transcript;
-    }
-    
-    document.getElementById('voice-transcript').textContent = transcript;
-    document.getElementById('voice-modal-text').textContent = transcript;
-    
-    if (event.results[0].isFinal) {
-      processVoiceCommand(transcript);
-      stopVoiceInput();
-    }
-  };
-  
-  recognition.onerror = function(event) {
-    console.error('Speech error:', event.error);
-    stopVoiceInput();
-    if (event.error === 'not-allowed') {
-      showToast('Разрешите доступ к микрофону в настройках браузера');
-    }
-  };
-  
-  recognition.onend = function() {
-    if (isListening) {
-      stopVoiceInput();
-    }
-  };
-}
-
-function startVoiceInput() {
-  initSpeechRecognition();
-  if (!recognition) return;
-  
-  isListening = true;
-  document.getElementById('voice-modal').classList.add('show');
-  document.getElementById('voice-circle').classList.add('listening');
-  document.getElementById('voice-modal-text').textContent = 'Слушаю...';
-  document.getElementById('voice-status').textContent = 'Запись...';
-  document.getElementById('voice-wave').classList.add('active');
-  
-  try {
-    recognition.start();
-  } catch(e) {
-    console.log('Recognition already started');
-  }
-}
-
-function stopVoiceInput() {
-  isListening = false;
-  document.getElementById('voice-modal').classList.remove('show');
-  document.getElementById('voice-circle').classList.remove('listening');
-  document.getElementById('voice-wave').classList.remove('active');
-  document.getElementById('voice-status').textContent = 'Нажмите для записи';
-  
-  if (recognition) {
-    try { recognition.stop(); } catch(e) {}
-  }
-}
-
-function processVoiceCommand(text) {
-  var lower = text.toLowerCase();
-  
-  // Паттерны: "доход 150 тысяч от юридического лица"
-  var patterns = [
-    /(?:доход|сумма|заработал)\s+(\d+[\.,]?\d*)\s*(?:тыс|тысяч|к|k)/i,
-    /(?:доход|сумма|заработал)\s+(\d+[\.,]?\d*)\s*(?:млн|миллион)/i,
-    /(\d+[\.,]?\d*)\s*(?:тыс|тысяч|к|k)\s*(?:руб|рублей)/i,
-    /(\d+[\.,]?\d*)\s*(?:млн|миллион)\s*(?:руб|рублей)/i,
-    /(\d+[\.,]?\d*)\s*(?:руб|рублей)/i
-  ];
-  
-  var amount = null;
-  var multiplier = 1;
-  
-  for (var i = 0; i < patterns.length; i++) {
-    var match = text.match(patterns[i]);
-    if (match) {
-      amount = parseFloat(match[1].replace(',', '.'));
-      if (/(?:млн|миллион)/i.test(match[0])) {
-        multiplier = 1000000;
-      } else if (/(?:тыс|тысяч|к|k)/i.test(match[0])) {
-        multiplier = 1000;
-      }
-      amount = amount * multiplier;
-      break;
-    }
-  }
-  
-  if (amount && amount > 0 && amount < 100000000) {
-    document.getElementById('income').value = Math.round(amount);
-    
-    if (/(?:юрлиц|юридическ|организаци|компани|ооо|ао|ип\s)/i.test(lower)) {
-      document.getElementById('contractor').value = 'legal';
-    } else if (/(?:физлиц|физическ|человек|граждан)/i.test(lower)) {
-      document.getElementById('contractor').value = 'person';
-    }
-    
-    document.getElementById('voice-transcript').textContent = 'Распознано: ' + Math.round(amount).toLocaleString() + ' руб.';
-    showToast('Голосовая команда обработана! Сумма: ' + Math.round(amount).toLocaleString() + ' руб.');
+    resultDiv.innerHTML = '<b>Распознано:</b><br>Сумма: <b>' + data.mainAmount.toLocaleString() + ' руб.</b><br>' +
+      (data.contractorType ? 'Тип: <b>' + (data.contractorType === 'legal' ? 'Юрлицо' : 'Физлицо') + '</b><br>' : '') +
+      '<small>Данные подставлены в калькулятор</small>';
     calcTax();
+    showToast('Сумма ' + data.mainAmount.toLocaleString() + ' руб. подставлена!');
   } else {
-    document.getElementById('voice-transcript').textContent = 'Не удалось распознать сумму. Попробуйте: "доход 150 тысяч от юридического лица"';
-    showToast('Не удалось распознать сумму');
+    resultDiv.innerHTML = '<b>Не удалось распознать сумму</b><br><small>Попробуйте лучше осветить чек</small>';
   }
 }
 
-function processVoiceDemo() {
-  // Демо-режим без реального микрофона
-  var demos = [
-    'доход 150 тысяч рублей от юридического лица',
-    'заработал 75 тысяч от физического лица',
-    'сумма 500 тысяч рублей',
-    'доход 1 миллион 200 тысяч от юрлица'
-  ];
-  var randomDemo = demos[Math.floor(Math.random() * demos.length)];
-  document.getElementById('voice-transcript').textContent = 'Демо: ' + randomDemo;
-  processVoiceCommand(randomDemo);
-}
-
-function startVoiceFromFab() {
-  document.getElementById('tab-calc').classList.add('active');
-  document.querySelectorAll('.tab').forEach(function(t) {
-    if (t.id !== 'tab-calc') t.classList.remove('active');
-  });
-  document.querySelectorAll('.bnav button').forEach(function(b) { b.classList.remove('active'); });
-  document.querySelector('.bnav button').classList.add('active');
-  window.scrollTo(0, 0);
-  setTimeout(function() { startVoiceInput(); }, 300);
-  document.getElementById('quick-menu').classList.remove('show');
-}
-
-function startARFromFab() {
-  document.getElementById('tab-calc').classList.add('active');
-  document.querySelectorAll('.tab').forEach(function(t) {
-    if (t.id !== 'tab-calc') t.classList.remove('active');
-  });
-  document.querySelectorAll('.bnav button').forEach(function(b) { b.classList.remove('active'); });
-  document.querySelector('.bnav button').classList.add('active');
-  window.scrollTo(0, 0);
-  setTimeout(function() {
-    document.getElementById('ar-scanner-card').scrollIntoView({behavior: 'smooth'});
-    startARScanner();
-  }, 300);
-  document.getElementById('quick-menu').classList.remove('show');
-}
-
-function scrollToCalc() {
-  document.getElementById('tab-calc').classList.add('active');
-  document.querySelectorAll('.tab').forEach(function(t) {
-    if (t.id !== 'tab-calc') t.classList.remove('active');
-  });
-  document.querySelectorAll('.bnav button').forEach(function(b) { b.classList.remove('active'); });
-  document.querySelector('.bnav button').classList.add('active');
-  window.scrollTo(0, 0);
-  document.getElementById('quick-menu').classList.remove('show');
-}
-
-function toggleQuickMenu() {
-  document.getElementById('quick-menu').classList.toggle('show');
-}
-
-// ========== НОВОЕ: Авто-определитель режима ==========
+// ========== АВТО-ОПРЕДЕЛИТЕЛЬ РЕЖИМА (переработанный) ==========
 function autoDetectRegime() {
   var inc = parseFloat(document.getElementById('auto-income').value) || 0;
   var exp = parseFloat(document.getElementById('auto-expenses').value) || 0;
@@ -930,11 +596,11 @@ function autoDetectRegime() {
   var clients = document.getElementById('auto-clients').value;
   
   if (inc <= 0) {
-    document.getElementById('auto-detect-result').style.display = 'none';
+    document.getElementById('auto-detect-result').style.display = 'block';
+    document.getElementById('auto-detect-result').innerHTML = '<div class="r-yellow">Введите годовой доход для расчёта</div>';
     return;
   }
   
-  // Расчёт налогов для каждого режима
   var npdRate = clients === 'legal' ? 0.04 : 0.06;
   var npdTax = inc <= 2400000 ? inc * npdRate : Infinity;
   var ip6Tax = inc * 0.06 + 53700 + Math.max(0, (inc - 300000) * 0.01);
@@ -985,8 +651,7 @@ function autoDetectRegime() {
   document.getElementById('auto-detect-result').style.display = 'block';
   document.getElementById('auto-detect-result').innerHTML = html;
   
-  // Автоматически подставляем лучший режим в калькулятор
-  var regimeMap = {'НПД': 'npd', 'ИП УСН 6%': 'ip6', 'ИП УСН 15%': 'ip15', 'ИП ПСН': 'psn', 'ООО УСН 6%': 'ooo6', 'ООО УСН 15%': 'ooo15'};
+  var regimeMap = {'НПД': 'npd', 'ИП УСН 6%': 'ip6', 'ИП УСН 15%': 'ip15', 'ИП ПСН': 'psn', 'ООО УСН 6%': 'ooo6'};
   document.getElementById('regime').value = regimeMap[best.name] || 'npd';
   document.getElementById('income').value = inc;
   updFields();
@@ -995,9 +660,7 @@ function autoDetectRegime() {
 
 // ========== УВЕДОМЛЕНИЯ ==========
 function requestNotificationPermission() {
-  if ('Notification' in window && Notification.permission === 'default') {
-    Notification.requestPermission();
-  }
+  if ('Notification' in window && Notification.permission === 'default') Notification.requestPermission();
 }
 
 function scheduleNoteReminder(dateStr, timeStr, text) {
@@ -1008,11 +671,7 @@ function scheduleNoteReminder(dateStr, timeStr, text) {
   if (delay <= 0) return;
   var timerId = setTimeout(function() {
     if (Notification.permission === 'granted') {
-      new Notification('Лимит.НПД — Напоминание', {
-        body: text,
-        icon: 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#198754"/><text x="16" y="22" font-family="Arial,sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">Л</text></svg>'),
-        tag: 'note-' + dateStr
-      });
+      new Notification('Лимит.НПД - Напоминание', { body: text, tag: 'note-' + dateStr });
     }
     showToast('Напоминание: ' + text);
   }, delay);
@@ -1031,7 +690,7 @@ function initAll(){
   if(localStorage.getItem('dark')==='true'){
     isDark=true;
     document.body.classList.add('dark');
-    document.getElementById('theme-btn').textContent='🌙';
+    document.getElementById('theme-btn').textContent='☀️';
   }
   requestNotificationPermission();
   buildRiskQuestions();
@@ -1050,16 +709,14 @@ function initAll(){
 function checkScheduledNotes() {
   Object.keys(userNotes).forEach(function(dateStr) {
     var note = userNotes[dateStr];
-    if (note.time && note.text) {
-      scheduleNoteReminder(dateStr, note.time, note.text);
-    }
+    if (note.time && note.text) scheduleNoteReminder(dateStr, note.time, note.text);
   });
 }
 
 function toggleTheme(){
   isDark=!isDark;
   document.body.classList.toggle('dark',isDark);
-  document.getElementById('theme-btn').textContent=isDark?'🌙':'☀️';
+  document.getElementById('theme-btn').textContent=isDark?'☀️':'🌙';
   localStorage.setItem('dark',isDark);
 }
 
@@ -1107,13 +764,13 @@ function calcInsurance(r,inc){
       div=document.getElementById('insurance-result');
   if(r==='npd'||r==='psn'){div.style.display='none';return;}
   div.style.display='block';
-  div.innerHTML='<div style="background:#e8f5e9;padding:12px;border-radius:10px;font-size:13px"><b>Страховые взносы ИП:</b><br>• Фиксированный платёж: <b>'+fixed.toLocaleString()+' руб.</b><br>• 1% с дохода >300 000: <b>'+Math.round(extra).toLocaleString()+' руб.</b><br>• <b>Итого за год: '+Math.round(total).toLocaleString()+' руб.</b></div>';
+  div.innerHTML='<div style="background:#e8f5e9;padding:12px;border-radius:10px;font-size:13px"><b>Страховые взносы ИП:</b><br>- Фиксированный: <b>'+fixed.toLocaleString()+' руб.</b><br>- 1% с дохода >300 000: <b>'+Math.round(extra).toLocaleString()+' руб.</b><br>- <b>Итого: '+Math.round(total).toLocaleString()+' руб.</b></div>';
 }
 
 function updateWidgets(r,inc){
   var names={npd:'НПД',ip6:'ИП УСН 6%',ip15:'ИП УСН 15%',psn:'ИП ПСН',ooo6:'ООО УСН 6%',ooo15:'ООО УСН 15%'},
       limits={npd:2400000,ip6:20000000,ip15:20000000,psn:60000000,ooo6:250000000,ooo15:250000000};
-  document.getElementById('w-regime').textContent=names[r]||'—';
+  document.getElementById('w-regime').textContent=names[r]||'--';
   document.getElementById('w-payment').textContent='До 28 числа';
   document.getElementById('w-limit').textContent=Math.max(0,Math.round((limits[r]-inc)/1000)).toLocaleString()+' тыс руб.';
 }
@@ -1134,9 +791,9 @@ function updForecast(){
     var mo=Math.ceil(t/m),ml=(t/1e6).toFixed(1);
     if(mo<=12&&mo>0){
       var mn=new Date(2026,mo-1).toLocaleString('ru',{month:'long'});
-      dH+='• '+ml+' млн: <b>'+mn+' 2026</b><br>';
-      if(mo<=3)aH='<div class="alert-box">Внимание: до превышения порога '+ml+' млн осталось <b>'+mo+' мес.</b> Рекомендуем заранее спланировать переход на другой режим.</div>';
-    }else{dH+='• '+ml+' млн: не будет превышен<br>';}
+      dH+='- '+ml+' млн: <b>'+mn+' 2026</b><br>';
+      if(mo<=3)aH='<div class="alert-box">Внимание: до превышения порога '+ml+' млн осталось <b>'+mo+' мес.</b></div>';
+    }else{dH+='- '+ml+' млн: не будет превышен<br>';}
   });
   document.getElementById('dates').innerHTML=dH||'Выберите пороги';
   document.getElementById('limit-alert').innerHTML=aH;
@@ -1144,13 +801,13 @@ function updForecast(){
 
 function savePNG(){var c=document.getElementById('chart');if(!c)return;var a=document.createElement('a');a.download='prognoz_limitov.png';a.href=c.toDataURL();a.click();}
 function saveChartPDF(){var c=document.getElementById('chart');if(!c)return;var d=new jspdf.jsPDF();d.addImage(c.toDataURL(),'PNG',10,10,190,100);d.save('prognoz_limitov.pdf');}
-function saveCalcPDF(){var d=new jspdf.jsPDF();d.setFontSize(16);d.text('Расчёт налога — Лимит.НПД',20,20);d.setFontSize(11);d.text('Режим: '+document.getElementById('regime').value,20,35);d.text('Доход: '+document.getElementById('income').value+' руб.',20,45);d.text('Налог: '+document.getElementById('tax-amt').textContent,20,55);d.text('Чистый доход: '+document.getElementById('net-amt').textContent,20,65);d.save('raschet_naloga.pdf');}
+function saveCalcPDF(){var d=new jspdf.jsPDF();d.setFontSize(16);d.text('Расчёт налога - Лимит.НПД',20,20);d.setFontSize(11);d.text('Налог: '+document.getElementById('tax-amt').textContent,20,35);d.save('raschet_naloga.pdf');}
 function saveXLSX(){var data=[['Режим','Доход','Налог','Чистый доход','Ставка'],[document.getElementById('regime').value,document.getElementById('income').value,document.getElementById('tax-amt').textContent,document.getElementById('net-amt').textContent,document.getElementById('rate-amt').textContent]];var ws=XLSX.utils.aoa_to_sheet(data),wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Расчёт');XLSX.writeFile(wb,'raschet_naloga.xlsx');}
 function saveHistory(r,inc,tax){taxHistory.unshift({date:new Date().toLocaleDateString(),regime:r,income:inc,tax:Math.round(tax)});if(taxHistory.length>15)taxHistory.pop();localStorage.setItem('taxHistory',JSON.stringify(taxHistory));renderHistory();}
 
 function renderHistory(){
   var names={npd:'НПД',ip6:'ИП 6%',ip15:'ИП 15%',psn:'ПСН',ooo6:'ООО 6%',ooo15:'ООО 15%'};
-  if(!taxHistory.length){document.getElementById('history').innerHTML='<p style="color:var(--text-secondary);font-size:13px;text-align:center;padding:10px">История расчётов пуста</p>';return;}
+  if(!taxHistory.length){document.getElementById('history').innerHTML='<p style="color:var(--text-secondary);font-size:13px;text-align:center;padding:10px">История пуста</p>';return;}
   var h='';
   taxHistory.forEach(function(i){h+='<div style="font-size:12px;padding:10px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between"><span>'+i.date+' | '+(names[i.regime]||i.regime)+' | '+i.income.toLocaleString()+' руб. | Налог: <b>'+i.tax.toLocaleString()+' руб.</b></span></div>';});
   document.getElementById('history').innerHTML=h;
@@ -1177,19 +834,19 @@ function assessRisk(){
   });
   var rd=document.getElementById('risk-res');rd.style.display='block';
   var l,cl;
-  if(s>=20){l='Низкий уровень риска';cl='r-green';}
-  else if(s>=12){l='Средний уровень риска';cl='r-yellow';}
-  else{l='Высокий уровень риска';cl='r-red';}
-  rd.innerHTML='<div class="'+cl+'"><b>'+l+'</b> — набрано '+s+' из 25 баллов</div>';
+  if(s>=20){l='Низкий риск';cl='r-green';}
+  else if(s>=12){l='Средний риск';cl='r-yellow';}
+  else{l='Высокий риск';cl='r-red';}
+  rd.innerHTML='<div class="'+cl+'"><b>'+l+'</b> - '+s+' из 25 баллов</div>';
   var ad=document.getElementById('risk-advice');ad.style.display='block';
-  var h='<div class="advice-box"><b>Рекомендации по снижению рисков:</b><br>';
+  var h='<div class="advice-box"><b>Рекомендации:</b><br>';
   adv.forEach(function(a,i){h+='<br><b>'+(i+1)+'.</b> '+a.text;});
   h+='</div>';ad.innerHTML=h;
   document.getElementById('save-risk-btn').style.display='block';
 }
 
 function saveRiskPDF(){
-  var d=new jspdf.jsPDF();d.setFontSize(16);d.text('Комплаенс-анализ рисков — Лимит.НПД',20,20);
+  var d=new jspdf.jsPDF();d.setFontSize(16);d.text('Анализ рисков - Лимит.НПД',20,20);
   d.setFontSize(10);d.text(document.getElementById('risk-res').textContent,20,35,{maxWidth:170});d.save('analiz_riskov.pdf');
 }
 
@@ -1202,15 +859,15 @@ function buildRegionSelect(){
 
 function showSpecialBenefits(){
   var r=document.getElementById('region').value,d=document.getElementById('special-benefits');
-  if(specialBenefits[r]){d.innerHTML='<b>'+r+':</b><br>'+specialBenefits[r]+'<br><small style="color:var(--text-secondary);margin-top:8px;display:block">Проверьте актуальные условия в территориальном органе ФНС (ст. 346.20 НК РФ)</small>';d.style.background='#fff3e0';}
-  else{d.innerHTML='Особых региональных льгот не установлено.<br><small style="color:var(--text-secondary)">Рекомендуем уточнить информацию в ФНС — налоговые каникулы могут действовать для новых ИП.</small>';d.style.background='var(--chk-bg)';}
+  if(specialBenefits[r]){d.innerHTML='<b>'+r+':</b><br>'+specialBenefits[r]+'<br><small style="color:var(--text-secondary);margin-top:8px;display:block">Проверьте актуальные условия в ФНС (ст. 346.20 НК РФ)</small>';d.style.background='#fff3e0';}
+  else{d.innerHTML='Особых региональных льгот не установлено.<br><small style="color:var(--text-secondary)">Рекомендуем уточнить в ФНС.</small>';d.style.background='var(--chk-bg)';}
 }
 
 function showBenefits(){
   var r=document.getElementById('region').value,ind=document.getElementById('industry').value,
       data={'Москва':{'IT и разработка':'УСН 1%','Производство':'УСН 3%',default:'Налоговые каникулы 0%'},'Санкт-Петербург':{'IT и разработка':'УСН 1%',default:'Налоговые каникулы 0%'}};
   var result=data[r]?(data[r][ind]||data[r]['default']||'Стандартные условия'):'Стандартные условия';
-  document.getElementById('ben-res').innerHTML='<div style="background:#d4edda;padding:12px;border-radius:10px;font-size:13px;border:1px solid #a5d6a7"><b>'+r+' — '+ind+':</b> '+result+'</div>';
+  document.getElementById('ben-res').innerHTML='<div style="background:#d4edda;padding:12px;border-radius:10px;font-size:13px;border:1px solid #a5d6a7"><b>'+r+' - '+ind+':</b> '+result+'</div>';
 }
 
 // ========== НАЛОГОВЫЕ КАНИКУЛЫ ==========
@@ -1225,7 +882,7 @@ function updateHolidayInfo(){
   if(!r||!holidayRegions[r]){document.getElementById('holiday-info').innerHTML='';return;}
   var acts=holidayRegions[r].activities;
   acts.forEach(function(act){var o=document.createElement('option');o.value=act;o.textContent=act;a.appendChild(o);});
-  document.getElementById('holiday-info').innerHTML='<div style="background:#dbeafe;padding:10px;border-radius:8px;font-size:12px"><b>'+r+'</b><br>Закон: '+holidayRegions[r].law+'<br>Доступные виды деятельности: '+acts.join(', ')+'</div>';
+  document.getElementById('holiday-info').innerHTML='<div style="background:#dbeafe;padding:10px;border-radius:8px;font-size:12px"><b>'+r+'</b><br>Закон: '+holidayRegions[r].law+'<br>Виды деятельности: '+acts.join(', ')+'</div>';
 }
 
 function checkHolidaysResult(){
@@ -1234,8 +891,8 @@ function checkHolidaysResult(){
       ch3=document.getElementById('holiday-ch3').checked,res=document.getElementById('holidays-result');
   if(!r||!a){res.innerHTML='<div class="r-yellow">Выберите регион и вид деятельности</div>';return;}
   var ok=ch1&&ch2&&ch3;
-  if(!ok){var missing=[];if(!ch1)missing.push('первая регистрация ИП');if(!ch2)missing.push('срок менее 2 лет');if(!ch3)missing.push('доля дохода от льготной деятельности не менее 70%');res.innerHTML='<div class="r-yellow">Не выполнены обязательные условия: '+missing.join('; ')+'.</div>';return;}
-  res.innerHTML='<div class="r-green">Вы имеете право на налоговые каникулы в регионе <b>'+r+'</b> по виду деятельности <b>'+a+'</b>! Ставка 0% на УСН или ПСН. Основание: '+holidayRegions[r].law+'</div>';
+  if(!ok){res.innerHTML='<div class="r-yellow">Не выполнены обязательные условия.</div>';return;}
+  res.innerHTML='<div class="r-green">Вы имеете право на налоговые каникулы в регионе <b>'+r+'</b>! Ставка 0% на УСН или ПСН.</div>';
 }
 
 function buildHolidayFullList(){
@@ -1256,46 +913,39 @@ function runBusinessQuiz(){
   document.getElementById('quiz-result').innerHTML=result.html;
   document.getElementById('save-quiz-btn').style.display='block';
   lastQuizResult=result;
-  document.getElementById('quiz-result').scrollIntoView({behavior:'smooth'});
 }
 
 function analyzeQuiz(a){
   var scores={npd:0,ip6:0,ip15:0,psn:0,ooo6:0,ooo15:0},exp=[],warn=[],rec=[];
-  if(a.income==='low'){scores.npd+=15;scores.ip6+=8;scores.psn+=6;exp.push('При доходе до 2.4 млн руб. оптимален режим НПД.');}
-  else if(a.income==='mid'){scores.ip6+=15;scores.ip15+=10;scores.psn+=8;exp.push('Доход 2.4–20 млн руб. — зона для ИП на УСН или патенте.');}
-  else if(a.income==='high'){scores.psn+=10;scores.ip6+=8;scores.ooo6+=8;warn.push('При доходе выше 20 млн руб. возникает обязанность по НДС.');}
-  else if(a.income==='ultra'){scores.ooo6+=15;scores.ooo15+=10;exp.push('Доход 60–250 млн руб. — ООО на УСН с учётом НДС.');}
-  else{scores.ooo6+=5;scores.ooo15+=5;warn.push('Доход более 250 млн руб. — необходимо переходить на ОСНО.');}
-  if(a.employees==='no'){scores.npd+=10;scores.ip6+=8;scores.psn+=8;}
-  else if(a.employees==='few'){scores.ip6+=12;scores.ip15+=8;scores.psn+=6;scores.npd-=20;warn.push('На НПД запрещено нанимать сотрудников.');}
-  else if(a.employees==='many'){scores.ooo6+=12;scores.ooo15+=8;scores.ip6+=4;}
-  else{scores.ooo6+=15;scores.ooo15+=10;warn.push('ИП ограничен 130 сотрудниками — требуется ООО.');}
+  if(a.income==='low'){scores.npd+=15;scores.ip6+=8;exp.push('Доход до 2.4 млн - оптимален НПД.');}
+  else if(a.income==='mid'){scores.ip6+=15;scores.ip15+=10;exp.push('Доход 2.4-20 млн - УСН или патент.');}
+  else if(a.income==='high'){scores.psn+=10;scores.ooo6+=8;warn.push('При доходе выше 20 млн возникает НДС.');}
+  else if(a.income==='ultra'){scores.ooo6+=15;scores.ooo15+=10;}
+  else{warn.push('Доход более 250 млн - переход на ОСНО.');}
+  if(a.employees==='no'){scores.npd+=10;}
+  else if(a.employees==='few'){scores.ip6+=12;scores.npd-=20;warn.push('На НПД нельзя нанимать сотрудников.');}
+  else if(a.employees==='many'){scores.ooo6+=12;}
+  else{scores.ooo6+=15;warn.push('ИП ограничен 130 сотрудниками.');}
   if(a.clients==='persons'){scores.npd+=8;scores.psn+=8;}
-  else if(a.clients==='legal'){scores.ip6+=10;scores.ooo6+=8;scores.npd+=4;}
-  else if(a.clients==='state'){scores.ooo6+=12;scores.ooo15+=8;}
-  if(a.expenses==='min'||a.expenses==='low'){scores.ip6+=12;scores.npd+=8;scores.psn+=8;}
-  else if(a.expenses==='high'){scores.ip15+=15;scores.ooo15+=10;}
+  else if(a.clients==='legal'){scores.ip6+=10;scores.ooo6+=8;}
+  else if(a.clients==='state'){scores.ooo6+=12;}
+  if(a.expenses==='min'||a.expenses==='low'){scores.ip6+=12;scores.npd+=8;}
+  else if(a.expenses==='high'){scores.ip15+=15;}
   if(a.type==='seasonal'){scores.psn+=20;}
-  else if(a.type==='it'){scores.ip6+=10;scores.ooo6+=8;rec.push('IT-компании могут получить пониженную ставку УСН 1%.');}
-  else if(a.type==='rent'){scores.psn+=12;scores.ip6+=6;}
-  if(a.nds==='yes'){scores.ooo6+=12;scores.ooo15+=8;}
-  if(a.first==='yes'){scores.ip6+=5;scores.ip15+=5;scores.psn+=5;rec.push('Вы можете получить налоговые каникулы — ставка 0% до 2 лет!');}
+  else if(a.type==='it'){scores.ip6+=10;rec.push('IT-компании: ставка УСН 1%.');}
+  else if(a.type==='rent'){scores.psn+=12;}
+  if(a.nds==='yes'){scores.ooo6+=12;}
+  if(a.first==='yes'){scores.ip6+=5;scores.psn+=5;rec.push('Доступны налоговые каникулы - ставка 0% до 2 лет!');}
   var best='',bestScore=-Infinity;
   for(var k in scores){if(scores[k]>bestScore){bestScore=scores[k];best=k;}}
-  var names={npd:'НПД (Самозанятость)',ip6:'ИП на УСН 6%',ip15:'ИП на УСН 15%',psn:'ИП на Патенте',ooo6:'ООО на УСН 6%',ooo15:'ООО на УСН 15%'};
-  var descs={npd:'Самый простой режим. Ставка 4-6%. Лимит 2.4 млн руб.',ip6:'Налог 6% с оборота. Лимит 20 млн руб.',ip15:'Налог 15% с прибыли. Лимит 20 млн руб.',psn:'Фиксированная стоимость патента. Лимит 60 млн руб.',ooo6:'ООО на УСН 6%. Лимит 250 млн руб.',ooo15:'ООО на УСН 15%. Лимит 250 млн руб.'};
-  var html='<div style="background:linear-gradient(135deg,#d4edda,#e8f5e9);padding:18px;border-radius:14px;margin-bottom:14px"><h3 style="margin:0 0 8px;color:#198754">Оптимальный режим: '+names[best]+'</h3><p style="font-size:13px">'+descs[best]+'</p><div style="margin-top:10px"><span class="badge badge-green">Рекомендация системы</span></div></div>';
-  html+='<div style="background:#e8f5e9;padding:14px;border-radius:12px;margin-bottom:14px"><b>Обоснование</b><br>';exp.forEach(function(e){html+='<div style="font-size:12px;margin-top:6px">'+e+'</div>';});html+='</div>';
-  if(warn.length>0){html+='<div style="background:#fff3cd;padding:14px;border-radius:12px;margin-bottom:14px"><b>Ограничения</b><br>';warn.forEach(function(w){html+='<div style="font-size:12px;margin-top:4px">'+w+'</div>';});html+='</div>';}
-  if(rec.length>0){html+='<div style="background:#dbeafe;padding:14px;border-radius:12px;margin-bottom:14px"><b>Возможности</b><br>';rec.forEach(function(r){html+='<div style="font-size:12px;margin-top:4px">'+r+'</div>';});html+='</div>';}
-  return{html:html,best:best,bestName:names[best],scores:scores};
+  var names={npd:'НПД',ip6:'ИП УСН 6%',ip15:'ИП УСН 15%',psn:'ИП ПСН',ooo6:'ООО УСН 6%',ooo15:'ООО УСН 15%'};
+  var html='<div class="auto-detect-result"><h3>Оптимальный режим: '+names[best]+'</h3></div>';
+  return{html:html,best:best,bestName:names[best]};
 }
 
 function saveQuizPDF(){
   if(!lastQuizResult)return;
-  var d=new jspdf.jsPDF();d.setFontSize(16);d.text('Подбор налогового режима — Лимит.НПД',20,20);
-  d.setFontSize(14);d.text('Рекомендуемый режим: '+lastQuizResult.bestName,20,35);
-  d.save('podbor_rezhima.pdf');
+  var d=new jspdf.jsPDF();d.text('Режим: '+lastQuizResult.bestName,20,20);d.save('podbor_rezhima.pdf');
 }
 
 // ========== СРАВНЕНИЕ ==========
@@ -1305,23 +955,22 @@ function compare(){
   var res=regs.map(function(r){var tax=r.eb?Math.max((inc-exp)*r.rate,inc*0.01):inc*r.rate;return{name:r.name,tax:tax,total:tax+r.costs,ok:inc<=r.limit};});
   var best=res.filter(function(r){return r.ok;}).reduce(function(a,b){return(inc-a.total)>(inc-b.total)?a:b;},res[0]);
   var html='<table class="compare-table"><thead><tr><th>Режим</th><th>Налог</th><th>Расходы</th><th>Итого</th><th>Чистый доход</th></tr></thead><tbody>';
-  res.forEach(function(r){var style=(r.name===best.name)?' style="background:#d4edda;font-weight:700"':'';html+='<tr'+style+'><td>'+r.name+'</td><td>'+Math.round(r.tax).toLocaleString()+' руб.</td><td>'+Math.round(r.total-r.tax).toLocaleString()+' руб.</td><td>'+Math.round(r.total).toLocaleString()+' руб.</td><td><b>'+Math.round(inc-r.total).toLocaleString()+' руб.</b></td></tr>';});
-  html+='</tbody></table><p style="color:var(--p);font-size:13px;margin-top:10px;font-weight:600">Оптимальный выбор: <b>'+best.name+'</b> — чистый доход <b>'+Math.round(inc-best.total).toLocaleString()+' руб.</b></p>';
+  res.forEach(function(r){var style=(r.name===best.name)?' style="background:#d4edda;font-weight:700"':'';html+='<tr'+style+'><td>'+r.name+'</td><td>'+Math.round(r.tax).toLocaleString()+'</td><td>'+Math.round(r.total-r.tax).toLocaleString()+'</td><td>'+Math.round(r.total).toLocaleString()+'</td><td><b>'+Math.round(inc-r.total).toLocaleString()+'</b></td></tr>';});
+  html+='</tbody></table><p>Оптимальный выбор: <b>'+best.name+'</b></p>';
   document.getElementById('cmp-res').innerHTML=html;document.getElementById('save-cmp-btn').style.display='block';
 }
 
 function saveCmpPDF(){
-  var d=new jspdf.jsPDF();d.setFontSize(16);d.text('Сравнение налоговых режимов — Лимит.НПД',20,20);
-  d.setFontSize(10);d.text(document.getElementById('cmp-res').textContent,20,35,{maxWidth:170});d.save('sravnenie_rezhimov.pdf');
+  var d=new jspdf.jsPDF();d.text('Сравнение режимов',20,20);d.save('sravnenie.pdf');
 }
 
 function compareSalary(){
   var a=parseFloat(document.getElementById('sal-amount').value)||0;
-  var html='<table class="compare-table"><thead><tr><th>Форма работы</th><th>Налоги и взносы</th><th>Сумма на руки</th><th>Эффективная ставка</th></tr></thead><tbody>';
-  html+='<tr><td>Самозанятый (НПД 6%)</td><td>'+Math.round(a*0.06).toLocaleString()+' руб.</td><td><b>'+Math.round(a*0.94).toLocaleString()+' руб.</b></td><td>6%</td></tr>';
-  html+='<tr><td>ИП УСН 6%</td><td>'+Math.round(a*0.06+3750).toLocaleString()+' руб.</td><td><b>'+Math.round(a-a*0.06-3750).toLocaleString()+' руб.</b></td><td>~7.3%</td></tr>';
-  html+='<tr><td>Наёмный сотрудник</td><td>'+Math.round(a*0.43).toLocaleString()+' руб.</td><td><b>'+Math.round(a*0.57).toLocaleString()+' руб.</b></td><td>~43%</td></tr>';
-  html+='</tbody></table><p style="font-size:11px;color:var(--text-secondary);margin-top:8px">Для сотрудника учтены: НДФЛ 13%, страховые взносы 30%. Для ИП: налог 6% + фиксированные взносы ~45 000 руб./год.</p>';
+  var html='<table class="compare-table"><thead><tr><th>Форма</th><th>Налоги</th><th>На руки</th><th>Ставка</th></tr></thead><tbody>';
+  html+='<tr><td>НПД 6%</td><td>'+Math.round(a*0.06).toLocaleString()+'</td><td><b>'+Math.round(a*0.94).toLocaleString()+'</b></td><td>6%</td></tr>';
+  html+='<tr><td>ИП УСН 6%</td><td>'+Math.round(a*0.06+3750).toLocaleString()+'</td><td><b>'+Math.round(a-a*0.06-3750).toLocaleString()+'</b></td><td>~7.3%</td></tr>';
+  html+='<tr><td>Сотрудник</td><td>'+Math.round(a*0.43).toLocaleString()+'</td><td><b>'+Math.round(a*0.57).toLocaleString()+'</b></td><td>~43%</td></tr>';
+  html+='</tbody></table>';
   document.getElementById('sal-res').innerHTML=html;
 }
 
@@ -1350,7 +999,7 @@ function searchFAQ(){
 
 function buildGlossary(){
   var h='';
-  glossaryTerms.forEach(function(t){h+='<span class="tag"><b>'+t.abbr+'</b> — '+t.desc+'</span>';});
+  glossaryTerms.forEach(function(t){h+='<span class="tag"><b>'+t.abbr+'</b> - '+t.desc+'</span>';});
   document.getElementById('glossary').innerHTML=h;
 }
 
@@ -1386,10 +1035,7 @@ function buildCalendar(){
       var regimes=[];
       dayEvents.forEach(function(e){
         e.regimes.forEach(function(reg){
-          if(regimes.indexOf(reg)===-1){
-            regimes.push(reg);
-            html+='<div class="event-dot '+reg+'"></div>';
-          }
+          if(regimes.indexOf(reg)===-1){regimes.push(reg);html+='<div class="event-dot '+reg+'"></div>';}
         });
       });
       if(userNotes[dateStr])html+='<div class="event-dot note"></div>';
@@ -1408,13 +1054,12 @@ function showDayInfo(d){
   if(dayEvents.length>0){
     var regimeNames={npd:'НПД',ip:'ИП',ooo:'ООО'};
     dayEvents.forEach(function(e){
-      var regimeClasses=e.regimes.map(function(r){return r;}).join(' ');
       info+='<div class="event-item">';
       e.regimes.forEach(function(reg){info+='<div class="event-dot '+reg+'"></div>';});
-      info+=e.desc+' <small style="color:var(--text-secondary)">('+e.regimes.map(function(r){return regimeNames[r]||r;}).join(', ')+')</small></div>';
+      info+=e.desc+'</div>';
     });
-  }else{info+='<p style="color:var(--text-secondary)">Нет запланированных событий.</p>';}
-  if(userNotes[d]){info+='<div style="margin-top:10px;padding:8px;background:#fff3cd;border-radius:8px;font-size:12px"><b>Ваша заметка:</b><br>'+userNotes[d].text+(userNotes[d].time?' (напомнить в '+userNotes[d].time+')':'')+'</div>';}
+  }else{info+='<p style="color:var(--text-secondary)">Нет событий.</p>';}
+  if(userNotes[d]){info+='<div style="margin-top:10px;padding:8px;background:#fff3cd;border-radius:8px;font-size:12px"><b>Заметка:</b><br>'+userNotes[d].text+'</div>';}
   document.getElementById('day-popup').innerHTML=info;
   document.getElementById('day-popup').classList.add('show');
   document.getElementById('popup-overlay').classList.add('show');
@@ -1430,11 +1075,11 @@ function addNote(){
   var date=document.getElementById('note-date').value,
       text=document.getElementById('note-text').value.trim(),
       time=document.getElementById('note-time').value;
-  if(!date||!text){showToast('Выберите дату и введите текст заметки');return;}
+  if(!date||!text){showToast('Выберите дату и введите текст');return;}
   userNotes[date]={text:text,time:time||null};
   localStorage.setItem('userNotes',JSON.stringify(userNotes));
   document.getElementById('note-text').value='';
-  if(time){scheduleNoteReminder(date,time,text);showToast('Заметка сохранена! Напоминание установлено на '+time);}
+  if(time){scheduleNoteReminder(date,time,text);showToast('Заметка сохранена!');}
   else{showToast('Заметка сохранена!');}
   buildCalendar();
 }
@@ -1445,16 +1090,16 @@ function clearNotes(){
   noteTimers={};
   localStorage.removeItem('userNotes');
   buildCalendar();
-  showToast('Все заметки удалены');
+  showToast('Заметки удалены');
 }
 
 function renderNotes(){
-  var html='<b>Ваши заметки:</b><br>',hasNotes=false;
+  var html='<b>Заметки:</b><br>',hasNotes=false;
   Object.keys(userNotes).sort().forEach(function(d){
-    html+='<div style="font-size:11px;padding:6px;margin:3px 0;background:var(--chk-bg);border-radius:6px;border:1px solid var(--border)"><b>'+new Date(d).toLocaleDateString('ru')+'</b>: '+userNotes[d].text+(userNotes[d].time?' <span style="color:var(--p)">('+userNotes[d].time+')</span>':'')+'</div>';
+    html+='<div style="font-size:11px;padding:6px;margin:3px 0;background:var(--chk-bg);border-radius:6px"><b>'+new Date(d).toLocaleDateString('ru')+'</b>: '+userNotes[d].text+'</div>';
     hasNotes=true;
   });
-  if(!hasNotes)html+='<span style="color:var(--text-secondary)">Нет сохранённых заметок</span>';
+  if(!hasNotes)html+='<span style="color:var(--text-secondary)">Нет заметок</span>';
   document.getElementById('notes-list').innerHTML=html;
 }
 
