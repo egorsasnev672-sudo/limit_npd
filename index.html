@@ -6,19 +6,22 @@
 <meta name="theme-color" content="#198754">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Лимит.НПД">
+<meta name="apple-mobile-web-app-title" content="Налоговый калькулятор">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="application-name" content="Лимит.НПД">
+<meta name="application-name" content="Налоговый калькулятор">
 <meta name="description" content="Профессиональный налоговый калькулятор для самозанятых, ИП и ООО">
-<title>Лимит.НПД — налоговый калькулятор</title>
+<title>Налоговый калькулятор</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23198754'/><text x='16' y='22' font-family='Arial,sans-serif' font-size='20' font-weight='bold' fill='white' text-anchor='middle'>Л</text></svg>">
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'><rect width='180' height='180' rx='38' fill='%23198754'/><text x='90' y='122' font-family='Arial,sans-serif' font-size='115' font-weight='bold' fill='white' text-anchor='middle'>Л</text></svg>">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+</script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js">
+</script>
 <style>
 :root {
     --p: #198754;
@@ -57,7 +60,7 @@
         --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.5);
     }
 }
-.light-manual {
+.light-mode {
     --p: #198754;
     --p-dark: #0d6b3d;
     --bg: #f0f2f5;
@@ -71,7 +74,7 @@
     --shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
     --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.1);
 }
-.dark-manual {
+.dark-mode {
     --p: #2ea76e;
     --p-dark: #1a5c3a;
     --bg: #0a0e14;
@@ -124,54 +127,74 @@ body {
     height: 56px;
     transition: all 0.3s;
 }
-.dark-manual .hdr, body.dark-manual .hdr {
+.dark-mode .hdr {
     background: rgba(22, 27, 34, 0.75);
 }
-.hdr-brand {
+.hdr-left {
     display: flex;
     align-items: center;
     gap: 14px;
-    font-weight: 800;
-    font-size: 20px;
-    color: var(--p);
-    cursor: pointer;
-    transition: transform 0.2s;
 }
-.hdr-brand:hover {
-    transform: scale(1.03);
-}
-.hdr-brand .logo {
+.hamburger-btn {
     width: 40px;
     height: 40px;
-    background: linear-gradient(135deg, var(--p), var(--p-dark));
+    background: var(--chk-bg);
+    border: 1px solid var(--border);
     border-radius: 12px;
+    cursor: pointer;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: #fff;
-    font-weight: 800;
-    font-size: 20px;
-    box-shadow: 0 4px 16px rgba(25, 135, 84, 0.3);
+    gap: 5px;
+    padding: 8px;
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+.hamburger-btn:hover {
+    background: var(--border);
+    transform: scale(1.05);
+}
+.hamburger-btn span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--text);
+    border-radius: 2px;
+    transition: var(--transition);
+}
+.hamburger-btn.open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+.hamburger-btn.open span:nth-child(2) {
+    opacity: 0;
+}
+.hamburger-btn.open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
 }
 .hdr-right {
     display: flex;
     gap: 10px;
     align-items: center;
 }
-.hdr button {
+.theme-btn {
+    width: 40px;
+    height: 40px;
     background: var(--chk-bg);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 10px 14px;
+    border-radius: 12px;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 20px;
     transition: var(--transition);
     color: var(--text);
-    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
-.hdr button:hover {
+.theme-btn:hover {
     background: var(--border);
     transform: scale(1.05);
 }
@@ -208,7 +231,7 @@ body {
     display: flex;
     flex-direction: column;
 }
-.dark-manual .side-menu {
+.dark-mode .side-menu {
     background: rgba(22, 27, 34, 0.92);
 }
 .side-menu.open {
@@ -927,12 +950,15 @@ body {
 </head>
 <body>
 <div class="hdr">
-    <div class="hdr-brand" onclick="toggleMenu()">
-        <div class="logo">Л</div>Лимит.НПД
+    <div class="hdr-left">
+        <div class="hamburger-btn" id="hamburger-btn" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </div>
     <div class="hdr-right">
-        <button onclick="toggleTheme()" id="theme-btn" aria-label="Переключить тему">☀️</button>
-        <button onclick="toggleMenu()" aria-label="Меню" style="font-size:22px">☰</button>
+        <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" aria-label="Переключить тему">☀️</button>
     </div>
 </div>
 <div class="menu-overlay" id="menu-overlay" onclick="toggleMenu()"></div>
@@ -1085,12 +1111,12 @@ body {
 </div>
 
 <div class="notification-toast" id="notification-toast"></div>
-<div class="ftr"><p><b>Официальное уведомление</b><br>Сервис «Лимит.НПД» носит исключительно информационный и справочный характер. Все расчёты производятся на вашем устройстве в браузере. Данные не собираются и не передаются третьим лицам. Сервис не является официальным источником налогового законодательства. Для получения квалифицированной консультации обратитесь в территориальный орган Федеральной налоговой службы России или к аттестованному налоговому консультанту.<br><br>2026 Лимит.НПД. Все права защищены.</p></div>
+<div class="ftr"><p><b>Официальное уведомление</b><br>Сервис носит исключительно информационный и справочный характер. Все расчёты производятся на вашем устройстве в браузере. Данные не собираются и не передаются третьим лицам. Сервис не является официальным источником налогового законодательства. Для получения квалифицированной консультации обратитесь в территориальный орган Федеральной налоговой службы России или к аттестованному налоговому консультанту.<br><br>2026. Все права защищены.</p></div>
 <script>
-// ========== PWA - УЛУЧШЕННАЯ УСТАНОВКА ==========
+// ========== PWA ==========
 var manifest = {
-  name: "Лимит.НПД",
-  short_name: "Лимит.НПД",
+  name: "Налоговый калькулятор",
+  short_name: "Налог.кальк",
   description: "Профессиональный налоговый калькулятор для самозанятых, ИП и ООО",
   start_url: location.href.split('?')[0],
   scope: location.href.split('?')[0],
@@ -1173,12 +1199,12 @@ function downloadAPK() {
   showToast('Генерация APK файла...');
   setTimeout(function() {
     var htmlContent = document.documentElement.outerHTML.substring(0, 5000);
-    var apkData = 'APK-LimitNPD-v3.0\n\nPWA приложение "Лимит.НПД"\n\nДля установки APK:\n1. Разрешите установку из неизвестных источников в настройках Android\n2. Откройте скачанный файл\n3. Нажмите "Установить"\n\nПриложение работает офлайн. Все данные хранятся локально.\n\n' + htmlContent;
+    var apkData = 'APK-TaxCalc-v1.0\n\nPWA приложение "Налоговый калькулятор"\n\nДля установки APK:\n1. Разрешите установку из неизвестных источников в настройках Android\n2. Откройте скачанный файл\n3. Нажмите "Установить"\n\nПриложение работает офлайн. Все данные хранятся локально.\n\n' + htmlContent;
     var blob = new Blob([apkData], {type: 'application/vnd.android.package-archive'});
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
     a.href = url;
-    a.download = 'LimitNPD_v3.apk';
+    a.download = 'TaxCalc_v1.apk';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -1194,6 +1220,7 @@ function toggleMenu() {
   menuOpen = !menuOpen;
   document.getElementById('side-menu').classList.toggle('open', menuOpen);
   document.getElementById('menu-overlay').classList.toggle('open', menuOpen);
+  document.getElementById('hamburger-btn').classList.toggle('open', menuOpen);
 }
 
 function navigateFromMenu(sectionName) {
@@ -1247,7 +1274,7 @@ document.addEventListener('touchend', function(e) {
   }
 }, false);
 
-// ========== ТЕМА С АВТООПРЕДЕЛЕНИЕМ ==========
+// ========== ТЕМА ==========
 var isDark = false;
 
 function detectSystemTheme() {
@@ -1259,17 +1286,22 @@ function detectSystemTheme() {
 
 function applyTheme(dark) {
   isDark = dark;
-  document.body.classList.remove('light-manual', 'dark-manual');
+  document.body.classList.remove('light-mode', 'dark-mode');
   
   if (dark) {
-    document.body.classList.add('dark-manual');
+    document.body.classList.add('dark-mode');
     document.getElementById('theme-btn').textContent = '🌙';
   } else {
-    document.body.classList.add('light-manual');
+    document.body.classList.add('light-mode');
     document.getElementById('theme-btn').textContent = '☀️';
   }
   
   localStorage.setItem('dark', dark);
+  
+  if (chart) {
+    chart.destroy();
+    updForecast();
+  }
 }
 
 function toggleTheme() {
@@ -1312,7 +1344,7 @@ function scheduleNoteReminder(dateStr, timeStr, text) {
   
   var timerId = setTimeout(function() {
     if (Notification.permission === 'granted') {
-      new Notification('Лимит.НПД — Напоминание', {
+      new Notification('Напоминание', {
         body: text,
         icon: 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#198754"/><text x="16" y="22" font-family="Arial,sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">Л</text></svg>'),
         tag: 'note-' + dateStr
@@ -1499,11 +1531,16 @@ function updForecast() {
     });
   });
   
+  var canvas = document.getElementById('chart');
+  if (!canvas) return;
+  
+  var ctx = canvas.getContext('2d');
+  
   if (chart) {
     chart.destroy();
   }
   
-  chart = new Chart(document.getElementById('chart'), {
+  chart = new Chart(ctx, {
     type: 'line',
     data: {
       labels: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
@@ -1515,7 +1552,40 @@ function updForecast() {
       plugins: {
         legend: {
           labels: {
-            color: isDark ? '#ddd' : '#333'
+            color: isDark ? '#ddd' : '#333',
+            font: {
+              family: 'Nunito',
+              size: 12
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: isDark ? '#ddd' : '#333',
+            font: {
+              family: 'Nunito',
+              size: 12
+            }
+          },
+          grid: {
+            color: isDark ? '#444' : '#e0e0e0'
+          }
+        },
+        y: {
+          ticks: {
+            color: isDark ? '#ddd' : '#333',
+            font: {
+              family: 'Nunito',
+              size: 12
+            },
+            callback: function(value) {
+              return (value / 1000000).toFixed(1) + ' млн';
+            }
+          },
+          grid: {
+            color: isDark ? '#444' : '#e0e0e0'
           }
         }
       }
@@ -1550,22 +1620,22 @@ function savePNG() {
   if (!canvas) return;
   var link = document.createElement('a');
   link.download = 'prognoz_limitov.png';
-  link.href = canvas.toDataURL();
+  link.href = canvas.toDataURL('image/png', 1.0);
   link.click();
 }
 
 function saveChartPDF() {
   var canvas = document.getElementById('chart');
   if (!canvas) return;
-  var pdf = new jspdf.jsPDF();
-  pdf.addImage(canvas.toDataURL(), 'PNG', 10, 10, 190, 100);
+  var pdf = new jspdf.jsPDF('landscape', 'mm', 'a4');
+  pdf.addImage(canvas.toDataURL('image/png', 1.0), 'PNG', 10, 10, 280, 140);
   pdf.save('prognoz_limitov.pdf');
 }
 
 function saveCalcPDF() {
   var pdf = new jspdf.jsPDF();
   pdf.setFontSize(16);
-  pdf.text('Расчёт налога — Лимит.НПД', 20, 20);
+  pdf.text('Расчёт налога', 20, 20);
   pdf.setFontSize(11);
   pdf.text('Режим: ' + document.getElementById('regime').value, 20, 35);
   pdf.text('Доход: ' + document.getElementById('income').value + ' руб.', 20, 45);
@@ -1640,7 +1710,8 @@ function clearHistory() {
     renderHistory();
   }
 }
-    <script>
+</script>
+<script>
 // ========== ДАННЫЕ (ПОЛНЫЕ, БЕЗ СОКРАЩЕНИЙ) ==========
 var riskQuestions = [
   {b:'115-ФЗ',q:'Заключаете ли вы письменный договор с каждым клиентом — юридическим лицом?',yes:'Отлично! Наличие договоров значительно снижает риск блокировки по 115-ФЗ.',no:'Рекомендуем заключать договоры со всеми юрлицами — это основной документ для подтверждения реальности сделки.'},
@@ -1981,7 +2052,7 @@ function assessRisk() {
 function saveRiskPDF() {
   var pdf = new jspdf.jsPDF();
   pdf.setFontSize(16);
-  pdf.text('Комплаенс-анализ рисков — Лимит.НПД', 20, 20);
+  pdf.text('Комплаенс-анализ рисков', 20, 20);
   pdf.setFontSize(10);
   pdf.text(document.getElementById('risk-res').textContent, 20, 35, {maxWidth: 170});
   pdf.save('analiz_riskov.pdf');
@@ -2293,12 +2364,13 @@ function saveQuizPDF() {
   if (!lastQuizResult) return;
   var pdf = new jspdf.jsPDF();
   pdf.setFontSize(16);
-  pdf.text('Подбор налогового режима — Лимит.НПД', 20, 20);
+  pdf.text('Подбор налогового режима', 20, 20);
   pdf.setFontSize(14);
   pdf.text('Рекомендуемый режим: ' + lastQuizResult.bestName, 20, 38);
   pdf.save('podbor_rezhima.pdf');
 }
-    <script>
+</script>
+<script>
 // ========== СРАВНЕНИЕ ==========
 function compare() {
   var income = parseFloat(document.getElementById('cmp-inc').value) || 0;
@@ -2344,7 +2416,7 @@ function compare() {
 function saveCmpPDF() {
   var pdf = new jspdf.jsPDF();
   pdf.setFontSize(16);
-  pdf.text('Сравнение налоговых режимов — Лимит.НПД', 20, 20);
+  pdf.text('Сравнение налоговых режимов', 20, 20);
   pdf.setFontSize(10);
   pdf.text(document.getElementById('cmp-res').textContent, 20, 35, {maxWidth: 170});
   pdf.save('sravnenie_rezhimov.pdf');
