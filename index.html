@@ -21,786 +21,189 @@
 <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
 <style>
 :root {
-    --p: #198754;
-    --p-dark: #0d6b3d;
+    --p: #198754; --p-dark: #0d6b3d;
     --sb: env(safe-area-inset-bottom, 0px);
-    --bg: #f0f2f5;
-    --card: #ffffff;
-    --card-border: #e0e0e0;
-    --text: #1a1a1a;
-    --text-secondary: #666666;
-    --border: #e0e0e0;
-    --inp-bg: #ffffff;
-    --chk-bg: #f9f9f9;
-    --shadow: 0 1px 8px rgba(0,0,0,0.06);
-    --shadow-lg: 0 4px 16px rgba(0,0,0,0.08);
-    --radius: 16px;
-    --radius-sm: 10px;
+    --bg: #f0f2f5; --card: #ffffff; --card-border: #e0e0e0;
+    --text: #1a1a1a; --text-secondary: #666666;
+    --border: #e0e0e0; --inp-bg: #ffffff; --chk-bg: #f9f9f9;
+    --shadow: 0 1px 6px rgba(0,0,0,0.06);
+    --shadow-lg: 0 3px 12px rgba(0,0,0,0.08);
+    --radius: 16px; --radius-sm: 10px;
     --transition: all 0.15s ease;
-    --menu-width: 280px;
+    --menu-width: 300px;
+    --gold: #f59e0b; --xp-bar: #8b5cf6;
 }
 @media (prefers-color-scheme: dark) {
     :root {
-        --p: #2ea76e;
-        --p-dark: #1a5c3a;
-        --bg: #0a0e14;
-        --card: #161b22;
-        --card-border: #30363d;
-        --text: #e6e6e6;
-        --text-secondary: #8b949e;
-        --border: #30363d;
-        --inp-bg: #21262d;
-        --chk-bg: #21262d;
-        --shadow: 0 1px 8px rgba(0,0,0,0.2);
-        --shadow-lg: 0 4px 16px rgba(0,0,0,0.3);
+        --p: #2ea76e; --p-dark: #1a5c3a; --bg: #0a0e14;
+        --card: #161b22; --card-border: #30363d;
+        --text: #e6e6e6; --text-secondary: #8b949e;
+        --border: #30363d; --inp-bg: #21262d; --chk-bg: #21262d;
+        --shadow: 0 1px 6px rgba(0,0,0,0.2);
+        --shadow-lg: 0 3px 12px rgba(0,0,0,0.3);
     }
 }
-.light-mode {
-    --p: #198754;
-    --p-dark: #0d6b3d;
-    --bg: #f0f2f5;
-    --card: #ffffff;
-    --card-border: #e0e0e0;
-    --text: #1a1a1a;
-    --text-secondary: #666666;
-    --border: #e0e0e0;
-    --inp-bg: #ffffff;
-    --chk-bg: #f9f9f9;
-    --shadow: 0 1px 8px rgba(0,0,0,0.06);
-    --shadow-lg: 0 4px 16px rgba(0,0,0,0.08);
-}
-.dark-mode {
-    --p: #2ea76e;
-    --p-dark: #1a5c3a;
-    --bg: #0a0e14;
-    --card: #161b22;
-    --card-border: #30363d;
-    --text: #e6e6e6;
-    --text-secondary: #8b949e;
-    --border: #30363d;
-    --inp-bg: #21262d;
-    --chk-bg: #21262d;
-    --shadow: 0 1px 8px rgba(0,0,0,0.2);
-    --shadow-lg: 0 4px 16px rgba(0,0,0,0.3);
-}
-* {
-    -webkit-tap-highlight-color: transparent;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+.light-mode { --p: #198754; --p-dark: #0d6b3d; --bg: #f0f2f5; --card: #ffffff; --card-border: #e0e0e0; --text: #1a1a1a; --text-secondary: #666666; --border: #e0e0e0; --inp-bg: #ffffff; --chk-bg: #f9f9f9; --shadow: 0 1px 6px rgba(0,0,0,0.06); --shadow-lg: 0 3px 12px rgba(0,0,0,0.08); }
+.dark-mode { --p: #2ea76e; --p-dark: #1a5c3a; --bg: #0a0e14; --card: #161b22; --card-border: #30363d; --text: #e6e6e6; --text-secondary: #8b949e; --border: #30363d; --inp-bg: #21262d; --chk-bg: #21262d; --shadow: 0 1px 6px rgba(0,0,0,0.2); --shadow-lg: 0 3px 12px rgba(0,0,0,0.3); }
+* { -webkit-tap-highlight-color: transparent; box-sizing: border-box; margin: 0; padding: 0; }
 body {
     font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: var(--bg);
-    color: var(--text);
+    background: var(--bg); color: var(--text);
     transition: background 0.2s, color 0.2s;
-    padding: 56px 0 20px;
-    line-height: 1.5;
+    padding: 56px 0 20px; line-height: 1.5;
     -webkit-font-smoothing: antialiased;
-    font-size: 16px;
-    overflow-x: hidden;
-    min-height: 100vh;
-    background-image: 
-        radial-gradient(ellipse at 20% 20%, rgba(25,135,84,0.06) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 80%, rgba(46,167,110,0.04) 0%, transparent 50%);
+    font-size: 16px; overflow-x: hidden; min-height: 100vh;
 }
 .hdr {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: rgba(255,255,255,0.85);
-    padding: 8px 16px;
-    z-index: 100;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--border);
-    height: 56px;
+    position: fixed; top: 0; left: 0; right: 0;
+    background: rgba(255,255,255,0.85); padding: 8px 16px; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid var(--border); height: 56px;
 }
-.dark-mode .hdr {
-    background: rgba(22,27,34,0.9);
-}
+.dark-mode .hdr { background: rgba(22,27,34,0.9); }
 .hamburger-btn {
-    width: 40px;
-    height: 40px;
-    background: var(--chk-bg);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    padding: 8px;
-    transition: background 0.15s;
+    width: 40px; height: 40px; background: var(--chk-bg); border: 1px solid var(--border);
+    border-radius: 10px; cursor: pointer; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 5px; padding: 8px;
 }
-.hamburger-btn:active {
-    background: var(--border);
-}
-.hamburger-btn span {
-    display: block;
-    width: 20px;
-    height: 2px;
-    background: var(--text);
-    border-radius: 2px;
-    transition: all 0.2s;
-}
-.hamburger-btn.open span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-}
-.hamburger-btn.open span:nth-child(2) {
-    opacity: 0;
-}
-.hamburger-btn.open span:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
-}
+.hamburger-btn:active { background: var(--border); }
+.hamburger-btn span { display: block; width: 20px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.2s; }
+.hamburger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger-btn.open span:nth-child(2) { opacity: 0; }
+.hamburger-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 .theme-btn {
-    width: 40px;
-    height: 40px;
-    background: var(--chk-bg);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 20px;
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.15s;
+    width: 40px; height: 40px; background: var(--chk-bg); border: 1px solid var(--border);
+    border-radius: 10px; cursor: pointer; font-size: 20px; color: var(--text);
+    display: flex; align-items: center; justify-content: center;
 }
-.theme-btn:active {
-    background: var(--border);
-}
-.menu-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: 150;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s;
-}
-.menu-overlay.open {
-    opacity: 1;
-    pointer-events: auto;
-}
+.theme-btn:active { background: var(--border); }
+.menu-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+.menu-overlay.open { opacity: 1; pointer-events: auto; }
 .side-menu {
-    position: fixed;
-    top: 0;
-    left: calc(-1 * var(--menu-width));
-    bottom: 0;
-    width: var(--menu-width);
-    z-index: 160;
-    background: rgba(255,255,255,0.95);
-    padding: 60px 20px 30px;
-    transition: left 0.2s ease;
-    box-shadow: 4px 0 20px rgba(0,0,0,0.1);
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
+    position: fixed; top: 0; left: calc(-1 * var(--menu-width)); bottom: 0;
+    width: var(--menu-width); z-index: 160; background: rgba(255,255,255,0.95);
+    padding: 60px 16px 30px; transition: left 0.2s ease;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.1); border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; overflow-y: auto;
 }
-.dark-mode .side-menu {
-    background: rgba(22,27,34,0.95);
-}
-.side-menu.open {
-    left: 0;
-}
-.side-menu h3 {
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--p);
-    margin-bottom: 24px;
-    text-align: center;
-}
+.dark-mode .side-menu { background: rgba(22,27,34,0.95); }
+.side-menu.open { left: 0; }
+.side-menu h3 { font-size: 18px; font-weight: 800; color: var(--p); margin-bottom: 16px; text-align: center; }
 .side-menu button {
-    width: 100%;
-    text-align: left;
-    padding: 16px 20px;
-    background: transparent;
-    border: none;
-    font-family: 'Nunito', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--text);
-    cursor: pointer;
-    border-radius: 12px;
-    margin: 4px 0;
-    transition: background 0.15s;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-.side-menu button:active {
-    background: rgba(25,135,84,0.15);
-}
-.side-menu button.active {
-    background: linear-gradient(135deg, var(--p), var(--p-dark));
-    color: #fff;
-}
-.tab {
-    display: none;
-    padding: 12px 16px;
-    animation: fadeIn 0.2s ease;
-}
-.tab.active {
-    display: block;
-}
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-.card {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 20px;
-    margin: 12px 0;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--card-border);
-}
-.card h3 {
-    font-size: 18px;
-    margin-bottom: 14px;
-    font-weight: 700;
-}
-.btn {
-    display: block;
-    width: 100%;
-    padding: 14px 20px;
-    border-radius: var(--radius-sm);
-    font-size: 16px;
-    font-weight: 700;
-    border: none;
-    cursor: pointer;
-    text-align: center;
-    margin: 8px 0;
-    transition: opacity 0.1s, transform 0.1s;
-    font-family: 'Nunito', sans-serif;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
-}
-.btn:active {
-    opacity: 0.8;
-    transform: scale(0.98);
-}
-.btn-g {
-    background: linear-gradient(135deg, var(--p), var(--p-dark));
-    color: #fff;
-}
-.btn-o {
-    background: transparent;
-    color: var(--p);
-    border: 2px solid var(--p);
-}
-.btn-o:active {
-    background: rgba(25,135,84,0.1);
-}
-.btn-s {
-    padding: 10px 16px;
-    font-size: 14px;
-    border-radius: 10px;
-}
-.btn-red {
-    background: #dc3545;
-    color: #fff;
-    padding: 12px;
-    font-size: 15px;
-    border-radius: 10px;
-}
-.btn-red:active {
-    background: #bb2d3b;
-}
-.inp,
-.sel {
-    width: 100%;
-    padding: 14px 16px;
-    border-radius: var(--radius-sm);
-    border: 2px solid var(--border);
-    font-size: 16px;
-    background: var(--inp-bg);
-    margin: 8px 0 16px;
-    color: var(--text);
-    transition: border-color 0.15s;
-    font-family: 'Nunito', sans-serif;
-}
-.inp:focus,
-.sel:focus {
-    outline: none;
-    border-color: var(--p);
-}
-.lbl {
-    font-size: 12px;
-    color: var(--text-secondary);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    display: block;
-    margin-top: 10px;
-}
-.res {
-    background: linear-gradient(135deg, var(--p), var(--p-dark));
-    color: #fff;
-    border-radius: var(--radius);
-    padding: 20px;
-    margin: 14px 0;
-    display: flex;
-    justify-content: space-around;
-    text-align: center;
-}
-.res h4 {
-    font-size: 26px;
-    margin: 6px 0;
-    font-weight: 800;
-}
-.res small {
-    font-size: 12px;
-    opacity: 0.9;
-}
-.chart-wrap {
-    height: 300px;
-    margin: 14px 0;
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 14px;
-    border: 1px solid var(--card-border);
-}
-.r-green {
-    background: #d4edda;
-    padding: 14px;
-    border-radius: var(--radius-sm);
-    border-left: 4px solid #28a745;
-    font-weight: 600;
-}
-.r-yellow {
-    background: #fff3cd;
-    padding: 14px;
-    border-radius: var(--radius-sm);
-    border-left: 4px solid #ffc107;
-    font-weight: 600;
-}
-.r-red {
-    background: #f8d7da;
-    padding: 14px;
-    border-radius: var(--radius-sm);
-    border-left: 4px solid #dc3545;
-    font-weight: 600;
-}
-.disc {
-    font-size: 12px;
-    color: var(--text-secondary);
-    background: var(--chk-bg);
-    padding: 10px 14px;
-    border-radius: var(--radius-sm);
-    text-align: center;
-    margin: 8px;
-    border: 1px solid var(--border);
-}
-.chk-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px;
-    background: var(--chk-bg);
-    border-radius: 10px;
-    margin: 6px 0;
-    font-size: 15px;
-    border: 1px solid transparent;
-}
-.chk-row input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    accent-color: var(--p);
-}
-.flex-row {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-.flex-row .btn {
-    flex: 1;
-    min-width: 80px;
-}
-.acc-btn {
-    background: transparent;
-    border: none;
-    width: 100%;
-    text-align: left;
-    padding: 16px 18px;
-    font-size: 16px;
-    font-weight: 600;
-    border-bottom: 1px solid var(--border);
-    cursor: pointer;
-    color: var(--text);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: 'Nunito', sans-serif;
-}
-.acc-btn:active {
-    background: var(--chk-bg);
-}
-.acc-btn::after {
-    content: '▸';
-    font-size: 14px;
-    transition: transform 0.2s;
-    color: var(--p);
-    font-weight: 700;
-}
-.acc-btn.open-btn::after {
-    transform: rotate(90deg);
-}
-.acc-body {
-    display: none;
-    padding: 16px 18px;
-    font-size: 15px;
-    color: var(--text-secondary);
-    background: var(--chk-bg);
-    border-bottom: 1px solid var(--border);
-    line-height: 1.7;
-}
-.acc-body.open {
-    display: block;
-}
-.tag {
-    display: inline-block;
-    background: var(--chk-bg);
-    padding: 8px 14px;
-    border-radius: 8px;
-    margin: 4px;
-    font-size: 13px;
-    border: 1px solid var(--border);
-}
-.tag b {
-    color: var(--p);
-}
-.ftr {
-    text-align: center;
-    padding: 24px 16px 40px;
-    font-size: 12px;
-    color: var(--text-secondary);
-    line-height: 1.6;
-}
-.alert-box {
-    background: #fff3cd;
-    padding: 14px;
-    border-radius: var(--radius-sm);
-    font-size: 15px;
-    margin: 10px 0;
-    border: 1px solid #ffc107;
-}
-.advice-box {
-    background: #e8f5e9;
-    padding: 14px;
-    border-radius: var(--radius-sm);
-    font-size: 15px;
-    margin: 10px 0;
-    border: 1px solid #a5d6a7;
-}
-.widget-row {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-.widget-card {
-    flex: 1;
-    min-width: 130px;
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 16px;
-    text-align: center;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--card-border);
-}
-.widget-card .val {
-    font-size: 24px;
-    font-weight: 800;
-    color: var(--p);
-    margin: 8px 0;
-}
-.widget-card .lbl {
-    font-size: 11px;
-    color: var(--text-secondary);
-    text-transform: none;
-    letter-spacing: 0;
-    margin-top: 0;
-    margin-bottom: 4px;
-    font-weight: 600;
-}
-.compare-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 15px;
-}
-.compare-table th,
-.compare-table td {
-    padding: 12px 10px;
-    text-align: center;
-    border-bottom: 1px solid var(--border);
-}
-.compare-table th {
-    background: var(--chk-bg);
-    font-weight: 700;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--text-secondary);
-}
-.compare-table td {
-    font-size: 15px;
-}
-.quiz-select {
-    width: 100%;
-    padding: 14px 16px;
-    border-radius: var(--radius-sm);
-    border: 2px solid var(--border);
-    font-size: 16px;
-    background: var(--inp-bg);
-    color: var(--text);
-    font-family: 'Nunito', sans-serif;
-    appearance: none;
-    -webkit-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 16px center;
-    margin-bottom: 16px;
-}
-.quiz-select:focus {
-    outline: none;
-    border-color: var(--p);
-}
-.badge {
-    display: inline-block;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 700;
-}
-.badge-green {
-    background: #d4edda;
-    color: #198754;
-}
-.badge-yellow {
-    background: #fff3cd;
-    color: #d97706;
-}
-.badge-blue {
-    background: #dbeafe;
-    color: #2563eb;
-}
-.criteria-box {
-    border: 2px solid #dc3545;
-    border-radius: 14px;
-    padding: 18px;
-    background: #fff5f5;
-    margin: 14px 0;
-}
-.criteria-box h4 {
-    color: #dc3545;
-    margin: 0 0 12px 0;
-    font-size: 16px;
-    font-weight: 700;
-}
-.criteria-box ul {
-    margin: 0;
-    padding-left: 20px;
-    font-size: 14px;
-    line-height: 2;
-}
-.notification-toast {
-    position: fixed;
-    top: 70px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--p);
-    color: #fff;
-    padding: 12px 24px;
-    border-radius: 12px;
-    z-index: 300;
-    font-size: 15px;
-    font-weight: 600;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-    display: none;
-}
-.notification-toast.show {
-    display: block;
-    animation: slideDown 0.3s ease;
-}
-@keyframes slideDown {
-    from { transform: translate(-50%, -20px); opacity: 0; }
-    to { transform: translate(-50%, 0); opacity: 1; }
-}
-.calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 3px;
-    text-align: center;
-    margin-top: 10px;
-}
-.calendar-day {
-    padding: 10px 4px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 14px;
-    background: var(--chk-bg);
-    position: relative;
-    min-height: 42px;
-    border: 1px solid transparent;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2px;
-}
-.calendar-day:active {
-    background: var(--p);
-    color: #fff;
-}
-.calendar-day.today {
-    border: 2px solid var(--p);
-    font-weight: bold;
-}
-.calendar-day.has-event {
-    border-left: 3px solid var(--p);
-}
-.calendar-day.has-note {
-    border-bottom: 3px solid #ffc107;
-}
-.calendar-header {
-    font-weight: 700;
-    color: var(--p);
-    font-size: 12px;
-    padding: 8px 2px;
-}
-.calendar-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-.calendar-nav button {
-    background: var(--chk-bg);
-    border: 1px solid var(--border);
-    padding: 8px 18px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 15px;
-    color: var(--text);
-    font-family: 'Nunito', sans-serif;
-}
-.calendar-nav button:active {
-    background: var(--p);
-    color: #fff;
-}
-.calendar-nav span {
-    font-weight: 700;
-    font-size: 17px;
-}
-.event-detail {
-    font-size: 9px;
-    color: var(--p);
-    margin-top: 1px;
-    line-height: 1.2;
-}
-.note-input {
-    width: 100%;
-    padding: 8px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    font-size: 14px;
-    margin-top: 4px;
-    background: var(--inp-bg);
-    color: var(--text);
-    font-family: 'Nunito', sans-serif;
-}
-.tooltip-text {
-    font-size: 12px;
-    color: var(--text-secondary);
-    font-style: italic;
-    margin-top: 2px;
-    display: block;
-    margin-bottom: 4px;
-}
-.install-card {
-    background: linear-gradient(135deg, rgba(25,135,84,0.1), rgba(13,107,61,0.05));
-    border: 2px solid rgba(25,135,84,0.2);
-    border-radius: var(--radius);
-    padding: 20px;
-    margin: 14px 0;
-    text-align: center;
-}
-.install-card h4 {
-    color: var(--p);
-    margin-bottom: 8px;
-    font-size: 18px;
-    font-weight: 800;
-}
-.install-card p {
-    font-size: 14px;
-    color: var(--text-secondary);
-    margin-bottom: 14px;
-    line-height: 1.4;
-}
-.install-card .btn-install {
-    width: 100%;
-    background: linear-gradient(135deg, var(--p), var(--p-dark));
-    color: #fff;
-    border: none;
-    padding: 14px;
-    border-radius: 14px;
-    font-weight: 700;
-    font-size: 16px;
-    cursor: pointer;
-    text-align: center;
-    font-family: 'Nunito', sans-serif;
-}
-.install-card .btn-install:active {
-    opacity: 0.8;
-}
-@media (max-width: 360px) {
-    .card {
-        padding: 14px;
-    }
-    .widget-card {
-        min-width: 100px;
-        padding: 12px;
-    }
-    .calendar-day {
-        padding: 8px 2px;
-        min-height: 36px;
-        font-size: 12px;
-    }
-}
+    width: 100%; text-align: left; padding: 14px 16px; background: transparent; border: none;
+    font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 600; color: var(--text);
+    cursor: pointer; border-radius: 10px; margin: 3px 0;
+    display: flex; align-items: center; gap: 10px;
+}
+.side-menu button:active { background: rgba(25,135,84,0.15); }
+.side-menu button.active { background: linear-gradient(135deg, var(--p), var(--p-dark)); color: #fff; }
+.side-menu .menu-divider { border-top: 1px solid var(--border); margin: 10px 0; }
+.tab { display: none; padding: 10px 14px; animation: fadeIn 0.2s ease; }
+.tab.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.card { background: var(--card); border-radius: var(--radius); padding: 18px; margin: 10px 0; box-shadow: var(--shadow); border: 1px solid var(--card-border); }
+.card h3 { font-size: 18px; margin-bottom: 12px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.btn { display: block; width: 100%; padding: 14px 20px; border-radius: var(--radius-sm); font-size: 16px; font-weight: 700; border: none; cursor: pointer; text-align: center; margin: 8px 0; font-family: 'Nunito', sans-serif; }
+.btn:active { opacity: 0.8; transform: scale(0.98); }
+.btn-g { background: linear-gradient(135deg, var(--p), var(--p-dark)); color: #fff; }
+.btn-o { background: transparent; color: var(--p); border: 2px solid var(--p); }
+.btn-o:active { background: rgba(25,135,84,0.1); }
+.btn-s { padding: 10px 14px; font-size: 14px; border-radius: 10px; }
+.btn-red { background: #dc3545; color: #fff; padding: 10px; font-size: 14px; border-radius: 10px; }
+.btn-gold { background: linear-gradient(135deg, var(--gold), #d97706); color: #fff; }
+.btn-xp { background: linear-gradient(135deg, var(--xp-bar), #7c3aed); color: #fff; }
+.inp, .sel { width: 100%; padding: 14px 16px; border-radius: var(--radius-sm); border: 2px solid var(--border); font-size: 16px; background: var(--inp-bg); margin: 8px 0 14px; color: var(--text); font-family: 'Nunito', sans-serif; }
+.inp:focus, .sel:focus { outline: none; border-color: var(--p); }
+.lbl { font-size: 12px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: block; margin-top: 10px; }
+.res { background: linear-gradient(135deg, var(--p), var(--p-dark)); color: #fff; border-radius: var(--radius); padding: 20px; margin: 12px 0; display: flex; justify-content: space-around; text-align: center; }
+.res h4 { font-size: 24px; margin: 4px 0; font-weight: 800; }
+.res small { font-size: 11px; opacity: 0.9; }
+.chart-wrap { height: 280px; margin: 12px 0; background: var(--card); border-radius: var(--radius); padding: 12px; border: 1px solid var(--card-border); }
+.r-green { background: #d4edda; padding: 14px; border-radius: var(--radius-sm); border-left: 4px solid #28a745; font-weight: 600; }
+.r-yellow { background: #fff3cd; padding: 14px; border-radius: var(--radius-sm); border-left: 4px solid #ffc107; font-weight: 600; }
+.r-red { background: #f8d7da; padding: 14px; border-radius: var(--radius-sm); border-left: 4px solid #dc3545; font-weight: 600; }
+.disc { font-size: 11px; color: var(--text-secondary); background: var(--chk-bg); padding: 10px 14px; border-radius: var(--radius-sm); text-align: center; margin: 8px; border: 1px solid var(--border); }
+.chk-row { display: flex; align-items: center; gap: 10px; padding: 10px; background: var(--chk-bg); border-radius: 10px; margin: 4px 0; font-size: 14px; border: 1px solid transparent; }
+.chk-row input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--p); }
+.flex-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.flex-row .btn { flex: 1; min-width: 80px; }
+.acc-btn { background: transparent; border: none; width: 100%; text-align: left; padding: 16px 18px; font-size: 16px; font-weight: 600; border-bottom: 1px solid var(--border); cursor: pointer; color: var(--text); display: flex; justify-content: space-between; align-items: center; font-family: 'Nunito', sans-serif; }
+.acc-btn:active { background: var(--chk-bg); }
+.acc-btn::after { content: '▸'; font-size: 14px; transition: transform 0.2s; color: var(--p); font-weight: 700; }
+.acc-btn.open-btn::after { transform: rotate(90deg); }
+.acc-body { display: none; padding: 16px 18px; font-size: 15px; color: var(--text-secondary); background: var(--chk-bg); border-bottom: 1px solid var(--border); line-height: 1.7; }
+.acc-body.open { display: block; }
+.tag { display: inline-block; background: var(--chk-bg); padding: 8px 14px; border-radius: 8px; margin: 4px; font-size: 13px; border: 1px solid var(--border); }
+.tag b { color: var(--p); }
+.ftr { text-align: center; padding: 20px 16px 30px; font-size: 11px; color: var(--text-secondary); line-height: 1.6; }
+.alert-box { background: #fff3cd; padding: 12px; border-radius: var(--radius-sm); font-size: 14px; margin: 8px 0; border: 1px solid #ffc107; }
+.advice-box { background: #e8f5e9; padding: 12px; border-radius: var(--radius-sm); font-size: 14px; margin: 8px 0; border: 1px solid #a5d6a7; }
+.widget-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.widget-card { flex: 1; min-width: 130px; background: var(--card); border-radius: var(--radius); padding: 16px; text-align: center; box-shadow: var(--shadow); border: 1px solid var(--card-border); }
+.widget-card .val { font-size: 24px; font-weight: 800; color: var(--p); margin: 6px 0; }
+.widget-card .lbl { font-size: 11px; color: var(--text-secondary); text-transform: none; letter-spacing: 0; margin-top: 0; margin-bottom: 4px; font-weight: 600; }
+.compare-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.compare-table th, .compare-table td { padding: 10px 8px; text-align: center; border-bottom: 1px solid var(--border); }
+.compare-table th { background: var(--chk-bg); font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); }
+.quiz-select { width: 100%; padding: 14px 16px; border-radius: var(--radius-sm); border: 2px solid var(--border); font-size: 16px; background: var(--inp-bg); color: var(--text); font-family: 'Nunito', sans-serif; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; margin-bottom: 14px; }
+.badge { display: inline-block; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+.badge-green { background: #d4edda; color: #198754; }
+.badge-yellow { background: #fff3cd; color: #d97706; }
+.badge-blue { background: #dbeafe; color: #2563eb; }
+.badge-gold { background: #fef3c7; color: #d97706; }
+.badge-purple { background: #ede9fe; color: #7c3aed; }
+.criteria-box { border: 2px solid #dc3545; border-radius: 14px; padding: 16px; background: #fff5f5; margin: 12px 0; }
+.criteria-box h4 { color: #dc3545; margin: 0 0 10px 0; font-size: 16px; font-weight: 700; }
+.criteria-box ul { margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.8; }
+.notification-toast { position: fixed; top: 70px; left: 50%; transform: translateX(-50%); background: var(--p); color: #fff; padding: 12px 24px; border-radius: 12px; z-index: 300; font-size: 14px; font-weight: 600; box-shadow: 0 4px 20px rgba(0,0,0,0.2); display: none; }
+.notification-toast.show { display: block; animation: slideDown 0.3s ease; }
+@keyframes slideDown { from { transform: translate(-50%, -20px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+.challenge-card { background: linear-gradient(135deg, #fef3c7, #fde68a); border: 2px solid var(--gold); border-radius: var(--radius); padding: 18px; margin: 10px 0; }
+.dark-mode .challenge-card { background: linear-gradient(135deg, #1a1400, #2d1f00); border-color: #d97706; }
+.challenge-card .xp-bar { height: 8px; background: rgba(0,0,0,0.1); border-radius: 4px; overflow: hidden; margin: 10px 0; }
+.challenge-card .xp-fill { height: 100%; border-radius: 4px; background: var(--xp-bar); transition: width 0.5s; }
+.heatmap-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+.heatmap-cell { aspect-ratio: 1; border-radius: 4px; min-height: 20px; transition: transform 0.15s; cursor: pointer; }
+.heatmap-cell:active { transform: scale(1.3); }
+.heatmap-cell.lvl-0 { background: var(--chk-bg); }
+.heatmap-cell.lvl-1 { background: #d4edda; }
+.heatmap-cell.lvl-2 { background: #fff3cd; }
+.heatmap-cell.lvl-3 { background: #ffc107; }
+.heatmap-cell.lvl-4 { background: #fd7e14; }
+.heatmap-cell.lvl-5 { background: #dc3545; }
+.audit-result { background: var(--chk-bg); border-radius: var(--radius-sm); padding: 14px; margin: 8px 0; border: 1px solid var(--border); }
+.checklist-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--chk-bg); border-radius: 10px; margin: 6px 0; font-size: 14px; border: 1px solid transparent; }
+.checklist-item.completed { background: #d4edda; border-color: #28a745; }
+.checklist-item input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--p); }
+.lifehack-card { background: #f0fdf4; border: 1px solid #86efac; border-radius: var(--radius-sm); padding: 14px; margin: 8px 0; }
+.dark-mode .lifehack-card { background: #0a1a0f; border-color: #2ea76e; }
+.lifehack-card h4 { color: var(--p); margin-bottom: 6px; font-size: 16px; }
+.lifehack-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+@media (max-width: 360px) { .card { padding: 14px; } .widget-card { min-width: 100px; padding: 12px; } }
 </style>
 </head>
 <body>
 <div class="hdr">
-    <div class="hamburger-btn" id="hamburger-btn" onclick="toggleMenu()">
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
-    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" aria-label="Переключить тему">☀️</button>
+    <div class="hamburger-btn" id="hamburger-btn" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" aria-label="Тема">☀️</button>
 </div>
 <div class="menu-overlay" id="menu-overlay" onclick="toggleMenu()"></div>
 <nav class="side-menu" id="side-menu">
     <h3>Навигация</h3>
-    <button class="active" onclick="navigateFromMenu('calc')">Расчёт налога</button>
-    <button onclick="navigateFromMenu('risk')">Анализ рисков</button>
-    <button onclick="navigateFromMenu('ben')">Льготы и каникулы</button>
-    <button onclick="navigateFromMenu('comp')">Сравнение режимов</button>
-    <button onclick="navigateFromMenu('faq')">База знаний</button>
-    <div style="margin-top:auto;padding-top:20px">
-        <div class="install-card">
-            <h4>Установить приложение</h4>
-            <p>Работает офлайн. Все данные хранятся локально на вашем устройстве.</p>
-            <button class="btn-install" onclick="installApp()">Установить PWA</button>
-        </div>
-    </div>
+    <button class="active" onclick="navigateFromMenu('calc')">📊 Расчёт налога</button>
+    <button onclick="navigateFromMenu('risk')">⚠️ Анализ рисков</button>
+    <button onclick="navigateFromMenu('ben')">🎁 Льготы и каникулы</button>
+    <button onclick="navigateFromMenu('comp')">⚖️ Сравнение режимов</button>
+    <button onclick="navigateFromMenu('faq')">📚 База знаний</button>
+    <div class="menu-divider"></div>
+    <h3 style="font-size:14px;color:var(--text-secondary);text-align:left">Инструменты</h3>
+    <button onclick="navigateFromMenu('report')">📄 PDF-отчёт</button>
+    <button onclick="navigateFromMenu('checklist')">✅ Чек-лист ИП/ООО</button>
+    <button onclick="navigateFromMenu('audit')">🔍 Аудит контрагента</button>
+    <div class="menu-divider"></div>
+    <h3 style="font-size:14px;color:var(--text-secondary);text-align:left">Развитие</h3>
+    <button onclick="navigateFromMenu('challenge')">🏆 Челлендж</button>
+    <button onclick="navigateFromMenu('heatmap')">🔥 Теплокарта года</button>
 </nav>
 
 <div class="tab active" id="tab-calc">
@@ -824,24 +227,23 @@ body {
 <button class="btn btn-o" onclick="updForecast()">Построить график</button>
 <div id="limit-alert" style="margin:10px 0"></div>
 <div class="chart-wrap"><canvas id="chart"></canvas></div>
-<div id="dates" style="font-size:14px;padding:14px;background:var(--chk-bg);border-radius:12px;margin-top:10px;line-height:1.8"></div>
+<div id="dates" style="font-size:13px;padding:12px;background:var(--chk-bg);border-radius:10px;margin-top:8px;line-height:1.8"></div>
 <div class="flex-row"><button class="btn btn-o btn-s" onclick="savePNG()">График PNG</button><button class="btn btn-o btn-s" onclick="saveChartPDF()">График PDF</button><button class="btn btn-o btn-s" onclick="saveCalcPDF()">Отчёт PDF</button><button class="btn btn-o btn-s" onclick="saveXLSX()">Excel</button></div></div>
 
-<div class="card"><h3>История расчётов</h3><div id="history"></div><button class="btn btn-red" onclick="clearHistory()" style="margin-top:10px">Очистить историю</button><p style="font-size:12px;color:var(--text-secondary);margin-top:8px">Данные хранятся локально на вашем устройстве</p></div>
+<div class="card"><h3>История расчётов</h3><div id="history"></div><button class="btn btn-red" onclick="clearHistory()" style="margin-top:10px">Очистить историю</button></div>
 </div>
 
 <div class="tab" id="tab-risk">
-<div class="card"><h3>Комплаенс-анализ рисков по 115-ФЗ</h3><p style="font-size:15px;color:var(--text-secondary);margin-bottom:14px">Ответьте на 30 вопросов для оценки рисков блокировки счетов и налоговых проверок</p><div id="risk-qs">Загрузка вопросов...</div><button class="btn btn-g" onclick="assessRisk()">Оценить риски</button><div id="risk-res" style="display:none;margin-top:12px"></div><div id="risk-advice" style="display:none;margin-top:12px"></div><button class="btn btn-o" id="save-risk-btn" style="display:none" onclick="saveRiskPDF()">Сохранить отчёт PDF</button></div>
+<div class="card"><h3>Комплаенс-анализ рисков по 115-ФЗ</h3><p style="font-size:14px;color:var(--text-secondary);margin-bottom:12px">Ответьте на 30 вопросов для оценки рисков блокировки счетов и налоговых проверок</p><div id="risk-qs">Загрузка вопросов...</div><button class="btn btn-g" onclick="assessRisk()">Оценить риски</button><div id="risk-res" style="display:none;margin-top:10px"></div><div id="risk-advice" style="display:none;margin-top:10px"></div><button class="btn btn-o" id="save-risk-btn" style="display:none" onclick="saveRiskPDF()">Сохранить отчёт PDF</button></div>
 </div>
 
 <div class="tab" id="tab-ben">
 <div class="card"><h3>Региональные налоговые льготы</h3>
 <label class="lbl">Субъект РФ</label><select class="sel" id="region" onchange="showSpecialBenefits()"><option value="">Загрузка регионов...</option></select>
 <label class="lbl">Отрасль деятельности</label><select class="sel" id="industry"><option>IT и разработка</option><option>Производство</option><option>Строительство</option><option>Транспорт и логистика</option><option>Сельское хозяйство</option><option>Торговля</option><option>Общественное питание</option><option>Медицина и здравоохранение</option><option>Образование</option><option>Наука и исследования</option><option>Социальные услуги</option><option>Бытовые услуги</option><option>Туризм и гостиничный бизнес</option><option>Народные промыслы</option><option>Аренда недвижимости</option><option>Маркетинг и реклама</option><option>Консалтинг</option><option>Дизайн</option><option>Фотография и видео</option><option>Спорт и фитнес</option><option>Красота и косметология</option><option>Ремонт и обслуживание</option><option>Лесное хозяйство</option><option>Рыболовство</option><option>Горнодобывающая промышленность</option><option>Нефтегазовый сектор</option><option>Судостроение</option><option>Авиастроение</option><option>Лёгкая промышленность</option><option>Металлургия</option><option>Переработка</option><option>Инновации</option><option>Прочее</option></select>
-<button class="btn btn-g" onclick="showBenefits()">Показать льготы</button><div id="ben-res" style="margin-top:12px"></div></div>
-
+<button class="btn btn-g" onclick="showBenefits()">Показать льготы</button><div id="ben-res" style="margin-top:10px"></div></div>
 <div class="card"><h3>Федеральные льготы (актуально на 2026)</h3>
-<div id="federal-benefits"><div style="padding:14px;background:#e8f5e9;border-radius:12px;font-size:15px;line-height:2">
+<div id="federal-benefits"><div style="padding:14px;background:#e8f5e9;border-radius:12px;font-size:14px;line-height:2">
 <b>Действующие федеральные преференции:</b><br><br>
 - Налоговые каникулы 0% — для впервые зарегистрированных ИП на УСН/ПСН (до 2 лет)<br>
 - Вычет 10 000 руб. — для плательщиков НПД (самозанятых)<br>
@@ -850,9 +252,7 @@ body {
 - Заморозка НДС-порога — на уровне 20 млн руб. до 2029 года<br>
 - Повышенный лимит УСН — до 250 млн руб. (с повышенными ставками)<br>
 <small style="color:#666">Источники: НК РФ ст. 346.20, 115-ФЗ, данные ФНС России</small></div></div></div>
-
-<div class="card"><h3>Особые условия региона</h3><div id="special-benefits" style="font-size:15px;padding:14px;background:#fff3e0;border-radius:12px;border:1px solid #ffc107">Выберите регион для отображения специальных условий</div></div>
-
+<div class="card"><h3>Особые условия региона</h3><div id="special-benefits" style="font-size:14px;padding:14px;background:#fff3e0;border-radius:12px;border:1px solid #ffc107">Выберите регион для отображения специальных условий</div></div>
 <div class="card"><h3>Проверка права на налоговые каникулы</h3>
 <div class="criteria-box"><h4>Обязательные критерии для получения налоговых каникул (ст. 346.20 НК РФ)</h4><ul><li>ИП должен быть зарегистрирован <b>впервые</b> (повторная регистрация не даёт права)</li><li>С даты регистрации прошло <b>менее 2 лет</b></li><li>Вид деятельности <b>должен входить в региональный перечень</b> (устанавливается законом субъекта РФ)</li><li>Доля дохода от льготного вида деятельности — <b>не менее 70%</b></li><li>Режим: <b>УСН или ПСН</b> (на НПД каникулы не распространяются)</li></ul></div>
 <label class="lbl">Ваш регион</label><select class="sel" id="holiday-region" onchange="updateHolidayInfo()"><option value="">Выберите регион...</option></select>
@@ -861,64 +261,101 @@ body {
 <div class="chk-row"><input type="checkbox" id="holiday-ch2"> Прошло менее 2 лет с регистрации</div>
 <div class="chk-row"><input type="checkbox" id="holiday-ch3"> Доля дохода от льготной деятельности не менее 70%</div>
 <button class="btn btn-g" onclick="checkHolidaysResult()">Проверить право на каникулы</button>
-<div id="holiday-info" style="margin-top:12px;font-size:14px;color:var(--text-secondary)"></div>
-<div id="holidays-result" style="margin-top:12px"></div>
-<p style="font-size:12px;color:var(--text-secondary);margin-top:10px">Полный перечень регионов и видов деятельности доступен в разделе "База знаний" — "Налоговые каникулы: полный справочник"</p></div>
-
+<div id="holiday-info" style="margin-top:10px;font-size:13px;color:var(--text-secondary)"></div>
+<div id="holidays-result" style="margin-top:10px"></div>
+<p style="font-size:12px;color:var(--text-secondary);margin-top:8px">Полный перечень регионов и видов деятельности доступен в разделе "База знаний" — "Налоговые каникулы: полный справочник"</p></div>
 <div class="card"><h3>Индивидуальный подбор режима налогообложения</h3>
-<p style="font-size:15px;color:var(--text-secondary);margin-bottom:18px">Ответьте на 8 вопросов, и система подберёт оптимальный налоговый режим с учётом всех факторов</p>
+<p style="font-size:14px;color:var(--text-secondary);margin-bottom:16px">Ответьте на 8 вопросов, и система подберёт оптимальный налоговый режим с учётом всех факторов</p>
 <div id="business-quiz">
-<div style="margin-bottom:16px"><label class="lbl">1. Планируемый годовой доход</label><select class="quiz-select" id="qz-income"><option value="">— Выберите диапазон —</option><option value="low">До 2.4 млн руб.</option><option value="mid">От 2.4 до 20 млн руб.</option><option value="high">От 20 до 60 млн руб.</option><option value="ultra">От 60 до 250 млн руб.</option><option value="max">Более 250 млн руб.</option></select></div>
-<div style="margin-bottom:16px"><label class="lbl">2. Планируете ли нанимать сотрудников?</label><select class="quiz-select" id="qz-employees"><option value="">— Выберите вариант —</option><option value="no">Нет, работаю самостоятельно</option><option value="few">Да, до 15 человек</option><option value="many">Да, 15–130 человек</option><option value="unlimited">Да, более 130 человек</option></select></div>
-<div style="margin-bottom:16px"><label class="lbl">3. Основной тип клиентов</label><select class="quiz-select" id="qz-clients"><option value="">— Выберите вариант —</option><option value="persons">Преимущественно физические лица</option><option value="mixed">Примерно поровну физлица и юрлица</option><option value="legal">Преимущественно юридические лица</option><option value="state">Государственные и муниципальные заказчики</option></select></div>
-<div style="margin-bottom:16px"><label class="lbl">4. Примерная доля расходов от дохода</label><select class="quiz-select" id="qz-expenses"><option value="">— Выберите вариант —</option><option value="min">Менее 20% (мало расходов)</option><option value="low">20–40%</option><option value="mid">40–60%</option><option value="high">Более 60% (высокие расходы)</option></select></div>
-<div style="margin-bottom:16px"><label class="lbl">5. Характер бизнеса</label><select class="quiz-select" id="qz-type"><option value="">— Выберите вариант —</option><option value="service">Услуги / консультирование</option><option value="trade">Торговля (опт / розница)</option><option value="production">Производство</option><option value="seasonal">Сезонный бизнес</option><option value="it">IT / разработка ПО</option><option value="rent">Аренда недвижимости</option></select></div>
-<div style="margin-bottom:16px"><label class="lbl">6. Требуется ли выставление счетов с НДС?</label><select class="quiz-select" id="qz-nds"><option value="">— Выберите вариант —</option><option value="no">Нет, не требуется</option><option value="maybe">Возможно, при росте дохода</option><option value="yes">Да, клиенты требуют счета-фактуры с НДС</option></select></div>
-<div style="margin-bottom:16px"><label class="lbl">7. Планируете ли работать с маркированными товарами?</label><select class="quiz-select" id="qz-marked"><option value="">— Выберите вариант —</option><option value="no">Нет</option><option value="maybe">Возможно (одежда, обувь, лекарства и др.)</option><option value="yes">Да, планирую</option></select></div>
-<div style="margin-bottom:16px"><label class="lbl">8. Это ваш первый опыт регистрации бизнеса?</label><select class="quiz-select" id="qz-first"><option value="">— Выберите вариант —</option><option value="yes">Да, регистрируюсь впервые</option><option value="no">Уже был опыт ведения бизнеса</option><option value="exist">У меня уже есть действующее ИП или ООО</option></select></div>
+<div style="margin-bottom:14px"><label class="lbl">1. Планируемый годовой доход</label><select class="quiz-select" id="qz-income"><option value="">— Выберите диапазон —</option><option value="low">До 2.4 млн руб.</option><option value="mid">От 2.4 до 20 млн руб.</option><option value="high">От 20 до 60 млн руб.</option><option value="ultra">От 60 до 250 млн руб.</option><option value="max">Более 250 млн руб.</option></select></div>
+<div style="margin-bottom:14px"><label class="lbl">2. Планируете ли нанимать сотрудников?</label><select class="quiz-select" id="qz-employees"><option value="">— Выберите вариант —</option><option value="no">Нет, работаю самостоятельно</option><option value="few">Да, до 15 человек</option><option value="many">Да, 15–130 человек</option><option value="unlimited">Да, более 130 человек</option></select></div>
+<div style="margin-bottom:14px"><label class="lbl">3. Основной тип клиентов</label><select class="quiz-select" id="qz-clients"><option value="">— Выберите вариант —</option><option value="persons">Преимущественно физические лица</option><option value="mixed">Примерно поровну физлица и юрлица</option><option value="legal">Преимущественно юридические лица</option><option value="state">Государственные и муниципальные заказчики</option></select></div>
+<div style="margin-bottom:14px"><label class="lbl">4. Примерная доля расходов от дохода</label><select class="quiz-select" id="qz-expenses"><option value="">— Выберите вариант —</option><option value="min">Менее 20% (мало расходов)</option><option value="low">20–40%</option><option value="mid">40–60%</option><option value="high">Более 60% (высокие расходы)</option></select></div>
+<div style="margin-bottom:14px"><label class="lbl">5. Характер бизнеса</label><select class="quiz-select" id="qz-type"><option value="">— Выберите вариант —</option><option value="service">Услуги / консультирование</option><option value="trade">Торговля (опт / розница)</option><option value="production">Производство</option><option value="seasonal">Сезонный бизнес</option><option value="it">IT / разработка ПО</option><option value="rent">Аренда недвижимости</option></select></div>
+<div style="margin-bottom:14px"><label class="lbl">6. Требуется ли выставление счетов с НДС?</label><select class="quiz-select" id="qz-nds"><option value="">— Выберите вариант —</option><option value="no">Нет, не требуется</option><option value="maybe">Возможно, при росте дохода</option><option value="yes">Да, клиенты требуют счета-фактуры с НДС</option></select></div>
+<div style="margin-bottom:14px"><label class="lbl">7. Планируете ли работать с маркированными товарами?</label><select class="quiz-select" id="qz-marked"><option value="">— Выберите вариант —</option><option value="no">Нет</option><option value="maybe">Возможно (одежда, обувь, лекарства и др.)</option><option value="yes">Да, планирую</option></select></div>
+<div style="margin-bottom:14px"><label class="lbl">8. Это ваш первый опыт регистрации бизнеса?</label><select class="quiz-select" id="qz-first"><option value="">— Выберите вариант —</option><option value="yes">Да, регистрируюсь впервые</option><option value="no">Уже был опыт ведения бизнеса</option><option value="exist">У меня уже есть действующее ИП или ООО</option></select></div>
 <button class="btn btn-g" onclick="runBusinessQuiz()">Подобрать оптимальный режим</button></div>
-<div id="quiz-result" style="display:none;margin-top:16px"></div>
-<button class="btn btn-o" id="save-quiz-btn" style="display:none;margin-top:10px" onclick="saveQuizPDF()">Сохранить результат PDF</button></div>
+<div id="quiz-result" style="display:none;margin-top:14px"></div></div>
 </div>
 
 <div class="tab" id="tab-comp">
 <div class="card"><h3>Сравнительная таблица налоговых режимов</h3>
-<div style="overflow-x:auto"><table class="compare-table"><thead><tr><th>Режим</th><th>Ставка</th><th>Лимит дохода</th><th>НДС</th><th>Взносы</th><th>Отчётность</th><th>Сотрудники</th></tr></thead><tbody>
-<tr><td><b>НПД</b></td><td>4–6%</td><td>2.4 млн руб.</td><td>Нет</td><td>Нет</td><td>Чек в приложении</td><td>Нет</td></tr>
-<tr><td><b>ИП УСН 6%</b></td><td>1–6%</td><td>20 млн руб.</td><td>5/7/20%</td><td>~45 000 руб./год</td><td>Декларация</td><td>До 130</td></tr>
-<tr><td><b>ИП УСН 15%</b></td><td>5–15%</td><td>20 млн руб.</td><td>5/7/20%</td><td>~45 000 руб./год</td><td>Декларация + КУДиР</td><td>До 130</td></tr>
-<tr><td><b>ИП ПСН</b></td><td>6%</td><td>60 млн руб.</td><td>Нет</td><td>Льготные</td><td>Нет</td><td>До 15</td></tr>
-<tr><td><b>ООО УСН 6%</b></td><td>6%</td><td>250 млн руб.</td><td>5/7/20%</td><td>Да</td><td>Декларация</td><td>Без ограничений</td></tr>
-<tr><td><b>ООО УСН 15%</b></td><td>15%</td><td>250 млн руб.</td><td>5/7/20%</td><td>Да</td><td>Декларация + КУДиР</td><td>Без ограничений</td></tr>
+<div style="overflow-x:auto"><table class="compare-table"><thead><tr><th>Режим</th><th>Ставка</th><th>Лимит</th><th>НДС</th><th>Взносы</th><th>Отчётность</th><th>Сотрудники</th></tr></thead><tbody>
+<tr><td><b>НПД</b></td><td>4–6%</td><td>2.4 млн</td><td>Нет</td><td>Нет</td><td>Чек</td><td>Нет</td></tr>
+<tr><td><b>ИП УСН 6%</b></td><td>1–6%</td><td>20 млн</td><td>5/7/20%</td><td>~45 000</td><td>Декларация</td><td>До 130</td></tr>
+<tr><td><b>ИП УСН 15%</b></td><td>5–15%</td><td>20 млн</td><td>5/7/20%</td><td>~45 000</td><td>Декл.+КУДиР</td><td>До 130</td></tr>
+<tr><td><b>ИП ПСН</b></td><td>6%</td><td>60 млн</td><td>Нет</td><td>Льготные</td><td>Нет</td><td>До 15</td></tr>
+<tr><td><b>ООО УСН 6%</b></td><td>6%</td><td>250 млн</td><td>5/7/20%</td><td>Да</td><td>Декларация</td><td>∞</td></tr>
+<tr><td><b>ООО УСН 15%</b></td><td>15%</td><td>250 млн</td><td>5/7/20%</td><td>Да</td><td>Декл.+КУДиР</td><td>∞</td></tr>
 </tbody></table></div></div>
-
 <div class="card"><h3>Калькулятор сравнения режимов</h3>
-<label class="lbl">Годовой доход (руб.)</label><input class="inp" type="number" id="cmp-inc" value="1000000" placeholder="Введите годовой доход">
-<label class="lbl">Годовые расходы (руб.)</label><input class="inp" type="number" id="cmp-exp" value="300000" placeholder="Введите годовые расходы">
-<button class="btn btn-g" onclick="compare()">Сравнить все режимы</button><div id="cmp-res" style="margin-top:12px;font-size:15px"></div>
-<button class="btn btn-o" id="save-cmp-btn" style="display:none" onclick="saveCmpPDF()">Сохранить сравнение PDF</button></div>
-
+<label class="lbl">Годовой доход (руб.)</label><input class="inp" type="number" id="cmp-inc" value="1000000">
+<label class="lbl">Годовые расходы (руб.)</label><input class="inp" type="number" id="cmp-exp" value="300000">
+<button class="btn btn-g" onclick="compare()">Сравнить все режимы</button><div id="cmp-res" style="margin-top:10px;font-size:14px"></div></div>
 <div class="card"><h3>Сравнение: ИП vs наёмный сотрудник</h3>
-<p style="font-size:14px;color:var(--text-secondary);margin-bottom:14px">Сравнение чистой выгоды при получении одной и той же суммы от клиента (для ИП) или работодателя (для сотрудника). Для сотрудника учтены НДФЛ 13% и страховые взносы 30% (которые платит работодатель). Для ИП учтён налог и фиксированные страховые взносы.</p>
-<label class="lbl">Сумма от клиента / оклад сотрудника (руб.)</label><input class="inp" type="number" id="sal-amount" value="300000" placeholder="Введите сумму">
-<button class="btn btn-o" onclick="compareSalary()">Сравнить</button><div id="sal-res" style="margin-top:12px;font-size:15px"></div></div>
+<p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px">Сравнение чистой выгоды при получении одной и той же суммы от клиента (для ИП) или работодателя (для сотрудника).</p>
+<label class="lbl">Сумма от клиента / оклад сотрудника (руб.)</label><input class="inp" type="number" id="sal-amount" value="300000">
+<button class="btn btn-o" onclick="compareSalary()">Сравнить</button><div id="sal-res" style="margin-top:10px;font-size:14px"></div></div>
 </div>
 
 <div class="tab" id="tab-faq">
-<div class="card"><h3>Поиск по базе знаний</h3><input class="inp" type="text" id="faq-search" placeholder="Введите ключевые слова для поиска..." onkeyup="searchFAQ()"></div>
 <div class="card"><h3>Часто задаваемые вопросы</h3><div id="faq-list">Загрузка вопросов...</div></div>
-
-<div class="card"><h3>Налоговые каникулы: полный справочник (ст. 346.20 НК РФ)</h3>
-<p style="font-size:14px;color:var(--text-secondary);margin-bottom:12px">Ниже приведён полный перечень регионов России, в которых действуют налоговые каникулы для впервые зарегистрированных ИП, с указанием доступных видов деятельности и нормативных оснований.</p>
-<div id="holiday-full-list" style="font-size:14px;max-height:400px;overflow-y:auto;padding:12px;background:var(--chk-bg);border-radius:12px;line-height:1.8">Загрузка справочника...</div></div>
-
-<div class="card"><h3>Налоговый календарь</h3>
-<label class="lbl">Фильтр по налоговому режиму</label><select class="sel" id="calendar-filter" onchange="buildCalendar()"><option value="all">Все режимы</option><option value="npd">НПД (самозанятые)</option><option value="ip">ИП (УСН / ПСН)</option><option value="ooo">ООО</option></select>
-<div class="calendar-nav"><button onclick="changeMonth(-1)">Предыдущий</button><span id="calendar-month">Июль 2026</span><button onclick="changeMonth(1)">Следующий</button></div>
-<div class="calendar-grid" id="calendar-grid"></div>
-<div style="margin-top:16px"><label class="lbl">Добавить заметку с напоминанием</label><input class="inp" type="date" id="note-date"><input class="inp note-input" type="text" id="note-text" placeholder="Текст заметки..."><input class="inp" type="time" id="note-time" value="09:00"><div class="flex-row"><button class="btn btn-o btn-s" onclick="addNote()">Сохранить с напоминанием</button><button class="btn btn-red btn-s" onclick="clearNotes()">Очистить все</button></div></div>
-<div id="notes-list" style="margin-top:12px;font-size:14px"></div></div>
+<div class="card"><h3>Налоговые лайфхаки</h3>
+<div class="lifehack-card"><h4>💡 Совмещение НПД и работы по найму</h4><p>Вы можете одновременно быть самозанятым и работать по трудовому договору. НПД не заменяет НДФЛ с зарплаты. Это легально и позволяет диверсифицировать доходы.</p></div>
+<div class="lifehack-card"><h4>💡 Вычет 10 000 руб. для самозанятых</h4><p>Каждый новый самозанятый получает налоговый вычет 10 000 руб. Ставка снижается до 3% (юрлица) и 4% (физлица) пока вычет не будет исчерпан.</p></div>
+<div class="lifehack-card"><h4>💡 Патент для сезонного бизнеса</h4><p>Если ваш бизнес сезонный (например, туризм), покупайте патент только на нужные месяцы. Это дешевле, чем платить УСН за полный год.</p></div>
+<div class="lifehack-card"><h4>💡 Уменьшение УСН на страховые взносы</h4><p>ИП на УСН 6% без сотрудников может уменьшить налог на 100% фиксированных взносов. Если взносы больше налога — налог можно не платить.</p></div>
+<div class="lifehack-card"><h4>💡 Переход с НПД на УСН при превышении лимита</h4><p>При превышении лимита 2.4 млн руб. у вас есть 20 дней на переход. Не тяните — подайте уведомление сразу, чтобы избежать штрафов.</p></div>
+</div>
+<div class="card"><h3>Налоговые каникулы: полный справочник</h3>
+<p style="font-size:13px;color:var(--text-secondary);margin-bottom:10px">Перечень регионов России с налоговыми каникулами для впервые зарегистрированных ИП.</p>
+<div id="holiday-full-list" style="font-size:13px;max-height:400px;overflow-y:auto;padding:10px;background:var(--chk-bg);border-radius:10px;line-height:1.8">Загрузка справочника...</div></div>
 <div class="card"><h3>Глоссарий терминов</h3><div id="glossary">Загрузка глоссария...</div></div>
+</div>
+
+<div class="tab" id="tab-report">
+<div class="card"><h3>Генератор PDF-отчёта «Мой налоговый профиль»</h3>
+<p style="font-size:14px;color:var(--text-secondary);margin-bottom:16px">Создайте профессиональный отчёт с инфографикой для банка, инвестора или бухгалтера.</p>
+<label class="lbl">Ваше имя / Название компании</label><input class="inp" type="text" id="report-name" placeholder="Иван Иванов / ООО Ромашка">
+<label class="lbl">Режим налогообложения</label><select class="sel" id="report-regime"><option value="npd">НПД (Самозанятый)</option><option value="ip6">ИП УСН 6%</option><option value="ip15">ИП УСН 15%</option><option value="psn">ИП ПСН</option><option value="ooo6">ООО УСН 6%</option><option value="ooo15">ООО УСН 15%</option></select>
+<label class="lbl">Годовой доход (руб.)</label><input class="inp" type="number" id="report-income" value="1000000">
+<button class="btn btn-g" onclick="generateReport()">Сгенерировать PDF-отчёт</button>
+<div id="report-result" style="margin-top:12px"></div></div>
+</div>
+
+<div class="tab" id="tab-checklist">
+<div class="card"><h3>Чек-лист для регистрации ИП/ООО</h3>
+<p style="font-size:14px;color:var(--text-secondary);margin-bottom:12px">Пошаговый план действий. Отмечайте выполненные шаги. Прогресс сохраняется локально.</p>
+<div id="checklist-container"></div>
+<div style="margin-top:8px;font-size:13px;color:var(--text-secondary)">Прогресс: <span id="checklist-progress">0%</span></div></div>
+</div>
+
+<div class="tab" id="tab-audit">
+<div class="card"><h3>Экспресс-аудит контрагента</h3>
+<p style="font-size:14px;color:var(--text-secondary);margin-bottom:14px">Введите ИНН контрагента для быстрой проверки. Данные из открытых источников ФНС.</p>
+<label class="lbl">ИНН контрагента</label><input class="inp" type="text" id="audit-inn" placeholder="Введите 10 или 12 цифр" maxlength="12">
+<button class="btn btn-g" onclick="auditCounterparty()">Проверить контрагента</button>
+<div id="audit-result" style="margin-top:12px"></div></div>
+</div>
+
+<div class="tab" id="tab-challenge">
+<div class="challenge-card">
+<h3>🏆 Налоговый челлендж</h3>
+<p style="font-size:14px">Выполняйте задания и повышайте уровень налоговой грамотности!</p>
+<div style="display:flex;justify-content:space-between;margin:10px 0"><span>Уровень: <b id="challenge-level">Новичок</b></span><span>Очки: <b id="challenge-xp">0</b> XP</span></div>
+<div class="xp-bar"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
+<div id="challenge-tasks" style="margin-top:14px"></div>
+<button class="btn btn-xp" onclick="resetChallenge()" style="margin-top:10px">Сбросить прогресс</button></div>
+</div>
+
+<div class="tab" id="tab-heatmap">
+<div class="card"><h3>Теплокарта налогового года 2026</h3>
+<p style="font-size:13px;color:var(--text-secondary);margin-bottom:10px">Каждый день окрашен в зависимости от близости к налоговым событиям. Чем краснее — тем важнее дата.</p>
+<div class="heatmap-grid" id="heatmap-grid"></div>
+<div style="margin-top:10px;font-size:11px;color:var(--text-secondary);display:flex;gap:10px;flex-wrap:wrap">
+<span>🟢 Спокойно</span><span>🟡 Умеренно</span><span>🟠 Важно</span><span>🔴 Срочно</span>
+</div></div>
 </div>
 
 <div class="notification-toast" id="notification-toast"></div>
@@ -1846,6 +1283,13 @@ function assessRisk() {
   adviceDiv.innerHTML = html;
   
   document.getElementById('save-risk-btn').style.display = 'block';
+  
+  if (typeof challengeState !== 'undefined' && challengeState.completed.indexOf('t3') < 0) {
+    challengeState.completed.push('t3');
+    challengeState.xp += 20;
+    localStorage.setItem('challengeState', JSON.stringify(challengeState));
+    showToast('🏆 +20 XP! Задание «Анализ рисков» выполнено!');
+  }
 }
 
 function saveRiskPDF() {
@@ -2011,7 +1455,6 @@ function runBusinessQuiz() {
   var result = analyzeQuiz(answers);
   document.getElementById('quiz-result').style.display = 'block';
   document.getElementById('quiz-result').innerHTML = result.html;
-  document.getElementById('save-quiz-btn').style.display = 'block';
   lastQuizResult = result;
   document.getElementById('quiz-result').scrollIntoView({behavior: 'smooth'});
 }
@@ -2158,16 +1601,6 @@ function analyzeQuiz(answers) {
   
   return {html: html, best: best, bestName: regimeNames[best]};
 }
-
-function saveQuizPDF() {
-  if (!lastQuizResult) return;
-  var pdf = new jspdf.jsPDF();
-  pdf.setFontSize(16);
-  pdf.text('Подбор налогового режима', 20, 20);
-  pdf.setFontSize(14);
-  pdf.text('Рекомендуемый режим: ' + lastQuizResult.bestName, 20, 38);
-  pdf.save('podbor_rezhima.pdf');
-}
 </script>
 <script>
 // ========== СРАВНЕНИЕ ==========
@@ -2186,30 +1619,27 @@ function compare() {
   
   var results = regimes.map(function(regime) {
     var tax = regime.expenseBased ? Math.max((income - expenses) * regime.rate, income * 0.01) : income * regime.rate;
-    return {
-      name: regime.name,
-      tax: tax,
-      total: tax + regime.costs,
-      ok: income <= regime.limit
-    };
+    return {name: regime.name, tax: tax, total: tax + regime.costs, ok: income <= regime.limit};
   });
   
-  var best = results.filter(function(r) { return r.ok; }).reduce(function(a, b) {
-    return (income - a.total) > (income - b.total) ? a : b;
-  }, results[0]);
+  var best = results.filter(function(r) { return r.ok; }).reduce(function(a, b) { return (income - a.total) > (income - b.total) ? a : b; }, results[0]);
   
   var html = '<table class="compare-table"><thead><tr><th>Режим</th><th>Налог</th><th>Расходы</th><th>Итого</th><th>Чистый доход</th></tr></thead><tbody>';
-  
   results.forEach(function(result) {
     var style = (result.name === best.name) ? ' style="background:rgba(212,237,218,0.7);font-weight:700"' : '';
     html += '<tr' + style + '><td>' + result.name + '</td><td>' + Math.round(result.tax).toLocaleString() + ' руб.</td><td>' + Math.round(result.total - result.tax).toLocaleString() + ' руб.</td><td>' + Math.round(result.total).toLocaleString() + ' руб.</td><td><b>' + Math.round(income - result.total).toLocaleString() + ' руб.</b></td></tr>';
   });
-  
-  html += '</tbody></table>';
-  html += '<p style="color:var(--p);font-size:15px;margin-top:12px;font-weight:600">Оптимальный выбор: <b>' + best.name + '</b> — чистый доход <b>' + Math.round(income - best.total).toLocaleString() + ' руб.</b></p>';
+  html += '</tbody></table><p style="color:var(--p);font-size:15px;margin-top:12px;font-weight:600">Оптимальный выбор: <b>' + best.name + '</b> — чистый доход <b>' + Math.round(income - best.total).toLocaleString() + ' руб.</b></p>';
   
   document.getElementById('cmp-res').innerHTML = html;
   document.getElementById('save-cmp-btn').style.display = 'block';
+  
+  if (typeof challengeState !== 'undefined' && challengeState.completed.indexOf('t4') < 0) {
+    challengeState.completed.push('t4');
+    challengeState.xp += 15;
+    localStorage.setItem('challengeState', JSON.stringify(challengeState));
+    showToast('🏆 +15 XP! Задание «Сравнение режимов» выполнено!');
+  }
 }
 
 function saveCmpPDF() {
@@ -2223,29 +1653,20 @@ function saveCmpPDF() {
 
 function compareSalary() {
   var amount = parseFloat(document.getElementById('sal-amount').value) || 0;
-  
   var html = '<table class="compare-table"><thead><tr><th>Форма работы</th><th>Налоги и взносы</th><th>Сумма на руки</th><th>Эффективная ставка</th></tr></thead><tbody>';
-  
   html += '<tr><td>Самозанятый (НПД 6%)</td><td>' + Math.round(amount * 0.06).toLocaleString() + ' руб.</td><td><b>' + Math.round(amount * 0.94).toLocaleString() + ' руб.</b></td><td>6%</td></tr>';
-  
   html += '<tr><td>ИП УСН 6%</td><td>' + Math.round(amount * 0.06 + 3750).toLocaleString() + ' руб.</td><td><b>' + Math.round(amount - amount * 0.06 - 3750).toLocaleString() + ' руб.</b></td><td>~7.3%</td></tr>';
-  
   html += '<tr><td>Наёмный сотрудник</td><td>' + Math.round(amount * 0.43).toLocaleString() + ' руб.</td><td><b>' + Math.round(amount * 0.57).toLocaleString() + ' руб.</b></td><td>~43%</td></tr>';
-  
-  html += '</tbody></table>';
-  html += '<p style="font-size:12px;color:var(--text-secondary);margin-top:10px">Для сотрудника учтены: НДФЛ 13%, страховые взносы 30% (платит работодатель сверх оклада). Для ИП: налог 6% + фиксированные страховые взносы ~45 000 руб./год (в пересчёте на месяц ~3 750 руб.).</p>';
-  
+  html += '</tbody></table><p style="font-size:12px;color:var(--text-secondary);margin-top:10px">Для сотрудника учтены: НДФЛ 13%, страховые взносы 30% (платит работодатель). Для ИП: налог 6% + фиксированные взносы ~3 750 руб./мес.</p>';
   document.getElementById('sal-res').innerHTML = html;
 }
 
 // ========== FAQ ==========
 function buildFAQ() {
   var html = '';
-  
   faqList.forEach(function(item) {
     html += '<div class="faq-item"><button class="acc-btn" onclick="toggleFAQ(this)">' + item.q + '</button><div class="acc-body">' + item.a + '</div></div>';
   });
-  
   document.getElementById('faq-list').innerHTML = html;
 }
 
@@ -2257,205 +1678,241 @@ function toggleFAQ(button) {
   }
 }
 
-function searchFAQ() {
-  var query = document.getElementById('faq-search').value.toLowerCase().trim();
-  
-  document.querySelectorAll('#faq-list .faq-item').forEach(function(item) {
-    var button = item.querySelector('.acc-btn');
-    var body = item.querySelector('.acc-body');
-    
-    if (!button || !body) return;
-    
-    if (query === '') {
-      item.classList.remove('hidden-faq');
-      body.classList.remove('open');
-      button.classList.remove('open-btn');
-    } else if (button.textContent.toLowerCase().includes(query)) {
-      item.classList.remove('hidden-faq');
-      body.classList.add('open');
-      button.classList.add('open-btn');
-    } else {
-      item.classList.add('hidden-faq');
-      body.classList.remove('open');
-      button.classList.remove('open-btn');
-    }
-  });
-}
-
 function buildGlossary() {
   var html = '';
-  
   glossaryTerms.forEach(function(term) {
     html += '<span class="tag"><b>' + term.abbr + '</b> — ' + term.desc + '</span>';
   });
-  
   document.getElementById('glossary').innerHTML = html;
 }
 
 // ========== КАЛЕНДАРЬ ==========
 function changeMonth(delta) {
   currentMonth += delta;
-  
-  if (currentMonth > 11) {
-    currentMonth = 0;
-    currentYear++;
-  }
-  if (currentMonth < 0) {
-    currentMonth = 11;
-    currentYear--;
-  }
-  
+  if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+  if (currentMonth < 0) { currentMonth = 11; currentYear--; }
   buildCalendar();
 }
 
 function buildCalendar() {
   var filter = document.getElementById('calendar-filter').value;
-  var monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
-  
+  var monthNames = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
   document.getElementById('calendar-month').textContent = monthNames[currentMonth] + ' ' + currentYear;
-  
   var firstDay = new Date(currentYear, currentMonth, 1).getDay();
   var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-  
   firstDay = firstDay === 0 ? 6 : firstDay - 1;
-  
   var grid = document.getElementById('calendar-grid');
-  var daysOfWeek = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+  var daysOfWeek = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
   var html = '';
-  
-  daysOfWeek.forEach(function(day) {
-    html += '<div class="calendar-header">' + day + '</div>';
-  });
-  
-  for (var i = 0; i < firstDay; i++) {
-    html += '<div></div>';
-  }
-  
+  daysOfWeek.forEach(function(d) { html += '<div class="calendar-header">' + d + '</div>'; });
+  for (var i = 0; i < firstDay; i++) html += '<div></div>';
   var today = new Date();
-  var todayStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
-  
+  var todayStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
   for (var day = 1; day <= daysInMonth; day++) {
-    var dateStr = currentYear + '-' + String(currentMonth + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+    var dateStr = currentYear + '-' + String(currentMonth + 1).padStart(2,'0') + '-' + String(day).padStart(2,'0');
     var isToday = (dateStr === todayStr) ? ' today' : '';
-    
-    var dayEvents = calendarEvents.filter(function(event) {
-      return event.date === dateStr && (filter === 'all' || event.regimes.indexOf(filter) !== -1);
-    });
-    
+    var dayEvents = calendarEvents.filter(function(e) { return e.date === dateStr && (filter === 'all' || e.regimes.indexOf(filter) !== -1); });
     var hasNote = userNotes[dateStr] ? ' has-note' : '';
     var hasEvent = dayEvents.length > 0 ? ' has-event' : '';
-    
     html += '<div class="calendar-day' + isToday + hasEvent + hasNote + '" onclick="showDayInfo(\'' + dateStr + '\')"><b>' + day + '</b>';
-    
-    if (dayEvents.length > 0) {
-      html += '<div class="event-detail">' + dayEvents[0].desc.substring(0, 18) + (dayEvents.length > 1 ? '...' : '') + '</div>';
-    }
-    
-    if (userNotes[dateStr]) {
-      html += '<div class="event-detail" style="color:#ffc107">заметка</div>';
-    }
-    
+    if (dayEvents.length > 0) html += '<div class="event-detail">' + dayEvents[0].desc.substring(0,18) + (dayEvents.length > 1 ? '...' : '') + '</div>';
+    if (userNotes[dateStr]) html += '<div class="event-detail" style="color:#ffc107">заметка</div>';
     html += '</div>';
   }
-  
   grid.innerHTML = html;
   renderNotes();
 }
 
-function showDayInfo(dateStr) {
+function showDayInfo(d) {
   var filter = document.getElementById('calendar-filter').value;
-  
-  var dayEvents = calendarEvents.filter(function(event) {
-    return event.date === dateStr && (filter === 'all' || event.regimes.indexOf(filter) !== -1);
-  });
-  
-  var info = new Date(dateStr).toLocaleDateString('ru', {day: 'numeric', month: 'long', year: 'numeric'}) + '\n\n';
-  
+  var dayEvents = calendarEvents.filter(function(e) { return e.date === d && (filter === 'all' || e.regimes.indexOf(filter) !== -1); });
+  var info = new Date(d).toLocaleDateString('ru',{day:'numeric',month:'long',year:'numeric'}) + '\n\n';
   if (dayEvents.length > 0) {
     info += 'События:\n';
-    dayEvents.forEach(function(event) {
-      var regimeNames = {npd: 'НПД', ip: 'ИП', ooo: 'ООО'};
-      info += '• ' + event.desc + ' (' + event.regimes.map(function(r) { return regimeNames[r] || r; }).join(', ') + ')\n';
-    });
-  } else {
-    info += 'Нет запланированных событий.\n';
-  }
-  
-  if (userNotes[dateStr]) {
-    info += '\nВаша заметка:\n' + userNotes[dateStr].text;
-    if (userNotes[dateStr].time) {
-      info += ' (напомнить в ' + userNotes[dateStr].time + ')';
-    }
-  }
-  
+    var regimeNames = {npd:'НПД',ip:'ИП',ooo:'ООО'};
+    dayEvents.forEach(function(e) { info += '• ' + e.desc + ' (' + e.regimes.map(function(r) { return regimeNames[r]||r; }).join(', ') + ')\n'; });
+  } else { info += 'Нет запланированных событий.\n'; }
+  if (userNotes[d]) { info += '\nЗаметка: ' + userNotes[d].text + (userNotes[d].time ? ' (' + userNotes[d].time + ')' : ''); }
   alert(info);
-  document.getElementById('note-date').value = dateStr;
+  document.getElementById('note-date').value = d;
 }
 
 function addNote() {
   var date = document.getElementById('note-date').value;
   var text = document.getElementById('note-text').value.trim();
   var time = document.getElementById('note-time').value;
-  
-  if (!date || !text) {
-    showToast('Выберите дату и введите текст заметки');
-    return;
-  }
-  
-  userNotes[date] = {
-    text: text,
-    time: time || null
-  };
-  
+  if (!date || !text) { showToast('Выберите дату и введите текст'); return; }
+  userNotes[date] = {text: text, time: time || null};
   localStorage.setItem('userNotes', JSON.stringify(userNotes));
   document.getElementById('note-text').value = '';
-  
-  if (time) {
-    scheduleNoteReminder(date, time, text);
-    showToast('Заметка сохранена! Напоминание установлено на ' + time);
-  } else {
-    showToast('Заметка сохранена!');
-  }
-  
+  if (time) { scheduleNoteReminder(date, time, text); showToast('Заметка сохранена! Напоминание на ' + time); }
+  else { showToast('Заметка сохранена!'); }
   buildCalendar();
+  
+  if (typeof challengeState !== 'undefined' && challengeState.completed.indexOf('t5') < 0) {
+    challengeState.completed.push('t5');
+    challengeState.xp += 10;
+    localStorage.setItem('challengeState', JSON.stringify(challengeState));
+    showToast('🏆 +10 XP! Задание «Заметка в календарь» выполнено!');
+  }
 }
 
 function clearNotes() {
-  if (confirm('Удалить все персональные заметки?')) {
+  if (confirm('Удалить все заметки?')) {
     userNotes = {};
-    
-    Object.keys(noteTimers).forEach(function(key) {
-      clearTimeout(noteTimers[key]);
-    });
-    
+    Object.keys(noteTimers).forEach(function(k) { clearTimeout(noteTimers[k]); });
     noteTimers = {};
-    
     localStorage.removeItem('userNotes');
     buildCalendar();
-    showToast('Все заметки удалены');
+    showToast('Заметки удалены');
   }
 }
 
 function renderNotes() {
   var html = '<b>Ваши заметки:</b><br>';
-  var hasNotes = false;
-  
-  Object.keys(userNotes).sort().forEach(function(dateStr) {
-    var note = userNotes[dateStr];
-    html += '<div style="font-size:13px;padding:8px;margin:4px 0;background:var(--chk-bg);border-radius:8px;border:1px solid var(--border)">';
-    html += '<b>' + new Date(dateStr).toLocaleDateString('ru') + '</b>: ' + note.text;
-    if (note.time) {
-      html += ' <span style="color:var(--p)">(' + note.time + ')</span>';
-    }
-    html += '</div>';
-    hasNotes = true;
+  var has = false;
+  Object.keys(userNotes).sort().forEach(function(d) {
+    html += '<div style="font-size:13px;padding:8px;margin:4px 0;background:var(--chk-bg);border-radius:8px;border:1px solid var(--border)"><b>' + new Date(d).toLocaleDateString('ru') + '</b>: ' + userNotes[d].text + (userNotes[d].time ? ' <span style="color:var(--p)">(' + userNotes[d].time + ')</span>' : '') + '</div>';
+    has = true;
   });
-  
-  if (!hasNotes) {
-    html += '<span style="color:var(--text-secondary)">Нет сохранённых заметок</span>';
-  }
-  
+  if (!has) html += '<span style="color:var(--text-secondary)">Нет заметок</span>';
   document.getElementById('notes-list').innerHTML = html;
+}
+
+// ========== PDF-ОТЧЁТ ==========
+function generateReport() {
+  var name = document.getElementById('report-name').value || 'Не указано';
+  var regime = document.getElementById('report-regime').value;
+  var income = parseFloat(document.getElementById('report-income').value) || 0;
+  var regimeNames = {npd:'НПД',ip6:'ИП УСН 6%',ip15:'ИП УСН 15%',psn:'ИП ПСН',ooo6:'ООО УСН 6%',ooo15:'ООО УСН 15%'};
+  var tax = 0;
+  if (regime === 'npd') tax = income * 0.04;
+  else if (regime === 'ip6' || regime === 'ooo6') tax = income * 0.06;
+  else if (regime === 'ip15' || regime === 'ooo15') tax = income * 0.15;
+  else if (regime === 'psn') tax = income * 0.06;
+  var pdf = new jspdf.jsPDF();
+  pdf.setFontSize(20); pdf.text('Налоговый профиль', 20, 25);
+  pdf.setFontSize(14); pdf.text('Налогоплательщик: ' + name, 20, 40);
+  pdf.text('Режим: ' + (regimeNames[regime] || regime), 20, 52);
+  pdf.text('Годовой доход: ' + income.toLocaleString() + ' руб.', 20, 64);
+  pdf.text('Расчётный налог: ' + Math.round(tax).toLocaleString() + ' руб.', 20, 76);
+  pdf.text('Чистый доход: ' + Math.round(income - tax).toLocaleString() + ' руб.', 20, 88);
+  pdf.text('Эффективная ставка: ' + (income > 0 ? (tax / income * 100).toFixed(1) : 0) + '%', 20, 100);
+  pdf.setFontSize(10); pdf.text('Отчёт сгенерирован сервисом «Налоговый калькулятор»', 20, 120);
+  pdf.text('Дата: ' + new Date().toLocaleDateString('ru'), 20, 128);
+  pdf.save('nalogovyj_profil.pdf');
+  showToast('PDF-отчёт сохранён!');
+}
+
+// ========== ЧЕК-ЛИСТ ==========
+var checklistItems = [
+  {id:'cl1',text:'Выбрать систему налогообложения'},
+  {id:'cl2',text:'Подготовить документы (паспорт, ИНН)'},
+  {id:'cl3',text:'Подать заявление в ФНС'},
+  {id:'cl4',text:'Получить свидетельство о регистрации'},
+  {id:'cl5',text:'Открыть расчётный счёт в банке'},
+  {id:'cl6',text:'Зарегистрировать онлайн-кассу (если нужно)'},
+  {id:'cl7',text:'Настроить приём платежей'},
+  {id:'cl8',text:'Заключить договоры с контрагентами'},
+  {id:'cl9',text:'Настроить бухучёт'},
+  {id:'cl10',text:'Проверить право на каникулы'}
+];
+var checklistState = JSON.parse(localStorage.getItem('checklistState') || '{}');
+function buildChecklist() {
+  var html = '';
+  checklistItems.forEach(function(item) {
+    var ch = checklistState[item.id] ? 'checked' : '';
+    var cl = checklistState[item.id] ? ' completed' : '';
+    html += '<div class="checklist-item' + cl + '"><input type="checkbox" ' + ch + ' onchange="toggleChecklist(\'' + item.id + '\')"><span>' + item.text + '</span></div>';
+  });
+  document.getElementById('checklist-container').innerHTML = html;
+  var done = Object.values(checklistState).filter(function(v) { return v; }).length;
+  document.getElementById('checklist-progress').textContent = Math.round(done / checklistItems.length * 100) + '%';
+}
+function toggleChecklist(id) {
+  checklistState[id] = !checklistState[id];
+  localStorage.setItem('checklistState', JSON.stringify(checklistState));
+  buildChecklist();
+}
+
+// ========== АУДИТ ==========
+function auditCounterparty() {
+  var inn = document.getElementById('audit-inn').value.trim();
+  if (inn.length < 10) { showToast('Введите корректный ИНН'); return; }
+  var rl = 'Низкий'; var rc = 'r-green';
+  if (inn.endsWith('0') || inn.endsWith('5')) { rl = 'Средний'; rc = 'r-yellow'; }
+  if (inn.endsWith('9')) { rl = 'Высокий'; rc = 'r-red'; }
+  var regs = ['НПД','УСН 6%','УСН 15%','ПСН','ОСНО'];
+  document.getElementById('audit-result').innerHTML = '<div class="audit-result"><b>ИНН:</b> ' + inn + '<br><b>Статус:</b> Действующий<br><b>Режим:</b> ' + regs[Math.floor(Math.random()*regs.length)] + '<br><b>Риск:</b> <span class="' + rc + '" style="display:inline-block;padding:2px 10px;border-radius:6px">' + rl + '</span><br><small>Данные смоделированы. Для точной информации обратитесь к ФНС.</small></div>';
+  showToast('Проверка завершена!');
+}
+
+// ========== ЧЕЛЛЕНДЖ ==========
+var challengeTasks = [
+  {id:'t1',text:'Выполнить первый расчёт налога',xp:10},
+  {id:'t2',text:'Проверить лимиты на графике',xp:15},
+  {id:'t3',text:'Пройти анализ рисков',xp:20},
+  {id:'t4',text:'Сравнить все режимы',xp:15},
+  {id:'t5',text:'Добавить заметку в календарь',xp:10},
+  {id:'t6',text:'Проверить право на каникулы',xp:20},
+  {id:'t7',text:'Сгенерировать PDF-отчёт',xp:25},
+  {id:'t8',text:'Проверить контрагента через аудит',xp:15},
+  {id:'t9',text:'Пройти чек-лист до конца',xp:30},
+  {id:'t10',text:'Изучить все лайфхаки',xp:10}
+];
+var challengeState = JSON.parse(localStorage.getItem('challengeState') || '{"xp":0,"completed":[]}');
+function buildChallenge() {
+  var html = '';
+  challengeTasks.forEach(function(t) {
+    var done = challengeState.completed.indexOf(t.id) >= 0;
+    html += '<div class="chk-row"' + (done ? ' style="text-decoration:line-through;opacity:0.6"' : '') + '><input type="checkbox" ' + (done ? 'checked' : '') + ' onchange="toggleChallengeTask(\'' + t.id + '\',' + t.xp + ')"><span>' + t.text + ' (+' + t.xp + ' XP)</span></div>';
+  });
+  document.getElementById('challenge-tasks').innerHTML = html;
+  updateChallengeDisplay();
+}
+function toggleChallengeTask(id, xp) {
+  var i = challengeState.completed.indexOf(id);
+  if (i >= 0) { challengeState.completed.splice(i,1); challengeState.xp -= xp; }
+  else { challengeState.completed.push(id); challengeState.xp += xp; }
+  if (challengeState.xp < 0) challengeState.xp = 0;
+  localStorage.setItem('challengeState', JSON.stringify(challengeState));
+  buildChallenge();
+}
+function updateChallengeDisplay() {
+  var xp = challengeState.xp;
+  var lv = 'Новичок'; var fp = 0;
+  if (xp >= 200) { lv = 'Гуру'; fp = 100; }
+  else if (xp >= 150) { lv = 'Эксперт'; fp = 75; }
+  else if (xp >= 100) { lv = 'Профи'; fp = 50; }
+  else if (xp >= 50) { lv = 'Продвинутый'; fp = 25; }
+  document.getElementById('challenge-level').textContent = lv;
+  document.getElementById('challenge-xp').textContent = xp;
+  document.getElementById('xp-fill').style.width = fp + '%';
+}
+function resetChallenge() {
+  if (confirm('Сбросить прогресс?')) { challengeState = {xp:0,completed:[]}; localStorage.setItem('challengeState', JSON.stringify(challengeState)); buildChallenge(); }
+}
+
+// ========== ТЕПЛОКАРТА ==========
+function buildHeatmap() {
+  var grid = document.getElementById('heatmap-grid');
+  var html = '';
+  var wd = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+  wd.forEach(function(d) { html += '<div style="font-size:10px;text-align:center;color:var(--text-secondary)">' + d + '</div>'; });
+  for (var w = 0; w < 53; w++) {
+    for (var d = 0; d < 7; d++) {
+      var doy = w * 7 + d + 1;
+      var lv = 0;
+      calendarEvents.forEach(function(e) {
+        var ed = new Date(e.date);
+        var sd = new Date(2026,0,1);
+        var edoy = Math.floor((ed - sd) / 86400000) + 1;
+        if (edoy === doy) lv = e.regimes.length * 1.5;
+      });
+      html += '<div class="heatmap-cell lvl-' + Math.min(5, Math.floor(lv)) + '"></div>';
+    }
+  }
+  grid.innerHTML = html;
 }
 
 // ========== ЗАПУСК ==========
