@@ -25,19 +25,18 @@
     --p-dark: #0d6b3d;
     --sb: env(safe-area-inset-bottom, 0px);
     --bg: #f0f2f5;
-    --card: rgba(255, 255, 255, 0.72);
-    --card-border: rgba(255, 255, 255, 0.5);
+    --card: #ffffff;
+    --card-border: #e0e0e0;
     --text: #1a1a1a;
     --text-secondary: #666666;
-    --border: rgba(0, 0, 0, 0.08);
-    --inp-bg: rgba(255, 255, 255, 0.9);
-    --chk-bg: rgba(255, 255, 255, 0.6);
-    --shadow: 0 4px 24px rgba(0,0,0,0.06);
-    --shadow-lg: 0 12px 40px rgba(0,0,0,0.1);
-    --radius: 20px;
-    --radius-sm: 14px;
-    --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    --glass-blur: blur(20px);
+    --border: #e0e0e0;
+    --inp-bg: #ffffff;
+    --chk-bg: #f9f9f9;
+    --shadow: 0 1px 8px rgba(0,0,0,0.06);
+    --shadow-lg: 0 4px 16px rgba(0,0,0,0.08);
+    --radius: 16px;
+    --radius-sm: 10px;
+    --transition: all 0.15s ease;
     --menu-width: 280px;
 }
 @media (prefers-color-scheme: dark) {
@@ -45,44 +44,44 @@
         --p: #2ea76e;
         --p-dark: #1a5c3a;
         --bg: #0a0e14;
-        --card: rgba(22, 27, 34, 0.72);
-        --card-border: rgba(48, 54, 61, 0.5);
+        --card: #161b22;
+        --card-border: #30363d;
         --text: #e6e6e6;
         --text-secondary: #8b949e;
-        --border: rgba(255, 255, 255, 0.06);
-        --inp-bg: rgba(33, 38, 45, 0.9);
-        --chk-bg: rgba(33, 38, 45, 0.6);
-        --shadow: 0 4px 24px rgba(0,0,0,0.3);
-        --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
+        --border: #30363d;
+        --inp-bg: #21262d;
+        --chk-bg: #21262d;
+        --shadow: 0 1px 8px rgba(0,0,0,0.2);
+        --shadow-lg: 0 4px 16px rgba(0,0,0,0.3);
     }
 }
 .light-mode {
     --p: #198754;
     --p-dark: #0d6b3d;
     --bg: #f0f2f5;
-    --card: rgba(255, 255, 255, 0.72);
-    --card-border: rgba(255, 255, 255, 0.5);
+    --card: #ffffff;
+    --card-border: #e0e0e0;
     --text: #1a1a1a;
     --text-secondary: #666666;
-    --border: rgba(0, 0, 0, 0.08);
-    --inp-bg: rgba(255, 255, 255, 0.9);
-    --chk-bg: rgba(255, 255, 255, 0.6);
-    --shadow: 0 4px 24px rgba(0,0,0,0.06);
-    --shadow-lg: 0 12px 40px rgba(0,0,0,0.1);
+    --border: #e0e0e0;
+    --inp-bg: #ffffff;
+    --chk-bg: #f9f9f9;
+    --shadow: 0 1px 8px rgba(0,0,0,0.06);
+    --shadow-lg: 0 4px 16px rgba(0,0,0,0.08);
 }
 .dark-mode {
     --p: #2ea76e;
     --p-dark: #1a5c3a;
     --bg: #0a0e14;
-    --card: rgba(22, 27, 34, 0.72);
-    --card-border: rgba(48, 54, 61, 0.5);
+    --card: #161b22;
+    --card-border: #30363d;
     --text: #e6e6e6;
     --text-secondary: #8b949e;
-    --border: rgba(255, 255, 255, 0.06);
-    --inp-bg: rgba(33, 38, 45, 0.9);
-    --chk-bg: rgba(33, 38, 45, 0.6);
-    --shadow: 0 4px 24px rgba(0,0,0,0.3);
-    --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
+    --border: #30363d;
+    --inp-bg: #21262d;
+    --chk-bg: #21262d;
+    --shadow: 0 1px 8px rgba(0,0,0,0.2);
+    --shadow-lg: 0 4px 16px rgba(0,0,0,0.3);
 }
 * {
     -webkit-tap-highlight-color: transparent;
@@ -94,44 +93,40 @@ body {
     font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background: var(--bg);
     color: var(--text);
-    transition: background 0.3s, color 0.3s;
+    transition: background 0.2s, color 0.2s;
     padding: 56px 0 20px;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
     font-size: 16px;
     overflow-x: hidden;
     min-height: 100vh;
     background-image: 
-        radial-gradient(ellipse at 20% 20%, rgba(25, 135, 84, 0.08) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 80%, rgba(46, 167, 110, 0.06) 0%, transparent 50%);
+        radial-gradient(ellipse at 20% 20%, rgba(25,135,84,0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(46,167,110,0.04) 0%, transparent 50%);
 }
 .hdr {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
-    padding: 8px 20px;
+    background: rgba(255,255,255,0.85);
+    padding: 8px 16px;
     z-index: 100;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--border);
     height: 56px;
-    transition: all 0.3s;
 }
 .dark-mode .hdr {
-    background: rgba(22, 27, 34, 0.75);
+    background: rgba(22,27,34,0.9);
 }
 .hamburger-btn {
     width: 40px;
     height: 40px;
     background: var(--chk-bg);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 10px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
@@ -139,13 +134,10 @@ body {
     justify-content: center;
     gap: 5px;
     padding: 8px;
-    transition: var(--transition);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    transition: background 0.15s;
 }
-.hamburger-btn:hover {
+.hamburger-btn:active {
     background: var(--border);
-    transform: scale(1.05);
 }
 .hamburger-btn span {
     display: block;
@@ -153,7 +145,7 @@ body {
     height: 2px;
     background: var(--text);
     border-radius: 2px;
-    transition: var(--transition);
+    transition: all 0.2s;
 }
 .hamburger-btn.open span:nth-child(1) {
     transform: translateY(7px) rotate(45deg);
@@ -169,20 +161,17 @@ body {
     height: 40px;
     background: var(--chk-bg);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 20px;
-    transition: var(--transition);
     color: var(--text);
     display: flex;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    transition: background 0.15s;
 }
-.theme-btn:hover {
+.theme-btn:active {
     background: var(--border);
-    transform: scale(1.05);
 }
 .menu-overlay {
     position: fixed;
@@ -190,11 +179,11 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0,0,0,0.5);
     z-index: 150;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.25s;
+    transition: opacity 0.2s;
 }
 .menu-overlay.open {
     opacity: 1;
@@ -207,18 +196,16 @@ body {
     bottom: 0;
     width: var(--menu-width);
     z-index: 160;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
+    background: rgba(255,255,255,0.95);
     padding: 60px 20px 30px;
-    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 4px 0 30px rgba(0, 0, 0, 0.15);
+    transition: left 0.2s ease;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.1);
     border-right: 1px solid var(--border);
     display: flex;
     flex-direction: column;
 }
 .dark-mode .side-menu {
-    background: rgba(22, 27, 34, 0.92);
+    background: rgba(22,27,34,0.95);
 }
 .side-menu.open {
     left: 0;
@@ -241,61 +228,44 @@ body {
     font-weight: 600;
     color: var(--text);
     cursor: pointer;
-    border-radius: 14px;
+    border-radius: 12px;
     margin: 4px 0;
-    transition: all 0.2s;
+    transition: background 0.15s;
     display: flex;
     align-items: center;
     gap: 12px;
 }
-.side-menu button:hover {
-    background: rgba(25, 135, 84, 0.12);
-    color: var(--p);
-    transform: translateX(4px);
+.side-menu button:active {
+    background: rgba(25,135,84,0.15);
 }
 .side-menu button.active {
     background: linear-gradient(135deg, var(--p), var(--p-dark));
     color: #fff;
-    box-shadow: 0 4px 16px rgba(25, 135, 84, 0.3);
 }
 .tab {
     display: none;
     padding: 12px 16px;
-    animation: fadeSlideIn 0.3s ease;
+    animation: fadeIn 0.2s ease;
 }
 .tab.active {
     display: block;
 }
-@keyframes fadeSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(8px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 .card {
     background: var(--card);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
     border-radius: var(--radius);
-    padding: 22px;
-    margin: 14px 0;
+    padding: 20px;
+    margin: 12px 0;
     box-shadow: var(--shadow);
     border: 1px solid var(--card-border);
-    transition: var(--transition);
-}
-.card:hover {
-    box-shadow: var(--shadow-lg);
-    transform: translateY(-1px);
 }
 .card h3 {
     font-size: 18px;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     font-weight: 700;
-    letter-spacing: -0.2px;
 }
 .btn {
     display: block;
@@ -307,66 +277,61 @@ body {
     border: none;
     cursor: pointer;
     text-align: center;
-    margin: 10px 0;
-    transition: var(--transition);
+    margin: 8px 0;
+    transition: opacity 0.1s, transform 0.1s;
     font-family: 'Nunito', sans-serif;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+.btn:active {
+    opacity: 0.8;
+    transform: scale(0.98);
 }
 .btn-g {
     background: linear-gradient(135deg, var(--p), var(--p-dark));
     color: #fff;
-    box-shadow: 0 4px 20px rgba(25, 135, 84, 0.3);
-}
-.btn-g:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 28px rgba(25, 135, 84, 0.4);
 }
 .btn-o {
     background: transparent;
     color: var(--p);
     border: 2px solid var(--p);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
 }
-.btn-o:hover {
-    background: rgba(25, 135, 84, 0.08);
-    transform: translateY(-1px);
+.btn-o:active {
+    background: rgba(25,135,84,0.1);
 }
 .btn-s {
     padding: 10px 16px;
     font-size: 14px;
-    border-radius: 12px;
+    border-radius: 10px;
 }
 .btn-red {
     background: #dc3545;
     color: #fff;
     padding: 12px;
     font-size: 15px;
-    border-radius: 12px;
+    border-radius: 10px;
 }
-.btn-red:hover {
+.btn-red:active {
     background: #bb2d3b;
-    transform: translateY(-1px);
 }
 .inp,
 .sel {
     width: 100%;
-    padding: 14px 18px;
+    padding: 14px 16px;
     border-radius: var(--radius-sm);
     border: 2px solid var(--border);
     font-size: 16px;
     background: var(--inp-bg);
     margin: 8px 0 16px;
     color: var(--text);
-    transition: var(--transition);
+    transition: border-color 0.15s;
     font-family: 'Nunito', sans-serif;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
 }
 .inp:focus,
 .sel:focus {
     outline: none;
     border-color: var(--p);
-    box-shadow: 0 0 0 4px rgba(25, 135, 84, 0.12);
 }
 .lbl {
     font-size: 12px;
@@ -381,14 +346,11 @@ body {
     background: linear-gradient(135deg, var(--p), var(--p-dark));
     color: #fff;
     border-radius: var(--radius);
-    padding: 24px;
-    margin: 16px 0;
+    padding: 20px;
+    margin: 14px 0;
     display: flex;
     justify-content: space-around;
     text-align: center;
-    box-shadow: var(--shadow-lg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
 }
 .res h4 {
     font-size: 26px;
@@ -398,56 +360,45 @@ body {
 .res small {
     font-size: 12px;
     opacity: 0.9;
-    letter-spacing: 0.5px;
 }
 .chart-wrap {
     height: 300px;
-    margin: 16px 0;
+    margin: 14px 0;
     background: var(--card);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
     border-radius: var(--radius);
-    padding: 16px;
+    padding: 14px;
     border: 1px solid var(--card-border);
 }
 .r-green {
-    background: rgba(212, 237, 218, 0.7);
-    padding: 16px;
+    background: #d4edda;
+    padding: 14px;
     border-radius: var(--radius-sm);
     border-left: 4px solid #28a745;
     font-weight: 600;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
 }
 .r-yellow {
-    background: rgba(255, 243, 205, 0.7);
-    padding: 16px;
+    background: #fff3cd;
+    padding: 14px;
     border-radius: var(--radius-sm);
     border-left: 4px solid #ffc107;
     font-weight: 600;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
 }
 .r-red {
-    background: rgba(248, 215, 218, 0.7);
-    padding: 16px;
+    background: #f8d7da;
+    padding: 14px;
     border-radius: var(--radius-sm);
     border-left: 4px solid #dc3545;
     font-weight: 600;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
 }
 .disc {
     font-size: 12px;
     color: var(--text-secondary);
     background: var(--chk-bg);
-    padding: 12px 16px;
+    padding: 10px 14px;
     border-radius: var(--radius-sm);
     text-align: center;
     margin: 8px;
     border: 1px solid var(--border);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
 }
 .chk-row {
     display: flex;
@@ -455,16 +406,10 @@ body {
     gap: 12px;
     padding: 12px;
     background: var(--chk-bg);
-    border-radius: 12px;
+    border-radius: 10px;
     margin: 6px 0;
     font-size: 15px;
     border: 1px solid transparent;
-    transition: var(--transition);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-}
-.chk-row:hover {
-    border-color: var(--border);
 }
 .chk-row input[type="checkbox"] {
     width: 20px;
@@ -491,13 +436,12 @@ body {
     border-bottom: 1px solid var(--border);
     cursor: pointer;
     color: var(--text);
-    transition: var(--transition);
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-family: 'Nunito', sans-serif;
 }
-.acc-btn:hover {
+.acc-btn:active {
     background: var(--chk-bg);
 }
 .acc-btn::after {
@@ -526,17 +470,10 @@ body {
     display: inline-block;
     background: var(--chk-bg);
     padding: 8px 14px;
-    border-radius: 10px;
+    border-radius: 8px;
     margin: 4px;
     font-size: 13px;
     border: 1px solid var(--border);
-    transition: var(--transition);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-}
-.tag:hover {
-    border-color: var(--p);
-    transform: translateY(-1px);
 }
 .tag b {
     color: var(--p);
@@ -549,46 +486,35 @@ body {
     line-height: 1.6;
 }
 .alert-box {
-    background: rgba(255, 243, 205, 0.7);
+    background: #fff3cd;
     padding: 14px;
     border-radius: var(--radius-sm);
     font-size: 15px;
     margin: 10px 0;
     border: 1px solid #ffc107;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
 }
 .advice-box {
-    background: rgba(232, 245, 233, 0.7);
+    background: #e8f5e9;
     padding: 14px;
     border-radius: var(--radius-sm);
     font-size: 15px;
     margin: 10px 0;
     border: 1px solid #a5d6a7;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
 }
 .widget-row {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     flex-wrap: wrap;
 }
 .widget-card {
     flex: 1;
     min-width: 130px;
     background: var(--card);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
     border-radius: var(--radius);
-    padding: 18px;
+    padding: 16px;
     text-align: center;
     box-shadow: var(--shadow);
     border: 1px solid var(--card-border);
-    transition: var(--transition);
-}
-.widget-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
 }
 .widget-card .val {
     font-size: 24px;
@@ -602,7 +528,7 @@ body {
     text-transform: none;
     letter-spacing: 0;
     margin-top: 0;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
     font-weight: 600;
 }
 .compare-table {
@@ -627,12 +553,9 @@ body {
 .compare-table td {
     font-size: 15px;
 }
-.compare-table tr:hover {
-    background: var(--chk-bg);
-}
 .quiz-select {
     width: 100%;
-    padding: 14px 18px;
+    padding: 14px 16px;
     border-radius: var(--radius-sm);
     border: 2px solid var(--border);
     font-size: 16px;
@@ -644,15 +567,11 @@ body {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 16px center;
-    transition: var(--transition);
     margin-bottom: 16px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
 }
 .quiz-select:focus {
     outline: none;
     border-color: var(--p);
-    box-shadow: 0 0 0 4px rgba(25, 135, 84, 0.12);
 }
 .badge {
     display: inline-block;
@@ -660,28 +579,25 @@ body {
     border-radius: 20px;
     font-size: 12px;
     font-weight: 700;
-    letter-spacing: 0.3px;
 }
 .badge-green {
-    background: rgba(212, 237, 218, 0.8);
+    background: #d4edda;
     color: #198754;
 }
 .badge-yellow {
-    background: rgba(255, 243, 205, 0.8);
+    background: #fff3cd;
     color: #d97706;
 }
 .badge-blue {
-    background: rgba(219, 234, 254, 0.8);
+    background: #dbeafe;
     color: #2563eb;
 }
 .criteria-box {
     border: 2px solid #dc3545;
-    border-radius: 16px;
+    border-radius: 14px;
     padding: 18px;
-    background: rgba(255, 245, 245, 0.7);
+    background: #fff5f5;
     margin: 14px 0;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
 }
 .criteria-box h4 {
     color: #dc3545;
@@ -695,9 +611,6 @@ body {
     font-size: 14px;
     line-height: 2;
 }
-.criteria-box li {
-    margin: 4px 0;
-}
 .notification-toast {
     position: fixed;
     top: 70px;
@@ -705,46 +618,37 @@ body {
     transform: translateX(-50%);
     background: var(--p);
     color: #fff;
-    padding: 14px 24px;
-    border-radius: 14px;
+    padding: 12px 24px;
+    border-radius: 12px;
     z-index: 300;
     font-size: 15px;
     font-weight: 600;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-    animation: slideDown 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
     display: none;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
 }
 .notification-toast.show {
     display: block;
+    animation: slideDown 0.3s ease;
 }
 @keyframes slideDown {
-    from {
-        transform: translate(-50%, -20px);
-        opacity: 0;
-    }
-    to {
-        transform: translate(-50%, 0);
-        opacity: 1;
-    }
+    from { transform: translate(-50%, -20px); opacity: 0; }
+    to { transform: translate(-50%, 0); opacity: 1; }
 }
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 4px;
+    gap: 3px;
     text-align: center;
-    margin-top: 12px;
+    margin-top: 10px;
 }
 .calendar-day {
     padding: 10px 4px;
-    border-radius: 12px;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 14px;
     background: var(--chk-bg);
     position: relative;
-    min-height: 44px;
-    transition: var(--transition);
+    min-height: 42px;
     border: 1px solid transparent;
     display: flex;
     flex-direction: column;
@@ -752,10 +656,9 @@ body {
     justify-content: center;
     gap: 2px;
 }
-.calendar-day:hover {
+.calendar-day:active {
     background: var(--p);
     color: #fff;
-    border-color: var(--p);
 }
 .calendar-day.today {
     border: 2px solid var(--p);
@@ -777,7 +680,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 .calendar-nav button {
     background: var(--chk-bg);
@@ -787,13 +690,11 @@ body {
     cursor: pointer;
     font-size: 15px;
     color: var(--text);
-    transition: var(--transition);
     font-family: 'Nunito', sans-serif;
 }
-.calendar-nav button:hover {
+.calendar-nav button:active {
     background: var(--p);
     color: #fff;
-    border-color: var(--p);
 }
 .calendar-nav span {
     font-weight: 700;
@@ -825,13 +726,11 @@ body {
     margin-bottom: 4px;
 }
 .install-card {
-    background: linear-gradient(135deg, rgba(25, 135, 84, 0.15), rgba(13, 107, 61, 0.1));
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 2px solid rgba(25, 135, 84, 0.3);
+    background: linear-gradient(135deg, rgba(25,135,84,0.1), rgba(13,107,61,0.05));
+    border: 2px solid rgba(25,135,84,0.2);
     border-radius: var(--radius);
-    padding: 22px;
-    margin: 16px 0;
+    padding: 20px;
+    margin: 14px 0;
     text-align: center;
 }
 .install-card h4 {
@@ -843,7 +742,7 @@ body {
 .install-card p {
     font-size: 14px;
     color: var(--text-secondary);
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     line-height: 1.4;
 }
 .install-card .btn-install {
@@ -856,26 +755,23 @@ body {
     font-weight: 700;
     font-size: 16px;
     cursor: pointer;
-    transition: all 0.2s;
     text-align: center;
     font-family: 'Nunito', sans-serif;
-    box-shadow: 0 4px 16px rgba(25, 135, 84, 0.3);
 }
-.install-card .btn-install:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(25, 135, 84, 0.4);
+.install-card .btn-install:active {
+    opacity: 0.8;
 }
 @media (max-width: 360px) {
     .card {
-        padding: 16px;
+        padding: 14px;
     }
     .widget-card {
         min-width: 100px;
-        padding: 14px;
+        padding: 12px;
     }
     .calendar-day {
         padding: 8px 2px;
-        min-height: 38px;
+        min-height: 36px;
         font-size: 12px;
     }
 }
@@ -945,7 +841,7 @@ body {
 <button class="btn btn-g" onclick="showBenefits()">Показать льготы</button><div id="ben-res" style="margin-top:12px"></div></div>
 
 <div class="card"><h3>Федеральные льготы (актуально на 2026)</h3>
-<div id="federal-benefits"><div style="padding:14px;background:rgba(232,245,233,0.7);border-radius:12px;font-size:15px;line-height:2">
+<div id="federal-benefits"><div style="padding:14px;background:#e8f5e9;border-radius:12px;font-size:15px;line-height:2">
 <b>Действующие федеральные преференции:</b><br><br>
 - Налоговые каникулы 0% — для впервые зарегистрированных ИП на УСН/ПСН (до 2 лет)<br>
 - Вычет 10 000 руб. — для плательщиков НПД (самозанятых)<br>
@@ -955,7 +851,7 @@ body {
 - Повышенный лимит УСН — до 250 млн руб. (с повышенными ставками)<br>
 <small style="color:#666">Источники: НК РФ ст. 346.20, 115-ФЗ, данные ФНС России</small></div></div></div>
 
-<div class="card"><h3>Особые условия региона</h3><div id="special-benefits" style="font-size:15px;padding:14px;background:rgba(255,243,224,0.7);border-radius:12px;border:1px solid #ffc107">Выберите регион для отображения специальных условий</div></div>
+<div class="card"><h3>Особые условия региона</h3><div id="special-benefits" style="font-size:15px;padding:14px;background:#fff3e0;border-radius:12px;border:1px solid #ffc107">Выберите регион для отображения специальных условий</div></div>
 
 <div class="card"><h3>Проверка права на налоговые каникулы</h3>
 <div class="criteria-box"><h4>Обязательные критерии для получения налоговых каникул (ст. 346.20 НК РФ)</h4><ul><li>ИП должен быть зарегистрирован <b>впервые</b> (повторная регистрация не даёт права)</li><li>С даты регистрации прошло <b>менее 2 лет</b></li><li>Вид деятельности <b>должен входить в региональный перечень</b> (устанавливается законом субъекта РФ)</li><li>Доля дохода от льготного вида деятельности — <b>не менее 70%</b></li><li>Режим: <b>УСН или ПСН</b> (на НПД каникулы не распространяются)</li></ul></div>
