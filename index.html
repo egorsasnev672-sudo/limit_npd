@@ -317,7 +317,8 @@ body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--te
 </div>
 
 <div class="notification-toast" id="notification-toast"></div>
-<div class="ftr"><p><b>Официальное уведомление</b><br>Сервис носит информационный характер. Все расчёты локальны. Данные не передаются третьим лицам.<br><br>2026. Все права защищены.</p></div><script>
+<div class="ftr"><p><b>Официальное уведомление</b><br>Сервис носит информационный характер. Все расчёты локальны. Данные не передаются третьим лицам.<br><br>2026. Все права защищены.</p></div>
+<script>
 // ========== PWA - УЛУЧШЕННАЯ УСТАНОВКА ==========
 var manifest = {
   name: "Налоговый калькулятор",
@@ -929,7 +930,8 @@ function clearHistory() {
     renderHistory();
   }
 }
-</script><script>
+</script>
+<script>
 // ========== ПОЛНЫЕ ДАННЫЕ (БЕЗ СОКРАЩЕНИЙ) ==========
 var riskQuestions = [
   {b:'115-ФЗ',q:'Заключаете ли вы письменный договор с каждым клиентом — юридическим лицом?',yes:'Отлично! Наличие договоров значительно снижает риск блокировки по 115-ФЗ.',no:'Рекомендуем заключать договоры со всеми юрлицами — это основной документ для подтверждения реальности сделки.'},
@@ -1605,7 +1607,8 @@ function analyzeQuiz(answers) {
 
   return {html: html, best: best, bestName: regimeNames[best]};
 }
-</script><script>
+</script>
+<script>
 // ========== СРАВНЕНИЕ ==========
 function compare() {
   var income = parseFloat(document.getElementById('cmp-inc').value) || 0;
