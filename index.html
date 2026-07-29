@@ -39,7 +39,7 @@
     --radius-lg: 16px;
     --radius-md: 12px;
     --radius-sm: 8px;
-    --transition: all 0.2s ease;
+    --transition: all 0.12s ease;
     --menu-width: 300px;
 }
 @media (prefers-color-scheme: dark) {
@@ -99,7 +99,7 @@ body {
     font-family: 'Nunito', sans-serif;
     background: var(--bg);
     color: var(--text);
-    transition: background 0.3s, color 0.3s;
+    transition: background 0.12s, color 0.12s;
     padding: 56px 0 20px;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
@@ -135,7 +135,7 @@ body {
     gap: 5px;
     padding: 10px;
     border-radius: 50%;
-    transition: background 0.2s;
+    transition: background 0.12s;
 }
 .hamburger-btn:active {
     background: var(--surface-variant);
@@ -146,7 +146,7 @@ body {
     height: 2px;
     background: var(--text);
     border-radius: 2px;
-    transition: all 0.3s;
+    transition: all 0.2s;
 }
 .hamburger-btn.open span:nth-child(1) {
     transform: translateY(7px) rotate(45deg);
@@ -169,7 +169,7 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    transition: background 0.2s;
+    transition: background 0.12s;
 }
 .theme-btn:active {
     background: var(--surface-variant);
@@ -184,7 +184,7 @@ body {
     z-index: 150;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.25s;
+    transition: opacity 0.2s;
 }
 .menu-overlay.open {
     opacity: 1;
@@ -199,7 +199,7 @@ body {
     z-index: 160;
     background: var(--surface);
     padding: 60px 16px 20px;
-    transition: left 0.3s cubic-bezier(0.4,0,0.2,1);
+    transition: left 0.25s cubic-bezier(0.4,0,0.2,1);
     box-shadow: var(--shadow-md);
     border-right: 1px solid var(--border);
     display: flex;
@@ -233,7 +233,7 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
-    transition: background 0.15s;
+    transition: background 0.12s;
 }
 .side-menu button:active {
     background: var(--surface-variant);
@@ -250,7 +250,7 @@ body {
 .tab {
     display: none;
     padding: 12px 16px;
-    animation: fadeIn 0.25s ease;
+    animation: fadeIn 0.2s ease;
 }
 .tab.active {
     display: block;
@@ -292,27 +292,9 @@ body {
     margin: 8px 0;
     transition: var(--transition);
     font-family: 'Nunito', sans-serif;
-    position: relative;
-    overflow: hidden;
 }
 .btn:active {
     transform: scale(0.97);
-}
-.btn::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.3);
-    transform: translate(-50%,-50%);
-    transition: width 0.6s, height 0.6s;
-}
-.btn:active::after {
-    width: 300px;
-    height: 300px;
 }
 .btn-g {
     background: var(--p);
@@ -348,7 +330,7 @@ body {
     margin: 8px 0 14px;
     color: var(--text);
     font-family: 'Nunito', sans-serif;
-    transition: border-color 0.2s;
+    transition: border-color 0.12s;
 }
 .inp:focus, .sel:focus {
     outline: none;
@@ -468,7 +450,7 @@ body {
 .acc-btn::after {
     content: '▸';
     font-size: 14px;
-    transition: transform 0.2s;
+    transition: transform 0.15s;
     color: var(--p);
     font-weight: 700;
 }
@@ -609,7 +591,7 @@ body {
 }
 .notification-toast.show {
     display: block;
-    animation: slideDown 0.3s ease;
+    animation: slideDown 0.2s ease;
 }
 @keyframes slideDown {
     from {
@@ -624,17 +606,22 @@ body {
 .heatmap-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 3px;
+    gap: 2px;
 }
 .heatmap-cell {
     aspect-ratio: 1;
-    border-radius: 3px;
-    min-height: 16px;
+    border-radius: 2px;
+    min-height: 18px;
     cursor: pointer;
-    transition: transform 0.15s;
+    transition: transform 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: var(--text);
 }
 .heatmap-cell:active {
-    transform: scale(1.3);
+    transform: scale(1.2);
 }
 .heatmap-cell.lvl-0 {
     background: var(--surface-variant);
@@ -653,6 +640,7 @@ body {
 }
 .heatmap-cell.lvl-5 {
     background: #dc3545;
+    color: #fff;
 }
 .heatmap-legend {
     display: flex;
@@ -670,7 +658,44 @@ body {
 .heatmap-legend .dot {
     width: 12px;
     height: 12px;
-    border-radius: 3px;
+    border-radius: 2px;
+}
+.heatmap-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.heatmap-nav button {
+    background: var(--surface-variant);
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    transition: background 0.12s;
+}
+.heatmap-nav button:active {
+    background: var(--p);
+    color: #fff;
+}
+.heatmap-nav span {
+    font-weight: 700;
+    font-size: 16px;
+}
+.heatmap-month-labels {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    margin-bottom: 4px;
+}
+.heatmap-month-label {
+    font-size: 9px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-weight: 600;
 }
 .challenge-card {
     background: linear-gradient(135deg, #fef3c7, #fde68a);
@@ -694,7 +719,7 @@ body {
     height: 100%;
     border-radius: 4px;
     background: #7c3aed;
-    transition: width 0.5s;
+    transition: width 0.4s;
 }
 .checklist-item {
     display: flex;
@@ -709,6 +734,26 @@ body {
 .checklist-item.completed {
     background: #d4edda;
     border: 1px solid #28a745;
+}
+.checklist-progress-bar {
+    height: 10px;
+    background: var(--surface-variant);
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 12px 0 8px;
+}
+.checklist-progress-fill {
+    height: 100%;
+    border-radius: 5px;
+    background: linear-gradient(90deg, var(--p), #28a745);
+    transition: width 0.5s ease;
+}
+.checklist-message {
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 8px;
+    font-weight: 600;
 }
 .lifehack-card {
     background: #f0fdf4;
@@ -779,24 +824,24 @@ body {
 <div class="menu-overlay" id="menu-overlay" onclick="toggleMenu()"></div>
 <nav class="side-menu" id="side-menu">
     <h3>Основное</h3>
-    <button class="active" onclick="navigateFromMenu('calc')">📊 Расчёт налога</button>
-    <button onclick="navigateFromMenu('risk')">⚠️ Анализ рисков</button>
-    <button onclick="navigateFromMenu('ben')">🎁 Льготы и каникулы</button>
-    <button onclick="navigateFromMenu('comp')">⚖️ Сравнение режимов</button>
-    <button onclick="navigateFromMenu('faq')">📚 База знаний</button>
+    <button class="active" onclick="navigateFromMenu('calc')">Расчёт налога</button>
+    <button onclick="navigateFromMenu('risk')">Анализ рисков</button>
+    <button onclick="navigateFromMenu('ben')">Льготы и каникулы</button>
+    <button onclick="navigateFromMenu('comp')">Сравнение режимов</button>
+    <button onclick="navigateFromMenu('faq')">База знаний</button>
     <div class="menu-divider"></div>
     <h3>Инструменты</h3>
-    <button onclick="navigateFromMenu('report')">📄 PDF-отчёт</button>
-    <button onclick="navigateFromMenu('checklist')">✅ Чек-лист ИП/ООО</button>
+    <button onclick="navigateFromMenu('report')">PDF-отчёт</button>
+    <button onclick="navigateFromMenu('checklist')">Чек-лист ИП/ООО</button>
     <div class="menu-divider"></div>
     <h3>Развитие</h3>
-    <button onclick="navigateFromMenu('challenge')">🏆 Челлендж</button>
-    <button onclick="navigateFromMenu('heatmap')">🔥 Теплокарта года</button>
+    <button onclick="navigateFromMenu('challenge')">Челлендж</button>
+    <button onclick="navigateFromMenu('heatmap')">Теплокарта года</button>
     <div class="menu-divider"></div>
     <div class="install-card">
         <h4>Установить приложение</h4>
         <p>Работает офлайн. Все данные локально.</p>
-        <button class="btn-install" onclick="installApp()">📲 Установить PWA</button>
+        <button class="btn-install" onclick="installApp()">Установить PWA</button>
     </div>
 </nav>
 
@@ -887,11 +932,11 @@ body {
 <div class="tab" id="tab-faq">
 <div class="card"><h3>Часто задаваемые вопросы</h3><div id="faq-list">Загрузка...</div></div>
 <div class="card"><h3>Налоговые лайфхаки</h3>
-<div class="lifehack-card"><h4>💡 Совмещение НПД и найма</h4><p>Можно одновременно быть самозанятым и работать по трудовому договору.</p></div>
-<div class="lifehack-card"><h4>💡 Вычет 10 000 руб.</h4><p>Каждый новый самозанятый получает вычет. Ставка снижается до 3% и 4% пока вычет не исчерпан.</p></div>
-<div class="lifehack-card"><h4>💡 Патент для сезонного бизнеса</h4><p>Покупайте патент только на нужные месяцы — дешевле, чем УСН за полный год.</p></div>
-<div class="lifehack-card"><h4>💡 Уменьшение УСН на взносы</h4><p>ИП на УСН 6% без сотрудников может уменьшить налог на 100% фиксированных взносов.</p></div>
-<div class="lifehack-card"><h4>💡 Переход с НПД на УСН</h4><p>При превышении лимита 2.4 млн у вас есть 20 дней на переход. Подайте уведомление сразу.</p></div>
+<div class="lifehack-card"><h4>Совмещение НПД и найма</h4><p>Можно одновременно быть самозанятым и работать по трудовому договору.</p></div>
+<div class="lifehack-card"><h4>Вычет 10 000 руб.</h4><p>Каждый новый самозанятый получает вычет. Ставка снижается до 3% и 4% пока вычет не исчерпан.</p></div>
+<div class="lifehack-card"><h4>Патент для сезонного бизнеса</h4><p>Покупайте патент только на нужные месяцы — дешевле, чем УСН за полный год.</p></div>
+<div class="lifehack-card"><h4>Уменьшение УСН на взносы</h4><p>ИП на УСН 6% без сотрудников может уменьшить налог на 100% фиксированных взносов.</p></div>
+<div class="lifehack-card"><h4>Переход с НПД на УСН</h4><p>При превышении лимита 2.4 млн у вас есть 20 дней на переход. Подайте уведомление сразу.</p></div>
 </div>
 <div class="card"><h3>Налоговые каникулы: справочник</h3><div id="holiday-full-list" style="font-size:13px;max-height:400px;overflow-y:auto;padding:10px;background:var(--surface-variant);border-radius:var(--radius-md);line-height:1.8">Загрузка...</div></div>
 <div class="card"><h3>Глоссарий</h3><div id="glossary">Загрузка...</div></div>
@@ -913,12 +958,14 @@ body {
 <div class="card"><h3>Чек-лист регистрации ИП/ООО</h3>
 <p style="font-size:14px;color:var(--text-secondary);margin-bottom:12px">Отмечайте выполненные шаги. Прогресс сохраняется локально.</p>
 <div id="checklist-container"></div>
-<div style="margin-top:8px;font-size:13px;color:var(--text-secondary)">Прогресс: <span id="checklist-progress">0%</span></div></div>
+<div class="checklist-progress-bar"><div class="checklist-progress-fill" id="checklist-progress-fill" style="width:0%"></div></div>
+<div class="checklist-message" id="checklist-message">Вы в начале пути</div>
+<div style="font-size:13px;color:var(--text-secondary);text-align:center">Прогресс: <span id="checklist-progress">0%</span></div></div>
 </div>
 
 <div class="tab" id="tab-challenge">
 <div class="challenge-card">
-<h3>🏆 Ежедневный налоговый челлендж</h3>
+<h3>Ежедневный налоговый челлендж</h3>
 <p style="font-size:13px;margin-bottom:8px">Выполняйте задания, повышайте уровень. Задания обновляются каждые 24 часа.</p>
 <div style="display:flex;justify-content:space-between;margin:10px 0"><span>Уровень: <b id="challenge-level">Новичок</b></span><span>Очки: <b id="challenge-xp">0</b> XP</span></div>
 <div class="xp-bar"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
@@ -927,8 +974,14 @@ body {
 </div>
 
 <div class="tab" id="tab-heatmap">
-<div class="card"><h3>🔥 Теплокарта налогового года 2026</h3>
-<p style="font-size:13px;color:var(--text-secondary);margin-bottom:10px">Каждый день окрашен в зависимости от количества налоговых событий. Чем краснее — тем больше событий в этот день.</p>
+<div class="card"><h3>Теплокарта налогового календаря</h3>
+<p style="font-size:13px;color:var(--text-secondary);margin-bottom:10px">Каждый день окрашен по количеству налоговых событий. Нажимайте на день для подробностей. Чем краснее — тем больше событий.</p>
+<div class="heatmap-nav">
+    <button onclick="changeHeatmapYear(-1)">← Предыдущий год</button>
+    <span id="heatmap-year">2026</span>
+    <button onclick="changeHeatmapYear(1)">Следующий год →</button>
+</div>
+<div class="heatmap-month-labels" id="heatmap-month-labels"></div>
 <div class="heatmap-grid" id="heatmap-grid"></div>
 <div class="heatmap-legend">
 <span><span class="dot" style="background:var(--surface-variant)"></span> Нет событий</span>
@@ -943,8 +996,9 @@ body {
 
 <div class="notification-toast" id="notification-toast"></div>
 <div class="ftr"><p><b>Официальное уведомление</b><br>Сервис носит информационный характер. Все расчёты локальны. Данные не передаются третьим лицам.<br><br>2026. Все права защищены.</p></div>
+```html
 <script>
-// ========== PWA - УЛУЧШЕННАЯ УСТАНОВКА ==========
+// ========== PWA ==========
 var manifest = {
     name: "Налоговый калькулятор",
     short_name: "Налог.кальк",
@@ -1020,7 +1074,7 @@ function installApp() {
         if (isIOS && isSafari) {
             alert('Для установки на iPhone/iPad:\n\n1. Нажмите кнопку "Поделиться" (квадрат со стрелкой) в Safari\n2. Выберите "На экран «Домой»"\n3. Нажмите "Добавить"\n\nПриложение установится как отдельное!');
         } else if (isChrome && !isIOS) {
-            alert('Для установки откройте меню Chrome (три точки ⋮) и выберите "Установить приложение" или "Добавить на главный экран".');
+            alert('Для установки откройте меню Chrome (три точки) и выберите "Установить приложение" или "Добавить на главный экран".');
         } else {
             alert('Для установки откройте сайт в Chrome и выберите "Добавить на главный экран" в меню браузера.');
         }
@@ -1119,6 +1173,7 @@ function applyTheme(dark) {
     localStorage.setItem('dark', dark);
 
     if (chart) {
+        var currentMonthly = parseFloat(document.getElementById('monthly').value) || 0;
         chart.destroy();
         updForecast();
     }
@@ -1182,7 +1237,7 @@ function showToast(message) {
     toast.classList.add('show');
     setTimeout(function() {
         toast.classList.remove('show');
-    }, 3000);
+    }, 2500);
 }
 
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
@@ -1389,7 +1444,7 @@ function updForecast() {
             responsive: true,
             maintainAspectRatio: false,
             animation: {
-                duration: 400
+                duration: 300
             },
             plugins: {
                 legend: {
@@ -1555,7 +1610,7 @@ function clearHistory() {
     }
 }
 </script>
-<script>
+    <script>
 // ========== ПОЛНЫЕ ДАННЫЕ (БЕЗ СОКРАЩЕНИЙ) ==========
 var riskQuestions = [
     {b:'115-ФЗ',q:'Заключаете ли вы письменный договор с каждым клиентом — юридическим лицом?',yes:'Отлично! Наличие договоров значительно снижает риск блокировки по 115-ФЗ.',no:'Рекомендуем заключать договоры со всеми юрлицами — это основной документ для подтверждения реальности сделки.'},
@@ -1827,6 +1882,7 @@ var currentMonth = 6;
 var currentYear = 2026;
 var lastQuizResult = null;
 var noteTimers = {};
+var heatmapYear = 2026;
 
 // ========== ЕЖЕДНЕВНЫЙ СБРОС ЧЕЛЛЕНДЖА ==========
 function checkDailyReset() {
@@ -1846,7 +1902,7 @@ function challengeComplete(taskId) {
         var xpMap = {t1:10, t2:15, t3:20, t4:15, t5:10, t6:20, t7:25, t9:30, t10:10};
         state.xp += (xpMap[taskId] || 10);
         localStorage.setItem('challengeState', JSON.stringify(state));
-        showToast('🏆 Задание выполнено! +' + (xpMap[taskId] || 10) + ' XP');
+        showToast('Задание выполнено! +' + (xpMap[taskId] || 10) + ' XP');
         if (document.getElementById('tab-challenge') && document.getElementById('tab-challenge').classList.contains('active')) {
             buildChallenge();
         }
@@ -2215,16 +2271,16 @@ function analyzeQuiz(answers) {
         ooo15: '<b>ООО УСН 15%</b> — налог с прибыли для ООО. Лимит 250 млн руб.'
     };
 
-    var html = '<div style="background:#d4edda;padding:16px;border-radius:14px;margin-bottom:14px"><h3 style="color:#198754;margin-bottom:8px">🏆 Оптимальный режим: ' + regimeNames[best] + '</h3><p style="font-size:14px">' + regimeDescriptions[best] + '</p><div style="margin-top:8px"><span class="badge badge-green">Рекомендация системы</span></div></div>';
+    var html = '<div style="background:#d4edda;padding:16px;border-radius:14px;margin-bottom:14px"><h3 style="color:#198754;margin-bottom:8px">Оптимальный режим: ' + regimeNames[best] + '</h3><p style="font-size:14px">' + regimeDescriptions[best] + '</p><div style="margin-top:8px"><span class="badge badge-green">Рекомендация системы</span></div></div>';
 
     if (warnings.length > 0) {
-        html += '<div style="background:#fff3cd;padding:14px;border-radius:12px;margin-bottom:14px"><b>⚠️ Ограничения</b><br>';
+        html += '<div style="background:#fff3cd;padding:14px;border-radius:12px;margin-bottom:14px"><b>Ограничения</b><br>';
         warnings.forEach(function(w) { html += '• ' + w + '<br>'; });
         html += '</div>';
     }
 
     if (recommendations.length > 0) {
-        html += '<div style="background:#dbeafe;padding:14px;border-radius:12px;margin-bottom:14px"><b>🎁 Возможности</b><br>';
+        html += '<div style="background:#dbeafe;padding:14px;border-radius:12px;margin-bottom:14px"><b>Возможности</b><br>';
         recommendations.forEach(function(r) { html += '• ' + r + '<br>'; });
         html += '</div>';
     }
@@ -2232,7 +2288,7 @@ function analyzeQuiz(answers) {
     return {html: html, best: best, bestName: regimeNames[best]};
 }
 </script>
-<script>
+    <script>
 // ========== СРАВНЕНИЕ ==========
 function compare() {
     var income = parseFloat(document.getElementById('cmp-inc').value) || 0;
@@ -2269,7 +2325,7 @@ function compare() {
     });
 
     html += '</tbody></table>';
-    html += '<p style="color:var(--p);font-size:15px;margin-top:12px;font-weight:600">🏆 Оптимальный выбор: <b>' + best.name + '</b> — чистый доход <b>' + Math.round(income - best.total).toLocaleString() + ' руб.</b></p>';
+    html += '<p style="color:var(--p);font-size:15px;margin-top:12px;font-weight:600">Оптимальный выбор: <b>' + best.name + '</b> — чистый доход <b>' + Math.round(income - best.total).toLocaleString() + ' руб.</b></p>';
 
     document.getElementById('cmp-res').innerHTML = html;
     document.getElementById('save-cmp-btn').style.display = 'block';
@@ -2528,6 +2584,7 @@ function generateReport() {
 
     var pdf = new jspdf.jsPDF();
 
+    // Заголовок
     pdf.setFontSize(16);
     pdf.setFont('helvetica', 'bold');
     pdf.text('НАЛОГОВЫЙ ПРОФИЛЬ', 105, 20, {align: 'center'});
@@ -2536,10 +2593,12 @@ function generateReport() {
     pdf.setFont('helvetica', 'normal');
     pdf.text('Составлен в соответствии с ГОСТ Р 7.0.97-2016', 105, 28, {align: 'center'});
 
+    // Линия
     pdf.setDrawColor(25, 135, 84);
     pdf.setLineWidth(0.5);
     pdf.line(20, 32, 190, 32);
 
+    // Раздел 1: Реквизиты
     pdf.setFontSize(12);
     pdf.setFont('helvetica', 'bold');
     pdf.text('1. Реквизиты налогоплательщика', 20, 42);
@@ -2550,6 +2609,7 @@ function generateReport() {
     pdf.text('ИНН: ' + inn, 20, 58);
     pdf.text('Режим налогообложения: ' + (regimeNames[regime] || regime), 20, 66);
 
+    // Раздел 2: Финансовые показатели
     pdf.setFontSize(12);
     pdf.setFont('helvetica', 'bold');
     pdf.text('2. Финансовые показатели за отчётный период', 20, 78);
@@ -2564,9 +2624,11 @@ function generateReport() {
     pdf.text('Чистый доход (после налогообложения): ' + Math.round(netIncome).toLocaleString() + ' руб.', 20, 110);
     pdf.text('Эффективная налоговая ставка: ' + effectiveRate + '%', 20, 118);
 
+    // Разделитель
     pdf.setDrawColor(200, 200, 200);
     pdf.line(20, 124, 190, 124);
 
+    // Раздел 3: Дополнительная информация
     pdf.setFontSize(12);
     pdf.setFont('helvetica', 'bold');
     pdf.text('3. Дополнительная информация', 20, 134);
@@ -2576,20 +2638,23 @@ function generateReport() {
     pdf.text('Страховые взносы ИП (фикс.): 53 700 руб./год', 20, 142);
     pdf.text('Лимит выбранного режима: согласно НК РФ', 20, 150);
 
+    // Финальная линия
     pdf.setDrawColor(25, 135, 84);
     pdf.line(20, 160, 190, 160);
 
+    // Подвал
     pdf.setFontSize(9);
     pdf.text('Отчёт сгенерирован сервисом «Налоговый калькулятор» | Дата: ' + new Date().toLocaleDateString('ru'), 105, 170, {align: 'center'});
     pdf.text('Данный документ носит информационный характер и не является официальной отчётностью', 105, 176, {align: 'center'});
 
+    // Место для подписи
     pdf.setFontSize(10);
     pdf.text('___________________________ /' + name + '/', 20, 190);
     pdf.text('Подпись налогоплательщика', 20, 196);
 
     pdf.save('nalogovyj_profil.pdf');
 
-    document.getElementById('report-result').innerHTML = '<div class="r-green">✅ Отчёт успешно сформирован и сохранён в формате PDF!</div>';
+    document.getElementById('report-result').innerHTML = '<div class="r-green">Отчёт успешно сформирован и сохранён в формате PDF!</div>';
     showToast('PDF-отчёт сохранён!');
 
     challengeComplete('t7');
@@ -2643,7 +2708,24 @@ function updateChecklistProgress() {
     var completed = Object.values(checklistState).filter(function(v) { return v; }).length;
     var total = checklistItems.length;
     var percent = Math.round(completed / total * 100);
-    document.getElementById('checklist-progress').textContent = percent + '% (' + completed + '/' + total + ')';
+    
+    document.getElementById('checklist-progress').textContent = percent + '%';
+    document.getElementById('checklist-progress-fill').style.width = percent + '%';
+    
+    var message = '';
+    if (completed === 0) {
+        message = 'Вы в начале пути — сделайте первый шаг!';
+    } else if (completed <= 3) {
+        message = 'Вы в начале пути — продолжайте!';
+    } else if (completed <= 7) {
+        message = 'Вы идёте верной дорогой!';
+    } else if (completed < total) {
+        message = 'Вы почти пришли — осталось немного!';
+    } else {
+        message = 'Поздравляем! Все шаги выполнены! Ваш бизнес готов к старту!';
+    }
+    
+    document.getElementById('checklist-message').textContent = message;
 }
 
 // ========== ЕЖЕДНЕВНЫЙ ЧЕЛЛЕНДЖ ==========
@@ -2672,7 +2754,7 @@ function buildChallenge() {
         html += '<input type="checkbox" ' + (done ? 'checked' : '') + ' onchange="toggleChallengeTask(\'' + task.id + '\',' + task.xp + ')">';
         html += '<div><span>' + task.text + ' (+' + task.xp + ' XP)</span>';
         if (!done) {
-            html += '<br><small style="color:var(--text-secondary)">💡 ' + task.hint + '</small>';
+            html += '<br><small style="color:var(--text-secondary)">' + task.hint + '</small>';
         }
         html += '</div>';
         html += '</div>';
@@ -2720,49 +2802,133 @@ function resetChallenge() {
     }
 }
 
-// ========== ТЕПЛОКАРТА НАЛОГОВОГО ГОДА ==========
+// ========== ТЕПЛОКАРТА НАЛОГОВОГО КАЛЕНДАРЯ ==========
+function changeHeatmapYear(delta) {
+    heatmapYear += delta;
+    document.getElementById('heatmap-year').textContent = heatmapYear;
+    buildHeatmap();
+}
+
 function buildHeatmap() {
     var grid = document.getElementById('heatmap-grid');
-    if (!grid) return;
+    var labelsContainer = document.getElementById('heatmap-month-labels');
+    if (!grid || !labelsContainer) return;
 
+    document.getElementById('heatmap-year').textContent = heatmapYear;
+
+    // Строим метки месяцев
+    var monthNames = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
+    var monthLabelHtml = '';
+    
+    // Вычисляем день недели 1 января выбранного года
+    var jan1 = new Date(heatmapYear, 0, 1);
+    var jan1DayOfWeek = jan1.getDay();
+    jan1DayOfWeek = jan1DayOfWeek === 0 ? 6 : jan1DayOfWeek - 1; // Пн=0, Вс=6
+    
+    // Строим метки для каждого месяца
+    var currentDayOfYear = 0;
+    var currentWeekDay = jan1DayOfWeek;
+    
+    for (var m = 0; m < 12; m++) {
+        var daysInMonth = new Date(heatmapYear, m + 1, 0).getDate();
+        var startWeek = Math.floor((currentDayOfYear + jan1DayOfWeek) / 7);
+        var endWeek = Math.floor((currentDayOfYear + jan1DayOfWeek + daysInMonth - 1) / 7);
+        
+        // Заполняем пустые ячейки до начала месяца
+        for (var w = 0; w < startWeek; w++) {
+            if (m === 0) {
+                for (var d = 0; d < 7; d++) {
+                    monthLabelHtml += '<div class="heatmap-month-label"></div>';
+                }
+            }
+        }
+        
+        // Метка месяца
+        var labelWidth = endWeek - startWeek + 1;
+        monthLabelHtml += '<div class="heatmap-month-label" style="grid-column: span ' + (labelWidth * 7) + ';">' + monthNames[m] + '</div>';
+        
+        currentDayOfYear += daysInMonth;
+    }
+
+    labelsContainer.innerHTML = monthLabelHtml;
+
+    // Строим ячейки теплокарты
     var html = '';
     var weekDays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
 
+    // Заголовки дней недели
     weekDays.forEach(function(d) {
         html += '<div style="font-size:10px;text-align:center;color:var(--text-secondary)">' + d + '</div>';
     });
 
-    for (var week = 0; week < 53; week++) {
-        for (var day = 0; day < 7; day++) {
-            var dayOfYear = week * 7 + day + 1;
-            var level = 0;
+    var daysInYear = (heatmapYear % 4 === 0 && heatmapYear % 100 !== 0) || heatmapYear % 400 === 0 ? 366 : 365;
+    var startDayOfWeek = jan1DayOfWeek;
 
-            calendarEvents.forEach(function(event) {
-                var eventDate = new Date(event.date);
-                var startDate = new Date(2026, 0, 1);
-                var eventDayOfYear = Math.floor((eventDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+    // Пустые ячейки до первого дня года
+    for (var i = 0; i < startDayOfWeek; i++) {
+        html += '<div></div>';
+    }
 
-                if (eventDayOfYear === dayOfYear) {
-                    level = Math.max(level, event.regimes.length * 1.5);
-                }
-            });
+    var currentDate = new Date(heatmapYear, 0, 1);
 
-            Object.keys(userNotes).forEach(function(noteDate) {
-                var noteDateObj = new Date(noteDate);
-                var startDate = new Date(2026, 0, 1);
-                var noteDayOfYear = Math.floor((noteDateObj - startDate) / (1000 * 60 * 60 * 24)) + 1;
+    for (var dayOfYear = 1; dayOfYear <= daysInYear; dayOfYear++) {
+        var dateStr = heatmapYear + '-' + String(currentDate.getMonth() + 1).padStart(2, '0') + '-' + String(currentDate.getDate()).padStart(2, '0');
+        var level = 0;
+        var eventDescriptions = [];
 
-                if (noteDayOfYear === dayOfYear) {
-                    level = Math.max(level, 2);
-                }
-            });
+        // Проверяем события календаря
+        calendarEvents.forEach(function(event) {
+            if (event.date === dateStr) {
+                level = Math.max(level, event.regimes.length * 1.5);
+                eventDescriptions.push(event.desc);
+            }
+        });
 
-            var lvlClass = 'lvl-' + Math.min(5, Math.floor(level));
-            html += '<div class="heatmap-cell ' + lvlClass + '"></div>';
-        }
+        // Проверяем заметки пользователя
+        Object.keys(userNotes).forEach(function(noteDate) {
+            if (noteDate === dateStr) {
+                level = Math.max(level, 2);
+                eventDescriptions.push('Заметка: ' + userNotes[noteDate].text);
+            }
+        });
+
+        var lvlClass = 'lvl-' + Math.min(5, Math.floor(level));
+        var dayNumber = currentDate.getDate();
+        var tooltip = dateStr + (eventDescriptions.length > 0 ? '\n' + eventDescriptions.join('\n') : '\nНет событий');
+
+        html += '<div class="heatmap-cell ' + lvlClass + '" onclick="showHeatmapDayInfo(\'' + dateStr + '\')" title="' + tooltip.replace(/"/g, '&quot;') + '">' + dayNumber + '</div>';
+
+        currentDate.setDate(currentDate.getDate() + 1);
     }
 
     grid.innerHTML = html;
+}
+
+function showHeatmapDayInfo(dateStr) {
+    var dayEvents = calendarEvents.filter(function(event) {
+        return event.date === dateStr;
+    });
+
+    var info = new Date(dateStr).toLocaleDateString('ru', {day: 'numeric', month: 'long', year: 'numeric'}) + '\n\n';
+
+    if (dayEvents.length > 0) {
+        info += 'События:\n';
+        var regimeNames = {npd: 'НПД', ip: 'ИП', ooo: 'ООО'};
+        dayEvents.forEach(function(event) {
+            info += '• ' + event.desc + ' (' + event.regimes.map(function(r) { return regimeNames[r] || r; }).join(', ') + ')\n';
+        });
+    } else {
+        info += 'Нет запланированных событий.\n';
+    }
+
+    if (userNotes[dateStr]) {
+        info += '\nВаша заметка:\n' + userNotes[dateStr].text;
+        if (userNotes[dateStr].time) {
+            info += ' (напомнить в ' + userNotes[dateStr].time + ')';
+        }
+    }
+
+    alert(info);
 }
 
 // ========== ЗАПУСК ПРИЛОЖЕНИЯ ==========
@@ -2772,3 +2938,4 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </body>
 </html>
+    
