@@ -603,44 +603,123 @@ body {
         opacity: 1;
     }
 }
-.heatmap-grid {
+.calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 2px;
+    gap: 3px;
+    text-align: center;
+    margin-top: 8px;
 }
-.heatmap-cell {
-    aspect-ratio: 1;
-    border-radius: 2px;
-    min-height: 18px;
+.calendar-day {
+    padding: 8px 2px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: transform 0.1s;
+    font-size: 13px;
+    background: var(--surface-variant);
+    position: relative;
+    min-height: 36px;
+    transition: var(--transition);
+    border: 1px solid transparent;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: 9px;
-    color: var(--text);
+    gap: 1px;
 }
-.heatmap-cell:active {
-    transform: scale(1.2);
+.calendar-day:active {
+    background: var(--p);
+    color: #fff;
 }
-.heatmap-cell.lvl-0 {
+.calendar-day.today {
+    border: 2px solid var(--p);
+    font-weight: bold;
+}
+.calendar-day.other-month {
+    opacity: 0.3;
+}
+.calendar-day.lvl-0 {
     background: var(--surface-variant);
 }
-.heatmap-cell.lvl-1 {
+.calendar-day.lvl-1 {
     background: #d4edda;
+    border-left: 2px solid #28a745;
 }
-.heatmap-cell.lvl-2 {
+.calendar-day.lvl-2 {
     background: #fff3cd;
+    border-left: 2px solid #ffc107;
 }
-.heatmap-cell.lvl-3 {
+.calendar-day.lvl-3 {
     background: #ffc107;
+    border-left: 2px solid #f59e0b;
+    font-weight: 600;
 }
-.heatmap-cell.lvl-4 {
+.calendar-day.lvl-4 {
     background: #fd7e14;
-}
-.heatmap-cell.lvl-5 {
-    background: #dc3545;
+    border-left: 2px solid #dc3545;
     color: #fff;
+    font-weight: 600;
+}
+.calendar-day.lvl-5 {
+    background: #dc3545;
+    border-left: 2px solid #a71d2a;
+    color: #fff;
+    font-weight: 700;
+}
+.calendar-header {
+    font-weight: 700;
+    color: var(--p);
+    font-size: 11px;
+    padding: 6px 2px;
+}
+.calendar-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.calendar-nav button {
+    background: var(--surface-variant);
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    transition: background 0.12s;
+}
+.calendar-nav button:active {
+    background: var(--p);
+    color: #fff;
+}
+.calendar-nav span {
+    font-weight: 700;
+    font-size: 16px;
+}
+.event-detail {
+    font-size: 8px;
+    color: var(--p);
+    margin-top: 1px;
+    line-height: 1.1;
+}
+.note-input {
+    width: 100%;
+    padding: 8px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    font-size: 14px;
+    margin-top: 4px;
+    background: var(--inp-bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+}
+.tooltip-text {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-top: 2px;
+    display: block;
+    margin-bottom: 4px;
 }
 .heatmap-legend {
     display: flex;
@@ -658,44 +737,7 @@ body {
 .heatmap-legend .dot {
     width: 12px;
     height: 12px;
-    border-radius: 2px;
-}
-.heatmap-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-.heatmap-nav button {
-    background: var(--surface-variant);
-    border: 1px solid var(--border);
-    padding: 6px 14px;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    font-size: 14px;
-    color: var(--text);
-    font-family: 'Nunito', sans-serif;
-    transition: background 0.12s;
-}
-.heatmap-nav button:active {
-    background: var(--p);
-    color: #fff;
-}
-.heatmap-nav span {
-    font-weight: 700;
-    font-size: 16px;
-}
-.heatmap-month-labels {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 2px;
-    margin-bottom: 4px;
-}
-.heatmap-month-label {
-    font-size: 9px;
-    text-align: center;
-    color: var(--text-secondary);
-    font-weight: 600;
+    border-radius: 3px;
 }
 .challenge-card {
     background: linear-gradient(135deg, #fef3c7, #fde68a);
@@ -831,7 +873,6 @@ body {
     <button onclick="navigateFromMenu('faq')">База знаний</button>
     <div class="menu-divider"></div>
     <h3>Инструменты</h3>
-    <button onclick="navigateFromMenu('report')">PDF-отчёт</button>
     <button onclick="navigateFromMenu('checklist')">Чек-лист ИП/ООО</button>
     <div class="menu-divider"></div>
     <h3>Развитие</h3>
@@ -942,18 +983,6 @@ body {
 <div class="card"><h3>Глоссарий</h3><div id="glossary">Загрузка...</div></div>
 </div>
 
-<div class="tab" id="tab-report">
-<div class="card"><h3>PDF-отчёт «Налоговый профиль»</h3>
-<p style="font-size:14px;color:var(--text-secondary);margin-bottom:16px">Профессиональный отчёт по ГОСТ Р 7.0.97-2016 для банка, инвестора или бухгалтера.</p>
-<label class="lbl">Наименование организации / ИП</label><input class="inp" type="text" id="report-name" placeholder="ООО «Ромашка» / ИП Иванов И.И.">
-<label class="lbl">ИНН</label><input class="inp" type="text" id="report-inn" placeholder="1234567890" maxlength="12">
-<label class="lbl">Режим налогообложения</label><select class="sel" id="report-regime"><option value="npd">НПД (Самозанятый)</option><option value="ip6">ИП УСН 6%</option><option value="ip15">ИП УСН 15%</option><option value="psn">ИП ПСН</option><option value="ooo6">ООО УСН 6%</option><option value="ooo15">ООО УСН 15%</option></select>
-<label class="lbl">Годовой доход (руб.)</label><input class="inp" type="number" id="report-income" value="1000000">
-<label class="lbl">Годовые расходы (руб., если применимо)</label><input class="inp" type="number" id="report-expenses" value="300000">
-<button class="btn btn-g" onclick="generateReport()">Сформировать отчёт (PDF)</button>
-<div id="report-result" style="margin-top:12px"></div></div>
-</div>
-
 <div class="tab" id="tab-checklist">
 <div class="card"><h3>Чек-лист регистрации ИП/ООО</h3>
 <p style="font-size:14px;color:var(--text-secondary);margin-bottom:12px">Отмечайте выполненные шаги. Прогресс сохраняется локально.</p>
@@ -975,14 +1004,13 @@ body {
 
 <div class="tab" id="tab-heatmap">
 <div class="card"><h3>Теплокарта налогового календаря</h3>
-<p style="font-size:13px;color:var(--text-secondary);margin-bottom:10px">Каждый день окрашен по количеству налоговых событий. Нажимайте на день для подробностей. Чем краснее — тем больше событий.</p>
-<div class="heatmap-nav">
-    <button onclick="changeHeatmapYear(-1)">← Предыдущий год</button>
-    <span id="heatmap-year">2026</span>
-    <button onclick="changeHeatmapYear(1)">Следующий год →</button>
+<p style="font-size:13px;color:var(--text-secondary);margin-bottom:10px">Календарь с цветовой индикацией налоговых событий. Нажимайте на день для подробностей. Чем краснее — тем больше событий.</p>
+<div class="calendar-nav">
+    <button onclick="changeHeatmapMonth(-1)">←</button>
+    <span id="heatmap-month-year">Январь 2026</span>
+    <button onclick="changeHeatmapMonth(1)">→</button>
 </div>
-<div class="heatmap-month-labels" id="heatmap-month-labels"></div>
-<div class="heatmap-grid" id="heatmap-grid"></div>
+<div class="calendar-grid" id="heatmap-grid"></div>
 <div class="heatmap-legend">
 <span><span class="dot" style="background:var(--surface-variant)"></span> Нет событий</span>
 <span><span class="dot" style="background:#d4edda"></span> 1 событие</span>
@@ -996,7 +1024,6 @@ body {
 
 <div class="notification-toast" id="notification-toast"></div>
 <div class="ftr"><p><b>Официальное уведомление</b><br>Сервис носит информационный характер. Все расчёты локальны. Данные не передаются третьим лицам.<br><br>2026. Все права защищены.</p></div>
-```html
 <script>
 // ========== PWA ==========
 var manifest = {
@@ -1110,10 +1137,9 @@ function updateMenuActive(sectionName) {
         'ben': 2,
         'comp': 3,
         'faq': 4,
-        'report': 5,
-        'checklist': 6,
-        'challenge': 7,
-        'heatmap': 8
+        'checklist': 5,
+        'challenge': 6,
+        'heatmap': 7
     };
 
     if (indexMap[sectionName] !== undefined) {
@@ -1173,7 +1199,6 @@ function applyTheme(dark) {
     localStorage.setItem('dark', dark);
 
     if (chart) {
-        var currentMonthly = parseFloat(document.getElementById('monthly').value) || 0;
         chart.destroy();
         updForecast();
     }
@@ -1610,7 +1635,7 @@ function clearHistory() {
     }
 }
 </script>
-    <script>
+<script>
 // ========== ПОЛНЫЕ ДАННЫЕ (БЕЗ СОКРАЩЕНИЙ) ==========
 var riskQuestions = [
     {b:'115-ФЗ',q:'Заключаете ли вы письменный договор с каждым клиентом — юридическим лицом?',yes:'Отлично! Наличие договоров значительно снижает риск блокировки по 115-ФЗ.',no:'Рекомендуем заключать договоры со всеми юрлицами — это основной документ для подтверждения реальности сделки.'},
@@ -1882,7 +1907,8 @@ var currentMonth = 6;
 var currentYear = 2026;
 var lastQuizResult = null;
 var noteTimers = {};
-var heatmapYear = 2026;
+var heatmapMonth = new Date().getMonth();
+var heatmapYear = new Date().getFullYear();
 
 // ========== ЕЖЕДНЕВНЫЙ СБРОС ЧЕЛЛЕНДЖА ==========
 function checkDailyReset() {
@@ -1899,7 +1925,7 @@ function challengeComplete(taskId) {
     var state = JSON.parse(localStorage.getItem('challengeState') || '{"xp":0,"completed":[]}');
     if (state.completed.indexOf(taskId) < 0) {
         state.completed.push(taskId);
-        var xpMap = {t1:10, t2:15, t3:20, t4:15, t5:10, t6:20, t7:25, t9:30, t10:10};
+        var xpMap = {t1:10, t2:15, t3:20, t4:15, t5:10, t6:20, t9:30, t10:10};
         state.xp += (xpMap[taskId] || 10);
         localStorage.setItem('challengeState', JSON.stringify(state));
         showToast('Задание выполнено! +' + (xpMap[taskId] || 10) + ' XP');
@@ -2271,671 +2297,4 @@ function analyzeQuiz(answers) {
         ooo15: '<b>ООО УСН 15%</b> — налог с прибыли для ООО. Лимит 250 млн руб.'
     };
 
-    var html = '<div style="background:#d4edda;padding:16px;border-radius:14px;margin-bottom:14px"><h3 style="color:#198754;margin-bottom:8px">Оптимальный режим: ' + regimeNames[best] + '</h3><p style="font-size:14px">' + regimeDescriptions[best] + '</p><div style="margin-top:8px"><span class="badge badge-green">Рекомендация системы</span></div></div>';
-
-    if (warnings.length > 0) {
-        html += '<div style="background:#fff3cd;padding:14px;border-radius:12px;margin-bottom:14px"><b>Ограничения</b><br>';
-        warnings.forEach(function(w) { html += '• ' + w + '<br>'; });
-        html += '</div>';
-    }
-
-    if (recommendations.length > 0) {
-        html += '<div style="background:#dbeafe;padding:14px;border-radius:12px;margin-bottom:14px"><b>Возможности</b><br>';
-        recommendations.forEach(function(r) { html += '• ' + r + '<br>'; });
-        html += '</div>';
-    }
-
-    return {html: html, best: best, bestName: regimeNames[best]};
-}
-</script>
-    <script>
-// ========== СРАВНЕНИЕ ==========
-function compare() {
-    var income = parseFloat(document.getElementById('cmp-inc').value) || 0;
-    var expenses = parseFloat(document.getElementById('cmp-exp').value) || 0;
-
-    var regimes = [
-        {name: 'НПД', rate: 0.04, costs: 0, limit: 2400000, expenseBased: false},
-        {name: 'ИП УСН 6%', rate: 0.06, costs: 45000, limit: 20000000, expenseBased: false},
-        {name: 'ИП УСН 15%', rate: 0.15, costs: 45000, limit: 20000000, expenseBased: true},
-        {name: 'ИП ПСН', rate: 0.06, costs: 30000, limit: 60000000, expenseBased: false},
-        {name: 'ООО УСН 6%', rate: 0.06, costs: 60000, limit: 250000000, expenseBased: false},
-        {name: 'ООО УСН 15%', rate: 0.15, costs: 60000, limit: 250000000, expenseBased: true}
-    ];
-
-    var results = regimes.map(function(regime) {
-        var tax = regime.expenseBased ? Math.max((income - expenses) * regime.rate, income * 0.01) : income * regime.rate;
-        return {
-            name: regime.name,
-            tax: tax,
-            total: tax + regime.costs,
-            ok: income <= regime.limit
-        };
-    });
-
-    var best = results.filter(function(r) { return r.ok; }).reduce(function(a, b) {
-        return (income - a.total) > (income - b.total) ? a : b;
-    }, results[0]);
-
-    var html = '<table class="compare-table"><thead><tr><th>Режим</th><th>Налог</th><th>Расходы</th><th>Итого</th><th>Чистый доход</th></tr></thead><tbody>';
-
-    results.forEach(function(result) {
-        var style = (result.name === best.name) ? ' style="background:rgba(212,237,218,0.7);font-weight:700"' : '';
-        html += '<tr' + style + '><td>' + result.name + '</td><td>' + Math.round(result.tax).toLocaleString() + ' руб.</td><td>' + Math.round(result.total - result.tax).toLocaleString() + ' руб.</td><td>' + Math.round(result.total).toLocaleString() + ' руб.</td><td><b>' + Math.round(income - result.total).toLocaleString() + ' руб.</b></td></tr>';
-    });
-
-    html += '</tbody></table>';
-    html += '<p style="color:var(--p);font-size:15px;margin-top:12px;font-weight:600">Оптимальный выбор: <b>' + best.name + '</b> — чистый доход <b>' + Math.round(income - best.total).toLocaleString() + ' руб.</b></p>';
-
-    document.getElementById('cmp-res').innerHTML = html;
-    document.getElementById('save-cmp-btn').style.display = 'block';
-
-    challengeComplete('t4');
-}
-
-function saveCmpPDF() {
-    var pdf = new jspdf.jsPDF();
-    pdf.setFontSize(16);
-    pdf.text('Сравнение налоговых режимов', 20, 20);
-    pdf.setFontSize(10);
-    pdf.text(document.getElementById('cmp-res').textContent, 20, 35, {maxWidth: 170});
-    pdf.save('sravnenie_rezhimov.pdf');
-}
-
-function compareSalary() {
-    var amount = parseFloat(document.getElementById('sal-amount').value) || 0;
-
-    var html = '<table class="compare-table"><thead><tr><th>Форма работы</th><th>Налоги и взносы</th><th>Сумма на руки</th><th>Эффективная ставка</th></tr></thead><tbody>';
-
-    html += '<tr><td>Самозанятый (НПД 6%)</td><td>' + Math.round(amount * 0.06).toLocaleString() + ' руб.</td><td><b>' + Math.round(amount * 0.94).toLocaleString() + ' руб.</b></td><td>6%</td></tr>';
-
-    html += '<tr><td>ИП УСН 6%</td><td>' + Math.round(amount * 0.06 + 3750).toLocaleString() + ' руб.</td><td><b>' + Math.round(amount - amount * 0.06 - 3750).toLocaleString() + ' руб.</b></td><td>~7.3%</td></tr>';
-
-    html += '<tr><td>Наёмный сотрудник</td><td>' + Math.round(amount * 0.43).toLocaleString() + ' руб.</td><td><b>' + Math.round(amount * 0.57).toLocaleString() + ' руб.</b></td><td>~43%</td></tr>';
-
-    html += '</tbody></table>';
-    html += '<p style="font-size:12px;color:var(--text-secondary);margin-top:10px">Для сотрудника учтены: НДФЛ 13%, страховые взносы 30% (платит работодатель сверх оклада). Для ИП: налог 6% + фиксированные страховые взносы ~45 000 руб./год (в пересчёте на месяц ~3 750 руб.).</p>';
-
-    document.getElementById('sal-res').innerHTML = html;
-}
-
-// ========== FAQ ==========
-function buildFAQ() {
-    var html = '';
-
-    faqList.forEach(function(item) {
-        html += '<div class="faq-item"><button class="acc-btn" onclick="toggleFAQ(this)">' + item.q + '</button><div class="acc-body">' + item.a + '</div></div>';
-    });
-
-    document.getElementById('faq-list').innerHTML = html;
-}
-
-function toggleFAQ(button) {
-    var body = button.nextElementSibling;
-    if (body) {
-        body.classList.toggle('open');
-        button.classList.toggle('open-btn');
-    }
-}
-
-function buildGlossary() {
-    var html = '';
-
-    glossaryTerms.forEach(function(term) {
-        html += '<span class="tag"><b>' + term.abbr + '</b> — ' + term.desc + '</span>';
-    });
-
-    document.getElementById('glossary').innerHTML = html;
-}
-
-// ========== КАЛЕНДАРЬ ==========
-function changeMonth(delta) {
-    currentMonth += delta;
-
-    if (currentMonth > 11) {
-        currentMonth = 0;
-        currentYear++;
-    }
-    if (currentMonth < 0) {
-        currentMonth = 11;
-        currentYear--;
-    }
-
-    buildCalendar();
-}
-
-function buildCalendar() {
-    var filter = document.getElementById('calendar-filter').value;
-    var monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
-
-    document.getElementById('calendar-month').textContent = monthNames[currentMonth] + ' ' + currentYear;
-
-    var firstDay = new Date(currentYear, currentMonth, 1).getDay();
-    var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-
-    firstDay = firstDay === 0 ? 6 : firstDay - 1;
-
-    var grid = document.getElementById('calendar-grid');
-    var daysOfWeek = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-    var html = '';
-
-    daysOfWeek.forEach(function(day) {
-        html += '<div class="calendar-header">' + day + '</div>';
-    });
-
-    for (var i = 0; i < firstDay; i++) {
-        html += '<div></div>';
-    }
-
-    var today = new Date();
-    var todayStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
-
-    for (var day = 1; day <= daysInMonth; day++) {
-        var dateStr = currentYear + '-' + String(currentMonth + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
-        var isToday = (dateStr === todayStr) ? ' today' : '';
-
-        var dayEvents = calendarEvents.filter(function(event) {
-            return event.date === dateStr && (filter === 'all' || event.regimes.indexOf(filter) !== -1);
-        });
-
-        var hasNote = userNotes[dateStr] ? ' has-note' : '';
-        var hasEvent = dayEvents.length > 0 ? ' has-event' : '';
-
-        html += '<div class="calendar-day' + isToday + hasEvent + hasNote + '" onclick="showDayInfo(\'' + dateStr + '\')"><b>' + day + '</b>';
-
-        if (dayEvents.length > 0) {
-            html += '<div class="event-detail">' + dayEvents[0].desc.substring(0, 18) + (dayEvents.length > 1 ? '...' : '') + '</div>';
-        }
-
-        if (userNotes[dateStr]) {
-            html += '<div class="event-detail" style="color:#ffc107">заметка</div>';
-        }
-
-        html += '</div>';
-    }
-
-    grid.innerHTML = html;
-    renderNotes();
-}
-
-function showDayInfo(dateStr) {
-    var filter = document.getElementById('calendar-filter').value;
-
-    var dayEvents = calendarEvents.filter(function(event) {
-        return event.date === dateStr && (filter === 'all' || event.regimes.indexOf(filter) !== -1);
-    });
-
-    var info = new Date(dateStr).toLocaleDateString('ru', {day: 'numeric', month: 'long', year: 'numeric'}) + '\n\n';
-
-    if (dayEvents.length > 0) {
-        info += 'События:\n';
-        var regimeNames = {npd: 'НПД', ip: 'ИП', ooo: 'ООО'};
-        dayEvents.forEach(function(event) {
-            info += '• ' + event.desc + ' (' + event.regimes.map(function(r) { return regimeNames[r] || r; }).join(', ') + ')\n';
-        });
-    } else {
-        info += 'Нет запланированных событий.\n';
-    }
-
-    if (userNotes[dateStr]) {
-        info += '\nВаша заметка:\n' + userNotes[dateStr].text;
-        if (userNotes[dateStr].time) {
-            info += ' (напомнить в ' + userNotes[dateStr].time + ')';
-        }
-    }
-
-    alert(info);
-    document.getElementById('note-date').value = dateStr;
-}
-
-function addNote() {
-    var date = document.getElementById('note-date').value;
-    var text = document.getElementById('note-text').value.trim();
-    var time = document.getElementById('note-time').value;
-
-    if (!date || !text) {
-        showToast('Выберите дату и введите текст заметки');
-        return;
-    }
-
-    userNotes[date] = {
-        text: text,
-        time: time || null
-    };
-
-    localStorage.setItem('userNotes', JSON.stringify(userNotes));
-    document.getElementById('note-text').value = '';
-
-    if (time) {
-        scheduleNoteReminder(date, time, text);
-        showToast('Заметка сохранена! Напоминание установлено на ' + time);
-    } else {
-        showToast('Заметка сохранена!');
-    }
-
-    buildCalendar();
-
-    challengeComplete('t5');
-}
-
-function clearNotes() {
-    if (confirm('Удалить все персональные заметки?')) {
-        userNotes = {};
-
-        Object.keys(noteTimers).forEach(function(key) {
-            clearTimeout(noteTimers[key]);
-        });
-
-        noteTimers = {};
-
-        localStorage.removeItem('userNotes');
-        buildCalendar();
-        showToast('Все заметки удалены');
-    }
-}
-
-function renderNotes() {
-    var html = '<b>Ваши заметки:</b><br>';
-    var hasNotes = false;
-
-    Object.keys(userNotes).sort().forEach(function(dateStr) {
-        var note = userNotes[dateStr];
-        html += '<div style="font-size:13px;padding:8px;margin:4px 0;background:var(--surface-variant);border-radius:8px;border:1px solid var(--border)">';
-        html += '<b>' + new Date(dateStr).toLocaleDateString('ru') + '</b>: ' + note.text;
-        if (note.time) {
-            html += ' <span style="color:var(--p)">(' + note.time + ')</span>';
-        }
-        html += '</div>';
-        hasNotes = true;
-    });
-
-    if (!hasNotes) {
-        html += '<span style="color:var(--text-secondary)">Нет сохранённых заметок</span>';
-    }
-
-    document.getElementById('notes-list').innerHTML = html;
-}
-
-// ========== PDF-ОТЧЁТ ПО ГОСТ Р 7.0.97-2016 ==========
-function generateReport() {
-    var name = document.getElementById('report-name').value || 'Не указано';
-    var inn = document.getElementById('report-inn').value || 'Не указан';
-    var regime = document.getElementById('report-regime').value;
-    var income = parseFloat(document.getElementById('report-income').value) || 0;
-    var expenses = parseFloat(document.getElementById('report-expenses').value) || 0;
-
-    var regimeNames = {
-        npd: 'НПД (Самозанятый)',
-        ip6: 'ИП УСН 6% (Доходы)',
-        ip15: 'ИП УСН 15% (Доходы - Расходы)',
-        psn: 'ИП ПСН (Патент)',
-        ooo6: 'ООО УСН 6% (Доходы)',
-        ooo15: 'ООО УСН 15% (Доходы - Расходы)'
-    };
-
-    var tax = 0;
-    if (regime === 'npd') tax = income * 0.04;
-    else if (regime === 'ip6' || regime === 'ooo6') tax = income * 0.06;
-    else if (regime === 'ip15' || regime === 'ooo15') tax = Math.max((income - expenses) * 0.15, income * 0.01);
-    else if (regime === 'psn') tax = income * 0.06;
-
-    var netIncome = income - tax;
-    var effectiveRate = income > 0 ? (tax / income * 100).toFixed(1) : 0;
-
-    var pdf = new jspdf.jsPDF();
-
-    // Заголовок
-    pdf.setFontSize(16);
-    pdf.setFont('helvetica', 'bold');
-    pdf.text('НАЛОГОВЫЙ ПРОФИЛЬ', 105, 20, {align: 'center'});
-
-    pdf.setFontSize(10);
-    pdf.setFont('helvetica', 'normal');
-    pdf.text('Составлен в соответствии с ГОСТ Р 7.0.97-2016', 105, 28, {align: 'center'});
-
-    // Линия
-    pdf.setDrawColor(25, 135, 84);
-    pdf.setLineWidth(0.5);
-    pdf.line(20, 32, 190, 32);
-
-    // Раздел 1: Реквизиты
-    pdf.setFontSize(12);
-    pdf.setFont('helvetica', 'bold');
-    pdf.text('1. Реквизиты налогоплательщика', 20, 42);
-
-    pdf.setFontSize(11);
-    pdf.setFont('helvetica', 'normal');
-    pdf.text('Наименование: ' + name, 20, 50);
-    pdf.text('ИНН: ' + inn, 20, 58);
-    pdf.text('Режим налогообложения: ' + (regimeNames[regime] || regime), 20, 66);
-
-    // Раздел 2: Финансовые показатели
-    pdf.setFontSize(12);
-    pdf.setFont('helvetica', 'bold');
-    pdf.text('2. Финансовые показатели за отчётный период', 20, 78);
-
-    pdf.setFontSize(11);
-    pdf.setFont('helvetica', 'normal');
-    pdf.text('Годовой доход: ' + income.toLocaleString() + ' руб.', 20, 86);
-    if (regime === 'ip15' || regime === 'ooo15') {
-        pdf.text('Годовые расходы: ' + expenses.toLocaleString() + ' руб.', 20, 94);
-    }
-    pdf.text('Расчётная сумма налога: ' + Math.round(tax).toLocaleString() + ' руб.', 20, 102);
-    pdf.text('Чистый доход (после налогообложения): ' + Math.round(netIncome).toLocaleString() + ' руб.', 20, 110);
-    pdf.text('Эффективная налоговая ставка: ' + effectiveRate + '%', 20, 118);
-
-    // Разделитель
-    pdf.setDrawColor(200, 200, 200);
-    pdf.line(20, 124, 190, 124);
-
-    // Раздел 3: Дополнительная информация
-    pdf.setFontSize(12);
-    pdf.setFont('helvetica', 'bold');
-    pdf.text('3. Дополнительная информация', 20, 134);
-
-    pdf.setFontSize(10);
-    pdf.setFont('helvetica', 'normal');
-    pdf.text('Страховые взносы ИП (фикс.): 53 700 руб./год', 20, 142);
-    pdf.text('Лимит выбранного режима: согласно НК РФ', 20, 150);
-
-    // Финальная линия
-    pdf.setDrawColor(25, 135, 84);
-    pdf.line(20, 160, 190, 160);
-
-    // Подвал
-    pdf.setFontSize(9);
-    pdf.text('Отчёт сгенерирован сервисом «Налоговый калькулятор» | Дата: ' + new Date().toLocaleDateString('ru'), 105, 170, {align: 'center'});
-    pdf.text('Данный документ носит информационный характер и не является официальной отчётностью', 105, 176, {align: 'center'});
-
-    // Место для подписи
-    pdf.setFontSize(10);
-    pdf.text('___________________________ /' + name + '/', 20, 190);
-    pdf.text('Подпись налогоплательщика', 20, 196);
-
-    pdf.save('nalogovyj_profil.pdf');
-
-    document.getElementById('report-result').innerHTML = '<div class="r-green">Отчёт успешно сформирован и сохранён в формате PDF!</div>';
-    showToast('PDF-отчёт сохранён!');
-
-    challengeComplete('t7');
-}
-
-// ========== ЧЕК-ЛИСТ РЕГИСТРАЦИИ ИП/ООО ==========
-var checklistItems = [
-    {id:'cl1',text:'Выбрать систему налогообложения (НПД/УСН/ПСН/ОСНО)'},
-    {id:'cl2',text:'Подготовить документы: паспорт, ИНН, заявление'},
-    {id:'cl3',text:'Подать заявление в ФНС (онлайн через Госуслуги или лично)'},
-    {id:'cl4',text:'Получить свидетельство о регистрации (ОГРНИП/ОГРН)'},
-    {id:'cl5',text:'Открыть расчётный счёт в банке'},
-    {id:'cl6',text:'Зарегистрировать онлайн-кассу (ККТ) если требуется по 54-ФЗ'},
-    {id:'cl7',text:'Настроить приём платежей (эквайринг)'},
-    {id:'cl8',text:'Заключить договоры с контрагентами'},
-    {id:'cl9',text:'Настроить бухгалтерский учёт (самостоятельно или через аутсорсинг)'},
-    {id:'cl10',text:'Проверить право на налоговые каникулы (для новых ИП)'}
-];
-
-var checklistState = JSON.parse(localStorage.getItem('checklistState') || '{}');
-
-function buildChecklist() {
-    var html = '';
-
-    checklistItems.forEach(function(item) {
-        var checked = checklistState[item.id] ? 'checked' : '';
-        var completedClass = checklistState[item.id] ? ' completed' : '';
-
-        html += '<div class="checklist-item' + completedClass + '">';
-        html += '<input type="checkbox" ' + checked + ' onchange="toggleChecklist(\'' + item.id + '\')">';
-        html += '<span>' + item.text + '</span>';
-        html += '</div>';
-    });
-
-    document.getElementById('checklist-container').innerHTML = html;
-    updateChecklistProgress();
-}
-
-function toggleChecklist(id) {
-    checklistState[id] = !checklistState[id];
-    localStorage.setItem('checklistState', JSON.stringify(checklistState));
-    buildChecklist();
-
-    var allDone = checklistItems.every(function(item) { return checklistState[item.id]; });
-    if (allDone) {
-        challengeComplete('t9');
-    }
-}
-
-function updateChecklistProgress() {
-    var completed = Object.values(checklistState).filter(function(v) { return v; }).length;
-    var total = checklistItems.length;
-    var percent = Math.round(completed / total * 100);
-    
-    document.getElementById('checklist-progress').textContent = percent + '%';
-    document.getElementById('checklist-progress-fill').style.width = percent + '%';
-    
-    var message = '';
-    if (completed === 0) {
-        message = 'Вы в начале пути — сделайте первый шаг!';
-    } else if (completed <= 3) {
-        message = 'Вы в начале пути — продолжайте!';
-    } else if (completed <= 7) {
-        message = 'Вы идёте верной дорогой!';
-    } else if (completed < total) {
-        message = 'Вы почти пришли — осталось немного!';
-    } else {
-        message = 'Поздравляем! Все шаги выполнены! Ваш бизнес готов к старту!';
-    }
-    
-    document.getElementById('checklist-message').textContent = message;
-}
-
-// ========== ЕЖЕДНЕВНЫЙ ЧЕЛЛЕНДЖ ==========
-var challengeTasks = [
-    {id:'t1',text:'Выполнить первый расчёт налога',xp:10,hint:'Перейдите в раздел «Расчёт налога» и нажмите «Рассчитать»'},
-    {id:'t2',text:'Проверить лимиты на графике',xp:15,hint:'В разделе «Расчёт налога» постройте график прогноза'},
-    {id:'t3',text:'Пройти анализ рисков (30 вопросов)',xp:20,hint:'Откройте «Анализ рисков» и ответьте на все вопросы'},
-    {id:'t4',text:'Сравнить все режимы в калькуляторе',xp:15,hint:'В разделе «Сравнение режимов» запустите калькулятор'},
-    {id:'t5',text:'Добавить заметку в календарь',xp:10,hint:'В «Базе знаний» найдите календарь и добавьте заметку'},
-    {id:'t6',text:'Проверить право на налоговые каникулы',xp:20,hint:'В разделе «Льготы и каникулы» проверьте своё право'},
-    {id:'t7',text:'Сгенерировать PDF-отчёт',xp:25,hint:'В разделе «PDF-отчёт» заполните данные и нажмите «Сформировать»'},
-    {id:'t9',text:'Пройти чек-лист регистрации до конца',xp:30,hint:'В разделе «Чек-лист ИП/ООО» отметьте все пункты'},
-    {id:'t10',text:'Изучить все налоговые лайфхаки',xp:10,hint:'В «Базе знаний» прочитайте все карточки с лайфхаками'}
-];
-
-var challengeState = JSON.parse(localStorage.getItem('challengeState') || '{"xp":0,"completed":[]}');
-
-function buildChallenge() {
-    var html = '';
-
-    challengeTasks.forEach(function(task) {
-        var done = challengeState.completed.indexOf(task.id) >= 0;
-        var style = done ? ' style="text-decoration:line-through;opacity:0.6"' : '';
-
-        html += '<div class="chk-row"' + style + '>';
-        html += '<input type="checkbox" ' + (done ? 'checked' : '') + ' onchange="toggleChallengeTask(\'' + task.id + '\',' + task.xp + ')">';
-        html += '<div><span>' + task.text + ' (+' + task.xp + ' XP)</span>';
-        if (!done) {
-            html += '<br><small style="color:var(--text-secondary)">' + task.hint + '</small>';
-        }
-        html += '</div>';
-        html += '</div>';
-    });
-
-    document.getElementById('challenge-tasks').innerHTML = html;
-    updateChallengeDisplay();
-}
-
-function toggleChallengeTask(id, xp) {
-    var idx = challengeState.completed.indexOf(id);
-    if (idx >= 0) {
-        challengeState.completed.splice(idx, 1);
-        challengeState.xp -= xp;
-    } else {
-        challengeState.completed.push(id);
-        challengeState.xp += xp;
-    }
-
-    if (challengeState.xp < 0) challengeState.xp = 0;
-    localStorage.setItem('challengeState', JSON.stringify(challengeState));
-    buildChallenge();
-}
-
-function updateChallengeDisplay() {
-    var xp = challengeState.xp;
-    var level = 'Новичок';
-    var fillPercent = 0;
-
-    if (xp >= 180) { level = 'Гуру'; fillPercent = 100; }
-    else if (xp >= 135) { level = 'Эксперт'; fillPercent = 75; }
-    else if (xp >= 90) { level = 'Профи'; fillPercent = 50; }
-    else if (xp >= 45) { level = 'Продвинутый'; fillPercent = 25; }
-
-    document.getElementById('challenge-level').textContent = level;
-    document.getElementById('challenge-xp').textContent = xp;
-    document.getElementById('xp-fill').style.width = fillPercent + '%';
-}
-
-function resetChallenge() {
-    if (confirm('Сбросить весь прогресс челленджа?')) {
-        challengeState = {xp: 0, completed: []};
-        localStorage.setItem('challengeState', JSON.stringify(challengeState));
-        buildChallenge();
-    }
-}
-
-// ========== ТЕПЛОКАРТА НАЛОГОВОГО КАЛЕНДАРЯ ==========
-function changeHeatmapYear(delta) {
-    heatmapYear += delta;
-    document.getElementById('heatmap-year').textContent = heatmapYear;
-    buildHeatmap();
-}
-
-function buildHeatmap() {
-    var grid = document.getElementById('heatmap-grid');
-    var labelsContainer = document.getElementById('heatmap-month-labels');
-    if (!grid || !labelsContainer) return;
-
-    document.getElementById('heatmap-year').textContent = heatmapYear;
-
-    // Строим метки месяцев
-    var monthNames = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
-    var monthLabelHtml = '';
-    
-    // Вычисляем день недели 1 января выбранного года
-    var jan1 = new Date(heatmapYear, 0, 1);
-    var jan1DayOfWeek = jan1.getDay();
-    jan1DayOfWeek = jan1DayOfWeek === 0 ? 6 : jan1DayOfWeek - 1; // Пн=0, Вс=6
-    
-    // Строим метки для каждого месяца
-    var currentDayOfYear = 0;
-    var currentWeekDay = jan1DayOfWeek;
-    
-    for (var m = 0; m < 12; m++) {
-        var daysInMonth = new Date(heatmapYear, m + 1, 0).getDate();
-        var startWeek = Math.floor((currentDayOfYear + jan1DayOfWeek) / 7);
-        var endWeek = Math.floor((currentDayOfYear + jan1DayOfWeek + daysInMonth - 1) / 7);
-        
-        // Заполняем пустые ячейки до начала месяца
-        for (var w = 0; w < startWeek; w++) {
-            if (m === 0) {
-                for (var d = 0; d < 7; d++) {
-                    monthLabelHtml += '<div class="heatmap-month-label"></div>';
-                }
-            }
-        }
-        
-        // Метка месяца
-        var labelWidth = endWeek - startWeek + 1;
-        monthLabelHtml += '<div class="heatmap-month-label" style="grid-column: span ' + (labelWidth * 7) + ';">' + monthNames[m] + '</div>';
-        
-        currentDayOfYear += daysInMonth;
-    }
-
-    labelsContainer.innerHTML = monthLabelHtml;
-
-    // Строим ячейки теплокарты
-    var html = '';
-    var weekDays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-
-    // Заголовки дней недели
-    weekDays.forEach(function(d) {
-        html += '<div style="font-size:10px;text-align:center;color:var(--text-secondary)">' + d + '</div>';
-    });
-
-    var daysInYear = (heatmapYear % 4 === 0 && heatmapYear % 100 !== 0) || heatmapYear % 400 === 0 ? 366 : 365;
-    var startDayOfWeek = jan1DayOfWeek;
-
-    // Пустые ячейки до первого дня года
-    for (var i = 0; i < startDayOfWeek; i++) {
-        html += '<div></div>';
-    }
-
-    var currentDate = new Date(heatmapYear, 0, 1);
-
-    for (var dayOfYear = 1; dayOfYear <= daysInYear; dayOfYear++) {
-        var dateStr = heatmapYear + '-' + String(currentDate.getMonth() + 1).padStart(2, '0') + '-' + String(currentDate.getDate()).padStart(2, '0');
-        var level = 0;
-        var eventDescriptions = [];
-
-        // Проверяем события календаря
-        calendarEvents.forEach(function(event) {
-            if (event.date === dateStr) {
-                level = Math.max(level, event.regimes.length * 1.5);
-                eventDescriptions.push(event.desc);
-            }
-        });
-
-        // Проверяем заметки пользователя
-        Object.keys(userNotes).forEach(function(noteDate) {
-            if (noteDate === dateStr) {
-                level = Math.max(level, 2);
-                eventDescriptions.push('Заметка: ' + userNotes[noteDate].text);
-            }
-        });
-
-        var lvlClass = 'lvl-' + Math.min(5, Math.floor(level));
-        var dayNumber = currentDate.getDate();
-        var tooltip = dateStr + (eventDescriptions.length > 0 ? '\n' + eventDescriptions.join('\n') : '\nНет событий');
-
-        html += '<div class="heatmap-cell ' + lvlClass + '" onclick="showHeatmapDayInfo(\'' + dateStr + '\')" title="' + tooltip.replace(/"/g, '&quot;') + '">' + dayNumber + '</div>';
-
-        currentDate.setDate(currentDate.getDate() + 1);
-    }
-
-    grid.innerHTML = html;
-}
-
-function showHeatmapDayInfo(dateStr) {
-    var dayEvents = calendarEvents.filter(function(event) {
-        return event.date === dateStr;
-    });
-
-    var info = new Date(dateStr).toLocaleDateString('ru', {day: 'numeric', month: 'long', year: 'numeric'}) + '\n\n';
-
-    if (dayEvents.length > 0) {
-        info += 'События:\n';
-        var regimeNames = {npd: 'НПД', ip: 'ИП', ooo: 'ООО'};
-        dayEvents.forEach(function(event) {
-            info += '• ' + event.desc + ' (' + event.regimes.map(function(r) { return regimeNames[r] || r; }).join(', ') + ')\n';
-        });
-    } else {
-        info += 'Нет запланированных событий.\n';
-    }
-
-    if (userNotes[dateStr]) {
-        info += '\nВаша заметка:\n' + userNotes[dateStr].text;
-        if (userNotes[dateStr].time) {
-            info += ' (напомнить в ' + userNotes[dateStr].time + ')';
-        }
-    }
-
-    alert(info);
-}
-
-// ========== ЗАПУСК ПРИЛОЖЕНИЯ ==========
-document.addEventListener('DOMContentLoaded', function() {
-    initAll();
-});
-</script>
-</body>
-</html>
-    
+    var html = '<div style="background:#d4edda;padding:16px;border-radius:14px;margin-bottom:14px"><h3 style="color:#198754;margin-bottom:8px">Оптимальный режим: ' + regimeNames
