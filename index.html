@@ -1153,11 +1153,9 @@ function applyTheme(dark) {
 
     if (dark) {
         document.body.classList.add('dark-mode');
-        // Тёмная тема — показываем солнце (переключить на светлую)
         document.getElementById('theme-btn').textContent = '☀️';
     } else {
         document.body.classList.add('light-mode');
-        // Светлая тема — показываем луну (переключить на тёмную)
         document.getElementById('theme-btn').textContent = '🌙';
     }
 
@@ -1488,24 +1486,33 @@ function savePNG() {
     link.click();
 }
 
+// ========== PDF-ОТЧЕТЫ (починены — без кракозябр) ==========
 function saveChartPDF() {
     var canvas = document.getElementById('chart');
     if (!canvas) return;
     var pdf = new jspdf.jsPDF('landscape', 'mm', 'a4');
     pdf.addImage(canvas.toDataURL('image/png', 1.0), 'PNG', 10, 10, 280, 140);
     pdf.save('prognoz_limitov.pdf');
+    showToast('PDF сохранён: prognoz_limitov.pdf');
 }
 
 function saveCalcPDF() {
-    var pdf = new jspdf.jsPDF();
-    pdf.setFontSize(16);
-    pdf.text('Расчёт налога', 20, 20);
-    pdf.setFontSize(11);
-    pdf.text('Режим: ' + document.getElementById('regime').value, 20, 35);
-    pdf.text('Доход: ' + document.getElementById('income').value + ' руб.', 20, 45);
-    pdf.text('Налог: ' + document.getElementById('tax-amt').textContent, 20, 55);
-    pdf.text('Чистый доход: ' + document.getElementById('net-amt').textContent, 20, 65);
+    var pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(18);
+    pdf.text('Raschyot naloga', 20, 20);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(12);
+    pdf.text('Rezhim: ' + document.getElementById('regime').value, 20, 35);
+    pdf.text('Dokhod: ' + document.getElementById('income').value + ' rub.', 20, 45);
+    pdf.text('Nalog: ' + (document.getElementById('tax-amt').textContent || '0'), 20, 55);
+    pdf.text('Chistyy dokhod: ' + (document.getElementById('net-amt').textContent || '0'), 20, 65);
+    pdf.text('Effektivnaya stavka: ' + (document.getElementById('rate-amt').textContent || '0'), 20, 75);
+    pdf.setFontSize(10);
+    pdf.text('Data: ' + new Date().toLocaleDateString(), 20, 90);
+    pdf.text('Servis: Nalogovyy kalkulyator', 20, 97);
     pdf.save('raschet_naloga.pdf');
+    showToast('PDF сохранён: raschet_naloga.pdf');
 }
 
 function saveXLSX() {
@@ -1913,13 +1920,27 @@ function assessRisk() {
     document.getElementById('save-risk-btn').style.display = 'block';
 }
 
+// ========== PDF для рисков (починена) ==========
 function saveRiskPDF() {
-    var pdf = new jspdf.jsPDF();
+    var pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+    pdf.setFont('helvetica', 'bold');
     pdf.setFontSize(16);
-    pdf.text('Комплаенс-анализ рисков', 20, 20);
+    pdf.text('Komplaens-analiz riskov', 20, 20);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(11);
+    pdf.text(document.getElementById('risk-res').textContent || 'Net dannykh', 20, 35, {maxWidth: 170});
     pdf.setFontSize(10);
-    pdf.text(document.getElementById('risk-res').textContent, 20, 35, {maxWidth: 170});
+    var adviceText = document.getElementById('risk-advice').textContent || '';
+    var lines = pdf.splitTextToSize(adviceText, 170);
+    var y = 50;
+    for (var i = 0; i < Math.min(lines.length, 30); i++) {
+        pdf.text(lines[i], 20, y);
+        y += 6;
+    }
+    pdf.setFontSize(9);
+    pdf.text('Data: ' + new Date().toLocaleDateString() + ' | Nalogovyy kalkulyator', 20, 280);
     pdf.save('analiz_riskov.pdf');
+    showToast('PDF сохранён: analiz_riskov.pdf');
 }
 
 // ========== РЕГИОНЫ И ЛЬГОТЫ ==========
