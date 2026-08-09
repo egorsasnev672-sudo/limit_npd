@@ -478,7 +478,7 @@ body {
     background: var(--surface-variant);
 }
 .acc-btn::after {
-    content: '▸';
+    content: '\25B8';
     font-size: 14px;
     transition: transform 0.15s;
     color: var(--p);
@@ -507,6 +507,7 @@ body {
     margin: 4px;
     font-size: 13px;
     border: 1px solid var(--border);
+    cursor: pointer;
 }
 .tag b {
     color: var(--p);
@@ -850,6 +851,53 @@ body {
     cursor: pointer;
     font-family: 'Nunito', sans-serif;
 }
+.scanner-zone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius-lg);
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin: 12px 0;
+    background: var(--surface-variant);
+}
+.scanner-zone:hover, .scanner-zone.drag-over {
+    border-color: var(--p);
+    background: rgba(25,135,84,0.05);
+}
+.scanner-zone input[type="file"] {
+    display: none;
+}
+.scanner-preview {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: var(--radius-md);
+    margin: 8px 0;
+    display: none;
+}
+.receipt-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    margin: 8px 0;
+    font-size: 14px;
+}
+.receipt-card .receipt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.receipt-card .receipt-amount {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--p);
+}
+.receipt-card .receipt-meta {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
 @media (max-width: 360px) {
     .card {
         padding: 14px;
@@ -880,6 +928,7 @@ body {
     <button onclick="navigateFromMenu('faq')" data-lang="menu_faq">База знаний</button>
     <div class="menu-divider"></div>
     <h3 data-lang="menu_tools">Инструменты</h3>
+    <button onclick="navigateFromMenu('scanner')" data-lang="menu_scanner">Сканер чеков</button>
     <button onclick="navigateFromMenu('checklist')" data-lang="menu_checklist">Чек-лист ИП/ООО</button>
     <button onclick="navigateFromMenu('heatmap')" data-lang="menu_heatmap">Теплокарта года</button>
     <div class="menu-divider"></div>
@@ -898,17 +947,17 @@ body {
 <div class="tab active" id="tab-calc">
 <div class="widget-row"><div class="widget-card"><div class="lbl" data-lang="widget_regime">Ваш режим</div><div class="val" id="w-regime">—</div></div><div class="widget-card"><div class="lbl" data-lang="widget_payment">Ближайший платёж</div><div class="val" id="w-payment">—</div></div><div class="widget-card"><div class="lbl" data-lang="widget_limit">Остаток до лимита</div><div class="val" id="w-limit">—</div></div></div>
 <div class="card"><h3 data-lang="calc_title">Расчёт налога</h3>
-<label class="lbl" data-lang="calc_regime">Режим налогообложения</label><select class="sel" id="regime" onchange="updFields()"><option value="npd">Самозанятый (НПД)</option><option value="ip6">ИП УСН 6% (Доходы)</option><option value="ip15">ИП УСН 15% (Доходы - Расходы)</option><option value="psn">ИП Патент (ПСН)</option><option value="ooo6">ООО УСН 6% (Доходы)</option><option value="ooo15">ООО УСН 15% (Доходы - Расходы)</option></select>
-<label class="lbl" data-lang="calc_income">Сумма дохода (руб.)</label><input class="inp" type="number" id="income" value="100000" placeholder="Введите сумму дохода">
-<div id="npd-block"><label class="lbl" data-lang="calc_contractor">Тип контрагента</label><select class="sel" id="contractor"><option value="legal">Юридическое лицо (ставка 4%)</option><option value="person">Физическое лицо (ставка 6%)</option></select></div>
-<div id="exp-block" style="display:none"><label class="lbl" data-lang="calc_expenses">Сумма расходов (руб.)</label><input class="inp" type="number" id="expenses" value="30000" placeholder="Введите сумму расходов"><span class="tooltip-text" data-lang="calc_expenses_tip">Учитываются только документально подтверждённые расходы</span></div>
-<div id="psn-block" style="display:none"><label class="lbl" data-lang="calc_psn">Потенциальный годовой доход (руб.)</label><input class="inp" type="number" id="psn-income" value="500000" placeholder="Установлен регионом"><span class="tooltip-text" data-lang="calc_psn_tip">Потенциальный доход устанавливается региональным законом для каждого вида деятельности. Это не ваш реальный доход, а база для расчёта патента.</span></div>
+<label class="lbl" data-lang="calc_regime">Режим налогообложения</label><select class="sel" id="regime" onchange="updFields()"><option value="npd" data-lang="regime_npd">Самозанятый (НПД)</option><option value="ip6" data-lang="regime_ip6">ИП УСН 6% (Доходы)</option><option value="ip15" data-lang="regime_ip15">ИП УСН 15% (Доходы - Расходы)</option><option value="psn" data-lang="regime_psn">ИП Патент (ПСН)</option><option value="ooo6" data-lang="regime_ooo6">ООО УСН 6% (Доходы)</option><option value="ooo15" data-lang="regime_ooo15">ООО УСН 15% (Доходы - Расходы)</option></select>
+<label class="lbl" data-lang="calc_income">Сумма дохода (руб.)</label><input class="inp" type="number" id="income" value="100000" data-lang-placeholder="calc_income_ph" placeholder="Введите сумму дохода">
+<div id="npd-block"><label class="lbl" data-lang="calc_contractor">Тип контрагента</label><select class="sel" id="contractor"><option value="legal" data-lang="contractor_legal">Юридическое лицо (ставка 4%)</option><option value="person" data-lang="contractor_person">Физическое лицо (ставка 6%)</option></select></div>
+<div id="exp-block" style="display:none"><label class="lbl" data-lang="calc_expenses">Сумма расходов (руб.)</label><input class="inp" type="number" id="expenses" value="30000" data-lang-placeholder="calc_expenses_ph" placeholder="Введите сумму расходов"><span class="tooltip-text" data-lang="calc_expenses_tip">Учитываются только документально подтверждённые расходы</span></div>
+<div id="psn-block" style="display:none"><label class="lbl" data-lang="calc_psn">Потенциальный годовой доход (руб.)</label><input class="inp" type="number" id="psn-income" value="500000" data-lang-placeholder="calc_psn_ph" placeholder="Установлен регионом"><span class="tooltip-text" data-lang="calc_psn_tip">Потенциальный доход устанавливается региональным законом для каждого вида деятельности. Это не ваш реальный доход, а база для расчёта патента.</span></div>
 <button class="btn btn-g" onclick="calcTax()" data-lang="calc_btn">Рассчитать налог</button>
 <div class="res" id="calc-result" style="display:none"><div><small data-lang="calc_tax">Сумма налога</small><h4 id="tax-amt">0</h4></div><div><small data-lang="calc_net">Чистый доход</small><h4 id="net-amt">0</h4></div><div><small data-lang="calc_rate">Эффективная ставка</small><h4 id="rate-amt">0%</h4></div></div>
 <div id="insurance-result" style="display:none;margin-top:10px"></div></div>
 
 <div class="card"><h3 data-lang="forecast_title">Прогноз превышения лимитов</h3>
-<label class="lbl" data-lang="forecast_monthly">Среднемесячный доход (руб.)</label><input class="inp" type="number" id="monthly" value="200000" onchange="updForecast()" placeholder="Средний доход в месяц">
+<label class="lbl" data-lang="forecast_monthly">Среднемесячный доход (руб.)</label><input class="inp" type="number" id="monthly" value="200000" onchange="updForecast()" data-lang-placeholder="forecast_monthly_ph" placeholder="Средний доход в месяц">
 <div class="chk-row"><input type="checkbox" class="thr" value="2400000" checked onchange="updForecast()"> <span data-lang="forecast_npd">Лимит НПД — 2.4 млн руб.</span></div>
 <div class="chk-row"><input type="checkbox" class="thr" value="20000000" checked onchange="updForecast()"> <span data-lang="forecast_nds">Порог НДС — 20 млн руб.</span></div>
 <div class="chk-row"><input type="checkbox" class="thr" value="60000000" checked onchange="updForecast()"> <span data-lang="forecast_psn">Лимит ПСН — 60 млн руб.</span></div>
@@ -928,16 +977,16 @@ body {
 
 <div class="tab" id="tab-ben">
 <div class="card"><h3 data-lang="ben_title">Региональные налоговые льготы</h3>
-<label class="lbl" data-lang="ben_region">Субъект РФ</label><select class="sel" id="region" onchange="showSpecialBenefits()"><option value="">Загрузка регионов...</option></select>
-<label class="lbl" data-lang="ben_industry">Отрасль деятельности</label><select class="sel" id="industry"><option>IT и разработка</option><option>Производство</option><option>Строительство</option><option>Транспорт и логистика</option><option>Сельское хозяйство</option><option>Торговля</option><option>Общественное питание</option><option>Медицина и здравоохранение</option><option>Образование</option><option>Наука и исследования</option><option>Социальные услуги</option><option>Бытовые услуги</option><option>Туризм и гостиничный бизнес</option><option>Народные промыслы</option><option>Аренда недвижимости</option><option>Маркетинг и реклама</option><option>Консалтинг</option><option>Дизайн</option><option>Фотография и видео</option><option>Спорт и фитнес</option><option>Красота и косметология</option><option>Ремонт и обслуживание</option><option>Лесное хозяйство</option><option>Рыболовство</option><option>Горнодобывающая промышленность</option><option>Нефтегазовый сектор</option><option>Судостроение</option><option>Авиастроение</option><option>Лёгкая промышленность</option><option>Металлургия</option><option>Переработка</option><option>Инновации</option><option>Прочее</option></select>
+<label class="lbl" data-lang="ben_region">Субъект РФ</label><select class="sel" id="region" onchange="showSpecialBenefits()"><option value="" data-lang="loading_regions">Загрузка регионов...</option></select>
+<label class="lbl" data-lang="ben_industry">Отрасль деятельности</label><select class="sel" id="industry"></select>
 <button class="btn btn-g" onclick="showBenefits()" data-lang="ben_btn">Показать льготы</button><div id="ben-res" style="margin-top:10px"></div></div>
 <div class="card"><h3 data-lang="fed_title">Федеральные льготы (2026)</h3>
-<div style="padding:14px;background:#e8f5e9;border-radius:var(--radius-md);font-size:14px;line-height:2"><b data-lang="fed_list">Действующие федеральные преференции:</b><br><br>- Налоговые каникулы 0% — для новых ИП на УСН/ПСН (до 2 лет)<br>- Вычет 10 000 руб. — для плательщиков НПД<br>- Пониженные взносы 7.6% — для аккредитованных IT-компаний<br>- Льготы ТОР и ОЭЗ<br>- Заморозка НДС-порога — 20 млн до 2029<br>- Повышенный лимит УСН — до 250 млн</div></div>
-<div class="card"><h3 data-lang="special_title">Особые условия региона</h3><div id="special-benefits" style="font-size:14px;padding:14px;background:#fff3e0;border-radius:var(--radius-md);border:1px solid #ffc107">Выберите регион для отображения условий</div></div>
+<div style="padding:14px;background:#e8f5e9;border-radius:var(--radius-md);font-size:14px;line-height:2" id="fed-benefits-content"></div></div>
+<div class="card"><h3 data-lang="special_title">Особые условия региона</h3><div id="special-benefits" style="font-size:14px;padding:14px;background:#fff3e0;border-radius:var(--radius-md);border:1px solid #ffc107" data-lang="choose_region">Выберите регион для отображения условий</div></div>
 <div class="card"><h3 data-lang="holiday_title">Проверка права на налоговые каникулы</h3>
 <div class="criteria-box"><h4 data-lang="holiday_criteria">Критерии (ст. 346.20 НК РФ)</h4><ul><li data-lang="holiday_c1">ИП зарегистрирован <b>впервые</b></li><li data-lang="holiday_c2">Прошло <b>менее 2 лет</b></li><li data-lang="holiday_c3">Вид деятельности в <b>региональном перечне</b></li><li data-lang="holiday_c4">Доля дохода <b>≥ 70%</b></li><li data-lang="holiday_c5">Режим: <b>УСН или ПСН</b></li></ul></div>
-<label class="lbl" data-lang="holiday_region">Ваш регион</label><select class="sel" id="holiday-region" onchange="updateHolidayInfo()"><option value="">Выберите регион...</option></select>
-<label class="lbl" data-lang="holiday_activity">Вид деятельности</label><select class="sel" id="holiday-activity"><option value="">Сначала выберите регион</option></select>
+<label class="lbl" data-lang="holiday_region">Ваш регион</label><select class="sel" id="holiday-region" onchange="updateHolidayInfo()"><option value="" data-lang="holiday_region_ph">Выберите регион...</option></select>
+<label class="lbl" data-lang="holiday_activity">Вид деятельности</label><select class="sel" id="holiday-activity"><option value="" data-lang="holiday_activity_ph">Сначала выберите регион</option></select>
 <div class="chk-row"><input type="checkbox" id="holiday-ch1"> <span data-lang="holiday_ch1">ИП зарегистрирован впервые</span></div>
 <div class="chk-row"><input type="checkbox" id="holiday-ch2"> <span data-lang="holiday_ch2">Прошло менее 2 лет с регистрации</span></div>
 <div class="chk-row"><input type="checkbox" id="holiday-ch3"> <span data-lang="holiday_ch3">Доля дохода от льготной деятельности не менее 70%</span></div>
@@ -946,29 +995,14 @@ body {
 <div id="holidays-result" style="margin-top:10px"></div></div>
 <div class="card"><h3 data-lang="quiz_title">Индивидуальный подбор режима</h3>
 <p style="font-size:14px;color:var(--text-secondary);margin-bottom:16px" data-lang="quiz_desc">Ответьте на 8 вопросов для подбора оптимального режима</p>
-<div id="business-quiz">
-<div style="margin-bottom:14px"><label class="lbl" data-lang="quiz_q1">1. Планируемый годовой доход</label><select class="quiz-select" id="qz-income"><option value="">— Выберите —</option><option value="low">До 2.4 млн руб.</option><option value="mid">2.4–20 млн руб.</option><option value="high">20–60 млн руб.</option><option value="ultra">60–250 млн руб.</option><option value="max">Более 250 млн руб.</option></select></div>
-<div style="margin-bottom:14px"><label class="lbl" data-lang="quiz_q2">2. Планируете ли нанимать сотрудников?</label><select class="quiz-select" id="qz-employees"><option value="">— Выберите —</option><option value="no">Нет</option><option value="few">Да, до 15</option><option value="many">15–130</option><option value="unlimited">Более 130</option></select></div>
-<div style="margin-bottom:14px"><label class="lbl" data-lang="quiz_q3">3. Основной тип клиентов</label><select class="quiz-select" id="qz-clients"><option value="">— Выберите —</option><option value="persons">Физлица</option><option value="mixed">50/50</option><option value="legal">Юрлица</option><option value="state">Госзаказчики</option></select></div>
-<div style="margin-bottom:14px"><label class="lbl" data-lang="quiz_q4">4. Примерная доля расходов от дохода</label><select class="quiz-select" id="qz-expenses"><option value="">— Выберите —</option><option value="min">Менее 20%</option><option value="low">20–40%</option><option value="mid">40–60%</option><option value="high">Более 60%</option></select></div>
-<div style="margin-bottom:14px"><label class="lbl" data-lang="quiz_q5">5. Характер бизнеса</label><select class="quiz-select" id="qz-type"><option value="">— Выберите —</option><option value="service">Услуги</option><option value="trade">Торговля</option><option value="production">Производство</option><option value="seasonal">Сезонный</option><option value="it">IT</option><option value="rent">Аренда</option></select></div>
-<div style="margin-bottom:14px"><label class="lbl" data-lang="quiz_q6">6. Требуется ли НДС?</label><select class="quiz-select" id="qz-nds"><option value="">— Выберите —</option><option value="no">Нет</option><option value="maybe">Возможно</option><option value="yes">Да</option></select></div>
-<div style="margin-bottom:14px"><label class="lbl" data-lang="quiz_q7">7. Маркированные товары?</label><select class="quiz-select" id="qz-marked"><option value="">— Выберите —</option><option value="no">Нет</option><option value="maybe">Возможно</option><option value="yes">Да</option></select></div>
-<div style="margin-bottom:14px"><label class="lbl" data-lang="quiz_q8">8. Первый бизнес?</label><select class="quiz-select" id="qz-first"><option value="">— Выберите —</option><option value="yes">Да</option><option value="no">Нет</option><option value="exist">Уже есть</option></select></div>
-<button class="btn btn-g" onclick="runBusinessQuiz()" data-lang="quiz_btn">Подобрать режим</button></div>
+<div id="business-quiz"></div>
+<button class="btn btn-g" onclick="runBusinessQuiz()" data-lang="quiz_btn">Подобрать режим</button>
 <div id="quiz-result" style="display:none;margin-top:14px"></div></div>
 </div>
 
 <div class="tab" id="tab-comp">
 <div class="card"><h3 data-lang="comp_table">Сравнительная таблица</h3>
-<div style="overflow-x:auto"><table class="compare-table"><thead><tr><th data-lang="comp_th1">Режим</th><th data-lang="comp_th2">Ставка</th><th data-lang="comp_th3">Лимит</th><th data-lang="comp_th4">НДС</th><th data-lang="comp_th5">Взносы</th><th data-lang="comp_th6">Отчётность</th><th data-lang="comp_th7">Сотрудники</th></tr></thead><tbody>
-<tr><td><b>НПД</b></td><td>4–6%</td><td>2.4 млн</td><td data-lang="comp_no">Нет</td><td data-lang="comp_no">Нет</td><td data-lang="comp_check">Чек</td><td data-lang="comp_no">Нет</td></tr>
-<tr><td><b>ИП УСН 6%</b></td><td>1–6%</td><td>20 млн</td><td>5/7/20%</td><td>~45 000</td><td data-lang="comp_decl">Декларация</td><td>До 130</td></tr>
-<tr><td><b>ИП УСН 15%</b></td><td>5–15%</td><td>20 млн</td><td>5/7/20%</td><td>~45 000</td><td>Декл.+КУДиР</td><td>До 130</td></tr>
-<tr><td><b>ИП ПСН</b></td><td>6%</td><td>60 млн</td><td data-lang="comp_no">Нет</td><td data-lang="comp_pref">Льготные</td><td data-lang="comp_no">Нет</td><td>До 15</td></tr>
-<tr><td><b>ООО УСН 6%</b></td><td>6%</td><td>250 млн</td><td>5/7/20%</td><td data-lang="comp_yes">Да</td><td data-lang="comp_decl">Декларация</td><td>∞</td></tr>
-<tr><td><b>ООО УСН 15%</b></td><td>15%</td><td>250 млн</td><td>5/7/20%</td><td data-lang="comp_yes">Да</td><td>Декл.+КУДиР</td><td>∞</td></tr>
-</tbody></table></div></div>
+<div style="overflow-x:auto" id="comp-table-container"></div></div>
 <div class="card"><h3 data-lang="comp_calc">Калькулятор сравнения</h3>
 <label class="lbl" data-lang="comp_income">Годовой доход (руб.)</label><input class="inp" type="number" id="cmp-inc" value="1000000">
 <label class="lbl" data-lang="comp_expenses">Годовые расходы (руб.)</label><input class="inp" type="number" id="cmp-exp" value="300000">
@@ -981,15 +1015,40 @@ body {
 
 <div class="tab" id="tab-faq">
 <div class="card"><h3 data-lang="faq_title">Часто задаваемые вопросы</h3><div id="faq-list">Загрузка...</div></div>
-<div class="card"><h3 data-lang="lifehack_title">Налоговые лайфхаки</h3>
-<div class="lifehack-card"><h4 data-lang="lifehack_1t">Совмещение НПД и найма</h4><p data-lang="lifehack_1d">Можно одновременно быть самозанятым и работать по трудовому договору.</p></div>
-<div class="lifehack-card"><h4 data-lang="lifehack_2t">Вычет 10 000 руб.</h4><p data-lang="lifehack_2d">Каждый новый самозанятый получает вычет. Ставка снижается до 3% и 4% пока вычет не исчерпан.</p></div>
-<div class="lifehack-card"><h4 data-lang="lifehack_3t">Патент для сезонного бизнеса</h4><p data-lang="lifehack_3d">Покупайте патент только на нужные месяцы — дешевле, чем УСН за полный год.</p></div>
-<div class="lifehack-card"><h4 data-lang="lifehack_4t">Уменьшение УСН на взносы</h4><p data-lang="lifehack_4d">ИП на УСН 6% без сотрудников может уменьшить налог на 100% фиксированных взносов.</p></div>
-<div class="lifehack-card"><h4 data-lang="lifehack_5t">Переход с НПД на УСН</h4><p data-lang="lifehack_5d">При превышении лимита 2.4 млн у вас есть 20 дней на переход. Подайте уведомление сразу.</p></div>
-</div>
+<div class="card"><h3 data-lang="lifehack_title">Налоговые лайфхаки</h3><div id="lifehack-list"></div></div>
 <div class="card"><h3 data-lang="holiday_ref">Налоговые каникулы: справочник</h3><div id="holiday-full-list" style="font-size:13px;max-height:400px;overflow-y:auto;padding:10px;background:var(--surface-variant);border-radius:var(--radius-md);line-height:1.8">Загрузка...</div></div>
 <div class="card"><h3 data-lang="glossary_title">Глоссарий</h3><div id="glossary">Загрузка...</div></div>
+</div>
+
+<div class="tab" id="tab-scanner">
+<div class="card"><h3 data-lang="scanner_title">Сканер чеков</h3>
+<p style="font-size:14px;color:var(--text-secondary);margin-bottom:12px" data-lang="scanner_desc">Загрузите фото или PDF чека для распознавания данных. Поддерживаются JPG, PNG, PDF.</p>
+<div class="scanner-zone" id="scanner-zone" onclick="document.getElementById('scanner-input').click()">
+    <div style="font-size:48px;margin-bottom:12px">&#128196;</div>
+    <div style="font-weight:700;font-size:16px" data-lang="scanner_drop">Нажмите или перетащите файл сюда</div>
+    <div style="font-size:12px;color:var(--text-secondary);margin-top:4px" data-lang="scanner_formats">JPG, PNG, PDF до 10 МБ</div>
+    <input type="file" id="scanner-input" accept=".jpg,.jpeg,.png,.pdf" onchange="handleScannerFile(this.files[0])">
+</div>
+<img class="scanner-preview" id="scanner-preview" alt="Предпросмотр чека">
+<div id="scanner-result" style="margin-top:12px"></div>
+<div id="scanner-form" style="display:none;margin-top:12px">
+    <label class="lbl" data-lang="scanner_amount">Сумма (руб.)</label><input class="inp" type="number" id="scanner-amount" placeholder="0.00">
+    <label class="lbl" data-lang="scanner_date">Дата</label><input class="inp" type="date" id="scanner-date">
+    <label class="lbl" data-lang="scanner_contractor">Контрагент</label><input class="inp" type="text" id="scanner-contractor" data-lang-placeholder="scanner_contractor_ph" placeholder="Название организации или ИП">
+    <label class="lbl" data-lang="scanner_category">Категория расхода</label>
+    <select class="sel" id="scanner-category">
+        <option value="office" data-lang="scanner_cat_office">Офисные расходы</option>
+        <option value="equipment" data-lang="scanner_cat_equipment">Оборудование</option>
+        <option value="services" data-lang="scanner_cat_services">Услуги</option>
+        <option value="materials" data-lang="scanner_cat_materials">Материалы</option>
+        <option value="rent" data-lang="scanner_cat_rent">Аренда</option>
+        <option value="transport" data-lang="scanner_cat_transport">Транспорт</option>
+        <option value="other" data-lang="scanner_cat_other">Прочее</option>
+    </select>
+    <label class="lbl" data-lang="scanner_note">Заметка</label><input class="inp" type="text" id="scanner-note" data-lang-placeholder="scanner_note_ph" placeholder="Дополнительная информация">
+    <button class="btn btn-g" onclick="saveReceipt()" data-lang="scanner_save">Сохранить чек</button>
+</div></div>
+<div class="card"><h3 data-lang="scanner_history">История чеков</h3><div id="receipts-list"><p style="color:var(--text-secondary);text-align:center;padding:12px" data-lang="scanner_no_receipts">Нет сохранённых чеков</p></div></div>
 </div>
 
 <div class="tab" id="tab-checklist">
@@ -1005,9 +1064,9 @@ body {
 <div class="card"><h3 data-lang="heatmap_title">Теплокарта налогового календаря</h3>
 <p style="font-size:13px;color:var(--text-secondary);margin-bottom:10px" data-lang="heatmap_desc">Календарь с цветовой индикацией налоговых событий. Нажимайте на день для подробностей. Чем краснее — тем больше событий.</p>
 <div class="calendar-nav">
-    <button onclick="changeHeatmapMonth(-1)">←</button>
+    <button onclick="changeHeatmapMonth(-1)">&#8592;</button>
     <span id="heatmap-month-year">Январь 2026</span>
-    <button onclick="changeHeatmapMonth(1)">→</button>
+    <button onclick="changeHeatmapMonth(1)">&#8594;</button>
 </div>
 <div class="calendar-grid" id="heatmap-grid"></div>
 <div class="heatmap-legend">
@@ -1024,145 +1083,302 @@ body {
 <div class="notification-toast" id="notification-toast"></div>
 <div class="ftr"><p><b data-lang="footer_title">Официальное уведомление</b><br><span data-lang="footer_desc">Сервис носит информационный характер. Все расчёты локальны. Данные не передаются третьим лицам.</span><br><br><span data-lang="footer_copy">2026. Все права защищены.</span></p></div>
 <script>
-// ========== ЯЗЫКОВАЯ СИСТЕМА ==========
+// ========== ЯЗЫКОВАЯ СИСТЕМА (ПОЛНЫЙ ПЕРЕВОД) ==========
 var currentLang = localStorage.getItem('lang') || 'ru';
 
 var translations = {
     ru: {
+        // Меню
         menu_main: 'Основное', menu_calc: 'Расчёт налога', menu_risk: 'Анализ рисков', menu_ben: 'Льготы и каникулы', menu_comp: 'Сравнение режимов', menu_faq: 'База знаний',
-        menu_tools: 'Инструменты', menu_checklist: 'Чек-лист ИП/ООО', menu_heatmap: 'Теплокарта года',
+        menu_tools: 'Инструменты', menu_scanner: 'Сканер чеков', menu_checklist: 'Чек-лист ИП/ООО', menu_heatmap: 'Теплокарта года',
         install_title: 'Установить приложение', install_desc: 'Работает офлайн. Все данные локально.', install_btn: 'Установить PWA',
+
+        // Виджеты
         widget_regime: 'Ваш режим', widget_payment: 'Ближайший платёж', widget_limit: 'Остаток до лимита', widget_payment_text: 'До 28 числа', widget_limit_text: 'тыс руб.',
-        calc_title: 'Расчёт налога', calc_regime: 'Режим налогообложения', calc_income: 'Сумма дохода (руб.)', calc_contractor: 'Тип контрагента',
-        calc_expenses: 'Сумма расходов (руб.)', calc_expenses_tip: 'Учитываются только документально подтверждённые расходы',
-        calc_psn: 'Потенциальный годовой доход (руб.)', calc_psn_tip: 'Потенциальный доход устанавливается региональным законом для каждого вида деятельности.',
+
+        // Калькулятор
+        calc_title: 'Расчёт налога', calc_regime: 'Режим налогообложения', calc_income: 'Сумма дохода (руб.)', calc_income_ph: 'Введите сумму дохода',
+        calc_contractor: 'Тип контрагента', contractor_legal: 'Юридическое лицо (ставка 4%)', contractor_person: 'Физическое лицо (ставка 6%)',
+        calc_expenses: 'Сумма расходов (руб.)', calc_expenses_ph: 'Введите сумму расходов', calc_expenses_tip: 'Учитываются только документально подтверждённые расходы',
+        calc_psn: 'Потенциальный годовой доход (руб.)', calc_psn_ph: 'Установлен регионом', calc_psn_tip: 'Потенциальный доход устанавливается региональным законом для каждого вида деятельности. Это не ваш реальный доход, а база для расчёта патента.',
         calc_btn: 'Рассчитать налог', calc_tax: 'Сумма налога', calc_net: 'Чистый доход', calc_rate: 'Эффективная ставка',
-        forecast_title: 'Прогноз превышения лимитов', forecast_monthly: 'Среднемесячный доход (руб.)', forecast_npd: 'Лимит НПД — 2.4 млн руб.',
-        forecast_nds: 'Порог НДС — 20 млн руб.', forecast_psn: 'Лимит ПСН — 60 млн руб.', forecast_usn: 'Лимит УСН — 250 млн руб.', forecast_btn: 'Построить график',
-        report_btn: 'Отчёт PDF', report_save: 'Сохранить отчёт PDF',
-        history_title: 'История расчётов', history_clear: 'Очистить историю', history_empty: 'История расчётов пуста',
+        regime_npd: 'Самозанятый (НПД)', regime_ip6: 'ИП УСН 6% (Доходы)', regime_ip15: 'ИП УСН 15% (Доходы - Расходы)', regime_psn: 'ИП Патент (ПСН)', regime_ooo6: 'ООО УСН 6% (Доходы)', regime_ooo15: 'ООО УСН 15% (Доходы - Расходы)',
+
+        // Прогноз
+        forecast_title: 'Прогноз превышения лимитов', forecast_monthly: 'Среднемесячный доход (руб.)', forecast_monthly_ph: 'Средний доход в месяц',
+        forecast_npd: 'Лимит НПД — 2.4 млн руб.', forecast_nds: 'Порог НДС — 20 млн руб.', forecast_psn: 'Лимит ПСН — 60 млн руб.', forecast_usn: 'Лимит УСН — 250 млн руб.',
+        forecast_btn: 'Построить график', report_btn: 'Отчёт PDF', report_save: 'Сохранить отчёт PDF',
+        forecast_alert: 'Внимание: до превышения порога',
+
+        // История
+        history_title: 'История расчётов', history_clear: 'Очистить историю', history_empty: 'История расчётов пуста', history_tax: 'Налог',
+
+        // Риски
         risk_title: 'Комплаенс-анализ рисков по 115-ФЗ', risk_desc: 'Ответьте на 30 вопросов для оценки рисков блокировки счетов и налоговых проверок', risk_btn: 'Оценить риски',
-        ben_title: 'Региональные налоговые льготы', ben_region: 'Субъект РФ', ben_industry: 'Отрасль деятельности', ben_btn: 'Показать льготы',
+        risk_yes: 'Да', risk_no: 'Нет',
+        risk_low: 'Низкий уровень риска', risk_medium: 'Средний уровень риска', risk_high: 'Высокий уровень риска',
+        risk_score: 'набрано', risk_of: 'из 30 баллов', risk_recommendations: 'Рекомендации по снижению рисков:',
+
+        // Льготы
+        ben_title: 'Региональные налоговые льготы', ben_region: 'Субъект РФ', ben_industry: 'Отрасль деятельности', ben_btn: 'Показать льготы', loading_regions: 'Загрузка регионов...',
+        standard: 'Стандартные условия',
         fed_title: 'Федеральные льготы (2026)', fed_list: 'Действующие федеральные преференции:',
         special_title: 'Особые условия региона', choose_region: 'Выберите регион для отображения условий',
         no_special: 'Особых региональных льгот не установлено.', check_fns: 'Рекомендуем уточнить информацию в ФНС — налоговые каникулы могут действовать для новых ИП.',
         check_current: 'Проверьте актуальные условия в территориальном органе ФНС (ст. 346.20 НК РФ)',
+
+        // Каникулы
         holiday_title: 'Проверка права на налоговые каникулы', holiday_criteria: 'Критерии (ст. 346.20 НК РФ)',
-        holiday_c1: 'ИП зарегистрирован <b>впервые</b>', holiday_c2: 'Прошло <b>менее 2 лет</b>', holiday_c3: 'Вид деятельности в <b>региональном перечне</b>',
-        holiday_c4: 'Доля дохода <b>≥ 70%</b>', holiday_c5: 'Режим: <b>УСН или ПСН</b>',
-        holiday_region: 'Ваш регион', holiday_activity: 'Вид деятельности', holiday_ch1: 'ИП зарегистрирован впервые',
-        holiday_ch2: 'Прошло менее 2 лет с регистрации', holiday_ch3: 'Доля дохода от льготной деятельности не менее 70%', holiday_btn: 'Проверить право на каникулы',
-        select_region_activity: 'Выберите регион и вид деятельности', missing_conditions: 'Не выполнены обязательные условия:',
+        holiday_c1: 'ИП зарегистрирован впервые', holiday_c2: 'Прошло менее 2 лет', holiday_c3: 'Вид деятельности в региональном перечне', holiday_c4: 'Доля дохода ≥ 70%', holiday_c5: 'Режим: УСН или ПСН',
+        holiday_region: 'Ваш регион', holiday_region_ph: 'Выберите регион...', holiday_activity: 'Вид деятельности', holiday_activity_ph: 'Сначала выберите регион',
+        holiday_ch1: 'ИП зарегистрирован впервые', holiday_ch2: 'Прошло менее 2 лет с регистрации', holiday_ch3: 'Доля дохода от льготной деятельности не менее 70%',
+        holiday_btn: 'Проверить право на каникулы', select_region_activity: 'Выберите регион и вид деятельности', missing_conditions: 'Не выполнены обязательные условия:',
         holiday_approved: 'Вы имеете право на налоговые каникулы в регионе', holiday_by: 'по виду деятельности', holiday_rate: 'Ставка 0% на УСН или ПСН. Основание:',
+
+        // Опросник
         quiz_title: 'Индивидуальный подбор режима', quiz_desc: 'Ответьте на 8 вопросов для подбора оптимального режима',
         quiz_q1: '1. Планируемый годовой доход', quiz_q2: '2. Планируете ли нанимать сотрудников?', quiz_q3: '3. Основной тип клиентов',
         quiz_q4: '4. Примерная доля расходов от дохода', quiz_q5: '5. Характер бизнеса', quiz_q6: '6. Требуется ли НДС?',
         quiz_q7: '7. Маркированные товары?', quiz_q8: '8. Первый бизнес?', quiz_btn: 'Подобрать режим',
-        quiz_empty: 'Пожалуйста, ответьте на все вопросы:', quiz_optimal: 'Оптимальный режим:', quiz_why: 'Почему этот режим:',
-        quiz_warning: '⚠️ Важно', quiz_tip: '💡 Совет',
+        quiz_select: '— Выберите —',
+        quiz_q1_low: 'До 2.4 млн руб.', quiz_q1_mid: '2.4–20 млн руб.', quiz_q1_high: '20–60 млн руб.', quiz_q1_ultra: '60–250 млн руб.', quiz_q1_max: 'Более 250 млн руб.',
+        quiz_q2_no: 'Нет', quiz_q2_few: 'Да, до 15', quiz_q2_many: '15–130', quiz_q2_unlimited: 'Более 130',
+        quiz_q3_persons: 'Физлица', quiz_q3_mixed: '50/50', quiz_q3_legal: 'Юрлица', quiz_q3_state: 'Госзаказчики',
+        quiz_q4_min: 'Менее 20%', quiz_q4_low: '20–40%', quiz_q4_mid: '40–60%', quiz_q4_high: 'Более 60%',
+        quiz_q5_service: 'Услуги', quiz_q5_trade: 'Торговля', quiz_q5_production: 'Производство', quiz_q5_seasonal: 'Сезонный', quiz_q5_it: 'IT', quiz_q5_rent: 'Аренда',
+        quiz_q6_no: 'Нет', quiz_q6_maybe: 'Возможно', quiz_q6_yes: 'Да',
+        quiz_q7_no: 'Нет', quiz_q7_maybe: 'Возможно', quiz_q7_yes: 'Да',
+        quiz_q8_yes: 'Да', quiz_q8_no: 'Нет', quiz_q8_exist: 'Уже есть',
+        quiz_empty: 'Пожалуйста, ответьте на все вопросы:', quiz_optimal: 'Оптимальный режим:', quiz_why: 'Почему этот режим:', quiz_warning: 'Важно', quiz_tip: 'Совет',
+
+        // Сравнение
         comp_table: 'Сравнительная таблица', comp_th1: 'Режим', comp_th2: 'Ставка', comp_th3: 'Лимит', comp_th4: 'НДС', comp_th5: 'Взносы', comp_th6: 'Отчётность', comp_th7: 'Сотрудники',
         comp_no: 'Нет', comp_check: 'Чек', comp_decl: 'Декларация', comp_pref: 'Льготные', comp_yes: 'Да',
         comp_calc: 'Калькулятор сравнения', comp_income: 'Годовой доход (руб.)', comp_expenses: 'Годовые расходы (руб.)', comp_btn: 'Сравнить все режимы',
         comp_tax_col: 'Налог', comp_net_col: 'Чистый доход', comp_rub: 'руб.',
         salary_title: 'Сравнение: ИП vs наёмный сотрудник', salary_desc: 'Сравнение чистой выгоды при получении одной суммы от клиента (ИП) или работодателя (сотрудник).',
-        salary_amount: 'Сумма (руб.)', salary_btn: 'Сравнить', salary_employee: 'Наёмный сотрудник:', salary_hand: 'На руки', salary_ndfl: 'НДФЛ',
-        salary_social: 'Соцвзносы (7.6%)', salary_employer: 'Работодатель заплатит', salary_ip: 'ИП НПД (юрлицо):', salary_tax: 'Налог (4%)', salary_profit: 'Выгода ИП',
-        faq_title: 'Часто задаваемые вопросы', lifehack_title: 'Налоговые лайфхаки',
-        lifehack_1t: 'Совмещение НПД и найма', lifehack_1d: 'Можно одновременно быть самозанятым и работать по трудовому договору.',
-        lifehack_2t: 'Вычет 10 000 руб.', lifehack_2d: 'Каждый новый самозанятый получает вычет. Ставка снижается до 3% и 4% пока вычет не исчерпан.',
-        lifehack_3t: 'Патент для сезонного бизнеса', lifehack_3d: 'Покупайте патент только на нужные месяцы — дешевле, чем УСН за полный год.',
-        lifehack_4t: 'Уменьшение УСН на взносы', lifehack_4d: 'ИП на УСН 6% без сотрудников может уменьшить налог на 100% фиксированных взносов.',
-        lifehack_5t: 'Переход с НПД на УСН', lifehack_5d: 'При превышении лимита 2.4 млн у вас есть 20 дней на переход. Подайте уведомление сразу.',
-        holiday_ref: 'Налоговые каникулы: справочник', glossary_title: 'Глоссарий', glossary_select: 'Выберите термин для просмотра',
+        salary_amount: 'Сумма (руб.)', salary_btn: 'Сравнить',
+        salary_employee: 'Наёмный сотрудник:', salary_hand: 'На руки', salary_ndfl: 'НДФЛ', salary_social: 'Соцвзносы (7.6%)', salary_employer: 'Работодатель заплатит',
+        salary_ip: 'ИП НПД (юрлицо):', salary_tax: 'Налог (4%)', salary_profit: 'Выгода ИП',
+
+        // FAQ
+        faq_title: 'Часто задаваемые вопросы',
+
+        // Лайфхаки
+        lifehack_title: 'Налоговые лайфхаки',
+
+        // Справочник каникул
+        holiday_ref: 'Налоговые каникулы: справочник',
+
+        // Глоссарий
+        glossary_title: 'Глоссарий', glossary_select: 'Выберите термин для просмотра',
+
+        // Сканер чеков
+        scanner_title: 'Сканер чеков', scanner_desc: 'Загрузите фото или PDF чека для распознавания данных. Поддерживаются JPG, PNG, PDF.',
+        scanner_drop: 'Нажмите или перетащите файл сюда', scanner_formats: 'JPG, PNG, PDF до 10 МБ',
+        scanner_amount: 'Сумма (руб.)', scanner_date: 'Дата', scanner_contractor: 'Контрагент', scanner_contractor_ph: 'Название организации или ИП',
+        scanner_category: 'Категория расхода', scanner_note: 'Заметка', scanner_note_ph: 'Дополнительная информация', scanner_save: 'Сохранить чек',
+        scanner_cat_office: 'Офисные расходы', scanner_cat_equipment: 'Оборудование', scanner_cat_services: 'Услуги',
+        scanner_cat_materials: 'Материалы', scanner_cat_rent: 'Аренда', scanner_cat_transport: 'Транспорт', scanner_cat_other: 'Прочее',
+        scanner_history: 'История чеков', scanner_no_receipts: 'Нет сохранённых чеков', scanner_saved: 'Чек сохранён!',
+
+        // Чек-лист
         checklist_title: 'Чек-лист регистрации ИП/ООО', checklist_desc: 'Отмечайте выполненные шаги. Прогресс сохраняется локально.',
-        checklist_start: 'Вы в начале пути', checklist_progress: 'Прогресс:', checklist_finish: 'Все шаги выполнены! Вы готовы к запуску бизнеса!',
-        checklist_almost: 'Вы на финишной прямой!', checklist_good: 'Хороший прогресс, продолжайте!',
+        checklist_start: 'Вы в начале пути', checklist_progress: 'Прогресс:',
+        checklist_finish: 'Все шаги выполнены! Вы готовы к запуску бизнеса!', checklist_almost: 'Вы на финишной прямой!', checklist_good: 'Хороший прогресс, продолжайте!',
+
+        // Теплокарта
         heatmap_title: 'Теплокарта налогового календаря', heatmap_desc: 'Календарь с цветовой индикацией налоговых событий. Нажимайте на день для подробностей. Чем краснее — тем больше событий.',
         heatmap_l0: 'Нет событий', heatmap_l1: '1 событие', heatmap_l2: '2 события', heatmap_l3: '3 события', heatmap_l4: '4 события', heatmap_l5: '5+ событий',
         no_events: 'Нет налоговых событий.', click_day: 'Нажмите на день для просмотра событий',
+
+        // Футер
         footer_title: 'Официальное уведомление', footer_desc: 'Сервис носит информационный характер. Все расчёты локальны. Данные не передаются третьим лицам.', footer_copy: '2026. Все права защищены.',
+
+        // PDF
         pdf_calc_title: 'Расчёт налога', pdf_calc_regime: 'Режим', pdf_calc_income: 'Доход', pdf_calc_tax: 'Налог', pdf_calc_net: 'Чистый доход',
         pdf_calc_rate: 'Эффективная ставка', pdf_calc_date: 'Дата', pdf_calc_service: 'Сервис: Налоговый калькулятор',
         pdf_risk_title: 'Комплаенс-анализ рисков', pdf_risk_date: 'Дата', pdf_risk_service: 'Налоговый калькулятор',
+
+        // Уведомления
         toast_pdf_saved: 'PDF сохранён', toast_install: 'Готово к установке! Нажмите "Установить PWA" в меню', toast_installed: 'Приложение успешно установлено!',
         toast_note_saved: 'Заметка сохранена!', toast_reminder: 'Напоминание',
-        risk_low: 'Низкий уровень риска', risk_medium: 'Средний уровень риска', risk_high: 'Высокий уровень риска',
-        risk_score: 'набрано', risk_of: 'из 30 баллов', risk_recommendations: 'Рекомендации по снижению рисков:',
+
+        // Страховые
         insurance_title: 'Страховые взносы ИП:', insurance_fixed: 'Фиксированный платёж', insurance_extra: '1% с дохода >300 000',
         insurance_total: 'Итого за год', insurance_note: 'Подробнее о страховых взносах ИП смотрите в глоссарии: «Фиксированные взносы ИП»',
+
+        // График
         chart_income: 'Доход', chart_million: 'млн',
+
+        // Месяцы и дни
         cal_jan: 'Январь', cal_feb: 'Февраль', cal_mar: 'Март', cal_apr: 'Апрель', cal_may: 'Май', cal_jun: 'Июнь',
         cal_jul: 'Июль', cal_aug: 'Август', cal_sep: 'Сентябрь', cal_oct: 'Октябрь', cal_nov: 'Ноябрь', cal_dec: 'Декабрь',
         cal_mon: 'Пн', cal_tue: 'Вт', cal_wed: 'Ср', cal_thu: 'Чт', cal_fri: 'Пт', cal_sat: 'Сб', cal_sun: 'Вс',
-        standard: 'Стандартные условия'
+
+        // Отрасли
+        ind_it: 'IT и разработка', ind_production: 'Производство', ind_construction: 'Строительство', ind_transport: 'Транспорт и логистика',
+        ind_agriculture: 'Сельское хозяйство', ind_trade: 'Торговля', ind_catering: 'Общественное питание', ind_medicine: 'Медицина и здравоохранение',
+        ind_education: 'Образование', ind_science: 'Наука и исследования', ind_social: 'Социальные услуги', ind_household: 'Бытовые услуги',
+        ind_tourism: 'Туризм и гостиничный бизнес', ind_crafts: 'Народные промыслы', ind_rent: 'Аренда недвижимости', ind_marketing: 'Маркетинг и реклама',
+        ind_consulting: 'Консалтинг', ind_design: 'Дизайн', ind_photo: 'Фотография и видео', ind_sport: 'Спорт и фитнес',
+        ind_beauty: 'Красота и косметология', ind_repair: 'Ремонт и обслуживание', ind_forestry: 'Лесное хозяйство', ind_fishing: 'Рыболовство',
+        ind_mining: 'Горнодобывающая промышленность', ind_oilgas: 'Нефтегазовый сектор', ind_shipbuilding: 'Судостроение', ind_aviation: 'Авиастроение',
+        ind_light: 'Лёгкая промышленность', ind_metallurgy: 'Металлургия', ind_processing: 'Переработка', ind_innovation: 'Инновации', ind_other: 'Прочее',
+
+        // Прочее
+        clear_confirm: 'Очистить всю историю расчётов?',
+        alert_limit: 'осталось',
+        alert_recommend: 'Рекомендуем заранее спланировать переход на другой режим.',
+        alert_not_exceeded: 'не будет превышен',
+        alert_select: 'Выберите пороги',
     },
+
     en: {
+        // Menu
         menu_main: 'Main', menu_calc: 'Tax Calculation', menu_risk: 'Risk Analysis', menu_ben: 'Benefits & Holidays', menu_comp: 'Compare Regimes', menu_faq: 'Knowledge Base',
-        menu_tools: 'Tools', menu_checklist: 'IP/LLC Checklist', menu_heatmap: 'Year Heatmap',
+        menu_tools: 'Tools', menu_scanner: 'Receipt Scanner', menu_checklist: 'IP/LLC Checklist', menu_heatmap: 'Year Heatmap',
         install_title: 'Install App', install_desc: 'Works offline. All data is local.', install_btn: 'Install PWA',
+
+        // Widgets
         widget_regime: 'Your regime', widget_payment: 'Next payment', widget_limit: 'Limit remaining', widget_payment_text: 'Until the 28th', widget_limit_text: 'K RUB',
-        calc_title: 'Tax Calculation', calc_regime: 'Tax regime', calc_income: 'Income amount (RUB)', calc_contractor: 'Contractor type',
-        calc_expenses: 'Expenses amount (RUB)', calc_expenses_tip: 'Only documented expenses are taken into account',
-        calc_psn: 'Potential annual income (RUB)', calc_psn_tip: 'Potential income is set by regional law for each type of activity.',
+
+        // Calculator
+        calc_title: 'Tax Calculation', calc_regime: 'Tax regime', calc_income: 'Income amount (RUB)', calc_income_ph: 'Enter income amount',
+        calc_contractor: 'Contractor type', contractor_legal: 'Legal entity (rate 4%)', contractor_person: 'Individual (rate 6%)',
+        calc_expenses: 'Expenses amount (RUB)', calc_expenses_ph: 'Enter expenses amount', calc_expenses_tip: 'Only documented expenses are taken into account',
+        calc_psn: 'Potential annual income (RUB)', calc_psn_ph: 'Set by region', calc_psn_tip: 'Potential income is set by regional law for each type of activity. This is not your real income, but the basis for calculating the patent.',
         calc_btn: 'Calculate tax', calc_tax: 'Tax amount', calc_net: 'Net income', calc_rate: 'Effective rate',
-        forecast_title: 'Limit Exceed Forecast', forecast_monthly: 'Average monthly income (RUB)', forecast_npd: 'NPD limit — 2.4M RUB',
-        forecast_nds: 'VAT threshold — 20M RUB', forecast_psn: 'PSN limit — 60M RUB', forecast_usn: 'USN limit — 250M RUB', forecast_btn: 'Build chart',
-        report_btn: 'PDF Report', report_save: 'Save PDF Report',
-        history_title: 'Calculation History', history_clear: 'Clear history', history_empty: 'Calculation history is empty',
+        regime_npd: 'Self-employed (NPD)', regime_ip6: 'IP USN 6% (Income)', regime_ip15: 'IP USN 15% (Income - Expenses)', regime_psn: 'IP Patent (PSN)', regime_ooo6: 'LLC USN 6% (Income)', regime_ooo15: 'LLC USN 15% (Income - Expenses)',
+
+        // Forecast
+        forecast_title: 'Limit Exceed Forecast', forecast_monthly: 'Average monthly income (RUB)', forecast_monthly_ph: 'Average monthly income',
+        forecast_npd: 'NPD limit — 2.4M RUB', forecast_nds: 'VAT threshold — 20M RUB', forecast_psn: 'PSN limit — 60M RUB', forecast_usn: 'USN limit — 250M RUB',
+        forecast_btn: 'Build chart', report_btn: 'PDF Report', report_save: 'Save PDF Report',
+        forecast_alert: 'Warning: threshold exceeded in',
+
+        // History
+        history_title: 'Calculation History', history_clear: 'Clear history', history_empty: 'Calculation history is empty', history_tax: 'Tax',
+
+        // Risks
         risk_title: 'Compliance Risk Analysis (115-FZ)', risk_desc: 'Answer 30 questions to assess the risks of account blocking and tax audits', risk_btn: 'Assess risks',
-        ben_title: 'Regional Tax Benefits', ben_region: 'Region of Russia', ben_industry: 'Industry', ben_btn: 'Show benefits',
+        risk_yes: 'Yes', risk_no: 'No',
+        risk_low: 'Low risk level', risk_medium: 'Medium risk level', risk_high: 'High risk level',
+        risk_score: 'scored', risk_of: 'out of 30 points', risk_recommendations: 'Risk reduction recommendations:',
+
+        // Benefits
+        ben_title: 'Regional Tax Benefits', ben_region: 'Region of Russia', ben_industry: 'Industry', ben_btn: 'Show benefits', loading_regions: 'Loading regions...',
+        standard: 'Standard conditions',
         fed_title: 'Federal Benefits (2026)', fed_list: 'Current federal preferences:',
         special_title: 'Special Regional Conditions', choose_region: 'Select a region to display conditions',
         no_special: 'No special regional benefits established.', check_fns: 'We recommend checking with the FTS — tax holidays may apply for new IPs.',
         check_current: 'Check current conditions with the territorial FTS body (Art. 346.20 Tax Code)',
+
+        // Holidays
         holiday_title: 'Tax Holiday Eligibility Check', holiday_criteria: 'Criteria (Art. 346.20 Tax Code)',
-        holiday_c1: 'IP registered <b>for the first time</b>', holiday_c2: '<b>Less than 2 years</b> passed', holiday_c3: 'Activity in the <b>regional list</b>',
-        holiday_c4: 'Income share <b>≥ 70%</b>', holiday_c5: 'Regime: <b>USN or PSN</b>',
-        holiday_region: 'Your region', holiday_activity: 'Type of activity', holiday_ch1: 'IP registered for the first time',
-        holiday_ch2: 'Less than 2 years since registration', holiday_ch3: 'Income share from preferential activity not less than 70%', holiday_btn: 'Check eligibility',
-        select_region_activity: 'Select region and activity type', missing_conditions: 'Mandatory conditions not met:',
+        holiday_c1: 'IP registered for the first time', holiday_c2: 'Less than 2 years passed', holiday_c3: 'Activity in the regional list', holiday_c4: 'Income share ≥ 70%', holiday_c5: 'Regime: USN or PSN',
+        holiday_region: 'Your region', holiday_region_ph: 'Select region...', holiday_activity: 'Type of activity', holiday_activity_ph: 'First select a region',
+        holiday_ch1: 'IP registered for the first time', holiday_ch2: 'Less than 2 years since registration', holiday_ch3: 'Income share from preferential activity not less than 70%',
+        holiday_btn: 'Check eligibility', select_region_activity: 'Select region and activity type', missing_conditions: 'Mandatory conditions not met:',
         holiday_approved: 'You are eligible for tax holidays in the region', holiday_by: 'by activity', holiday_rate: 'Rate 0% on USN or PSN. Basis:',
+
+        // Quiz
         quiz_title: 'Individual Regime Selection', quiz_desc: 'Answer 8 questions to find the optimal regime',
         quiz_q1: '1. Planned annual income', quiz_q2: '2. Do you plan to hire employees?', quiz_q3: '3. Main type of clients',
         quiz_q4: '4. Approximate share of expenses from income', quiz_q5: '5. Nature of business', quiz_q6: '6. Is VAT required?',
         quiz_q7: '7. Marked goods?', quiz_q8: '8. First business?', quiz_btn: 'Find regime',
-        quiz_empty: 'Please answer all questions:', quiz_optimal: 'Optimal regime:', quiz_why: 'Why this regime:',
-        quiz_warning: '⚠️ Important', quiz_tip: '💡 Tip',
+        quiz_select: '— Select —',
+        quiz_q1_low: 'Up to 2.4M RUB', quiz_q1_mid: '2.4–20M RUB', quiz_q1_high: '20–60M RUB', quiz_q1_ultra: '60–250M RUB', quiz_q1_max: 'Over 250M RUB',
+        quiz_q2_no: 'No', quiz_q2_few: 'Yes, up to 15', quiz_q2_many: '15–130', quiz_q2_unlimited: 'Over 130',
+        quiz_q3_persons: 'Individuals', quiz_q3_mixed: '50/50', quiz_q3_legal: 'Legal entities', quiz_q3_state: 'Government',
+        quiz_q4_min: 'Less than 20%', quiz_q4_low: '20–40%', quiz_q4_mid: '40–60%', quiz_q4_high: 'Over 60%',
+        quiz_q5_service: 'Services', quiz_q5_trade: 'Trade', quiz_q5_production: 'Production', quiz_q5_seasonal: 'Seasonal', quiz_q5_it: 'IT', quiz_q5_rent: 'Rental',
+        quiz_q6_no: 'No', quiz_q6_maybe: 'Maybe', quiz_q6_yes: 'Yes',
+        quiz_q7_no: 'No', quiz_q7_maybe: 'Maybe', quiz_q7_yes: 'Yes',
+        quiz_q8_yes: 'Yes', quiz_q8_no: 'No', quiz_q8_exist: 'Already have',
+        quiz_empty: 'Please answer all questions:', quiz_optimal: 'Optimal regime:', quiz_why: 'Why this regime:', quiz_warning: 'Important', quiz_tip: 'Tip',
+
+        // Comparison
         comp_table: 'Comparison Table', comp_th1: 'Regime', comp_th2: 'Rate', comp_th3: 'Limit', comp_th4: 'VAT', comp_th5: 'Contributions', comp_th6: 'Reporting', comp_th7: 'Employees',
         comp_no: 'No', comp_check: 'Receipt', comp_decl: 'Declaration', comp_pref: 'Preferential', comp_yes: 'Yes',
         comp_calc: 'Comparison Calculator', comp_income: 'Annual income (RUB)', comp_expenses: 'Annual expenses (RUB)', comp_btn: 'Compare all regimes',
         comp_tax_col: 'Tax', comp_net_col: 'Net Income', comp_rub: 'RUB',
         salary_title: 'Comparison: IP vs Employee', salary_desc: 'Comparison of net benefit when receiving one amount from a client (IP) or employer (employee).',
-        salary_amount: 'Amount (RUB)', salary_btn: 'Compare', salary_employee: 'Employee:', salary_hand: 'Take-home', salary_ndfl: 'Personal Income Tax',
-        salary_social: 'Social contributions (7.6%)', salary_employer: 'Employer will pay', salary_ip: 'IP NPD (legal entity):', salary_tax: 'Tax (4%)', salary_profit: 'IP Benefit',
-        faq_title: 'Frequently Asked Questions', lifehack_title: 'Tax Lifehacks',
-        lifehack_1t: 'Combining NPD and Employment', lifehack_1d: 'You can be self-employed and work under an employment contract at the same time.',
-        lifehack_2t: 'Deduction of 10,000 RUB', lifehack_2d: 'Every new self-employed person receives a deduction. The rate drops to 3% and 4% until the deduction is exhausted.',
-        lifehack_3t: 'Patent for Seasonal Business', lifehack_3d: 'Buy a patent only for the months you need — cheaper than USN for a full year.',
-        lifehack_4t: 'Reducing USN by Contributions', lifehack_4d: 'IP on USN 6% without employees can reduce tax by 100% of fixed contributions.',
-        lifehack_5t: 'Transition from NPD to USN', lifehack_5d: 'When exceeding the 2.4M limit, you have 20 days to transition. Submit a notification immediately.',
-        holiday_ref: 'Tax Holidays: Directory', glossary_title: 'Glossary', glossary_select: 'Select a term to view',
+        salary_amount: 'Amount (RUB)', salary_btn: 'Compare',
+        salary_employee: 'Employee:', salary_hand: 'Take-home', salary_ndfl: 'Personal Income Tax', salary_social: 'Social contributions (7.6%)', salary_employer: 'Employer will pay',
+        salary_ip: 'IP NPD (legal entity):', salary_tax: 'Tax (4%)', salary_profit: 'IP Benefit',
+
+        // FAQ
+        faq_title: 'Frequently Asked Questions',
+
+        // Lifehacks
+        lifehack_title: 'Tax Lifehacks',
+
+        // Holiday Reference
+        holiday_ref: 'Tax Holidays: Directory',
+
+        // Glossary
+        glossary_title: 'Glossary', glossary_select: 'Select a term to view',
+
+        // Scanner
+        scanner_title: 'Receipt Scanner', scanner_desc: 'Upload a photo or PDF of a receipt for data recognition. Supports JPG, PNG, PDF.',
+        scanner_drop: 'Click or drag a file here', scanner_formats: 'JPG, PNG, PDF up to 10 MB',
+        scanner_amount: 'Amount (RUB)', scanner_date: 'Date', scanner_contractor: 'Contractor', scanner_contractor_ph: 'Organization or IP name',
+        scanner_category: 'Expense category', scanner_note: 'Note', scanner_note_ph: 'Additional information', scanner_save: 'Save receipt',
+        scanner_cat_office: 'Office expenses', scanner_cat_equipment: 'Equipment', scanner_cat_services: 'Services',
+        scanner_cat_materials: 'Materials', scanner_cat_rent: 'Rent', scanner_cat_transport: 'Transport', scanner_cat_other: 'Other',
+        scanner_history: 'Receipt history', scanner_no_receipts: 'No saved receipts', scanner_saved: 'Receipt saved!',
+
+        // Checklist
         checklist_title: 'IP/LLC Registration Checklist', checklist_desc: 'Check off completed steps. Progress is saved locally.',
-        checklist_start: 'You are at the beginning', checklist_progress: 'Progress:', checklist_finish: 'All steps completed! You are ready to launch your business!',
-        checklist_almost: 'You are on the home stretch!', checklist_good: 'Good progress, keep going!',
+        checklist_start: 'You are at the beginning', checklist_progress: 'Progress:',
+        checklist_finish: 'All steps completed! You are ready to launch your business!', checklist_almost: 'You are on the home stretch!', checklist_good: 'Good progress, keep going!',
+
+        // Heatmap
         heatmap_title: 'Tax Calendar Heatmap', heatmap_desc: 'Calendar with color indication of tax events. Click on a day for details. The redder — the more events.',
         heatmap_l0: 'No events', heatmap_l1: '1 event', heatmap_l2: '2 events', heatmap_l3: '3 events', heatmap_l4: '4 events', heatmap_l5: '5+ events',
         no_events: 'No tax events.', click_day: 'Click on a day to view events',
+
+        // Footer
         footer_title: 'Official Notice', footer_desc: 'This service is for informational purposes only. All calculations are local. Data is not transferred to third parties.', footer_copy: '2026. All rights reserved.',
+
+        // PDF
         pdf_calc_title: 'Tax Calculation', pdf_calc_regime: 'Regime', pdf_calc_income: 'Income', pdf_calc_tax: 'Tax', pdf_calc_net: 'Net Income',
         pdf_calc_rate: 'Effective Rate', pdf_calc_date: 'Date', pdf_calc_service: 'Service: Tax Calculator',
         pdf_risk_title: 'Compliance Risk Analysis', pdf_risk_date: 'Date', pdf_risk_service: 'Tax Calculator',
+
+        // Notifications
         toast_pdf_saved: 'PDF saved', toast_install: 'Ready to install! Press "Install PWA" in the menu', toast_installed: 'App successfully installed!',
         toast_note_saved: 'Note saved!', toast_reminder: 'Reminder',
-        risk_low: 'Low risk level', risk_medium: 'Medium risk level', risk_high: 'High risk level',
-        risk_score: 'scored', risk_of: 'out of 30 points', risk_recommendations: 'Risk reduction recommendations:',
+
+        // Insurance
         insurance_title: 'IP Insurance Contributions:', insurance_fixed: 'Fixed payment', insurance_extra: '1% on income >300,000',
         insurance_total: 'Total for the year', insurance_note: 'For more details on IP insurance contributions, see the glossary: "Fixed IP Contributions"',
+
+        // Chart
         chart_income: 'Income', chart_million: 'M',
+
+        // Months and Days
         cal_jan: 'January', cal_feb: 'February', cal_mar: 'March', cal_apr: 'April', cal_may: 'May', cal_jun: 'June',
         cal_jul: 'July', cal_aug: 'August', cal_sep: 'September', cal_oct: 'October', cal_nov: 'November', cal_dec: 'December',
         cal_mon: 'Mon', cal_tue: 'Tue', cal_wed: 'Wed', cal_thu: 'Thu', cal_fri: 'Fri', cal_sat: 'Sat', cal_sun: 'Sun',
-        standard: 'Standard conditions'
+
+        // Industries
+        ind_it: 'IT & Development', ind_production: 'Production', ind_construction: 'Construction', ind_transport: 'Transport & Logistics',
+        ind_agriculture: 'Agriculture', ind_trade: 'Trade', ind_catering: 'Catering', ind_medicine: 'Medicine & Healthcare',
+        ind_education: 'Education', ind_science: 'Science & Research', ind_social: 'Social Services', ind_household: 'Household Services',
+        ind_tourism: 'Tourism & Hospitality', ind_crafts: 'Folk Crafts', ind_rent: 'Real Estate Rental', ind_marketing: 'Marketing & Advertising',
+        ind_consulting: 'Consulting', ind_design: 'Design', ind_photo: 'Photo & Video', ind_sport: 'Sports & Fitness',
+        ind_beauty: 'Beauty & Cosmetology', ind_repair: 'Repair & Maintenance', ind_forestry: 'Forestry', ind_fishing: 'Fishing',
+        ind_mining: 'Mining', ind_oilgas: 'Oil & Gas', ind_shipbuilding: 'Shipbuilding', ind_aviation: 'Aviation',
+        ind_light: 'Light Industry', ind_metallurgy: 'Metallurgy', ind_processing: 'Processing', ind_innovation: 'Innovation', ind_other: 'Other',
+
+        // Other
+        clear_confirm: 'Clear all calculation history?',
+        alert_limit: 'remaining',
+        alert_recommend: 'We recommend planning a transition to another regime in advance.',
+        alert_not_exceeded: 'will not be exceeded',
+        alert_select: 'Select thresholds',
     }
 };
 
@@ -1178,16 +1394,42 @@ function setLanguage(lang) {
     document.querySelectorAll('[data-lang]').forEach(function(el) {
         var key = el.getAttribute('data-lang');
         if (translations[currentLang] && translations[currentLang][key]) {
-            el.innerHTML = translations[currentLang][key];
+            if (el.tagName === 'OPTION') {
+                el.textContent = translations[currentLang][key];
+            } else if (el.tagName === 'INPUT' && el.hasAttribute('data-lang-placeholder')) {
+                el.placeholder = translations[currentLang][key];
+            } else {
+                el.innerHTML = translations[currentLang][key];
+            }
         }
     });
-    buildChecklist();
-    buildGlossary();
-    buildFAQ();
-    buildHeatmap();
+    document.querySelectorAll('[data-lang-placeholder]').forEach(function(el) {
+        var key = el.getAttribute('data-lang-placeholder');
+        if (translations[currentLang] && translations[currentLang][key]) {
+            el.placeholder = translations[currentLang][key];
+        }
+    });
+    buildAllDynamicContent();
+}
+
+function buildAllDynamicContent() {
     buildRiskQuestions();
+    buildIndustrySelect();
+    buildQuizForm();
+    buildCompTable();
+    buildFAQ();
+    buildLifehacks();
+    buildGlossary();
+    buildChecklist();
+    buildHeatmap();
+    buildHolidayFullList();
+    buildHolidayRegions();
+    buildRegionSelect();
     updateWidgetsText();
     if (document.getElementById('tab-calc').classList.contains('active')) updForecast();
+    if (document.getElementById('tab-ben').classList.contains('active')) showSpecialBenefits();
+    renderHistory();
+    renderReceipts();
 }
 
 function updateWidgetsText() {
@@ -1304,8 +1546,9 @@ function updateMenuActive(sectionName) {
         'ben': 2,
         'comp': 3,
         'faq': 4,
-        'checklist': 6,
-        'heatmap': 7
+        'scanner': 6,
+        'checklist': 7,
+        'heatmap': 8
     };
 
     if (indexMap[sectionName] !== undefined) {
@@ -1355,10 +1598,10 @@ function applyTheme(dark) {
 
     if (dark) {
         document.body.classList.add('dark-mode');
-        document.getElementById('theme-btn').textContent = '☀️';
+        document.getElementById('theme-btn').textContent = '\u2600\uFE0F';
     } else {
         document.body.classList.add('light-mode');
-        document.getElementById('theme-btn').textContent = '🌙';
+        document.getElementById('theme-btn').textContent = '\uD83C\uDF19';
     }
 
     localStorage.setItem('dark', dark);
@@ -1398,29 +1641,6 @@ function requestNotificationPermission() {
     }
 }
 
-function scheduleNoteReminder(dateStr, timeStr, text) {
-    if (!('Notification' in window)) return;
-
-    var noteDateTime = new Date(dateStr + 'T' + timeStr);
-    var now = new Date();
-    var delay = noteDateTime.getTime() - now.getTime();
-
-    if (delay <= 0) return;
-
-    var timerId = setTimeout(function() {
-        if (Notification.permission === 'granted') {
-            new Notification(t('toast_reminder'), {
-                body: text,
-                icon: 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#198754"/><text x="16" y="22" font-family="Arial,sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">Л</text></svg>'),
-                tag: 'note-' + dateStr
-            });
-        }
-        showToast(t('toast_reminder') + ': ' + text);
-    }, delay);
-
-    noteTimers[dateStr] = timerId;
-}
-
 function showToast(message) {
     var toast = document.getElementById('notification-toast');
     toast.textContent = message;
@@ -1435,18 +1655,31 @@ function initAll() {
     initTheme();
     requestNotificationPermission();
     setLanguage(currentLang);
-    buildRiskQuestions();
-    buildRegionSelect();
-    buildHolidayRegions();
-    buildHolidayFullList();
-    buildFAQ();
-    buildGlossary();
-    buildChecklist();
-    buildHeatmap();
+    buildAllDynamicContent();
     updFields();
     updForecast();
     renderHistory();
+    renderReceipts();
     updateWidgetsText();
+
+    // Drag & drop для сканера
+    var scannerZone = document.getElementById('scanner-zone');
+    if (scannerZone) {
+        scannerZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            scannerZone.classList.add('drag-over');
+        });
+        scannerZone.addEventListener('dragleave', function() {
+            scannerZone.classList.remove('drag-over');
+        });
+        scannerZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            scannerZone.classList.remove('drag-over');
+            if (e.dataTransfer.files.length > 0) {
+                handleScannerFile(e.dataTransfer.files[0]);
+            }
+        });
+    }
 }
 
 function switchTab(sectionName) {
@@ -1476,215 +1709,858 @@ function switchTab(sectionName) {
     if (sectionName === 'checklist') {
         buildChecklist();
     }
+    if (sectionName === 'scanner') {
+        renderReceipts();
+    }
 
     updateMenuActive(sectionName);
 }
 </script>
 <script>
-// ========== ПОЛНЫЕ ДАННЫЕ ==========
-var riskQuestions = [
-    {b:'115-ФЗ',q:'Заключаете ли вы письменный договор с каждым клиентом — юридическим лицом?',yes:'Отлично! Наличие договоров значительно снижает риск блокировки по 115-ФЗ.',no:'Рекомендуем заключать договоры со всеми юрлицами — это основной документ для подтверждения реальности сделки.'},
-    {b:'115-ФЗ',q:'Указываете ли вы номер и дату договора в назначении платежа?',yes:'Правильно! Это помогает банку быстро идентифицировать платёж.',no:'Добавьте реквизиты договора в назначение платежа — это снижает риск дополнительных проверок.'},
-    {b:'115-ФЗ',q:'Поступает ли более 50% выручки от физических лиц?',yes:'Это нормальная практика для розничного бизнеса.',no:'Диверсификация клиентской базы между физлицами и юрлицами снижает риски.'},
-    {b:'115-ФЗ',q:'Храните ли вы переписку, акты и закрывающие документы по всем сделкам?',yes:'Отлично! Полный пакет документов — лучшая защита при проверке.',no:'Сохраняйте всю переписку и закрывающие документы минимум 5 лет.'},
-    {b:'115-ФЗ',q:'Бывают ли поступления более 600 000 руб. от одного контрагента?',yes:'При крупных поступлениях особенно важно иметь полный пакет документов.',no:'Объёмы поступлений в пределах стандартных — риски минимальны.'},
-    {b:'115-ФЗ',q:'Проводите ли вы регулярную сверку с контрагентами?',yes:'Отличная практика для подтверждения реальности сделок.',no:'Рекомендуем проводить сверку хотя бы раз в квартал.'},
-    {b:'115-ФЗ',q:'Есть ли у вас утверждённая политика ПОД/ФТ?',yes:'Наличие политики снижает риски при проверках.',no:'Разработайте политику ПОД/ФТ для снижения рисков.'},
-    {b:'Налоги',q:'Превышает ли ваш среднемесячный доход 200 000 руб.?',yes:'Следите за приближением к лимитам налогового режима.',no:'Ваш доход в пределах комфортной зоны текущего режима.'},
-    {b:'Налоги',q:'Знаете ли вы о заморозке порога по НДС на уровне 20 млн руб. до 2029 года?',yes:'Отлично! Вы в курсе актуальных изменений законодательства.',no:'Изучите: порог для освобождения от НДС заморожен на уровне 20 млн до 2029 года.'},
-    {b:'Налоги',q:'Готовы ли вы к выставлению счетов-фактур с НДС при превышении порога?',yes:'Хорошая подготовка — настройте учётную систему заранее.',no:'Подготовьтесь заранее: при превышении 20 млн придётся выставлять счета-фактуры с НДС.'},
-    {b:'Налоги',q:'Рассматривали ли вы патентную систему (ПСН) как альтернативу?',yes:'Патент — отличный выбор для многих видов деятельности.',no:'Рассмотрите ПСН: фиксированный платёж и минимум отчётности.'},
-    {b:'Налоги',q:'Ведёте ли вы несколько видов деятельности?',yes:'Проверьте, все ли виды деятельности подпадают под выбранный режим.',no:'Один вид деятельности упрощает учёт и снижает риск ошибок.'},
-    {b:'Налоги',q:'Используете ли вы пониженные ставки УСН в своём регионе?',yes:'Отлично! Вы оптимизируете налоговую нагрузку.',no:'Проверьте, возможно в вашем регионе есть льготные ставки.'},
-    {b:'Налоги',q:'Проводите ли вы раздельный учёт при совмещении режимов?',yes:'Правильно! Это обязательно при совмещении.',no:'При совмещении режимов раздельный учёт обязателен.'},
-    {b:'НДС',q:'Превышал ли ваш доход 20 млн руб. за последние 12 месяцев?',yes:'Вам необходимо начать уплату НДС по пониженным ставкам.',no:'Пока вы освобождены от НДС.'},
-    {b:'НДС',q:'Работаете ли вы с плательщиками НДС?',yes:'Возможно, вам выгодно быть плательщиком НДС.',no:'Отсутствие НДС может быть преимуществом.'},
-    {b:'НДС',q:'Получаете ли вы вычеты по НДС?',yes:'Ведите корректный учёт входящего НДС.',no:'При переходе на НДС вычеты помогут снизить нагрузку.'},
-    {b:'ККТ',q:'Зарегистрирована ли у вас онлайн-касса (ККТ)?',yes:'Вы соблюдаете требования 54-ФЗ.',no:'Для приёма платежей от физлиц необходима онлайн-касса.'},
-    {b:'ККТ',q:'Работаете ли вы с маркированными товарами?',yes:'Потребуется интеграция с системой «Честный знак».',no:'Требований по маркировке для вашего бизнеса нет.'},
-    {b:'ККТ',q:'Выдаёте ли вы электронные чеки покупателям?',yes:'Отлично! Это обязательно для онлайн-касс.',no:'Настройте отправку электронных чеков.'},
-    {b:'Маркировка',q:'Продаёте ли вы одежду, обувь или лекарства?',yes:'Эти товары подлежат обязательной маркировке.',no:'Проверьте перечень маркируемых товаров.'},
-    {b:'Маркировка',q:'Работаете ли вы с системой «Честный знак»?',yes:'Отлично! Вы соблюдаете требования.',no:'Зарегистрируйтесь в системе «Честный знак».'},
-    {b:'Маркировка',q:'Проверяете ли вы коды маркировки при приёмке товара?',yes:'Правильно! Это обязательная процедура.',no:'Настройте проверку кодов при приёмке.'},
-    {b:'Организация',q:'Есть ли у вас наёмные сотрудники?',yes:'Помните о ежемесячной отчётности по сотрудникам (6-НДФЛ, РСВ, ЕФС-1).',no:'Без сотрудников значительно меньше отчётности.'},
-    {b:'Организация',q:'Планируете ли вы участвовать в государственных закупках?',yes:'Для системной работы с госзаказом может потребоваться ООО.',no:'Без госзаказов ограничений по форме ведения бизнеса меньше.'},
-    {b:'Организация',q:'Работаете ли вы с валютными операциями?',yes:'Валютные операции требуют особого контроля.',no:'Риски минимальны без валютных операций.'},
-    {b:'Организация',q:'Проводите ли вы независимый аудит?',yes:'Аудит снижает риски налоговых проверок.',no:'Рекомендуем проводить аудит хотя бы раз в год.'},
-    {b:'Организация',q:'Есть ли у вас утверждённая учётная политика?',yes:'Наличие учётной политики обязательно.',no:'Разработайте и утвердите учётную политику.'},
-    {b:'Организация',q:'Используете ли вы электронный документооборот (ЭДО)?',yes:'ЭДО ускоряет обмен документами.',no:'Внедрите ЭДО для ускорения работы.'},
-    {b:'Организация',q:'Планируете ли вы масштабирование бизнеса в ближайшие 1–2 года?',yes:'Заранее продумайте возможный переход на другой налоговый режим.',no:'Стабильный бизнес позволяет дольше оставаться на выбранном режиме.'}
+// ========== ДАННЫЕ: РИСКИ ==========
+var riskQuestionsData = {
+    ru: [
+        {b:'115-ФЗ',q:'Заключаете ли вы письменный договор с каждым клиентом — юридическим лицом?',yes:'Отлично! Наличие договоров значительно снижает риск блокировки по 115-ФЗ.',no:'Рекомендуем заключать договоры со всеми юрлицами — это основной документ для подтверждения реальности сделки.'},
+        {b:'115-ФЗ',q:'Указываете ли вы номер и дату договора в назначении платежа?',yes:'Правильно! Это помогает банку быстро идентифицировать платёж.',no:'Добавьте реквизиты договора в назначение платежа — это снижает риск дополнительных проверок.'},
+        {b:'115-ФЗ',q:'Поступает ли более 50% выручки от физических лиц?',yes:'Это нормальная практика для розничного бизнеса.',no:'Диверсификация клиентской базы между физлицами и юрлицами снижает риски.'},
+        {b:'115-ФЗ',q:'Храните ли вы переписку, акты и закрывающие документы по всем сделкам?',yes:'Отлично! Полный пакет документов — лучшая защита при проверке.',no:'Сохраняйте всю переписку и закрывающие документы минимум 5 лет.'},
+        {b:'115-ФЗ',q:'Бывают ли поступления более 600 000 руб. от одного контрагента?',yes:'При крупных поступлениях особенно важно иметь полный пакет документов.',no:'Объёмы поступлений в пределах стандартных — риски минимальны.'},
+        {b:'115-ФЗ',q:'Проводите ли вы регулярную сверку с контрагентами?',yes:'Отличная практика для подтверждения реальности сделок.',no:'Рекомендуем проводить сверку хотя бы раз в квартал.'},
+        {b:'115-ФЗ',q:'Есть ли у вас утверждённая политика ПОД/ФТ?',yes:'Наличие политики снижает риски при проверках.',no:'Разработайте политику ПОД/ФТ для снижения рисков.'},
+        {b:'Налоги',q:'Превышает ли ваш среднемесячный доход 200 000 руб.?',yes:'Следите за приближением к лимитам налогового режима.',no:'Ваш доход в пределах комфортной зоны текущего режима.'},
+        {b:'Налоги',q:'Знаете ли вы о заморозке порога по НДС на уровне 20 млн руб. до 2029 года?',yes:'Отлично! Вы в курсе актуальных изменений законодательства.',no:'Изучите: порог для освобождения от НДС заморожен на уровне 20 млн до 2029 года.'},
+        {b:'Налоги',q:'Готовы ли вы к выставлению счетов-фактур с НДС при превышении порога?',yes:'Хорошая подготовка — настройте учётную систему заранее.',no:'Подготовьтесь заранее: при превышении 20 млн придётся выставлять счета-фактуры с НДС.'},
+        {b:'Налоги',q:'Рассматривали ли вы патентную систему (ПСН) как альтернативу?',yes:'Патент — отличный выбор для многих видов деятельности.',no:'Рассмотрите ПСН: фиксированный платёж и минимум отчётности.'},
+        {b:'Налоги',q:'Ведёте ли вы несколько видов деятельности?',yes:'Проверьте, все ли виды деятельности подпадают под выбранный режим.',no:'Один вид деятельности упрощает учёт и снижает риск ошибок.'},
+        {b:'Налоги',q:'Используете ли вы пониженные ставки УСН в своём регионе?',yes:'Отлично! Вы оптимизируете налоговую нагрузку.',no:'Проверьте, возможно в вашем регионе есть льготные ставки.'},
+        {b:'Налоги',q:'Проводите ли вы раздельный учёт при совмещении режимов?',yes:'Правильно! Это обязательно при совмещении.',no:'При совмещении режимов раздельный учёт обязателен.'},
+        {b:'НДС',q:'Превышал ли ваш доход 20 млн руб. за последние 12 месяцев?',yes:'Вам необходимо начать уплату НДС по пониженным ставкам.',no:'Пока вы освобождены от НДС.'},
+        {b:'НДС',q:'Работаете ли вы с плательщиками НДС?',yes:'Возможно, вам выгодно быть плательщиком НДС.',no:'Отсутствие НДС может быть преимуществом.'},
+        {b:'НДС',q:'Получаете ли вы вычеты по НДС?',yes:'Ведите корректный учёт входящего НДС.',no:'При переходе на НДС вычеты помогут снизить нагрузку.'},
+        {b:'ККТ',q:'Зарегистрирована ли у вас онлайн-касса (ККТ)?',yes:'Вы соблюдаете требования 54-ФЗ.',no:'Для приёма платежей от физлиц необходима онлайн-касса.'},
+        {b:'ККТ',q:'Работаете ли вы с маркированными товарами?',yes:'Потребуется интеграция с системой «Честный знак».',no:'Требований по маркировке для вашего бизнеса нет.'},
+        {b:'ККТ',q:'Выдаёте ли вы электронные чеки покупателям?',yes:'Отлично! Это обязательно для онлайн-касс.',no:'Настройте отправку электронных чеков.'},
+        {b:'Маркировка',q:'Продаёте ли вы одежду, обувь или лекарства?',yes:'Эти товары подлежат обязательной маркировке.',no:'Проверьте перечень маркируемых товаров.'},
+        {b:'Маркировка',q:'Работаете ли вы с системой «Честный знак»?',yes:'Отлично! Вы соблюдаете требования.',no:'Зарегистрируйтесь в системе «Честный знак».'},
+        {b:'Маркировка',q:'Проверяете ли вы коды маркировки при приёмке товара?',yes:'Правильно! Это обязательная процедура.',no:'Настройте проверку кодов при приёмке.'},
+        {b:'Организация',q:'Есть ли у вас наёмные сотрудники?',yes:'Помните о ежемесячной отчётности по сотрудникам (6-НДФЛ, РСВ, ЕФС-1).',no:'Без сотрудников значительно меньше отчётности.'},
+        {b:'Организация',q:'Планируете ли вы участвовать в государственных закупках?',yes:'Для системной работы с госзаказом может потребоваться ООО.',no:'Без госзаказов ограничений по форме ведения бизнеса меньше.'},
+        {b:'Организация',q:'Работаете ли вы с валютными операциями?',yes:'Валютные операции требуют особого контроля.',no:'Риски минимальны без валютных операций.'},
+        {b:'Организация',q:'Проводите ли вы независимый аудит?',yes:'Аудит снижает риски налоговых проверок.',no:'Рекомендуем проводить аудит хотя бы раз в год.'},
+        {b:'Организация',q:'Есть ли у вас утверждённая учётная политика?',yes:'Наличие учётной политики обязательно.',no:'Разработайте и утвердите учётную политику.'},
+        {b:'Организация',q:'Используете ли вы электронный документооборот (ЭДО)?',yes:'ЭДО ускоряет обмен документами.',no:'Внедрите ЭДО для ускорения работы.'},
+        {b:'Организация',q:'Планируете ли вы масштабирование бизнеса в ближайшие 1–2 года?',yes:'Заранее продумайте возможный переход на другой налоговый режим.',no:'Стабильный бизнес позволяет дольше оставаться на выбранном режиме.'}
+    ],
+    en: [
+        {b:'115-FZ',q:'Do you conclude a written contract with each legal entity client?',yes:'Excellent! Having contracts significantly reduces the risk of blocking under 115-FZ.',no:'We recommend concluding contracts with all legal entities — this is the main document for confirming the reality of the transaction.'},
+        {b:'115-FZ',q:'Do you indicate the contract number and date in the payment purpose?',yes:'Correct! This helps the bank quickly identify the payment.',no:'Add contract details to the payment purpose — this reduces the risk of additional checks.'},
+        {b:'115-FZ',q:'Does more than 50% of revenue come from individuals?',yes:'This is normal practice for retail business.',no:'Diversifying the client base between individuals and legal entities reduces risks.'},
+        {b:'115-FZ',q:'Do you keep correspondence, acts and closing documents for all transactions?',yes:'Excellent! A complete set of documents is the best protection during an audit.',no:'Keep all correspondence and closing documents for at least 5 years.'},
+        {b:'115-FZ',q:'Are there receipts of more than 600,000 RUB from one counterparty?',yes:'For large receipts, it is especially important to have a complete set of documents.',no:'Receipt volumes are within standard limits — risks are minimal.'},
+        {b:'115-FZ',q:'Do you regularly reconcile with counterparties?',yes:'Excellent practice for confirming the reality of transactions.',no:'We recommend reconciling at least once a quarter.'},
+        {b:'115-FZ',q:'Do you have an approved AML/CFT policy?',yes:'Having a policy reduces risks during audits.',no:'Develop an AML/CFT policy to reduce risks.'},
+        {b:'Taxes',q:'Does your average monthly income exceed 200,000 RUB?',yes:'Monitor approaching tax regime limits.',no:'Your income is within the comfort zone of the current regime.'},
+        {b:'Taxes',q:'Do you know about the VAT threshold freeze at 20M RUB until 2029?',yes:'Excellent! You are aware of current legislative changes.',no:'Study: the threshold for VAT exemption is frozen at 20M until 2029.'},
+        {b:'Taxes',q:'Are you ready to issue VAT invoices when exceeding the threshold?',yes:'Good preparation — set up your accounting system in advance.',no:'Prepare in advance: when exceeding 20M, you will need to issue VAT invoices.'},
+        {b:'Taxes',q:'Have you considered the patent system (PSN) as an alternative?',yes:'Patent is an excellent choice for many types of activities.',no:'Consider PSN: fixed payment and minimum reporting.'},
+        {b:'Taxes',q:'Do you conduct several types of activities?',yes:'Check that all types of activities fall under the chosen regime.',no:'One type of activity simplifies accounting and reduces the risk of errors.'},
+        {b:'Taxes',q:'Do you use reduced USN rates in your region?',yes:'Excellent! You are optimizing your tax burden.',no:'Check — there may be preferential rates in your region.'},
+        {b:'Taxes',q:'Do you maintain separate accounting when combining regimes?',yes:'Correct! This is mandatory when combining.',no:'When combining regimes, separate accounting is mandatory.'},
+        {b:'VAT',q:'Has your income exceeded 20M RUB in the last 12 months?',yes:'You need to start paying VAT at reduced rates.',no:'You are currently exempt from VAT.'},
+        {b:'VAT',q:'Do you work with VAT payers?',yes:'It may be beneficial for you to be a VAT payer.',no:'The absence of VAT can be an advantage.'},
+        {b:'VAT',q:'Do you receive VAT deductions?',yes:'Keep correct records of incoming VAT.',no:'When switching to VAT, deductions will help reduce the burden.'},
+        {b:'KKT',q:'Do you have a registered online cash register (KKT)?',yes:'You comply with 54-FZ requirements.',no:'An online cash register is required for accepting payments from individuals.'},
+        {b:'KKT',q:'Do you work with marked goods?',yes:'Integration with the "Honest Mark" system will be required.',no:'There are no marking requirements for your business.'},
+        {b:'KKT',q:'Do you issue electronic receipts to customers?',yes:'Excellent! This is mandatory for online cash registers.',no:'Set up sending electronic receipts.'},
+        {b:'Marking',q:'Do you sell clothing, footwear or medicines?',yes:'These goods are subject to mandatory marking.',no:'Check the list of marked goods.'},
+        {b:'Marking',q:'Do you work with the "Honest Mark" system?',yes:'Excellent! You comply with the requirements.',no:'Register in the "Honest Mark" system.'},
+        {b:'Marking',q:'Do you check marking codes when receiving goods?',yes:'Correct! This is a mandatory procedure.',no:'Set up code verification when receiving goods.'},
+        {b:'Organization',q:'Do you have employees?',yes:'Remember monthly reporting for employees (6-NDFL, RSV, EFS-1).',no:'Without employees, there is significantly less reporting.'},
+        {b:'Organization',q:'Do you plan to participate in government procurement?',yes:'For systematic work with government orders, an LLC may be required.',no:'Without government orders, there are fewer restrictions on the form of business.'},
+        {b:'Organization',q:'Do you work with currency operations?',yes:'Currency operations require special control.',no:'Risks are minimal without currency operations.'},
+        {b:'Organization',q:'Do you conduct independent audit?',yes:'Audit reduces the risks of tax audits.',no:'We recommend conducting an audit at least once a year.'},
+        {b:'Organization',q:'Do you have an approved accounting policy?',yes:'Having an accounting policy is mandatory.',no:'Develop and approve an accounting policy.'},
+        {b:'Organization',q:'Do you use electronic document management (EDM)?',yes:'EDM speeds up document exchange.',no:'Implement EDM to speed up work.'},
+        {b:'Organization',q:'Do you plan to scale your business in the next 1-2 years?',yes:'Think in advance about a possible transition to another tax regime.',no:'A stable business allows you to stay on the chosen regime longer.'}
+    ]
+};
+
+// ========== ДАННЫЕ: FAQ ==========
+var faqListData = {
+    ru: [
+        {q:'Что такое налог на профессиональный доход (НПД)?',a:'НПД — это специальный налоговый режим для самозанятых граждан. Ставка: 4% при работе с юрлицами, 6% — с физлицами. Лимит годового дохода — 2.4 млн руб. Не нужно сдавать декларации и платить страховые взносы.'},
+        {q:'Каков лимит дохода для самозанятых?',a:'2.4 млн руб. в год. При превышении лимита необходимо перейти на УСН или ПСН в течение 20 календарных дней.'},
+        {q:'Можно ли нанимать сотрудников на НПД?',a:'Нет, самозанятые не могут нанимать сотрудников по трудовому договору. Допускается только работа по договорам ГПХ с другими самозанятыми или ИП.'},
+        {q:'Что такое упрощённая система налогообложения (УСН)?',a:'УСН бывает двух видов: «Доходы» (ставка 6%) и «Доходы минус расходы» (ставка 15%). Регионы могут снижать ставки до 1% и 5% соответственно.'},
+        {q:'Какие ставки УСН действуют в регионах?',a:'Ставки варьируются от 1% до 6% для объекта «Доходы» и от 5% до 15% для «Доходы минус расходы» в зависимости от региона и вида деятельности.'},
+        {q:'Что такое патентная система (ПСН)?',a:'ПСН — это покупка патента на определённый вид деятельности на срок от 1 до 12 месяцев. Налог — 6% от потенциального дохода, установленного регионом. Лимит годового дохода — 60 млн руб.'},
+        {q:'Нужно ли платить НДС на УСН?',a:'До достижения дохода в 20 млн руб. НДС не уплачивается. При превышении порога применяются пониженные ставки НДС: 5% (доход 20–60 млн) или 7% (доход 60–250 млн), либо стандартные 20%.'},
+        {q:'Какие страховые взносы платит ИП?',a:'Фиксированный платёж — 53 700 руб. в год. Дополнительно 1% с дохода, превышающего 300 000 руб., но не более 300 000 руб. дополнительных взносов.'},
+        {q:'Что регулирует Федеральный закон 115-ФЗ?',a:'115-ФЗ — это закон о противодействии легализации (отмыванию) доходов. Банки обязаны контролировать подозрительные операции и могут блокировать счета при сомнительных транзакциях.'},
+        {q:'Как правильно выбрать налоговый режим?',a:'Выбор зависит от: годового дохода, доли расходов, наличия сотрудников, типа клиентов (физлица/юрлица), необходимости НДС. Воспользуйтесь опросником на вкладке «Льготы».'},
+        {q:'Можно ли совмещать НПД и работу по найму?',a:'Да, можно одновременно быть самозанятым и работать по трудовому договору. НПД не заменяет НДФЛ с зарплаты.'},
+        {q:'Что такое налоговые каникулы для ИП?',a:'Это ставка 0% для впервые зарегистрированных ИП на УСН или ПСН. Действуют до 2 лет. Условия устанавливаются региональными законами (ст. 346.20 НК РФ).'},
+        {q:'Как самозанятому выдавать чеки?',a:'Через мобильное приложение «Мой налог» или веб-кабинет на сайте ФНС. Чек формируется в электронном виде и может быть отправлен клиенту.'},
+        {q:'Что такое КУДиР?',a:'Книга учёта доходов и расходов — обязательный регистр для ИП и ООО на УСН и ПСН. Заполняется в хронологическом порядке по каждой операции.'},
+        {q:'Как перейти с УСН на НПД?',a:'Необходимо подать уведомление о прекращении применения УСН в ФНС и зарегистрироваться как самозанятый через приложение «Мой налог».'},
+        {q:'Что такое Единый налоговый платёж (ЕНП)?',a:'ЕНП — это способ уплаты всех налогов и взносов одним платёжным поручением. Деньги зачисляются на Единый налоговый счёт (ЕНС) и распределяются ФНС автоматически.'},
+        {q:'Что такое Единый налоговый счёт (ЕНС)?',a:'ЕНС — это лицевой счёт налогоплательщика в ФНС, куда зачисляются все налоговые платежи. С него же списываются налоги, взносы, пени и штрафы.'},
+        {q:'Какую отчётность сдаёт ИП на УСН?',a:'Основная — годовая декларация по УСН (до 25 апреля). При наличии сотрудников: 6-НДФЛ (ежеквартально), РСВ (ежеквартально), ЕФС-1 (при кадровых изменениях).'},
+        {q:'Какие штрафы за неуплату налогов?',a:'Штраф 20% от неуплаченной суммы, при умышленной неуплате — 40%. Дополнительно начисляются пени в размере 1/300 ключевой ставки ЦБ РФ за каждый день просрочки.'},
+        {q:'Что такое патент для ИП?',a:'Патент — это документ, дающий право на применение ПСН по конкретному виду деятельности. Приобретается на срок от 1 до 12 месяцев в пределах календарного года.'}
+    ],
+    en: [
+        {q:'What is the Professional Income Tax (NPD)?',a:'NPD is a special tax regime for self-employed citizens. Rate: 4% when working with legal entities, 6% with individuals. Annual income limit is 2.4M RUB. No need to file declarations or pay insurance contributions.'},
+        {q:'What is the income limit for the self-employed?',a:'2.4M RUB per year. If the limit is exceeded, you must switch to USN or PSN within 20 calendar days.'},
+        {q:'Can I hire employees under NPD?',a:'No, self-employed cannot hire employees under an employment contract. Only work under civil law contracts with other self-employed or IPs is allowed.'},
+        {q:'What is the Simplified Taxation System (USN)?',a:'USN has two types: "Income" (rate 6%) and "Income minus Expenses" (rate 15%). Regions can reduce rates to 1% and 5% respectively.'},
+        {q:'What USN rates apply in the regions?',a:'Rates vary from 1% to 6% for "Income" and from 5% to 15% for "Income minus Expenses" depending on the region and type of activity.'},
+        {q:'What is the Patent System (PSN)?',a:'PSN is the purchase of a patent for a specific type of activity for a period of 1 to 12 months. Tax is 6% of potential income set by the region. Annual income limit is 60M RUB.'},
+        {q:'Do I need to pay VAT under USN?',a:'Until income reaches 20M RUB, VAT is not paid. When the threshold is exceeded, reduced VAT rates apply: 5% (income 20-60M) or 7% (income 60-250M), or standard 20%.'},
+        {q:'What insurance contributions does an IP pay?',a:'Fixed payment is 53,700 RUB per year. Additionally, 1% on income exceeding 300,000 RUB, but not more than 300,000 RUB in additional contributions.'},
+        {q:'What does Federal Law 115-FZ regulate?',a:'115-FZ is the law on countering the legalization (laundering) of income. Banks are required to monitor suspicious transactions and can block accounts for questionable transactions.'},
+        {q:'How to choose the right tax regime?',a:'The choice depends on: annual income, share of expenses, presence of employees, type of clients (individuals/legal entities), need for VAT. Use the questionnaire on the "Benefits" tab.'},
+        {q:'Can I combine NPD and employment?',a:'Yes, you can be self-employed and work under an employment contract at the same time. NPD does not replace personal income tax on salary.'},
+        {q:'What are tax holidays for IPs?',a:'This is a 0% rate for first-time registered IPs on USN or PSN. They are valid for up to 2 years. Conditions are set by regional laws (Art. 346.20 of the Tax Code).'},
+        {q:'How does a self-employed person issue receipts?',a:'Through the "My Tax" mobile app or web cabinet on the FTS website. The receipt is generated electronically and can be sent to the client.'},
+        {q:'What is KUDiR?',a:'The Book of Income and Expenses is a mandatory register for IPs and LLCs on USN and PSN. It is filled in chronologically for each operation.'},
+        {q:'How to switch from USN to NPD?',a:'You need to submit a notice of termination of USN to the FTS and register as self-employed through the "My Tax" app.'},
+        {q:'What is the Unified Tax Payment (ENP)?',a:'ENP is a method of paying all taxes and contributions with one payment order. Money is credited to the Unified Tax Account (ENS) and distributed by the FTS automatically.'},
+        {q:'What is the Unified Tax Account (ENS)?',a:'ENS is the taxpayer\'s personal account with the FTS, where all tax payments are credited. Taxes, contributions, penalties and fines are debited from it.'},
+        {q:'What reporting does an IP on USN submit?',a:'Main — annual USN declaration (by April 25). With employees: 6-NDFL (quarterly), RSV (quarterly), EFS-1 (for personnel changes).'},
+        {q:'What are the penalties for non-payment of taxes?',a:'Penalty of 20% of the unpaid amount, for intentional non-payment — 40%. Additionally, penalties are charged at 1/300 of the key rate of the Central Bank for each day of delay.'},
+        {q:'What is a patent for an IP?',a:'A patent is a document giving the right to apply PSN for a specific type of activity. It is purchased for a period of 1 to 12 months within a calendar year.'}
+    ]
+};
+
+// ========== ДАННЫЕ: ГЛОССАРИЙ ==========
+var glossaryTermsData = {
+    ru: [
+        {abbr:'НПД',desc:'Налог на профессиональный доход (самозанятые). Ставка 4-6%, лимит 2.4 млн руб. Не требует деклараций и уплаты страховых взносов.'},
+        {abbr:'УСН',desc:'Упрощённая система налогообложения. Ставки 6% (Доходы) или 15% (Доходы минус Расходы). Регионы могут снижать ставки до 1% и 5%.'},
+        {abbr:'ПСН',desc:'Патентная система налогообложения. Фиксированная стоимость патента на срок от 1 до 12 месяцев. Ставка 6% от потенциального дохода.'},
+        {abbr:'ОСНО',desc:'Общая система налогообложения. Полный налоговый учёт, НДС 20%, налог на прибыль 20%. Для крупного бизнеса.'},
+        {abbr:'НДС',desc:'Налог на добавленную стоимость. Ставки: 0%, 10%, 20%. На УСН — 5%, 7% или 20% при превышении порога 20 млн руб.'},
+        {abbr:'КУДиР',desc:'Книга учёта доходов и расходов. Обязательный регистр для ИП и ООО на УСН и ПСН. Заполняется в хронологическом порядке.'},
+        {abbr:'ОКВЭД',desc:'Общероссийский классификатор видов экономической деятельности. Коды указываются при регистрации бизнеса.'},
+        {abbr:'МРОТ',desc:'Минимальный размер оплаты труда. Используется для расчёта страховых взносов, пособий и штрафов.'},
+        {abbr:'ЕНП',desc:'Единый налоговый платёж. Все налоги и взносы уплачиваются одним платёжным поручением на Единый налоговый счёт (ЕНС).'},
+        {abbr:'ЕНС',desc:'Единый налоговый счёт. Лицевой счёт налогоплательщика в ФНС, куда зачисляются все налоговые платежи и с которого они списываются.'},
+        {abbr:'115-ФЗ',desc:'Федеральный закон о противодействии легализации (отмыванию) доходов. Регулирует банковский контроль операций.'},
+        {abbr:'ККТ',desc:'Контрольно-кассовая техника. Онлайн-касса для приёма платежей. Обязательна по 54-ФЗ (с исключениями для самозанятых).'},
+        {abbr:'6-НДФЛ',desc:'Расчёт сумм налога на доходы физических лиц. Ежеквартальная отчётность при наличии наёмных сотрудников.'},
+        {abbr:'РСВ',desc:'Расчёт по страховым взносам. Ежеквартальная отчётность в ФНС при наличии сотрудников.'},
+        {abbr:'Налоговые каникулы',desc:'Ставка 0% для впервые зарегистрированных ИП на УСН/ПСН до 2 лет (ст. 346.20 НК РФ).'},
+        {abbr:'НДФЛ',desc:'Налог на доходы физических лиц. Ставка 13-15% для резидентов РФ. Удерживается работодателем из зарплаты сотрудников.'},
+        {abbr:'ТОР',desc:'Территория опережающего развития. Зона с налоговыми льготами для инвесторов и резидентов.'},
+        {abbr:'ОЭЗ',desc:'Особая экономическая зона. Территория с пониженными налоговыми ставками, таможенными и административными льготами.'},
+        {abbr:'Фиксированные взносы ИП',desc:'Обязательные страховые взносы ИП за себя: 53 700 руб./год (2026). Плюс 1% с дохода свыше 300 000 руб.'}
+    ],
+    en: [
+        {abbr:'NPD',desc:'Professional Income Tax (self-employed). Rate 4-6%, limit 2.4M RUB. No declarations or insurance contributions required.'},
+        {abbr:'USN',desc:'Simplified Taxation System. Rates 6% (Income) or 15% (Income minus Expenses). Regions can reduce rates to 1% and 5%.'},
+        {abbr:'PSN',desc:'Patent Taxation System. Fixed patent cost for 1 to 12 months. Rate 6% of potential income.'},
+        {abbr:'OSNO',desc:'General Taxation System. Full tax accounting, VAT 20%, profit tax 20%. For large businesses.'},
+        {abbr:'VAT',desc:'Value Added Tax. Rates: 0%, 10%, 20%. Under USN — 5%, 7% or 20% when exceeding 20M RUB threshold.'},
+        {abbr:'KUDiR',desc:'Book of Income and Expenses. Mandatory register for IPs and LLCs on USN and PSN.'},
+        {abbr:'OKVED',desc:'All-Russian Classifier of Economic Activities. Codes are specified when registering a business.'},
+        {abbr:'MROT',desc:'Minimum wage. Used for calculating insurance contributions, benefits and fines.'},
+        {abbr:'ENP',desc:'Unified Tax Payment. All taxes and contributions are paid with one payment order to the Unified Tax Account (ENS).'},
+        {abbr:'ENS',desc:'Unified Tax Account. Taxpayer\'s personal account with the FTS where all tax payments are credited and debited.'},
+        {abbr:'115-FZ',desc:'Federal Law on countering the legalization (laundering) of income. Regulates bank control of operations.'},
+        {abbr:'KKT',desc:'Cash Register Equipment. Online cash register for accepting payments. Mandatory under 54-FZ (with exceptions for self-employed).'},
+        {abbr:'6-NDFL',desc:'Calculation of personal income tax amounts. Quarterly reporting when there are employees.'},
+        {abbr:'RSV',desc:'Calculation of insurance contributions. Quarterly reporting to the FTS when there are employees.'},
+        {abbr:'Tax Holidays',desc:'0% rate for first-time registered IPs on USN/PSN for up to 2 years (Art. 346.20 of the Tax Code).'},
+        {abbr:'NDFL',desc:'Personal Income Tax. Rate 13-15% for residents of Russia. Withheld by the employer from employee salaries.'},
+        {abbr:'TOR',desc:'Territory of Advanced Development. Zone with tax benefits for investors and residents.'},
+        {abbr:'OEZ',desc:'Special Economic Zone. Territory with reduced tax rates, customs and administrative benefits.'},
+        {abbr:'Fixed IP Contributions',desc:'Mandatory insurance contributions of an IP for themselves: 53,700 RUB/year (2026). Plus 1% on income over 300,000 RUB.'}
+    ]
+};
+
+// ========== ДАННЫЕ: КАЛЕНДАРЬ ==========
+var calendarEvents = [
+    {date:'2026-01-09',desc:'Уведомление по НДФЛ (налоговый агент)',desc_en:'NDFL Notification (tax agent)',regimes:['ip','ooo']},
+    {date:'2026-01-12',desc:'Оплата НПД за декабрь',desc_en:'NPD Payment for December',regimes:['npd']},
+    {date:'2026-01-15',desc:'Авансовый платёж по УСН за 4 квартал',desc_en:'USN Advance Payment for Q4',regimes:['ip','ooo']},
+    {date:'2026-01-25',desc:'Сдача РСВ за 2025 год',desc_en:'RSV Submission for 2025',regimes:['ip','ooo']},
+    {date:'2026-02-12',desc:'Оплата НПД за январь',desc_en:'NPD Payment for January',regimes:['npd']},
+    {date:'2026-02-15',desc:'Фиксированные страховые взносы ИП (1/2)',desc_en:'Fixed IP Insurance Contributions (1/2)',regimes:['ip']},
+    {date:'2026-02-25',desc:'Сдача 6-НДФЛ за 2025 год',desc_en:'6-NDFL Submission for 2025',regimes:['ip','ooo']},
+    {date:'2026-03-12',desc:'Оплата НПД за февраль',desc_en:'NPD Payment for February',regimes:['npd']},
+    {date:'2026-03-15',desc:'Авансовый платёж по УСН за 1 квартал',desc_en:'USN Advance Payment for Q1',regimes:['ip','ooo']},
+    {date:'2026-04-12',desc:'Оплата НПД за март',desc_en:'NPD Payment for March',regimes:['npd']},
+    {date:'2026-04-25',desc:'Годовая декларация по УСН за 2025 год',desc_en:'Annual USN Declaration for 2025',regimes:['ip','ooo']},
+    {date:'2026-04-28',desc:'Уведомление по УСН за 1 квартал',desc_en:'USN Notification for Q1',regimes:['ip','ooo']},
+    {date:'2026-05-12',desc:'Оплата НПД за апрель',desc_en:'NPD Payment for April',regimes:['npd']},
+    {date:'2026-05-15',desc:'НДФЛ с заработной платы сотрудников',desc_en:'NDFL from Employee Salaries',regimes:['ip','ooo']},
+    {date:'2026-06-12',desc:'Оплата НПД за май',desc_en:'NPD Payment for May',regimes:['npd']},
+    {date:'2026-06-15',desc:'Страховые взносы за сотрудников',desc_en:'Insurance Contributions for Employees',regimes:['ip','ooo']},
+    {date:'2026-07-01',desc:'1% с дохода свыше 300 000 руб. для ИП',desc_en:'1% on Income over 300,000 RUB for IP',regimes:['ip']},
+    {date:'2026-07-12',desc:'Оплата НПД за июнь',desc_en:'NPD Payment for June',regimes:['npd']},
+    {date:'2026-07-15',desc:'Авансовый платёж по УСН (полугодие)',desc_en:'USN Advance Payment (Half-Year)',regimes:['ip','ooo']},
+    {date:'2026-07-28',desc:'Уведомление по УСН (полугодие)',desc_en:'USN Notification (Half-Year)',regimes:['ip','ooo']},
+    {date:'2026-08-12',desc:'Оплата НПД за июль',desc_en:'NPD Payment for July',regimes:['npd']},
+    {date:'2026-09-12',desc:'Оплата НПД за август',desc_en:'NPD Payment for August',regimes:['npd']},
+    {date:'2026-10-12',desc:'Оплата НПД за сентябрь',desc_en:'NPD Payment for September',regimes:['npd']},
+    {date:'2026-10-15',desc:'Авансовый платёж по УСН (9 месяцев)',desc_en:'USN Advance Payment (9 Months)',regimes:['ip','ooo']},
+    {date:'2026-10-28',desc:'Уведомление по УСН (9 месяцев)',desc_en:'USN Notification (9 Months)',regimes:['ip','ooo']},
+    {date:'2026-11-12',desc:'Оплата НПД за октябрь',desc_en:'NPD Payment for October',regimes:['npd']},
+    {date:'2026-12-12',desc:'Оплата НПД за ноябрь',desc_en:'NPD Payment for November',regimes:['npd']},
+    {date:'2026-12-15',desc:'Фиксированные страховые взносы ИП (2/2)',desc_en:'Fixed IP Insurance Contributions (2/2)',regimes:['ip']},
+    {date:'2026-12-31',desc:'Последний день уплаты фиксированных взносов ИП',desc_en:'Last Day for Fixed IP Contributions',regimes:['ip']}
 ];
 
+// ========== ДАННЫЕ: ЧЕК-ЛИСТ ==========
+var checklistStepsData = {
+    ru: [
+        {id:'cl1',text:'Выбрать коды ОКВЭД',tip:'Подберите коды деятельности на сайте ФНС или через классификатор ОКВЭД-2. Укажите один основной и несколько дополнительных.'},
+        {id:'cl2',text:'Определить налоговый режим',tip:'Выберите НПД, УСН, ПСН или ОСНО. Воспользуйтесь опросником в разделе Льготы.'},
+        {id:'cl3',text:'Подготовить заявление Р21001 (ИП) или Р11001 (ООО)',tip:'Скачайте актуальную форму на сайте ФНС. Заполните в программе подготовки документов или на Госуслугах.'},
+        {id:'cl4',text:'Оплатить госпошлину (для ИП — 0 руб. при электронной подаче)',tip:'При подаче через Госуслуги, МФЦ или сайт ФНС госпошлина для ИП не взимается. Для ООО — 4000 руб.'},
+        {id:'cl5',text:'Подать документы в ФНС',tip:'Лично в налоговую, через МФЦ, онлайн через Госуслуги или сайт ФНС (потребуется УКЭП).'},
+        {id:'cl6',text:'Получить лист записи ЕГРИП/ЕГРЮЛ',tip:'Срок регистрации — 3 рабочих дня. При электронной подаче документы придут на email.'},
+        {id:'cl7',text:'Открыть расчётный счёт в банке',tip:'Сравните тарифы банков. Для самозанятых расчётный счёт не обязателен.'},
+        {id:'cl8',text:'Зарегистрировать онлайн-кассу (ККТ)',tip:'Обязательно при приёме платежей от физлиц. Самозанятые используют приложение «Мой налог».'},
+        {id:'cl9',text:'Подключить бухгалтерский сервис или нанять бухгалтера',tip:'Для простых операций подойдут онлайн-сервисы: Эльба, Моё дело, Контур.Бухгалтерия.'},
+        {id:'cl10',text:'Настроить уплату налогов и взносов',tip:'Подключите ЕНС в личном кабинете ФНС. Настройте автоплатёж или календарь напоминаний.'}
+    ],
+    en: [
+        {id:'cl1',text:'Select OKVED codes',tip:'Find activity codes on the FTS website or through the OKVED-2 classifier. Specify one main and several additional.'},
+        {id:'cl2',text:'Determine the tax regime',tip:'Choose NPD, USN, PSN or OSNO. Use the questionnaire in the Benefits section.'},
+        {id:'cl3',text:'Prepare application P21001 (IP) or P11001 (LLC)',tip:'Download the current form from the FTS website. Fill it in using document preparation software or on Gosuslugi.'},
+        {id:'cl4',text:'Pay the state duty (for IP — 0 RUB with electronic filing)',tip:'When filing through Gosuslugi, MFC or the FTS website, no state duty is charged for IP. For LLC — 4,000 RUB.'},
+        {id:'cl5',text:'Submit documents to the FTS',tip:'In person at the tax office, through MFC, online via Gosuslugi or the FTS website (UKEP required).'},
+        {id:'cl6',text:'Receive the EGRIP/EGRUL record sheet',tip:'Registration period — 3 working days. With electronic filing, documents will arrive by email.'},
+        {id:'cl7',text:'Open a bank account',tip:'Compare bank tariffs. A current account is not required for the self-employed.'},
+        {id:'cl8',text:'Register an online cash register (KKT)',tip:'Mandatory when accepting payments from individuals. Self-employed use the "My Tax" app.'},
+        {id:'cl9',text:'Connect an accounting service or hire an accountant',tip:'Online services are suitable for simple operations: Elba, Moe Delo, Kontur.Accounting.'},
+        {id:'cl10',text:'Set up tax and contribution payments',tip:'Connect ENS in the FTS personal account. Set up auto-payment or a reminder calendar.'}
+    ]
+};
+
+// ========== ДАННЫЕ: ЛАЙФХАКИ ==========
+var lifehacksData = {
+    ru: [
+        {t:'Совмещение НПД и найма',d:'Можно одновременно быть самозанятым и работать по трудовому договору.'},
+        {t:'Вычет 10 000 руб.',d:'Каждый новый самозанятый получает вычет. Ставка снижается до 3% и 4% пока вычет не исчерпан.'},
+        {t:'Патент для сезонного бизнеса',d:'Покупайте патент только на нужные месяцы — дешевле, чем УСН за полный год.'},
+        {t:'Уменьшение УСН на взносы',d:'ИП на УСН 6% без сотрудников может уменьшить налог на 100% фиксированных взносов.'},
+        {t:'Переход с НПД на УСН',d:'При превышении лимита 2.4 млн у вас есть 20 дней на переход. Подайте уведомление сразу.'}
+    ],
+    en: [
+        {t:'Combining NPD and Employment',d:'You can be self-employed and work under an employment contract at the same time.'},
+        {t:'Deduction of 10,000 RUB',d:'Every new self-employed person receives a deduction. The rate drops to 3% and 4% until the deduction is exhausted.'},
+        {t:'Patent for Seasonal Business',d:'Buy a patent only for the months you need — cheaper than USN for a full year.'},
+        {t:'Reducing USN by Contributions',d:'IP on USN 6% without employees can reduce tax by 100% of fixed contributions.'},
+        {t:'Transition from NPD to USN',d:'When exceeding the 2.4M limit, you have 20 days to transition. Submit a notification immediately.'}
+    ]
+};
+
+// ========== ДАННЫЕ: ОТРАСЛИ ==========
+var industriesList = [
+    {value:'it',key:'ind_it'},{value:'production',key:'ind_production'},{value:'construction',key:'ind_construction'},{value:'transport',key:'ind_transport'},
+    {value:'agriculture',key:'ind_agriculture'},{value:'trade',key:'ind_trade'},{value:'catering',key:'ind_catering'},{value:'medicine',key:'ind_medicine'},
+    {value:'education',key:'ind_education'},{value:'science',key:'ind_science'},{value:'social',key:'ind_social'},{value:'household',key:'ind_household'},
+    {value:'tourism',key:'ind_tourism'},{value:'crafts',key:'ind_crafts'},{value:'rent',key:'ind_rent'},{value:'marketing',key:'ind_marketing'},
+    {value:'consulting',key:'ind_consulting'},{value:'design',key:'ind_design'},{value:'photo',key:'ind_photo'},{value:'sport',key:'ind_sport'},
+    {value:'beauty',key:'ind_beauty'},{value:'repair',key:'ind_repair'},{value:'forestry',key:'ind_forestry'},{value:'fishing',key:'ind_fishing'},
+    {value:'mining',key:'ind_mining'},{value:'oilgas',key:'ind_oilgas'},{value:'shipbuilding',key:'ind_shipbuilding'},{value:'aviation',key:'ind_aviation'},
+    {value:'light',key:'ind_light'},{value:'metallurgy',key:'ind_metallurgy'},{value:'processing',key:'ind_processing'},{value:'innovation',key:'ind_innovation'},
+    {value:'other',key:'ind_other'}
+];
+
+// ========== ДАННЫЕ: РЕГИОНЫ ==========
 var regionsList = [
     'Адыгея','Алтай','Алтайский край','Амурская обл.','Архангельская обл.','Астраханская обл.',
     'Башкортостан','Белгородская обл.','Брянская обл.','Бурятия','Владимирская обл.','Волгоградская обл.',
-    'Вологодская обл.','Воронежская обл.','Дагестан','Донецкая Народная Республика','Еврейская АО',
-    'Забайкальский край','Запорожская обл.','Ивановская обл.','Ингушетия','Иркутская обл.',
-    'Кабардино-Балкария','Калининградская обл.','Калмыкия','Калужская обл.','Камчатский край',
-    'Карачаево-Черкесия','Карелия','Кемеровская обл.','Кировская обл.','Коми','Костромская обл.',
-    'Краснодарский край','Красноярский край','Крым','Курганская обл.','Курская обл.',
-    'Ленинградская обл.','Липецкая обл.','Луганская Народная Республика','Магаданская обл.',
-    'Марий Эл','Мордовия','Москва','Московская обл.','Мурманская обл.','Ненецкий АО',
-    'Нижегородская обл.','Новгородская обл.','Новосибирская обл.','Омская обл.','Оренбургская обл.',
-    'Орловская обл.','Пензенская обл.','Пермский край','Приморский край','Псковская обл.',
-    'Ростовская обл.','Рязанская обл.','Самарская обл.','Санкт-Петербург','Саратовская обл.',
-    'Сахалинская обл.','Свердловская обл.','Севастополь','Северная Осетия','Смоленская обл.',
-    'Ставропольский край','Тамбовская обл.','Татарстан','Тверская обл.','Томская обл.',
-    'Тульская обл.','Тыва','Тюменская обл.','Удмуртия','Ульяновская обл.','Хабаровский край',
-    'Хакасия','Ханты-Мансийский АО','Херсонская обл.','Челябинская обл.','Чечня','Чувашия',
-    'Чукотский АО','Якутия','Ямало-Ненецкий АО','Ярославская обл.'
+    'Вологодская обл.','Воронежская обл.','Дагестан','Еврейская АО','Забайкальский край','Ивановская обл.',
+    'Ингушетия','Иркутская обл.','Кабардино-Балкария','Калининградская обл.','Калмыкия','Калужская обл.',
+    'Камчатский край','Карачаево-Черкесия','Карелия','Кемеровская обл.','Кировская обл.','Коми',
+    'Костромская обл.','Краснодарский край','Красноярский край','Крым','Курганская обл.','Курская обл.',
+    'Ленинградская обл.','Липецкая обл.','Магаданская обл.','Марий Эл','Мордовия','Москва','Московская обл.',
+    'Мурманская обл.','Ненецкий АО','Нижегородская обл.','Новгородская обл.','Новосибирская обл.','Омская обл.',
+    'Оренбургская обл.','Орловская обл.','Пензенская обл.','Пермский край','Приморский край','Псковская обл.',
+    'Ростовская обл.','Рязанская обл.','Самарская обл.','Санкт-Петербург','Саратовская обл.','Сахалинская обл.',
+    'Свердловская обл.','Севастополь','Северная Осетия','Смоленская обл.','Ставропольский край','Тамбовская обл.',
+    'Татарстан','Тверская обл.','Томская обл.','Тульская обл.','Тыва','Тюменская обл.','Удмуртия','Ульяновская обл.',
+    'Хабаровский край','Хакасия','Ханты-Мансийский АО','Челябинская обл.','Чечня','Чувашия','Чукотский АО',
+    'Якутия','Ямало-Ненецкий АО','Ярославская обл.','Донецкая Народная Республика','Луганская Народная Республика',
+    'Запорожская обл.','Херсонская обл.'
 ];
 
-var specialBenefits = {
-    'Москва':'УСН 1% для IT и производства<br>Налоговые каникулы 0% для новых ИП<br>Льготы для резидентов технопарков',
-    'Санкт-Петербург':'УСН 1% для IT-компаний<br>Налоговые каникулы 0%<br>Льготы для участников инновационных кластеров',
-    'Московская обл.':'УСН 1% для IT<br>Налоговые каникулы 0%<br>Поддержка субъектов МСП',
-    'Ленинградская обл.':'УСН 1% для IT<br>Налоговые каникулы 0%<br>Льготы для приоритетных инвесторов',
-    'Татарстан':'УСН 1% для IT<br>3% для обрабатывающих производств<br>Особая экономическая зона «Алабуга»',
-    'Краснодарский край':'УСН 1% для IT<br>3% для строительства<br>Налоговые каникулы 0%',
-    'Свердловская обл.':'УСН 1% для IT<br>Поддержка промышленных предприятий',
-    'Новосибирская обл.':'УСН 1% для IT<br>Льготы для резидентов Академпарка',
-    'Крым':'УСН 4% и 10%<br>Свободная экономическая зона',
-    'Севастополь':'УСН 4% и 10%<br>Свободная экономическая зона',
-    'Калининградская обл.':'Льготы резидентов ОЭЗ<br>Пониженные ставки налогов',
-    'Чечня':'Пониженные ставки УСН<br>Налоговые каникулы 0%',
-    'Дагестан':'Пониженные ставки УСН<br>Льготы для горных территорий',
-    'Донецкая Народная Республика':'Пониженные ставки УСН (переходный период)<br>Налоговые каникулы 0% для новых ИП<br>Особый порядок регистрации бизнеса',
-    'Луганская Народная Республика':'Пониженные ставки УСН (переходный период)<br>Налоговые каникулы 0% для новых ИП<br>Особый порядок регистрации бизнеса',
-    'Запорожская обл.':'Пониженные ставки УСН (переходный период)<br>Налоговые каникулы 0% для новых ИП<br>Особый порядок регистрации бизнеса',
-    'Херсонская обл.':'Пониженные ставки УСН (переходный период)<br>Налоговые каникулы 0% для новых ИП<br>Особый порядок регистрации бизнеса'
+// ========== ДАННЫЕ: ЛЬГОТЫ РЕГИОНОВ ==========
+var specialBenefitsData = {
+    ru: {
+        'Москва':'УСН 1% для IT и производства<br>Налоговые каникулы 0% для новых ИП<br>Льготы для резидентов технопарков',
+        'Санкт-Петербург':'УСН 1% для IT-компаний<br>Налоговые каникулы 0%<br>Льготы для участников инновационных кластеров',
+        'Татарстан':'УСН 1% для IT<br>3% для обрабатывающих производств<br>Особая экономическая зона «Алабуга»',
+        'Краснодарский край':'УСН 1% для IT<br>3% для строительства<br>Налоговые каникулы 0%'
+    },
+    en: {
+        'Москва':'USN 1% for IT and production<br>Tax holidays 0% for new IPs<br>Benefits for technopark residents',
+        'Санкт-Петербург':'USN 1% for IT companies<br>Tax holidays 0%<br>Benefits for innovation cluster participants',
+        'Татарстан':'USN 1% for IT<br>3% for manufacturing<br>Special Economic Zone "Alabuga"',
+        'Краснодарский край':'USN 1% for IT<br>3% for construction<br>Tax holidays 0%'
+    }
 };
 
-var faqList = [
-    {q:'Что такое налог на профессиональный доход (НПД)?',a:'НПД — это специальный налоговый режим для самозанятых граждан. Ставка: 4% при работе с юрлицами, 6% — с физлицами. Лимит годового дохода — 2.4 млн руб. Не нужно сдавать декларации и платить страховые взносы.'},
-    {q:'Каков лимит дохода для самозанятых?',a:'2.4 млн руб. в год. При превышении лимита необходимо перейти на УСН или ПСН в течение 20 календарных дней.'},
-    {q:'Можно ли нанимать сотрудников на НПД?',a:'Нет, самозанятые не могут нанимать сотрудников по трудовому договору. Допускается только работа по договорам ГПХ с другими самозанятыми или ИП.'},
-    {q:'Что такое упрощённая система налогообложения (УСН)?',a:'УСН бывает двух видов: «Доходы» (ставка 6%) и «Доходы минус расходы» (ставка 15%). Регионы могут снижать ставки до 1% и 5% соответственно.'},
-    {q:'Какие ставки УСН действуют в регионах?',a:'Ставки варьируются от 1% до 6% для объекта «Доходы» и от 5% до 15% для «Доходы минус расходы» в зависимости от региона и вида деятельности.'},
-    {q:'Что такое патентная система (ПСН)?',a:'ПСН — это покупка патента на определённый вид деятельности на срок от 1 до 12 месяцев. Налог — 6% от потенциального дохода, установленного регионом. Лимит годового дохода — 60 млн руб.'},
-    {q:'Нужно ли платить НДС на УСН?',a:'До достижения дохода в 20 млн руб. НДС не уплачивается. При превышении порога применяются пониженные ставки НДС: 5% (доход 20–60 млн) или 7% (доход 60–250 млн), либо стандартные 20%.'},
-    {q:'Какие страховые взносы платит ИП?',a:'Фиксированный платёж — 53 700 руб. в год. Дополнительно 1% с дохода, превышающего 300 000 руб., но не более 300 000 руб. дополнительных взносов.'},
-    {q:'Что регулирует Федеральный закон 115-ФЗ?',a:'115-ФЗ — это закон о противодействии легализации (отмыванию) доходов. Банки обязаны контролировать подозрительные операции и могут блокировать счета при сомнительных транзакциях.'},
-    {q:'Как правильно выбрать налоговый режим?',a:'Выбор зависит от: годового дохода, доли расходов, наличия сотрудников, типа клиентов (физлица/юрлица), необходимости НДС. Воспользуйтесь опросником на вкладке «Льготы».'},
-    {q:'Можно ли совмещать НПД и работу по найму?',a:'Да, можно одновременно быть самозанятым и работать по трудовому договору. НПД не заменяет НДФЛ с зарплаты.'},
-    {q:'Что такое налоговые каникулы для ИП?',a:'Это ставка 0% для впервые зарегистрированных ИП на УСН или ПСН. Действуют до 2 лет. Условия устанавливаются региональными законами (ст. 346.20 НК РФ).'},
-    {q:'Как самозанятому выдавать чеки?',a:'Через мобильное приложение «Мой налог» или веб-кабинет на сайте ФНС. Чек формируется в электронном виде и может быть отправлен клиенту.'},
-    {q:'Что такое КУДиР?',a:'Книга учёта доходов и расходов — обязательный регистр для ИП и ООО на УСН и ПСН. Заполняется в хронологическом порядке по каждой операции.'},
-    {q:'Как перейти с УСН на НПД?',a:'Необходимо подать уведомление о прекращении применения УСН в ФНС и зарегистрироваться как самозанятый через приложение «Мой налог».'},
-    {q:'Что такое Единый налоговый платёж (ЕНП)?',a:'ЕНП — это способ уплаты всех налогов и взносов одним платёжным поручением. Деньги зачисляются на Единый налоговый счёт (ЕНС) и распределяются ФНС автоматически.'},
-    {q:'Что такое Единый налоговый счёт (ЕНС)?',a:'ЕНС — это лицевой счёт налогоплательщика в ФНС, куда зачисляются все налоговые платежи. С него же списываются налоги, взносы, пени и штрафы.'},
-    {q:'Какую отчётность сдаёт ИП на УСН?',a:'Основная — годовая декларация по УСН (до 25 апреля). При наличии сотрудников: 6-НДФЛ (ежеквартально), РСВ (ежеквартально), ЕФС-1 (при кадровых изменениях).'},
-    {q:'Какие штрафы за неуплату налогов?',a:'Штраф 20% от неуплаченной суммы, при умышленной неуплате — 40%. Дополнительно начисляются пени в размере 1/300 ключевой ставки ЦБ РФ за каждый день просрочки.'},
-    {q:'Что такое патент для ИП?',a:'Патент — это документ, дающий право на применение ПСН по конкретному виду деятельности. Приобретается на срок от 1 до 12 месяцев в пределах календарного года.'}
-];
-
-var glossaryTerms = [
-    {abbr:'НПД',desc:'Налог на профессиональный доход (самозанятые). Ставка 4-6%, лимит 2.4 млн руб. Не требует деклараций и уплаты страховых взносов.'},
-    {abbr:'УСН',desc:'Упрощённая система налогообложения. Ставки 6% (Доходы) или 15% (Доходы минус Расходы). Регионы могут снижать ставки до 1% и 5%.'},
-    {abbr:'ПСН',desc:'Патентная система налогообложения. Фиксированная стоимость патента на срок от 1 до 12 месяцев. Ставка 6% от потенциального дохода.'},
-    {abbr:'ОСНО',desc:'Общая система налогообложения. Полный налоговый учёт, НДС 20%, налог на прибыль 20%. Для крупного бизнеса.'},
-    {abbr:'НДС',desc:'Налог на добавленную стоимость. Ставки: 0%, 10%, 20%. На УСН — 5%, 7% или 20% при превышении порога 20 млн руб.'},
-    {abbr:'КУДиР',desc:'Книга учёта доходов и расходов. Обязательный регистр для ИП и ООО на УСН и ПСН. Заполняется в хронологическом порядке.'},
-    {abbr:'ОКВЭД',desc:'Общероссийский классификатор видов экономической деятельности. Коды указываются при регистрации бизнеса.'},
-    {abbr:'МРОТ',desc:'Минимальный размер оплаты труда. Используется для расчёта страховых взносов, пособий и штрафов.'},
-    {abbr:'ЕНП',desc:'Единый налоговый платёж. Все налоги и взносы уплачиваются одним платёжным поручением на Единый налоговый счёт (ЕНС).'},
-    {abbr:'ЕНС',desc:'Единый налоговый счёт. Лицевой счёт налогоплательщика в ФНС, куда зачисляются все налоговые платежи и с которого они списываются.'},
-    {abbr:'115-ФЗ',desc:'Федеральный закон о противодействии легализации (отмыванию) доходов. Регулирует банковский контроль операций.'},
-    {abbr:'ККТ',desc:'Контрольно-кассовая техника. Онлайн-касса для приёма платежей. Обязательна по 54-ФЗ (с исключениями для самозанятых).'},
-    {abbr:'6-НДФЛ',desc:'Расчёт сумм налога на доходы физических лиц. Ежеквартальная отчётность при наличии наёмных сотрудников.'},
-    {abbr:'РСВ',desc:'Расчёт по страховым взносам. Ежеквартальная отчётность в ФНС при наличии сотрудников.'},
-    {abbr:'Налоговые каникулы',desc:'Ставка 0% для впервые зарегистрированных ИП на УСН/ПСН до 2 лет (ст. 346.20 НК РФ). Условия устанавливаются региональными законами.'},
-    {abbr:'ЕНВД',desc:'Единый налог на вменённый доход. Отменён с 1 января 2021 года. Налогоплательщики переведены на другие режимы.'},
-    {abbr:'НДФЛ',desc:'Налог на доходы физических лиц. Ставка 13-15% для резидентов РФ. Удерживается работодателем из зарплаты сотрудников.'},
-    {abbr:'ТОР',desc:'Территория опережающего развития. Зона с налоговыми льготами для инвесторов и резидентов.'},
-    {abbr:'ОЭЗ',desc:'Особая экономическая зона. Территория с пониженными налоговыми ставками, таможенными и административными льготами.'},
-    {abbr:'ЕФС-1',desc:'Единая форма сведений в Социальный фонд России (СФР). Заменяет СЗВ-ТД, СЗВ-СТАЖ, 4-ФСС с 2024 года.'},
-    {abbr:'ПОД/ФТ',desc:'Противодействие отмыванию доходов и финансированию терроризма. Комплекс мер, регулируемых 115-ФЗ.'},
-    {abbr:'ЭДО',desc:'Электронный документооборот. Обмен юридически значимыми документами в электронном виде через операторов ЭДО.'},
-    {abbr:'Честный знак',desc:'Национальная система цифровой маркировки товаров. Обязательна для многих категорий: одежда, обувь, лекарства, табак.'},
-    {abbr:'Госзакупки',desc:'Система закупок для государственных и муниципальных нужд. Регулируется 44-ФЗ и 223-ФЗ.'},
-    {abbr:'ВЭД',desc:'Внешнеэкономическая деятельность. Включает валютный контроль, таможенное оформление и международные расчёты.'},
-    {abbr:'Самозанятость',desc:'Форма занятости на спецрежиме НПД. Отсутствие отчётности и страховых взносов. Лимит дохода 2.4 млн руб./год.'},
-    {abbr:'Патент',desc:'Документ, дающий право на применение ПСН по конкретному виду деятельности. Приобретается на срок от 1 до 12 месяцев.'},
-    {abbr:'Декларация УСН',desc:'Годовая налоговая декларация по упрощённой системе. Сдаётся до 25 апреля следующего года (для ИП) или до 25 марта (для ООО).'},
-    {abbr:'Аутсорсинг',desc:'Передача функций бухгалтерского учёта, кадрового делопроизводства или IT внешним специализированным компаниям.'},
-    {abbr:'АУСН',desc:'Автоматизированная упрощённая система налогообложения. Экспериментальный режим. Налог считается ФНС автоматически.'},
-    {abbr:'Маркировка',desc:'Обязательная цифровая идентификация товаров через систему «Честный знак». Требуется регистрация и интеграция с ККТ.'},
-    {abbr:'Онлайн-касса',desc:'Контрольно-кассовая техника с функцией передачи данных о расчётах в ФНС через интернет в режиме реального времени.'},
-    {abbr:'Валютный контроль',desc:'Система контроля за валютными операциями, осуществляемыми резидентами и нерезидентами РФ.'},
-    {abbr:'Резидент',desc:'Налоговый резидент РФ — физическое лицо, находящееся на территории России более 183 календарных дней в течение года.'},
-    {abbr:'Недоимка',desc:'Сумма налога или сбора, не уплаченная в установленный законодательством срок.'},
-    {abbr:'Пени',desc:'Денежная сумма, начисляемая за каждый день просрочки уплаты налога. Размер — 1/300 ключевой ставки ЦБ РФ.'},
-    {abbr:'Камеральная проверка',desc:'Налоговая проверка, проводимая по месту нахождения налогового органа на основе налоговых деклараций и документов.'},
-    {abbr:'Выездная проверка',desc:'Налоговая проверка с выездом на территорию налогоплательщика. Назначается при выявлении серьёзных нарушений.'},
-    {abbr:'Блокировка счёта',desc:'Приостановление операций по банковским счетам налогоплательщика по решению ФНС или в рамках 115-ФЗ.'},
-    {abbr:'Фиксированные взносы ИП',desc:'Обязательные страховые взносы ИП за себя: 53 700 руб./год (2026). Плюс 1% с дохода свыше 300 000 руб.'},
-    {abbr:'Потенциальный доход',desc:'Условный годовой доход, устанавливаемый региональным законом для каждого вида деятельности на ПСН. Служит базой для расчёта стоимости патента.'}
-];
-
-var calendarEvents = [
-    {date:'2026-01-09',desc:'Уведомление по НДФЛ (налоговый агент)',regimes:['ip','ooo']},
-    {date:'2026-01-12',desc:'Оплата НПД за декабрь',regimes:['npd']},
-    {date:'2026-01-15',desc:'Авансовый платёж по УСН за 4 квартал',regimes:['ip','ooo']},
-    {date:'2026-01-25',desc:'Сдача РСВ за 2025 год',regimes:['ip','ooo']},
-    {date:'2026-02-12',desc:'Оплата НПД за январь',regimes:['npd']},
-    {date:'2026-02-15',desc:'Фиксированные страховые взносы ИП (1/2)',regimes:['ip']},
-    {date:'2026-02-25',desc:'Сдача 6-НДФЛ за 2025 год',regimes:['ip','ooo']},
-    {date:'2026-03-12',desc:'Оплата НПД за февраль',regimes:['npd']},
-    {date:'2026-03-15',desc:'Авансовый платёж по УСН за 1 квартал',regimes:['ip','ooo']},
-    {date:'2026-04-12',desc:'Оплата НПД за март',regimes:['npd']},
-    {date:'2026-04-25',desc:'Годовая декларация по УСН за 2025 год',regimes:['ip','ooo']},
-    {date:'2026-04-28',desc:'Уведомление по УСН за 1 квартал',regimes:['ip','ooo']},
-    {date:'2026-05-12',desc:'Оплата НПД за апрель',regimes:['npd']},
-    {date:'2026-05-15',desc:'НДФЛ с заработной платы сотрудников',regimes:['ip','ooo']},
-    {date:'2026-06-12',desc:'Оплата НПД за май',regimes:['npd']},
-    {date:'2026-06-15',desc:'Страховые взносы за сотрудников',regimes:['ip','ooo']},
-    {date:'2026-07-01',desc:'1% с дохода свыше 300 000 руб. для ИП',regimes:['ip']},
-    {date:'2026-07-12',desc:'Оплата НПД за июнь',regimes:['npd']},
-    {date:'2026-07-15',desc:'Авансовый платёж по УСН (полугодие)',regimes:['ip','ooo']},
-    {date:'2026-07-28',desc:'Уведомление по УСН (полугодие)',regimes:['ip','ooo']},
-    {date:'2026-08-12',desc:'Оплата НПД за июль',regimes:['npd']},
-    {date:'2026-09-12',desc:'Оплата НПД за август',regimes:['npd']},
-    {date:'2026-10-12',desc:'Оплата НПД за сентябрь',regimes:['npd']},
-    {date:'2026-10-15',desc:'Авансовый платёж по УСН (9 месяцев)',regimes:['ip','ooo']},
-    {date:'2026-10-28',desc:'Уведомление по УСН (9 месяцев)',regimes:['ip','ooo']},
-    {date:'2026-11-12',desc:'Оплата НПД за октябрь',regimes:['npd']},
-    {date:'2026-12-12',desc:'Оплата НПД за ноябрь',regimes:['npd']},
-    {date:'2026-12-15',desc:'Фиксированные страховые взносы ИП (2/2)',regimes:['ip']},
-    {date:'2026-12-31',desc:'Последний день уплаты фиксированных взносов ИП',regimes:['ip']}
-];
-
-var holidayRegions = {
-    'Москва':{law:'Закон г. Москвы № 10 от 18.03.2015',activities:['IT и разработка ПО','Производство','Научные исследования','Социальные услуги','Бытовые услуги']},
-    'Московская обл.':{law:'Закон МО № 48/2015-ОЗ',activities:['IT','Производство','Наука','Социальные услуги','Народные промыслы']},
-    'Санкт-Петербург':{law:'Закон СПб № 260-49',activities:['IT','Производство','Наука','Образование','Здравоохранение']},
-    'Ленинградская обл.':{law:'Закон ЛО № 38-оз',activities:['Производство','Сельское хозяйство','Строительство','IT','Туризм']},
-    'Краснодарский край':{law:'Закон КК № 2601-КЗ',activities:['Производство','Сельское хозяйство','IT','Туризм','Бытовые услуги']},
-    'Татарстан':{law:'Закон РТ № 18-ЗРТ',activities:['Производство','IT','Наука','Инновации','Социальные услуги']},
-    'Свердловская обл.':{law:'Закон СО № 31-ОЗ',activities:['Производство','IT','Наука','Здравоохранение','Образование']},
-    'Новосибирская обл.':{law:'Закон НСО № 435-ОЗ',activities:['IT','Производство','Наука','Медицина','Образование']},
-    'Ростовская обл.':{law:'Закон РО № 728-ЗС',activities:['Производство','IT','Сельское хозяйство','Бытовые услуги']},
-    'Башкортостан':{law:'Закон РБ № 221-з',activities:['Производство','IT','Наука','Социальные услуги']},
-    'Нижегородская обл.':{law:'Закон НО № 52-З',activities:['Производство','IT','Наука','Народные промыслы']},
-    'Самарская обл.':{law:'Закон СО № 37-ГД',activities:['Производство','IT','Наука','Медицина']},
-    'Челябинская обл.':{law:'Закон ЧО № 125-ЗО',activities:['Производство','IT','Сельское хозяйство','Туризм']},
-    'Красноярский край':{law:'Закон КК № 8-3530',activities:['Производство','IT','Наука','Лесное хозяйство']},
-    'Пермский край':{law:'Закон ПК № 466-ПК',activities:['Производство','IT','Наука','Сельское хозяйство']},
-    'Воронежская обл.':{law:'Закон ВО № 67-ОЗ',activities:['Производство','IT','Наука','Социальные услуги']},
-    'Волгоградская обл.':{law:'Закон ВО № 1745-ОД',activities:['Производство','IT','Сельское хозяйство','Бытовые услуги']},
-    'Саратовская обл.':{law:'Закон СО № 74-ЗСО',activities:['Производство','IT','Наука','Туризм']},
-    'Тюменская обл.':{law:'Закон ТО № 13',activities:['Производство','IT','Сельское хозяйство','Рыболовство']},
-    'Иркутская обл.':{law:'Закон ИО № 112-ОЗ',activities:['Производство','IT','Наука','Туризм','Лесное хозяйство']}
+// ========== ДАННЫЕ: КАНИКУЛЫ ==========
+var holidayRegionsData = {
+    ru: {
+        'Москва':{law:'Закон г. Москвы № 10 от 18.03.2015',activities:['IT и разработка ПО','Производство','Научные исследования','Социальные услуги','Бытовые услуги']},
+        'Санкт-Петербург':{law:'Закон СПб № 260-49',activities:['IT','Производство','Наука','Образование','Здравоохранение']},
+        'Татарстан':{law:'Закон РТ № 18-ЗРТ',activities:['Производство','IT','Наука','Инновации','Социальные услуги']},
+        'Краснодарский край':{law:'Закон КК № 2601-КЗ',activities:['Производство','Сельское хозяйство','IT','Туризм','Бытовые услуги']}
+    },
+    en: {
+        'Москва':{law:'Moscow Law No. 10 dated 18.03.2015',activities:['IT & Software Development','Production','Scientific Research','Social Services','Household Services']},
+        'Санкт-Петербург':{law:'St. Petersburg Law No. 260-49',activities:['IT','Production','Science','Education','Healthcare']},
+        'Татарстан':{law:'Tatarstan Law No. 18-ZRT',activities:['Production','IT','Science','Innovation','Social Services']},
+        'Краснодарский край':{law:'Krasnodar Krai Law No. 2601-KZ',activities:['Production','Agriculture','IT','Tourism','Household Services']}
+    }
 };
 
+// ========== ДАННЫЕ: ФЕДЕРАЛЬНЫЕ ЛЬГОТЫ ==========
+var fedBenefitsText = {
+    ru: '<b>Действующие федеральные преференции:</b><br><br>- Налоговые каникулы 0% — для новых ИП на УСН/ПСН (до 2 лет)<br>- Вычет 10 000 руб. — для плательщиков НПД<br>- Пониженные взносы 7.6% — для аккредитованных IT-компаний<br>- Льготы ТОР и ОЭЗ<br>- Заморозка НДС-порога — 20 млн до 2029<br>- Повышенный лимит УСН — до 250 млн',
+    en: '<b>Current federal preferences:</b><br><br>- Tax holidays 0% — for new IPs on USN/PSN (up to 2 years)<br>- Deduction of 10,000 RUB — for NPD payers<br>- Reduced contributions 7.6% — for accredited IT companies<br>- TOR and SEZ benefits<br>- VAT threshold freeze — 20M until 2029<br>- Increased USN limit — up to 250M'
+};
+
+// ========== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ==========
 var chart = null;
 var taxHistory = JSON.parse(localStorage.getItem('taxHistory') || '[]');
-var userNotes = JSON.parse(localStorage.getItem('userNotes') || '{}');
-var noteTimers = {};
+var receiptsData = JSON.parse(localStorage.getItem('receiptsData') || '[]');
 var heatmapMonth = new Date().getMonth();
 var heatmapYear = 2026;
-var lastQuizResult = null;
+var currentScannerFile = null;
+</script>
+<script>
+// ========== ПОСТРОЕНИЕ ВОПРОСОВ РИСКОВ ==========
+function buildRiskQuestions() {
+    var questions = riskQuestionsData[currentLang] || riskQuestionsData['ru'];
+    var html = '';
+    var currentBlock = '';
 
+    questions.forEach(function(item, index) {
+        if (item.b !== currentBlock) {
+            currentBlock = item.b;
+            html += '<b style="color:var(--p);display:block;margin-top:16px;font-size:15px;text-transform:uppercase;letter-spacing:0.5px">' + currentBlock + '</b>';
+        }
+
+        html += '<div style="margin:8px 0;font-size:14px;padding:12px;background:var(--surface-variant);border-radius:10px;border:1px solid var(--border)">';
+        html += (index + 1) + '. ' + item.q;
+        html += '<br><label style="margin-right:20px;cursor:pointer"><input type="radio" name="q' + index + '" value="1"> ' + t('risk_yes') + '</label>';
+        html += '<label style="cursor:pointer"><input type="radio" name="q' + index + '" value="0" checked> ' + t('risk_no') + '</label>';
+        html += '</div>';
+    });
+
+    document.getElementById('risk-qs').innerHTML = html;
+}
+
+// ========== ПОСТРОЕНИЕ FAQ ==========
+function buildFAQ() {
+    var faqList = faqListData[currentLang] || faqListData['ru'];
+    var html = '';
+    faqList.forEach(function(item) {
+        html += '<button class="acc-btn" onclick="toggleAcc(this)">' + item.q + '</button>';
+        html += '<div class="acc-body">' + item.a + '</div>';
+    });
+    document.getElementById('faq-list').innerHTML = html;
+}
+
+function toggleAcc(btn) {
+    var body = btn.nextElementSibling;
+    var isOpen = body.classList.contains('open');
+    document.querySelectorAll('.acc-body').forEach(function(b) { b.classList.remove('open'); });
+    document.querySelectorAll('.acc-btn').forEach(function(b) { b.classList.remove('open-btn'); });
+    if (!isOpen) {
+        body.classList.add('open');
+        btn.classList.add('open-btn');
+    }
+}
+
+// ========== ПОСТРОЕНИЕ ГЛОССАРИЯ ==========
+function buildGlossary() {
+    var glossaryTerms = glossaryTermsData[currentLang] || glossaryTermsData['ru'];
+    var html = '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px">';
+    glossaryTerms.forEach(function(term) {
+        html += '<span class="tag" onclick="showGlossaryDetail(\'' + term.abbr.replace(/'/g, "\\'") + '\')">' + term.abbr + '</span>';
+    });
+    html += '</div><div id="glossary-detail" style="font-size:14px;padding:14px;background:var(--surface-variant);border-radius:12px;line-height:1.7">' + t('glossary_select') + '</div>';
+    document.getElementById('glossary').innerHTML = html;
+}
+
+function showGlossaryDetail(abbr) {
+    var glossaryTerms = glossaryTermsData[currentLang] || glossaryTermsData['ru'];
+    var found = glossaryTerms.find(function(t) { return t.abbr === abbr; });
+    if (found) {
+        document.getElementById('glossary-detail').innerHTML = '<b>' + found.abbr + '</b> — ' + found.desc;
+    }
+}
+
+// ========== ПОСТРОЕНИЕ ЛАЙФХАКОВ ==========
+function buildLifehacks() {
+    var lifehacks = lifehacksData[currentLang] || lifehacksData['ru'];
+    var html = '';
+    lifehacks.forEach(function(item) {
+        html += '<div class="lifehack-card"><h4>' + item.t + '</h4><p>' + item.d + '</p></div>';
+    });
+    document.getElementById('lifehack-list').innerHTML = html;
+}
+
+// ========== ПОСТРОЕНИЕ ЧЕК-ЛИСТА ==========
+function buildChecklist() {
+    var container = document.getElementById('checklist-container');
+    if (!container) return;
+
+    var checklistSteps = checklistStepsData[currentLang] || checklistStepsData['ru'];
+    var savedState = JSON.parse(localStorage.getItem('checklistState') || '{}');
+    var html = '';
+
+    checklistSteps.forEach(function(step) {
+        var isChecked = savedState[step.id] || false;
+        html += '<div class="checklist-item' + (isChecked ? ' completed' : '') + '" onclick="toggleChecklistItem(\'' + step.id + '\')">';
+        html += '<input type="checkbox" ' + (isChecked ? 'checked' : '') + ' style="pointer-events:none">';
+        html += '<div><b>' + step.text + '</b><br><small style="color:var(--text-secondary)">' + step.tip + '</small></div>';
+        html += '</div>';
+    });
+
+    container.innerHTML = html;
+    updateChecklistProgress();
+}
+
+function toggleChecklistItem(id) {
+    var savedState = JSON.parse(localStorage.getItem('checklistState') || '{}');
+    savedState[id] = !savedState[id];
+    localStorage.setItem('checklistState', JSON.stringify(savedState));
+    buildChecklist();
+}
+
+function updateChecklistProgress() {
+    var checklistSteps = checklistStepsData[currentLang] || checklistStepsData['ru'];
+    var savedState = JSON.parse(localStorage.getItem('checklistState') || '{}');
+    var completed = Object.values(savedState).filter(function(v) { return v; }).length;
+    var total = checklistSteps.length;
+    var progress = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+    var fill = document.getElementById('checklist-progress-fill');
+    var text = document.getElementById('checklist-progress');
+    var message = document.getElementById('checklist-message');
+
+    if (fill) fill.style.width = progress + '%';
+    if (text) text.textContent = progress + '% (' + completed + '/' + total + ')';
+
+    if (message) {
+        if (progress === 100) {
+            message.textContent = t('checklist_finish');
+        } else if (progress >= 70) {
+            message.textContent = t('checklist_almost');
+        } else if (progress >= 40) {
+            message.textContent = t('checklist_good');
+        } else {
+            message.textContent = t('checklist_start');
+        }
+    }
+}
+
+// ========== ПОСТРОЕНИЕ ТЕПЛОКАРТЫ ==========
+function buildHeatmap() {
+    var months = [t('cal_jan'), t('cal_feb'), t('cal_mar'), t('cal_apr'), t('cal_may'), t('cal_jun'), t('cal_jul'), t('cal_aug'), t('cal_sep'), t('cal_oct'), t('cal_nov'), t('cal_dec')];
+    var year = heatmapYear;
+    var month = heatmapMonth;
+    var firstDay = new Date(year, month, 1).getDay();
+    var daysInMonth = new Date(year, month + 1, 0).getDate();
+    var today = new Date();
+
+    var monthYearEl = document.getElementById('heatmap-month-year');
+    if (monthYearEl) {
+        monthYearEl.textContent = months[month] + ' ' + year;
+    }
+
+    var grid = document.getElementById('heatmap-grid');
+    if (!grid) return;
+
+    var html = '';
+    var headers = [t('cal_sun'), t('cal_mon'), t('cal_tue'), t('cal_wed'), t('cal_thu'), t('cal_fri'), t('cal_sat')];
+    headers.forEach(function(h) {
+        html += '<div class="calendar-header">' + h + '</div>';
+    });
+
+    var adjustedFirstDay = firstDay === 0 ? 0 : firstDay;
+    for (var i = 0; i < adjustedFirstDay; i++) {
+        html += '<div class="calendar-day other-month"></div>';
+    }
+
+    for (var d = 1; d <= daysInMonth; d++) {
+        var dateStr = year + '-' + String(month + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+        var isToday = (d === today.getDate() && month === today.getMonth() && year === today.getFullYear());
+        var eventCount = calendarEvents.filter(function(e) { return e.date === dateStr; }).length;
+
+        var levelClass = 'lvl-0';
+        if (eventCount >= 5) levelClass = 'lvl-5';
+        else if (eventCount >= 4) levelClass = 'lvl-4';
+        else if (eventCount >= 3) levelClass = 'lvl-3';
+        else if (eventCount >= 2) levelClass = 'lvl-2';
+        else if (eventCount >= 1) levelClass = 'lvl-1';
+
+        html += '<div class="calendar-day ' + levelClass + (isToday ? ' today' : '') + '" onclick="showHeatmapEvents(\'' + dateStr + '\')">';
+        html += '<span>' + d + '</span>';
+        html += '</div>';
+    }
+
+    html += '<div id="heatmap-events" style="margin-top:12px;font-size:14px;padding:12px;background:var(--surface-variant);border-radius:12px;grid-column:1/-1;text-align:left">' + t('click_day') + '</div>';
+    grid.innerHTML = html;
+}
+
+function changeHeatmapMonth(delta) {
+    heatmapMonth += delta;
+    if (heatmapMonth < 0) {
+        heatmapMonth = 11;
+        heatmapYear--;
+    } else if (heatmapMonth > 11) {
+        heatmapMonth = 0;
+        heatmapYear++;
+    }
+    buildHeatmap();
+}
+
+function showHeatmapEvents(dateStr) {
+    var events = calendarEvents.filter(function(e) { return e.date === dateStr; });
+    var eventsDiv = document.getElementById('heatmap-events');
+    if (!eventsDiv) return;
+
+    if (events.length === 0) {
+        eventsDiv.innerHTML = '<b>' + dateStr + '</b><br>' + t('no_events');
+    } else {
+        var html = '<b>' + dateStr + '</b><br>';
+        events.forEach(function(e) {
+            var desc = currentLang === 'en' ? e.desc_en : e.desc;
+            html += '- ' + desc + ' (' + e.regimes.join(', ') + ')<br>';
+        });
+        eventsDiv.innerHTML = html;
+    }
+}
+
+// ========== ПОСТРОЕНИЕ ВЫБОРА ОТРАСЛИ ==========
+function buildIndustrySelect() {
+    var select = document.getElementById('industry');
+    if (!select) return;
+    select.innerHTML = '';
+    industriesList.forEach(function(item) {
+        var option = document.createElement('option');
+        option.value = item.value;
+        option.textContent = t(item.key);
+        select.appendChild(option);
+    });
+}
+
+// ========== ПОСТРОЕНИЕ ФОРМЫ ОПРОСНИКА ==========
+function buildQuizForm() {
+    var container = document.getElementById('business-quiz');
+    if (!container) return;
+
+    var html = '';
+    var questions = [
+        {id:'qz-income',label:'quiz_q1',options:[
+            {value:'low',key:'quiz_q1_low'},{value:'mid',key:'quiz_q1_mid'},{value:'high',key:'quiz_q1_high'},{value:'ultra',key:'quiz_q1_ultra'},{value:'max',key:'quiz_q1_max'}
+        ]},
+        {id:'qz-employees',label:'quiz_q2',options:[
+            {value:'no',key:'quiz_q2_no'},{value:'few',key:'quiz_q2_few'},{value:'many',key:'quiz_q2_many'},{value:'unlimited',key:'quiz_q2_unlimited'}
+        ]},
+        {id:'qz-clients',label:'quiz_q3',options:[
+            {value:'persons',key:'quiz_q3_persons'},{value:'mixed',key:'quiz_q3_mixed'},{value:'legal',key:'quiz_q3_legal'},{value:'state',key:'quiz_q3_state'}
+        ]},
+        {id:'qz-expenses',label:'quiz_q4',options:[
+            {value:'min',key:'quiz_q4_min'},{value:'low',key:'quiz_q4_low'},{value:'mid',key:'quiz_q4_mid'},{value:'high',key:'quiz_q4_high'}
+        ]},
+        {id:'qz-type',label:'quiz_q5',options:[
+            {value:'service',key:'quiz_q5_service'},{value:'trade',key:'quiz_q5_trade'},{value:'production',key:'quiz_q5_production'},{value:'seasonal',key:'quiz_q5_seasonal'},{value:'it',key:'quiz_q5_it'},{value:'rent',key:'quiz_q5_rent'}
+        ]},
+        {id:'qz-nds',label:'quiz_q6',options:[
+            {value:'no',key:'quiz_q6_no'},{value:'maybe',key:'quiz_q6_maybe'},{value:'yes',key:'quiz_q6_yes'}
+        ]},
+        {id:'qz-marked',label:'quiz_q7',options:[
+            {value:'no',key:'quiz_q7_no'},{value:'maybe',key:'quiz_q7_maybe'},{value:'yes',key:'quiz_q7_yes'}
+        ]},
+        {id:'qz-first',label:'quiz_q8',options:[
+            {value:'yes',key:'quiz_q8_yes'},{value:'no',key:'quiz_q8_no'},{value:'exist',key:'quiz_q8_exist'}
+        ]}
+    ];
+
+    questions.forEach(function(q) {
+        html += '<div style="margin-bottom:14px"><label class="lbl">' + t(q.label) + '</label><select class="quiz-select" id="' + q.id + '">';
+        html += '<option value="">' + t('quiz_select') + '</option>';
+        q.options.forEach(function(opt) {
+            html += '<option value="' + opt.value + '">' + t(opt.key) + '</option>';
+        });
+        html += '</select></div>';
+    });
+
+    container.innerHTML = html;
+}
+
+// ========== ПОСТРОЕНИЕ ТАБЛИЦЫ СРАВНЕНИЯ ==========
+function buildCompTable() {
+    var container = document.getElementById('comp-table-container');
+    if (!container) return;
+
+    var html = '<table class="compare-table"><thead><tr><th>' + t('comp_th1') + '</th><th>' + t('comp_th2') + '</th><th>' + t('comp_th3') + '</th><th>' + t('comp_th4') + '</th><th>' + t('comp_th5') + '</th><th>' + t('comp_th6') + '</th><th>' + t('comp_th7') + '</th></tr></thead><tbody>';
+    html += '<tr><td><b>NPD</b></td><td>4-6%</td><td>2.4M</td><td>' + t('comp_no') + '</td><td>' + t('comp_no') + '</td><td>' + t('comp_check') + '</td><td>' + t('comp_no') + '</td></tr>';
+    html += '<tr><td><b>IP USN 6%</b></td><td>1-6%</td><td>20M</td><td>5/7/20%</td><td>~45K</td><td>' + t('comp_decl') + '</td><td>Up to 130</td></tr>';
+    html += '<tr><td><b>IP USN 15%</b></td><td>5-15%</td><td>20M</td><td>5/7/20%</td><td>~45K</td><td>' + t('comp_decl') + '+KUDiR</td><td>Up to 130</td></tr>';
+    html += '<tr><td><b>IP PSN</b></td><td>6%</td><td>60M</td><td>' + t('comp_no') + '</td><td>' + t('comp_pref') + '</td><td>' + t('comp_no') + '</td><td>Up to 15</td></tr>';
+    html += '<tr><td><b>LLC USN 6%</b></td><td>6%</td><td>250M</td><td>5/7/20%</td><td>' + t('comp_yes') + '</td><td>' + t('comp_decl') + '</td><td>Unlimited</td></tr>';
+    html += '<tr><td><b>LLC USN 15%</b></td><td>15%</td><td>250M</td><td>5/7/20%</td><td>' + t('comp_yes') + '</td><td>' + t('comp_decl') + '+KUDiR</td><td>Unlimited</td></tr>';
+    html += '</tbody></table>';
+    container.innerHTML = html;
+}
+
+// ========== ПОСТРОЕНИЕ РЕГИОНОВ ==========
+function buildRegionSelect() {
+    var select = document.getElementById('region');
+    if (!select) return;
+    select.innerHTML = '';
+
+    regionsList.forEach(function(region) {
+        var option = document.createElement('option');
+        option.value = region;
+        option.textContent = region;
+        select.appendChild(option);
+    });
+
+    select.value = 'Москва';
+}
+
+// ========== ПОСТРОЕНИЕ СПРАВОЧНИКА КАНИКУЛ ==========
+function buildHolidayFullList() {
+    var container = document.getElementById('holiday-full-list');
+    if (!container) return;
+
+    var holidayRegions = holidayRegionsData[currentLang] || holidayRegionsData['ru'];
+    var html = '';
+    Object.keys(holidayRegions).sort().forEach(function(region) {
+        var data = holidayRegions[region];
+        html += '<div style="margin-bottom:8px;padding:6px;background:var(--surface);border-radius:6px;border:1px solid var(--border)"><b>' + region + '</b><br><small>' + data.law + '</small><br><small>' + data.activities.join('; ') + '</small></div>';
+    });
+
+    container.innerHTML = html || '...';
+}
+
+// ========== ПОСТРОЕНИЕ РЕГИОНОВ ДЛЯ КАНИКУЛ ==========
+function buildHolidayRegions() {
+    var select = document.getElementById('holiday-region');
+    if (!select) return;
+
+    var holidayRegions = holidayRegionsData[currentLang] || holidayRegionsData['ru'];
+    select.innerHTML = '<option value="">' + t('holiday_region_ph') + '</option>';
+
+    Object.keys(holidayRegions).sort().forEach(function(region) {
+        var option = document.createElement('option');
+        option.value = region;
+        option.textContent = region;
+        select.appendChild(option);
+    });
+}
+
+// ========== ОТОБРАЖЕНИЕ ЛЬГОТ ==========
+function showSpecialBenefits() {
+    var region = document.getElementById('region').value;
+    var display = document.getElementById('special-benefits');
+    if (!display) return;
+
+    var benefits = specialBenefitsData[currentLang] || specialBenefitsData['ru'];
+
+    if (benefits[region]) {
+        display.innerHTML = '<b>' + region + ':</b><br>' + benefits[region] + '<br><small style="color:var(--text-secondary);margin-top:8px;display:block">' + t('check_current') + '</small>';
+        display.style.background = '#fff3e0';
+    } else {
+        display.innerHTML = t('no_special') + '<br><small style="color:var(--text-secondary)">' + t('check_fns') + '</small>';
+        display.style.background = 'var(--surface-variant)';
+    }
+}
+
+function showBenefits() {
+    var region = document.getElementById('region').value;
+    var industry = document.getElementById('industry').value;
+    var industryText = document.getElementById('industry').selectedOptions[0].textContent;
+    var result = t('standard');
+    document.getElementById('ben-res').innerHTML = '<div style="background:#d4edda;padding:14px;border-radius:12px;font-size:14px"><b>' + region + ' — ' + industryText + ':</b> ' + result + '</div>';
+}
+
+// ========== ОТОБРАЖЕНИЕ ФЕДЕРАЛЬНЫХ ЛЬГОТ ==========
+function buildFedBenefits() {
+    var container = document.getElementById('fed-benefits-content');
+    if (!container) return;
+    container.innerHTML = fedBenefitsText[currentLang] || fedBenefitsText['ru'];
+}
+
+// ========== КАНИКУЛЫ: ОБНОВЛЕНИЕ ИНФО ==========
+function updateHolidayInfo() {
+    var region = document.getElementById('holiday-region').value;
+    var activitySelect = document.getElementById('holiday-activity');
+    activitySelect.innerHTML = '<option value="">' + t('holiday_activity_ph') + '</option>';
+
+    var holidayRegions = holidayRegionsData[currentLang] || holidayRegionsData['ru'];
+
+    if (!region || !holidayRegions[region]) {
+        document.getElementById('holiday-info').innerHTML = '';
+        return;
+    }
+
+    var activities = holidayRegions[region].activities;
+    activities.forEach(function(activity) {
+        var option = document.createElement('option');
+        option.value = activity;
+        option.textContent = activity;
+        activitySelect.appendChild(option);
+    });
+
+    document.getElementById('holiday-info').innerHTML = '<div style="background:#dbeafe;padding:10px;border-radius:10px;font-size:13px"><b>' + region + '</b><br>' + holidayRegions[region].law + '<br>' + activities.join(', ') + '</div>';
+}
+
+function checkHolidaysResult() {
+    var region = document.getElementById('holiday-region').value;
+    var activity = document.getElementById('holiday-activity').value;
+    var check1 = document.getElementById('holiday-ch1').checked;
+    var check2 = document.getElementById('holiday-ch2').checked;
+    var check3 = document.getElementById('holiday-ch3').checked;
+    var result = document.getElementById('holidays-result');
+
+    if (!region || !activity) {
+        result.innerHTML = '<div class="r-yellow">' + t('select_region_activity') + '</div>';
+        return;
+    }
+
+    if (!check1 || !check2 || !check3) {
+        var missing = [];
+        if (!check1) missing.push(t('holiday_ch1'));
+        if (!check2) missing.push(t('holiday_ch2'));
+        if (!check3) missing.push(t('holiday_ch3'));
+        result.innerHTML = '<div class="r-yellow">' + t('missing_conditions') + ' ' + missing.join('; ') + '.</div>';
+        return;
+    }
+
+    var holidayRegions = holidayRegionsData[currentLang] || holidayRegionsData['ru'];
+    result.innerHTML = '<div class="r-green">' + t('holiday_approved') + ' <b>' + region + '</b> ' + t('holiday_by') + ' <b>' + activity + '</b>! ' + t('holiday_rate') + ' ' + holidayRegions[region].law + '</div>';
+}
+
+// ========== СКАНЕР ЧЕКОВ ==========
+function handleScannerFile(file) {
+    if (!file) return;
+
+    if (file.size > 10 * 1024 * 1024) {
+        showToast('Файл слишком большой. Максимум 10 МБ.');
+        return;
+    }
+
+    currentScannerFile = file;
+
+    if (file.type.startsWith('image/')) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var preview = document.getElementById('scanner-preview');
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+            document.getElementById('scanner-form').style.display = 'block';
+            document.getElementById('scanner-result').innerHTML = '';
+        };
+        reader.readAsDataURL(file);
+    } else if (file.type === 'application/pdf') {
+        document.getElementById('scanner-preview').style.display = 'none';
+        document.getElementById('scanner-form').style.display = 'block';
+        document.getElementById('scanner-result').innerHTML = '<div style="padding:12px;background:#dbeafe;border-radius:10px;font-size:14px">PDF загружен: ' + file.name + '</div>';
+    } else {
+        showToast('Неподдерживаемый формат. Используйте JPG, PNG или PDF.');
+        return;
+    }
+
+    document.getElementById('scanner-date').value = new Date().toISOString().split('T')[0];
+}
+
+function saveReceipt() {
+    var amount = parseFloat(document.getElementById('scanner-amount').value) || 0;
+    var date = document.getElementById('scanner-date').value;
+    var contractor = document.getElementById('scanner-contractor').value.trim();
+    var category = document.getElementById('scanner-category').value;
+    var note = document.getElementById('scanner-note').value.trim();
+
+    if (!amount || !date) {
+        showToast('Укажите сумму и дату чека.');
+        return;
+    }
+
+    var receipt = {
+        id: Date.now(),
+        amount: amount,
+        date: date,
+        contractor: contractor,
+        category: category,
+        note: note,
+        fileName: currentScannerFile ? currentScannerFile.name : '',
+        createdAt: new Date().toISOString()
+    };
+
+    receiptsData.unshift(receipt);
+    if (receiptsData.length > 50) receiptsData.pop();
+    localStorage.setItem('receiptsData', JSON.stringify(receiptsData));
+
+    document.getElementById('scanner-amount').value = '';
+    document.getElementById('scanner-contractor').value = '';
+    document.getElementById('scanner-note').value = '';
+    document.getElementById('scanner-form').style.display = 'none';
+    document.getElementById('scanner-preview').style.display = 'none';
+    currentScannerFile = null;
+
+    renderReceipts();
+    showToast(t('scanner_saved'));
+}
+
+function renderReceipts() {
+    var container = document.getElementById('receipts-list');
+    if (!container) return;
+
+    if (receiptsData.length === 0) {
+        container.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:12px">' + t('scanner_no_receipts') + '</p>';
+        return;
+    }
+
+    var categoryNames = {
+        office: 'scanner_cat_office',
+        equipment: 'scanner_cat_equipment',
+        services: 'scanner_cat_services',
+        materials: 'scanner_cat_materials',
+        rent: 'scanner_cat_rent',
+        transport: 'scanner_cat_transport',
+        other: 'scanner_cat_other'
+    };
+
+    var html = '';
+    receiptsData.forEach(function(receipt, index) {
+        html += '<div class="receipt-card">';
+        html += '<div class="receipt-header">';
+        html += '<span class="receipt-amount">' + receipt.amount.toLocaleString() + ' ' + t('comp_rub') + '</span>';
+        html += '<button class="btn-red" style="width:auto;padding:6px 12px;font-size:12px" onclick="deleteReceipt(' + index + ')">X</button>';
+        html += '</div>';
+        html += '<div class="receipt-meta">';
+        html += receipt.date + ' | ' + (receipt.contractor || '—') + ' | ' + t(categoryNames[receipt.category] || 'scanner_cat_other');
+        if (receipt.note) html += ' | ' + receipt.note;
+        if (receipt.fileName) html += ' | ' + receipt.fileName;
+        html += '</div>';
+        html += '</div>';
+    });
+
+    container.innerHTML = html;
+}
+
+function deleteReceipt(index) {
+    receiptsData.splice(index, 1);
+    localStorage.setItem('receiptsData', JSON.stringify(receiptsData));
+    renderReceipts();
+}
+</script>
+<script>
 // ========== КАЛЬКУЛЯТОР ==========
 function updFields() {
     var regime = document.getElementById('regime').value;
@@ -1731,7 +2607,7 @@ function calcInsurance(regime, income) {
     }
 
     resultDiv.style.display = 'block';
-    resultDiv.innerHTML = '<div style="background:#e8f5e9;padding:14px;border-radius:12px;font-size:14px"><b>' + t('insurance_title') + '</b><br>• ' + t('insurance_fixed') + ': <b>' + fixedPayment.toLocaleString() + ' ' + t('comp_rub') + '</b><br>• ' + t('insurance_extra') + ': <b>' + Math.round(extraPayment).toLocaleString() + ' ' + t('comp_rub') + '</b><br>• <b>' + t('insurance_total') + ': ' + Math.round(totalPayment).toLocaleString() + ' ' + t('comp_rub') + '</b><br><br><small style="color:var(--text-secondary)">' + t('insurance_note') + '</small></div>';
+    resultDiv.innerHTML = '<div style="background:#e8f5e9;padding:14px;border-radius:12px;font-size:14px"><b>' + t('insurance_title') + '</b><br>- ' + t('insurance_fixed') + ': <b>' + fixedPayment.toLocaleString() + ' ' + t('comp_rub') + '</b><br>- ' + t('insurance_extra') + ': <b>' + Math.round(extraPayment).toLocaleString() + ' ' + t('comp_rub') + '</b><br>- <b>' + t('insurance_total') + ': ' + Math.round(totalPayment).toLocaleString() + ' ' + t('comp_rub') + '</b><br><br><small style="color:var(--text-secondary)">' + t('insurance_note') + '</small></div>';
 }
 
 function updateWidgets(regime, income) {
@@ -1808,10 +2684,16 @@ function updForecast() {
         chart.destroy();
     }
 
+    var monthLabels = [
+        t('cal_jan').substring(0, 3), t('cal_feb').substring(0, 3), t('cal_mar').substring(0, 3), t('cal_apr').substring(0, 3),
+        t('cal_may').substring(0, 3), t('cal_jun').substring(0, 3), t('cal_jul').substring(0, 3), t('cal_aug').substring(0, 3),
+        t('cal_sep').substring(0, 3), t('cal_oct').substring(0, 3), t('cal_nov').substring(0, 3), t('cal_dec').substring(0, 3)
+    ];
+
     chart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
+            labels: monthLabels,
             datasets: datasets
         },
         options: {
@@ -1871,18 +2753,18 @@ function updForecast() {
         var thresholdMillions = (threshold / 1000000).toFixed(1);
 
         if (monthsToExceed <= 12 && monthsToExceed > 0) {
-            var exceedMonth = new Date(2026, monthsToExceed - 1).toLocaleString('ru', { month: 'long' });
-            datesHTML += '• ' + thresholdMillions + ' ' + t('chart_million') + ': <b>' + exceedMonth + ' 2026</b><br>';
+            var exceedMonth = new Date(2026, monthsToExceed - 1).toLocaleString(currentLang === 'ru' ? 'ru' : 'en', { month: 'long' });
+            datesHTML += '- ' + thresholdMillions + ' ' + t('chart_million') + ': <b>' + exceedMonth + ' 2026</b><br>';
 
             if (monthsToExceed <= 3) {
-                alertHTML = '<div class="alert-box">Внимание: до превышения порога ' + thresholdMillions + ' млн осталось <b>' + monthsToExceed + ' мес.</b> Рекомендуем заранее спланировать переход на другой режим.</div>';
+                alertHTML = '<div class="r-yellow">' + t('forecast_alert') + ' ' + thresholdMillions + ' ' + t('chart_million') + ' <b>' + monthsToExceed + ' ' + t('alert_limit') + '.</b> ' + t('alert_recommend') + '</div>';
             }
         } else {
-            datesHTML += '• ' + thresholdMillions + ' ' + t('chart_million') + ': не будет превышен<br>';
+            datesHTML += '- ' + thresholdMillions + ' ' + t('chart_million') + ': ' + t('alert_not_exceeded') + '<br>';
         }
     });
 
-    document.getElementById('dates').innerHTML = datesHTML || 'Выберите пороги';
+    document.getElementById('dates').innerHTML = datesHTML || t('alert_select');
     document.getElementById('limit-alert').innerHTML = alertHTML;
 }
 
@@ -1890,7 +2772,7 @@ function savePNG() {
     var canvas = document.getElementById('chart');
     if (!canvas) return;
     var link = document.createElement('a');
-    link.download = 'prognoz_limitov.png';
+    link.download = 'forecast_limits.png';
     link.href = canvas.toDataURL('image/png', 1.0);
     link.click();
 }
@@ -1900,8 +2782,8 @@ function saveChartPDF() {
     if (!canvas) return;
     var pdf = new jspdf.jsPDF('landscape', 'mm', 'a4');
     pdf.addImage(canvas.toDataURL('image/png', 1.0), 'PNG', 10, 10, 280, 140);
-    pdf.save('prognoz_limitov.pdf');
-    showToast(t('toast_pdf_saved') + ': prognoz_limitov.pdf');
+    pdf.save('forecast_limits.pdf');
+    showToast(t('toast_pdf_saved') + ': forecast_limits.pdf');
 }
 
 function saveCalcPDF() {
@@ -1923,13 +2805,13 @@ function saveCalcPDF() {
     pdf.text(t('pdf_calc_date') + ': ' + new Date().toLocaleDateString(), 20, 90);
     pdf.text(t('pdf_calc_service'), 20, 97);
     
-    pdf.save('raschet_naloga.pdf');
-    showToast(t('toast_pdf_saved') + ': raschet_naloga.pdf');
+    pdf.save('tax_calculation.pdf');
+    showToast(t('toast_pdf_saved') + ': tax_calculation.pdf');
 }
 
 function saveXLSX() {
     var data = [
-        ['Режим', 'Доход', 'Налог', 'Чистый доход', 'Ставка'],
+        [t('pdf_calc_regime'), t('pdf_calc_income'), t('pdf_calc_tax'), t('pdf_calc_net'), t('pdf_calc_rate')],
         [
             document.getElementById('regime').value,
             document.getElementById('income').value,
@@ -1940,8 +2822,8 @@ function saveXLSX() {
     ];
     var worksheet = XLSX.utils.aoa_to_sheet(data);
     var workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Расчёт');
-    XLSX.writeFile(workbook, 'raschet_naloga.xlsx');
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Calculation');
+    XLSX.writeFile(workbook, 'tax_calculation.xlsx');
 }
 
 function saveHistory(regime, income, tax) {
@@ -1979,7 +2861,7 @@ function renderHistory() {
     taxHistory.forEach(function(item) {
         html += '<div style="font-size:14px;padding:12px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">';
         html += '<span>' + item.date + ' | ' + (regimeNames[item.regime] || item.regime) + ' | ' + item.income.toLocaleString() + ' ' + t('comp_rub') + '</span>';
-        html += '<span>Налог: <b>' + item.tax.toLocaleString() + ' ' + t('comp_rub') + '</b></span>';
+        html += '<span>' + t('history_tax') + ': <b>' + item.tax.toLocaleString() + ' ' + t('comp_rub') + '</b></span>';
         html += '</div>';
     });
 
@@ -1987,7 +2869,7 @@ function renderHistory() {
 }
 
 function clearHistory() {
-    if (confirm('Очистить всю историю расчётов?')) {
+    if (confirm(t('clear_confirm'))) {
         localStorage.removeItem('taxHistory');
         taxHistory = [];
         renderHistory();
@@ -1995,31 +2877,12 @@ function clearHistory() {
 }
 
 // ========== РИСКИ ==========
-function buildRiskQuestions() {
-    var html = '';
-    var currentBlock = '';
-
-    riskQuestions.forEach(function(item, index) {
-        if (item.b !== currentBlock) {
-            currentBlock = item.b;
-            html += '<b style="color:var(--p);display:block;margin-top:16px;font-size:15px;text-transform:uppercase;letter-spacing:0.5px">' + currentBlock + '</b>';
-        }
-
-        html += '<div style="margin:8px 0;font-size:14px;padding:12px;background:var(--surface-variant);border-radius:10px;border:1px solid var(--border)">';
-        html += (index + 1) + '. ' + item.q;
-        html += '<br><label style="margin-right:20px;cursor:pointer"><input type="radio" name="q' + index + '" value="1"> Да</label>';
-        html += '<label style="cursor:pointer"><input type="radio" name="q' + index + '" value="0" checked> Нет</label>';
-        html += '</div>';
-    });
-
-    document.getElementById('risk-qs').innerHTML = html;
-}
-
 function assessRisk() {
+    var questions = riskQuestionsData[currentLang] || riskQuestionsData['ru'];
     var score = 0;
     var advice = [];
 
-    riskQuestions.forEach(function(item, index) {
+    questions.forEach(function(item, index) {
         var selected = document.querySelector('input[name="q' + index + '"]:checked');
         if (selected && selected.value === '1') {
             score++;
@@ -2077,235 +2940,15 @@ function saveRiskPDF() {
     }
     pdf.setFontSize(9);
     pdf.text(t('pdf_risk_date') + ': ' + new Date().toLocaleDateString() + ' | ' + t('pdf_risk_service'), 20, 280);
-    pdf.save('analiz_riskov.pdf');
-    showToast(t('toast_pdf_saved') + ': analiz_riskov.pdf');
+    pdf.save('risk_analysis.pdf');
+    showToast(t('toast_pdf_saved') + ': risk_analysis.pdf');
 }
 
-// ========== РЕГИОНЫ И ЛЬГОТЫ ==========
-function buildRegionSelect() {
-    var select = document.getElementById('region');
-    select.innerHTML = '';
-
-    regionsList.forEach(function(region) {
-        var option = document.createElement('option');
-        option.value = region;
-        option.textContent = region;
-        select.appendChild(option);
-    });
-
-    select.value = 'Москва';
-    showSpecialBenefits();
-}
-
-function showSpecialBenefits() {
-    var region = document.getElementById('region').value;
-    var display = document.getElementById('special-benefits');
-
-    if (specialBenefits[region]) {
-        display.innerHTML = '<b>' + region + ':</b><br>' + specialBenefits[region] + '<br><small style="color:var(--text-secondary);margin-top:8px;display:block">' + t('check_current') + '</small>';
-        display.style.background = '#fff3e0';
-    } else {
-        display.innerHTML = t('no_special') + '<br><small style="color:var(--text-secondary)">' + t('check_fns') + '</small>';
-        display.style.background = 'var(--surface-variant)';
-    }
-}
-
-function showBenefits() {
-    var region = document.getElementById('region').value;
-    var industry = document.getElementById('industry').value;
-
-    var benefitsData = {
-        'Москва': {'IT и разработка': 'УСН 1%', 'Производство': 'УСН 3%', default: 'Налоговые каникулы 0%'},
-        'Санкт-Петербург': {'IT и разработка': 'УСН 1%', default: 'Налоговые каникулы 0%'}
-    };
-
-    var result = benefitsData[region] ? (benefitsData[region][industry] || benefitsData[region]['default'] || t('standard')) : t('standard');
-
-    document.getElementById('ben-res').innerHTML = '<div style="background:#d4edda;padding:14px;border-radius:12px;font-size:14px"><b>' + region + ' — ' + industry + ':</b> ' + result + '</div>';
-}
-
-// ========== НАЛОГОВЫЕ КАНИКУЛЫ ==========
-function buildHolidayRegions() {
-    var select = document.getElementById('holiday-region');
-    select.innerHTML = '<option value="">' + t('holiday_region') + '...</option>';
-
-    Object.keys(holidayRegions).sort().forEach(function(region) {
-        var option = document.createElement('option');
-        option.value = region;
-        option.textContent = region;
-        select.appendChild(option);
-    });
-}
-
-function updateHolidayInfo() {
-    var region = document.getElementById('holiday-region').value;
-    var activitySelect = document.getElementById('holiday-activity');
-    activitySelect.innerHTML = '<option value="">' + t('holiday_activity') + '...</option>';
-
-    if (!region || !holidayRegions[region]) {
-        document.getElementById('holiday-info').innerHTML = '';
-        return;
-    }
-
-    var activities = holidayRegions[region].activities;
-    activities.forEach(function(activity) {
-        var option = document.createElement('option');
-        option.value = activity;
-        option.textContent = activity;
-        activitySelect.appendChild(option);
-    });
-
-    document.getElementById('holiday-info').innerHTML = '<div style="background:#dbeafe;padding:10px;border-radius:10px;font-size:13px"><b>' + region + '</b><br>Закон: ' + holidayRegions[region].law + '<br>Доступные виды деятельности: ' + activities.join(', ') + '</div>';
-}
-
-function checkHolidaysResult() {
-    var region = document.getElementById('holiday-region').value;
-    var activity = document.getElementById('holiday-activity').value;
-    var check1 = document.getElementById('holiday-ch1').checked;
-    var check2 = document.getElementById('holiday-ch2').checked;
-    var check3 = document.getElementById('holiday-ch3').checked;
-    var result = document.getElementById('holidays-result');
-
-    if (!region || !activity) {
-        result.innerHTML = '<div class="r-yellow">' + t('select_region_activity') + '</div>';
-        return;
-    }
-
-    if (!check1 || !check2 || !check3) {
-        var missing = [];
-        if (!check1) missing.push(t('holiday_ch1'));
-        if (!check2) missing.push(t('holiday_ch2'));
-        if (!check3) missing.push(t('holiday_ch3'));
-        result.innerHTML = '<div class="r-yellow">' + t('missing_conditions') + ' ' + missing.join('; ') + '.</div>';
-        return;
-    }
-
-    result.innerHTML = '<div class="r-green">' + t('holiday_approved') + ' <b>' + region + '</b> ' + t('holiday_by') + ' <b>' + activity + '</b>! ' + t('holiday_rate') + ' ' + holidayRegions[region].law + '</div>';
-}
-
-function buildHolidayFullList() {
-    var container = document.getElementById('holiday-full-list');
-    if (!container) return;
-
-    var html = '';
-    Object.keys(holidayRegions).sort().forEach(function(region) {
-        var data = holidayRegions[region];
-        html += '<div style="margin-bottom:8px;padding:6px;background:var(--surface);border-radius:6px;border:1px solid var(--border)"><b>' + region + '</b><br><small>Закон: ' + data.law + '</small><br><small>Виды деятельности: ' + data.activities.join('; ') + '</small></div>';
-    });
-
-    container.innerHTML = html || 'Справочник загружен.';
-}
-
-// ========== FAQ ==========
-function buildFAQ() {
-    var html = '';
-    faqList.forEach(function(item) {
-        html += '<button class="acc-btn" onclick="toggleAcc(this)">' + item.q + '</button>';
-        html += '<div class="acc-body">' + item.a + '</div>';
-    });
-    document.getElementById('faq-list').innerHTML = html;
-}
-
-function toggleAcc(btn) {
-    var body = btn.nextElementSibling;
-    var isOpen = body.classList.contains('open');
-    document.querySelectorAll('.acc-body').forEach(function(b) { b.classList.remove('open'); });
-    document.querySelectorAll('.acc-btn').forEach(function(b) { b.classList.remove('open-btn'); });
-    if (!isOpen) {
-        body.classList.add('open');
-        btn.classList.add('open-btn');
-    }
-}
-
-// ========== ГЛОССАРИЙ ==========
-function buildGlossary() {
-    var html = '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px">';
-    glossaryTerms.forEach(function(term) {
-        html += '<span class="tag" onclick="showGlossaryDetail(\'' + term.abbr.replace(/'/g, "\\'") + '\')" style="cursor:pointer">' + term.abbr + '</span>';
-    });
-    html += '</div><div id="glossary-detail" style="font-size:14px;padding:14px;background:var(--surface-variant);border-radius:12px;line-height:1.7">' + t('glossary_select') + '</div>';
-    document.getElementById('glossary').innerHTML = html;
-}
-
-function showGlossaryDetail(abbr) {
-    var found = glossaryTerms.find(function(t) { return t.abbr === abbr; });
-    if (found) {
-        document.getElementById('glossary-detail').innerHTML = '<b>' + found.abbr + '</b> — ' + found.desc;
-    }
-}
-
-// ========== ЧЕК-ЛИСТ ==========
-var checklistSteps = [
-    {id: 'cl1', text: 'Выбрать коды ОКВЭД', tip: 'Подберите коды деятельности на сайте ФНС или через классификатор ОКВЭД-2. Укажите один основной и несколько дополнительных.'},
-    {id: 'cl2', text: 'Определить налоговый режим', tip: 'Выберите НПД, УСН, ПСН или ОСНО. Воспользуйтесь опросником в разделе Льготы.'},
-    {id: 'cl3', text: 'Подготовить заявление Р21001 (ИП) или Р11001 (ООО)', tip: 'Скачайте актуальную форму на сайте ФНС. Заполните в программе подготовки документов или на Госуслугах.'},
-    {id: 'cl4', text: 'Оплатить госпошлину (для ИП — 0 руб. при электронной подаче)', tip: 'При подаче через Госуслуги, МФЦ или сайт ФНС госпошлина для ИП не взимается. Для ООО — 4000 руб.'},
-    {id: 'cl5', text: 'Подать документы в ФНС', tip: 'Лично в налоговую, через МФЦ, онлайн через Госуслуги или сайт ФНС (потребуется УКЭП).'},
-    {id: 'cl6', text: 'Получить лист записи ЕГРИП/ЕГРЮЛ', tip: 'Срок регистрации — 3 рабочих дня. При электронной подаче документы придут на email.'},
-    {id: 'cl7', text: 'Открыть расчётный счёт в банке', tip: 'Сравните тарифы банков. Для самозанятых расчётный счёт не обязателен.'},
-    {id: 'cl8', text: 'Зарегистрировать онлайн-кассу (ККТ)', tip: 'Обязательно при приёме платежей от физлиц. Самозанятые используют приложение «Мой налог».'},
-    {id: 'cl9', text: 'Подключить бухгалтерский сервис или нанять бухгалтера', tip: 'Для простых операций подойдут онлайн-сервисы: Эльба, Моё дело, Контур.Бухгалтерия.'},
-    {id: 'cl10', text: 'Настроить уплату налогов и взносов', tip: 'Подключите ЕНС в личном кабинете ФНС. Настройте автоплатёж или календарь напоминаний.'}
-];
-
-function buildChecklist() {
-    var container = document.getElementById('checklist-container');
-    if (!container) return;
-
-    var savedState = JSON.parse(localStorage.getItem('checklistState') || '{}');
-    var html = '';
-
-    checklistSteps.forEach(function(step) {
-        var isChecked = savedState[step.id] || false;
-        html += '<div class="checklist-item' + (isChecked ? ' completed' : '') + '" onclick="toggleChecklistItem(\'' + step.id + '\')">';
-        html += '<input type="checkbox" ' + (isChecked ? 'checked' : '') + ' style="pointer-events:none">';
-        html += '<div><b>' + step.text + '</b><br><small style="color:var(--text-secondary)">' + step.tip + '</small></div>';
-        html += '</div>';
-    });
-
-    container.innerHTML = html;
-    updateChecklistProgress();
-}
-
-function toggleChecklistItem(id) {
-    var savedState = JSON.parse(localStorage.getItem('checklistState') || '{}');
-    savedState[id] = !savedState[id];
-    localStorage.setItem('checklistState', JSON.stringify(savedState));
-    buildChecklist();
-}
-
-function updateChecklistProgress() {
-    var savedState = JSON.parse(localStorage.getItem('checklistState') || '{}');
-    var completed = Object.values(savedState).filter(function(v) { return v; }).length;
-    var total = checklistSteps.length;
-    var progress = total > 0 ? Math.round((completed / total) * 100) : 0;
-
-    var fill = document.getElementById('checklist-progress-fill');
-    var text = document.getElementById('checklist-progress');
-    var message = document.getElementById('checklist-message');
-
-    if (fill) fill.style.width = progress + '%';
-    if (text) text.textContent = progress + '% (' + completed + '/' + total + ')';
-
-    if (message) {
-        if (progress === 100) {
-            message.textContent = t('checklist_finish');
-        } else if (progress >= 70) {
-            message.textContent = t('checklist_almost');
-        } else if (progress >= 40) {
-            message.textContent = t('checklist_good');
-        } else {
-            message.textContent = t('checklist_start');
-        }
-    }
-}
-</script>
-<script>
 // ========== СРАВНЕНИЕ РЕЖИМОВ ==========
 function compare() {
     var income = parseFloat(document.getElementById('cmp-inc').value) || 0;
     var expenses = parseFloat(document.getElementById('cmp-exp').value) || 0;
-    var regimes = ['НПД (6%)', 'ИП 6%', 'ИП 15%', 'ПСН 6%', 'ООО 6%', 'ООО 15%'];
+    var regimes = ['NPD (6%)', 'IP 6%', 'IP 15%', 'PSN 6%', 'LLC 6%', 'LLC 15%'];
     var taxes = [
         income * 0.06,
         income * 0.06 + 53700 + Math.max((income - 300000) * 0.01, 0),
@@ -2354,22 +2997,12 @@ function runBusinessQuiz() {
     };
 
     var emptyFields = [];
-    var fieldLabels = {
-        income: t('quiz_q1'),
-        employees: t('quiz_q2'),
-        clients: t('quiz_q3'),
-        expenses: t('quiz_q4'),
-        type: t('quiz_q5'),
-        nds: t('quiz_q6'),
-        marked: t('quiz_q7'),
-        first: t('quiz_q8')
-    };
+    var fieldLabels = ['quiz_q1','quiz_q2','quiz_q3','quiz_q4','quiz_q5','quiz_q6','quiz_q7','quiz_q8'];
+    var keys = ['income','employees','clients','expenses','type','nds','marked','first'];
 
-    for (var key in answers) {
-        if (!answers[key]) {
-            emptyFields.push(fieldLabels[key]);
-        }
-    }
+    keys.forEach(function(key, i) {
+        if (!answers[key]) emptyFields.push(t(fieldLabels[i]));
+    });
 
     if (emptyFields.length > 0) {
         alert(t('quiz_empty') + '\n\n' + emptyFields.join('\n'));
@@ -2379,7 +3012,6 @@ function runBusinessQuiz() {
     var result = analyzeQuiz(answers);
     document.getElementById('quiz-result').style.display = 'block';
     document.getElementById('quiz-result').innerHTML = result.html;
-    lastQuizResult = result;
     document.getElementById('quiz-result').scrollIntoView({behavior: 'smooth'});
 }
 
@@ -2390,96 +3022,66 @@ function analyzeQuiz(answers) {
     var recommendations = [];
 
     if (answers.income === 'low') {
-        scores.npd += 20;
-        scores.ip6 += 10;
-        scores.psn += 8;
-        explanations.push('При доходе до 2.4 млн руб. оптимален режим НПД — минимальная налоговая нагрузка и отсутствие отчётности.');
+        scores.npd += 20; scores.ip6 += 10; scores.psn += 8;
+        explanations.push('Income up to 2.4M — NPD is optimal with minimal tax burden and no reporting.');
     } else if (answers.income === 'mid') {
-        scores.ip6 += 20;
-        scores.ip15 += 15;
-        scores.psn += 12;
-        explanations.push('Доход 2.4–20 млн руб. — оптимальная зона для ИП на УСН или патенте.');
+        scores.ip6 += 20; scores.ip15 += 15; scores.psn += 12;
+        explanations.push('Income 2.4-20M — optimal zone for IP on USN or patent.');
     } else if (answers.income === 'high') {
-        scores.psn += 15;
-        scores.ip6 += 12;
-        scores.ooo6 += 10;
-        warnings.push('При доходе выше 20 млн руб. возникает обязанность по НДС.');
-        explanations.push('Доход 20–60 млн руб. требует тщательного планирования НДС.');
+        scores.psn += 15; scores.ip6 += 12; scores.ooo6 += 10;
+        warnings.push('Above 20M — VAT obligation arises.');
     } else if (answers.income === 'ultra') {
-        scores.ooo6 += 20;
-        scores.ooo15 += 15;
-        explanations.push('Доход 60–250 млн руб. — только ООО на УСН с учётом НДС.');
+        scores.ooo6 += 20; scores.ooo15 += 15;
     } else {
-        scores.ooo6 += 10;
-        scores.ooo15 += 10;
-        warnings.push('Доход более 250 млн руб. — необходимо переходить на ОСНО.');
+        scores.ooo6 += 10; scores.ooo15 += 10;
+        warnings.push('Over 250M — must switch to OSNO.');
     }
 
     if (answers.employees === 'no') {
-        scores.npd += 15;
-        scores.ip6 += 10;
-        scores.psn += 10;
+        scores.npd += 15; scores.ip6 += 10; scores.psn += 10;
     } else if (answers.employees === 'few') {
-        scores.ip6 += 15;
-        scores.ip15 += 12;
-        scores.psn += 10;
-        scores.npd -= 100;
-        warnings.push('На НПД запрещено нанимать сотрудников по трудовому договору.');
+        scores.ip6 += 15; scores.ip15 += 12; scores.psn += 10; scores.npd -= 100;
+        warnings.push('NPD prohibits hiring employees under labor contracts.');
     } else if (answers.employees === 'many') {
-        scores.ooo6 += 15;
-        scores.ooo15 += 12;
-        scores.ip6 += 8;
-        scores.npd -= 100;
+        scores.ooo6 += 15; scores.ooo15 += 12; scores.ip6 += 8; scores.npd -= 100;
     } else {
-        scores.ooo6 += 20;
-        scores.ooo15 += 15;
-        warnings.push('ИП ограничен 130 сотрудниками — требуется ООО.');
+        scores.ooo6 += 20; scores.ooo15 += 15;
+        warnings.push('IP is limited to 130 employees — LLC required.');
     }
 
     if (answers.clients === 'persons') {
-        scores.npd += 12;
-        scores.psn += 10;
+        scores.npd += 12; scores.psn += 10;
     } else if (answers.clients === 'legal') {
-        scores.ip6 += 12;
-        scores.ooo6 += 10;
-        scores.npd += 5;
-        explanations.push('Юридические лица часто запрашивают счета-фактуры — ИП или ООО предпочтительнее.');
+        scores.ip6 += 12; scores.ooo6 += 10; scores.npd += 5;
+        explanations.push('Legal entities often request invoices — IP or LLC is preferable.');
     } else if (answers.clients === 'state') {
-        scores.ooo6 += 15;
-        scores.ooo15 += 12;
+        scores.ooo6 += 15; scores.ooo15 += 12;
     }
 
     if (answers.expenses === 'min' || answers.expenses === 'low') {
-        scores.ip6 += 15;
-        scores.npd += 10;
-        scores.psn += 10;
+        scores.ip6 += 15; scores.npd += 10; scores.psn += 10;
     } else if (answers.expenses === 'high') {
-        scores.ip15 += 20;
-        scores.ooo15 += 15;
-        explanations.push('При высоких расходах выгоднее УСН 15% — налог платится с прибыли.');
+        scores.ip15 += 20; scores.ooo15 += 15;
+        explanations.push('With high expenses, USN 15% is more profitable — tax is paid on profit.');
     }
 
     if (answers.type === 'seasonal') {
         scores.psn += 25;
-        explanations.push('Для сезонного бизнеса патент идеален.');
+        explanations.push('Patent is ideal for seasonal business.');
     } else if (answers.type === 'it') {
-        scores.ip6 += 15;
-        scores.ooo6 += 12;
-        recommendations.push('IT-компании могут получить пониженную ставку УСН 1%.');
+        scores.ip6 += 15; scores.ooo6 += 12;
+        recommendations.push('IT companies can get a reduced USN rate of 1%.');
     } else if (answers.type === 'rent') {
-        scores.psn += 15;
-        scores.ip6 += 10;
+        scores.psn += 15; scores.ip6 += 10;
     }
 
     if (answers.nds === 'yes') {
-        scores.ooo6 += 15;
-        scores.ooo15 += 12;
+        scores.ooo6 += 15; scores.ooo15 += 12;
     }
 
     if (answers.first === 'yes') {
-        scores.ip6 += 8;
-        scores.psn += 10;
-        recommendations.push('Вы можете получить налоговые каникулы — ставка 0% до 2 лет!');
+        scores.ip6 += 8; scores.psn += 10;
+        recommendations.push('You can get tax holidays — 0% rate for up to 2 years!');
     }
 
     var best = '';
@@ -2492,33 +3094,33 @@ function analyzeQuiz(answers) {
     }
 
     var regimeNames = {
-        npd: 'НПД (Самозанятость)',
-        ip6: 'ИП на УСН 6% (Доходы)',
-        ip15: 'ИП на УСН 15% (Доходы - Расходы)',
-        psn: 'ИП на Патенте (ПСН)',
-        ooo6: 'ООО на УСН 6% (Доходы)',
-        ooo15: 'ООО на УСН 15% (Доходы - Расходы)'
+        npd: 'NPD (Self-employed)',
+        ip6: 'IP USN 6% (Income)',
+        ip15: 'IP USN 15% (Income - Expenses)',
+        psn: 'IP Patent (PSN)',
+        ooo6: 'LLC USN 6% (Income)',
+        ooo15: 'LLC USN 15% (Income - Expenses)'
     };
 
     var regimeDescriptions = {
-        npd: '<b>НПД</b> — самый простой режим. Ставка 4-6%. Лимит 2.4 млн руб. Не требует деклараций.',
-        ip6: '<b>УСН 6%</b> — налог с оборота. Лимит 20 млн руб. Минимум отчётности.',
-        ip15: '<b>УСН 15%</b> — налог с прибыли. Выгодно при больших расходах.',
-        psn: '<b>ПСН</b> — фиксированная стоимость патента. Лимит 60 млн руб.',
-        ooo6: '<b>ООО УСН 6%</b> — без ограничений по сотрудникам. Лимит 250 млн руб.',
-        ooo15: '<b>ООО УСН 15%</b> — налог с прибыли для ООО. Лимит 250 млн руб.'
+        npd: '<b>NPD</b> — simplest regime. Rate 4-6%. Limit 2.4M RUB. No declarations required.',
+        ip6: '<b>USN 6%</b> — turnover tax. Limit 20M RUB. Minimum reporting.',
+        ip15: '<b>USN 15%</b> — profit tax. Beneficial with large expenses.',
+        psn: '<b>PSN</b> — fixed patent cost. Limit 60M RUB.',
+        ooo6: '<b>LLC USN 6%</b> — no employee limit. Limit 250M RUB.',
+        ooo15: '<b>LLC USN 15%</b> — profit tax for LLC. Limit 250M RUB.'
     };
 
     var html = '<div style="background:#d4edda;padding:16px;border-radius:14px;margin-bottom:14px"><h3 style="color:#198754;margin-bottom:8px">' + t('quiz_optimal') + ' ' + regimeNames[best] + '</h3><p>' + regimeDescriptions[best] + '</p>';
 
     if (explanations.length) {
-        html += '<br><b>' + t('quiz_why') + '</b><br>• ' + explanations.join('<br>• ');
+        html += '<br><b>' + t('quiz_why') + '</b><br>- ' + explanations.join('<br>- ');
     }
     if (warnings.length) {
-        html += '<br><br><b style="color:#dc3545">' + t('quiz_warning') + ':</b><br>• ' + warnings.join('<br>• ');
+        html += '<br><br><b style="color:#dc3545">' + t('quiz_warning') + ':</b><br>- ' + warnings.join('<br>- ');
     }
     if (recommendations.length) {
-        html += '<br><br><b style="color:#198754">' + t('quiz_tip') + ':</b><br>• ' + recommendations.join('<br>• ');
+        html += '<br><br><b style="color:#198754">' + t('quiz_tip') + ':</b><br>- ' + recommendations.join('<br>- ');
     }
 
     html += '</div>';
@@ -2526,95 +3128,14 @@ function analyzeQuiz(answers) {
     return {
         regime: best,
         regimeName: regimeNames[best],
-        regimeDesc: regimeDescriptions[best],
-        html: html,
-        explanations: explanations,
-        warnings: warnings,
-        recommendations: recommendations,
-        scores: scores
+        html: html
     };
-}
-
-// ========== ТЕПЛОКАРТА ==========
-function buildHeatmap() {
-    var months = [t('cal_jan'), t('cal_feb'), t('cal_mar'), t('cal_apr'), t('cal_may'), t('cal_jun'), t('cal_jul'), t('cal_aug'), t('cal_sep'), t('cal_oct'), t('cal_nov'), t('cal_dec')];
-    var year = heatmapYear;
-    var month = heatmapMonth;
-    var firstDay = new Date(year, month, 1).getDay();
-    var daysInMonth = new Date(year, month + 1, 0).getDate();
-    var today = new Date();
-
-    var monthYearEl = document.getElementById('heatmap-month-year');
-    if (monthYearEl) {
-        monthYearEl.textContent = months[month] + ' ' + year;
-    }
-
-    var grid = document.getElementById('heatmap-grid');
-    if (!grid) return;
-
-    var html = '';
-    var headers = [t('cal_sun'), t('cal_mon'), t('cal_tue'), t('cal_wed'), t('cal_thu'), t('cal_fri'), t('cal_sat')];
-    headers.forEach(function(h) {
-        html += '<div class="calendar-header">' + h + '</div>';
-    });
-
-    var adjustedFirstDay = firstDay === 0 ? 0 : firstDay;
-    for (var i = 0; i < adjustedFirstDay; i++) {
-        html += '<div class="calendar-day other-month"></div>';
-    }
-
-    for (var d = 1; d <= daysInMonth; d++) {
-        var dateStr = year + '-' + String(month + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
-        var isToday = (d === today.getDate() && month === today.getMonth() && year === today.getFullYear());
-        var eventCount = calendarEvents.filter(function(e) { return e.date === dateStr; }).length;
-
-        var levelClass = 'lvl-0';
-        if (eventCount >= 5) levelClass = 'lvl-5';
-        else if (eventCount >= 4) levelClass = 'lvl-4';
-        else if (eventCount >= 3) levelClass = 'lvl-3';
-        else if (eventCount >= 2) levelClass = 'lvl-2';
-        else if (eventCount >= 1) levelClass = 'lvl-1';
-
-        html += '<div class="calendar-day ' + levelClass + (isToday ? ' today' : '') + '" onclick="showHeatmapEvents(\'' + dateStr + '\')">';
-        html += '<span>' + d + '</span>';
-        html += '</div>';
-    }
-
-    html += '<div id="heatmap-events" style="margin-top:12px;font-size:14px;padding:12px;background:var(--surface-variant);border-radius:12px;grid-column:1/-1;text-align:left">' + t('click_day') + '</div>';
-    grid.innerHTML = html;
-}
-
-function changeHeatmapMonth(delta) {
-    heatmapMonth += delta;
-    if (heatmapMonth < 0) {
-        heatmapMonth = 11;
-        heatmapYear--;
-    } else if (heatmapMonth > 11) {
-        heatmapMonth = 0;
-        heatmapYear++;
-    }
-    buildHeatmap();
-}
-
-function showHeatmapEvents(dateStr) {
-    var events = calendarEvents.filter(function(e) { return e.date === dateStr; });
-    var eventsDiv = document.getElementById('heatmap-events');
-    if (!eventsDiv) return;
-
-    if (events.length === 0) {
-        eventsDiv.innerHTML = '<b>' + dateStr + '</b><br>' + t('no_events');
-    } else {
-        var html = '<b>' + dateStr + '</b><br>';
-        events.forEach(function(e) {
-            html += '• ' + e.desc + ' (' + e.regimes.join(', ') + ')<br>';
-        });
-        eventsDiv.innerHTML = html;
-    }
 }
 
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
 document.addEventListener('DOMContentLoaded', function() {
     initAll();
+    buildFedBenefits();
 });
 </script>
 </body>
