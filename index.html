@@ -14,26 +14,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<!-- НОВАЯ ИКОНКА -->
+<!-- ТВОЯ ИКОНКА -->
 <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/egorsasnev672-sudo/limit_npd/main/zoomai-69478-1.png">
 <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/egorsasnev672-sudo/limit_npd/main/zoomai-69478-1.png">
 
 <style>
 /* ============================================================
-   ЗАЩИТА И БАЗОВЫЕ СБРОСЫ
+   ЗАЩИТА
    ============================================================ */
 script, style, noscript { display: none !important; }
-* { -webkit-tap-highlight-color: transparent; box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--bg); color: var(--text);
-  transition: background 0.25s ease, color 0.25s ease;
-  padding: 64px 0 88px; line-height: 1.5;
-  -webkit-font-smoothing: antialiased; overflow-x: hidden;
-  min-height: 100vh; font-variant-numeric: tabular-nums;
-  font-size: 1rem;
-}
 
 /* ============================================================
    ПЕРЕМЕННЫЕ — СВЕТЛАЯ ТЕМА
@@ -97,7 +86,6 @@ body {
   --card-accent-3: linear-gradient(180deg, #8b5cf6 0%, #a78bfa 100%);
   --card-accent-4: linear-gradient(180deg, #f59e0b 0%, #fbbf24 100%);
   --card-accent-5: linear-gradient(180deg, #ef4444 0%, #f87171 100%);
-  /* ИЗМЕНЕНИЕ: Базовая переменная шрифта управляется ползунком */
   --font-size-base: 16px;
 }
 
@@ -157,9 +145,7 @@ html.colorblind, body.colorblind, html.colorblind body, body.colorblind html {
   --warning: #ea580c !important;
 }
 
-/* ============================================================
-   НОВЫЙ РАЗМЕР ШРИФТА (ПОЛЗУНОК)
-   ============================================================ */
+/* ИСПРАВЛЕНИЕ ПОЛЗУНКА: Используем px, а не rem, чтобы избежать конфликтов */
 html { font-size: var(--font-size-base, 16px) !important; }
 body { font-size: 1rem; }
 
@@ -273,6 +259,18 @@ html.welcome-back-shown body, body.welcome-back-shown { padding-top: 104px; }
 /* ============================================================
    ОСНОВНОЙ СТИЛЬ
    ============================================================ */
+* { -webkit-tap-highlight-color: transparent; box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg); color: var(--text);
+  transition: background 0.25s ease, color 0.25s ease;
+  padding: 64px 0 88px; line-height: 1.5;
+  -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  min-height: 100vh; font-variant-numeric: tabular-nums;
+}
+
 a { color: var(--p); text-decoration: none; transition: opacity 0.15s; }
 a:hover { opacity: 0.8; }
 
@@ -288,8 +286,9 @@ a:hover { opacity: 0.8; }
 
 .hdr { position: fixed; top: 0; left: 0; right: 0; background: var(--surface); padding: 8px 12px; z-index: 100; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); height: 56px; box-shadow: var(--shadow-xs); }
 .hdr-left, .hdr-right { display: flex; align-items: center; gap: 2px; }
-.hdr-title-pill { display: inline-flex; align-items: center; gap: 6px; background: var(--p-grad); color: #fff; padding: 6px 14px; border-radius: 20px; font-weight: 800; font-size: 13px; letter-spacing: -0.2px; margin-left: 6px; box-shadow: 0 2px 8px rgba(5,150,105,0.25); white-space: nowrap; max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
-.hdr-title-pill svg { width: 14px; height: 14px; fill: #fff; flex: 0 0 auto; }
+/* ИСПРАВЛЕНО: Иконка в шапке теперь картинка, а не квадрат */
+.hdr-title-pill { display: inline-flex; align-items: center; gap: 8px; background: var(--p-grad); color: #fff; padding: 4px 12px 4px 6px; border-radius: 20px; font-weight: 800; font-size: 13px; letter-spacing: -0.2px; margin-left: 6px; box-shadow: 0 2px 8px rgba(5,150,105,0.25); white-space: nowrap; max-width: 220px; overflow: hidden; text-overflow: ellipsis; }
+.hdr-title-pill img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; flex: 0 0 auto; background: #fff; }
 .hamburger-btn { width: 42px; height: 42px; background: transparent; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; padding: 10px; border-radius: 50%; transition: background 0.15s; }
 .hamburger-btn:active { background: var(--surface-variant); }
 .hamburger-btn span { display: block; width: 20px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.25s; }
@@ -619,7 +618,6 @@ a:hover { opacity: 0.8; }
 .onboarding-actions { display: flex; gap: 8px; padding: 0 20px 20px; }
 .onboarding-actions .btn { flex: 1; margin: 0; }
 
-/* НОВОЕ: НАСТРОЙКИ (исправлено налезание) */
 .settings-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); gap: 12px; }
 .settings-row:last-child { border-bottom: none; }
 .settings-row .settings-label { flex: 1; min-width: 0; padding-right: 8px; }
@@ -706,7 +704,7 @@ a:hover { opacity: 0.8; }
 
 .dark-block { background: var(--surface-variant) !important; color: var(--text) !important; border-color: var(--border) !important; }
 
-/* ПОЛЗУНОК ШРИФТА */
+/* СЛАЙДЕР РАЗМЕРА ШРИФТА */
 .font-slider-wrap {
   display: flex; align-items: center; gap: 10px; width: 100%;
   margin-top: 8px;
@@ -785,7 +783,7 @@ a:hover { opacity: 0.8; }
       <span></span><span></span><span></span>
     </button>
     <span class="hdr-title-pill" id="hdr-title">
-      <svg viewBox="0 0 24 24"><path d="M9 7h6M9 11h6M9 15h4M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/></svg>
+      <img src="https://raw.githubusercontent.com/egorsasnev672-sudo/limit_npd/main/zoomai-69478-1.png" alt="Иконка">
       <span>Налоговый калькулятор</span>
     </span>
   </div>
@@ -1136,7 +1134,6 @@ a:hover { opacity: 0.8; }
     <div class="chart-wrap"><canvas id="chart"></canvas></div>
     <div id="dates" class="info-box mt-10"></div>
     
-    <!-- ИСПРАВЛЕНО: Кнопки экспорта -->
     <div class="flex-row">
       <button class="btn btn-o btn-s" onclick="savePNG()">PNG</button>
       <button class="btn btn-o btn-s" onclick="saveChartPDF()">PDF</button>
@@ -2073,7 +2070,6 @@ a:hover { opacity: 0.8; }
 
   <div class="card">
     <h3 data-lang="heatmap_year_load">Нагрузка по месяцам</h3>
-    <!-- ПОЯСНЕНИЕ К НАГРУЗКЕ -->
     <p class="card-sub" data-lang="heatmap_load_desc">Число в карточке показывает количество налоговых событий (отчётов, платежей) в этом месяце. Чем выше число — тем больше дел.</p>
     <div id="heatmap-year-summary"></div>
   </div>
@@ -2413,7 +2409,6 @@ a:hover { opacity: 0.8; }
       </label>
     </div>
 
-    <!-- ИСПРАВЛЕНО: ПОЛЗУНОК ШРИФТА -->
     <div class="settings-row" style="display:block; padding:12px 0;">
       <div class="settings-label" style="margin-bottom:8px;">
         <b data-lang="settings_font">Размер шрифта</b>
@@ -2651,7 +2646,7 @@ a:hover { opacity: 0.8; }
     <div class="onboarding-slide" data-slide="2">
       <div class="onboarding-ico">📊</div>
       <h2 data-lang="onb_title_3">Учёт и аналитика</h2>
-      <p data-lang="onb_desc_3">Журнал операций, сканер чеков, дашборд KPI, теплокарта года. Всё — без регистрации и платы.</p>
+      <p data-lang="onb_desc_3">Журнал операций, сканер чеков, дашборд KPI, теплокарта года. Всё — без регистрации.</p>
     </div>
     <div class="onboarding-slide" data-slide="3">
       <div class="onboarding-ico">🚀</div>
@@ -2699,7 +2694,7 @@ a:hover { opacity: 0.8; }
     <span data-lang="footer_copy">© 2026. Все права защищены. Сделано для малого бизнеса.</span>
   </p>
 </div>
-<script>
+         <script>
 /* ============================================================
    ЧАСТЬ 2a: ПЕРЕВОДЫ RU — ПОЛНЫЙ НАБОР КЛЮЧЕЙ
    ============================================================ */
@@ -3549,7 +3544,7 @@ var translations = {
     onb_title_2: 'Полная приватность',
     onb_desc_2: 'Никаких серверов и передачи данных. Всё хранится локально в браузере. Можно работать офлайн.',
     onb_title_3: 'Учёт и аналитика',
-    onb_desc_3: 'Журнал операций, сканер чеков, дашборд KPI, теплокарта года. Всё — без регистрации и платы.',
+    onb_desc_3: 'Журнал операций, сканер чеков, дашборд KPI, теплокарта года. Всё — без регистрации.',
     onb_title_4: 'Начнём!',
     onb_desc_4: 'Введите данные в калькулятор или начните с чек-листа регистрации. Все инструменты в боковом меню.',
     onb_skip: 'Пропустить',
@@ -5214,7 +5209,7 @@ function renderHtmlToPdf(htmlContent, filename, options) {
 }
 
 /* ============================================================
-   ТЕМА И ШРИФТЫ
+   ТЕМА И ШРИФТЫ (ПОЛЗУНОК)
    ============================================================ */
 var Theme = {
   isDark: false,
@@ -5242,7 +5237,7 @@ var Theme = {
 };
 function toggleTheme() { Theme.toggle(); }
 
-/* ИЗМЕНЕНО: Ползунок шрифта от 12 до 36px */
+/* ПОЛЗУНОК ШРИФТА: Теперь меняет размер всего текста от 12 до 36px */
 function applyFontSize(size) {
   if (!size) size = Storage.get('fontSize', 16);
   size = parseInt(size, 10);
@@ -5700,7 +5695,7 @@ window.validateField = validateField; window.ValidationHints = ValidationHints; 
 
 <script>
 /* ============================================================
-   ЧАСТЬ 3b: КАЛЬКУЛЯТОРЫ (С УЧЁТОМ ВСЕХ ИСПРАВЛЕНИЙ)
+   ЧАСТЬ 3b: КАЛЬКУЛЯТОРЫ (ВСЕ БЛОКИ ВОЗВРАЩЕНЫ)
    ============================================================ */
 
 var chart = null;
@@ -5854,7 +5849,7 @@ function clearHistory() { if (confirm(t('clear_confirm'))) { Storage.remove('tax
 function exportHistoryJSON() { downloadJSON({ version: STORAGE_VERSION, exportedAt: new Date().toISOString(), taxHistory: taxHistory }, 'tax-history-' + todayISO() + '.json'); showToast(t('toast_saved')); }
 
 /* ============================================================
-   ПРОГНОЗ И ЛИМИТЫ
+   ПРОГНОЗ И ЛИМИТЫ (ВОЗВРАЩЕНО)
    ============================================================ */
 function updForecast() {
   var monthlyIncome = parseFloat((document.getElementById('monthly') || {}).value) || 0;
@@ -5901,7 +5896,7 @@ function renderLimitIndicators() {
 }
 
 /* ============================================================
-   РИСКИ
+   РИСКИ (ВОЗВРАЩЕНО)
    ============================================================ */
 function buildRiskQuestions() {
   var questions = riskQuestionsData[currentLang] || riskQuestionsData['ru'];
@@ -5946,7 +5941,7 @@ function saveRiskPDF() {
 }
 
 /* ============================================================
-   ЛЬГОТЫ И ОПРОСНИК
+   ЛЬГОТЫ И ОПРОСНИК (ВОЗВРАЩЕНО)
    ============================================================ */
 function buildRegionSelect() {
   var select = document.getElementById('region'); if (!select) return; select.innerHTML = '';
@@ -6190,7 +6185,7 @@ function compareLeasingCreditBuy() {
 }
 
 /* ============================================================
-   ЭКСПОРТ (ИСПРАВЛЕНО: Excel с правильными заголовками)
+   ЭКСПОРТ (Excel с правильными заголовками)
    ============================================================ */
 function savePNG() {
   var canvas = document.getElementById('chart'); if (!canvas) return;
@@ -6246,7 +6241,7 @@ function saveXLSX() {
 }
 
 /* ============================================================
-   БОЛЬНИЧНЫЙ (ОБНОВЛЕНО ПО ГАРАНТУ)
+   БОЛЬНИЧНЫЙ (ОБНОВЛЕНО: МРОТ, ДЕТИ)
    ============================================================ */
 function calcSickLeave() {
   var income2024 = parseFloat((document.getElementById('sick-income-2024') || {}).value) || 0;
@@ -6261,8 +6256,7 @@ function calcSickLeave() {
   var totalIncome = capped2024 + capped2025;
   var avgDaily = totalIncome / 730;
 
-  // Если стаж менее 6 месяцев — МРОТ
-  var mrot = 27093; // МРОТ 2026
+  var mrot = 27093;
   var mrotDaily = (mrot * 24) / 730;
   var avgDailyCapped = (stage === 'lt6m') ? mrotDaily : avgDaily;
 
@@ -6279,7 +6273,6 @@ function calcSickLeave() {
   var dailyPayCapped = Math.min(dailyPay, SICK_CONSTANTS.MAX_DAILY);
   var dailyPayFinal = Math.max(dailyPayCapped, SICK_CONSTANTS.MIN_DAILY);
   
-  // Ограничения по уходу за детьми
   var maxDays = 999;
   if (reason === 'child') maxDays = 60; 
   if (reason === 'child8') maxDays = 45; 
@@ -6366,8 +6359,7 @@ function calcMaternity() {
   var avgDaily = totalIncome / denominator;
   var avgDailyCapped = Math.min(avgDaily, MATERNITY_CONSTANTS.MAX_DAILY_2026);
   
-  // Проверка на МРОТ
-  var mrot = 27093; // МРОТ 2026
+  var mrot = 27093;
   var mrotDaily = (mrot * 24) / 730;
   var avgDailyFinal = Math.max(avgDailyCapped, mrotDaily);
 
@@ -6873,7 +6865,6 @@ function startQRAutoScan() {
         if (arVideo.readyState === arVideo.HAVE_ENOUGH_DATA) {
           canvas.width = arVideo.videoWidth; canvas.height = arVideo.videoHeight; ctx.drawImage(arVideo, 0, 0, canvas.width, canvas.height);
           var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          // Попытка инвертирования
           var code = window.jsQR(imageData.data, imageData.width, imageData.height, { inversionAttempts: 'attemptBoth' });
           if (code && code.data) { handleQRCode(code.data); return; }
         }
@@ -7124,7 +7115,7 @@ function findDuplicateReceipts() {
 }
 
 /* ============================================================
-   ГОЛОСОВОЙ ВВОД (ИСПРАВЛЕНО: ДАТА И СУММА)
+   ГОЛОСОВОЙ ВВОД (ИСПРАВЛЕНО)
    ============================================================ */
 var voiceRecognition = null;
 
@@ -7458,7 +7449,7 @@ window.initNdflTab = initNdflTab; window.calcNdfl = calcNdfl; window.saveNdflPDF
 </script>
 <script>
 /* ============================================================
-   ЧАСТЬ 4a: ДОПОЛНИТЕЛЬНЫЕ ДАННЫЕ (НК РФ)
+   ЧАСТЬ 4a: ДОПОЛНИТЕЛЬНЫЕ ДАННЫЕ (СПРАВКА, НК РФ, КУРС)
    ============================================================ */
 var nkArticlesData = {
   ru: [
