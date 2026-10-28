@@ -43,6 +43,7 @@
   --header-h:56px;
   --sidebar-w:300px;
   --t:.2s ease;
+  --theme-t:.08s ease;
 }
 body.dark{
   --bg:#0b1220;
@@ -65,7 +66,7 @@ body{
   background:var(--bg);color:var(--text);
   font-size:var(--fs);line-height:1.5;
   -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
-  transition:background var(--t),color var(--t);
+  transition:background var(--theme-t),color var(--theme-t);
 }
 button{font-family:inherit;font-size:inherit;cursor:pointer;border:none;background:none;color:inherit}
 input,select,textarea{font-family:inherit;font-size:inherit}
@@ -112,6 +113,13 @@ img{max-width:100%;display:block}
 .hdr-title img{width:24px;height:24px;border-radius:6px;flex-shrink:0}
 .hdr-spacer{flex:1}
 .hdr-actions{display:flex;gap:4px;flex-shrink:0}
+.sandbox-badge{
+  display:none;align-items:center;gap:4px;
+  padding:3px 10px;border-radius:999px;
+  background:rgba(245,158,11,.15);color:var(--warning);
+  font-size:.72rem;font-weight:800;white-space:nowrap;
+}
+.sandbox-badge.show{display:inline-flex}
 
 /* ============================================================
    3. БОКОВОЕ МЕНЮ
@@ -121,7 +129,7 @@ img{max-width:100%;display:block}
   width:var(--sidebar-w);z-index:99;
   background:var(--surface);border-right:1px solid var(--border);
   transform:translateX(-100%);
-  transition:transform .25s ease;
+  transition:transform .25s ease,background var(--theme-t);
   display:flex;flex-direction:column;
   overflow-y:auto;overflow-x:hidden;padding:12px;
   box-shadow:var(--shadow-md);
@@ -213,7 +221,7 @@ img{max-width:100%;display:block}
   background:var(--surface);border:1px solid var(--border);
   border-radius:var(--r-lg);padding:20px;margin-bottom:16px;
   box-shadow:var(--shadow);
-  transition:background var(--t),border-color var(--t),box-shadow var(--t);
+  transition:background var(--theme-t),border-color var(--theme-t),box-shadow var(--theme-t);
 }
 .card-title{
   font-size:1.05rem;font-weight:800;margin-bottom:4px;
@@ -247,7 +255,7 @@ img{max-width:100%;display:block}
   width:100%;padding:10px 12px;
   border:1px solid var(--border);border-radius:var(--r-sm);
   background:var(--surface);color:var(--text);outline:none;
-  transition:border-color var(--t),box-shadow var(--t),background var(--t);
+  transition:border-color var(--t),box-shadow var(--t),background var(--theme-t);
   font-size:.95rem;min-height:44px;
 }
 .field input:focus,
@@ -319,7 +327,7 @@ img{max-width:100%;display:block}
 .result-card{
   background:var(--surface2);border-radius:var(--r-md);padding:14px;
   text-align:center;border:1px solid transparent;
-  transition:background var(--t),transform var(--t);
+  transition:background var(--theme-t),transform var(--t);
 }
 .result-card:hover{transform:translateY(-1px)}
 .result-card .lbl{
@@ -349,6 +357,8 @@ img{max-width:100%;display:block}
 .info-box.danger strong{color:var(--danger)}
 .info-box.info{background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.3)}
 .info-box.info strong{color:var(--info)}
+.info-box.success{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.3)}
+.info-box.success strong{color:var(--success)}
 .info-box ul{margin:8px 0 0 20px;line-height:1.7}
 .info-box ol{margin:8px 0 0 20px;line-height:1.7}
 
@@ -381,7 +391,7 @@ img{max-width:100%;display:block}
 .widget{
   background:var(--surface);border:1px solid var(--border);
   border-radius:var(--r-md);padding:14px;text-align:center;
-  transition:background var(--t);
+  transition:background var(--theme-t);
 }
 .widget .l{
   font-size:.72rem;color:var(--muted);font-weight:700;
@@ -395,7 +405,7 @@ img{max-width:100%;display:block}
   display:flex;align-items:center;gap:12px;padding:12px 14px;
   border-radius:var(--r-md);background:var(--surface2);
   border:1px solid transparent;
-  transition:border-color var(--t),background var(--t);
+  transition:border-color var(--t),background var(--theme-t);
 }
 .journal-item:hover{border-color:var(--border)}
 .ji-icon{
@@ -449,7 +459,7 @@ img{max-width:100%;display:block}
 .acc{
   border:1px solid var(--border);border-radius:var(--r-md);
   margin-bottom:8px;overflow:hidden;background:var(--surface);
-  transition:border-color var(--t);
+  transition:border-color var(--t),background var(--theme-t);
 }
 .acc:hover{border-color:var(--muted)}
 .acc-head{
@@ -558,7 +568,7 @@ kbd{
   aspect-ratio:1;border-radius:4px;background:var(--surface2);
   display:flex;align-items:center;justify-content:center;
   font-size:.7rem;font-weight:700;cursor:pointer;
-  transition:transform .1s,background var(--t),box-shadow var(--t);
+  transition:transform .1s,background var(--theme-t),box-shadow var(--t);
   color:var(--text);position:relative;min-height:28px;
 }
 .hm-cell:hover{transform:scale(1.1);z-index:2;box-shadow:var(--shadow)}
@@ -603,7 +613,7 @@ body.dark .hm-cell.both{color:#a78bfa}
   background:var(--surface);border-top:1px solid var(--border);
   display:none;align-items:center;justify-content:space-around;
   padding:0 4px;box-shadow:0 -2px 8px rgba(15,23,42,.06);
-  transition:background var(--t);
+  transition:background var(--theme-t);
 }
 @media(max-width:640px){
   .bottom-tabs{display:flex}
@@ -740,7 +750,6 @@ body.dark .hm-cell.both{color:#a78bfa}
 .banner.show{display:flex}
 .banner.simple{background:var(--info);color:#fff}
 .banner.welcome{background:var(--primary);color:#fff}
-.banner.sandbox{background:var(--warning);color:#fff}
 .banner button{
   padding:4px 12px;border-radius:var(--r-xs);
   background:rgba(255,255,255,.2);color:#fff;
@@ -829,6 +838,79 @@ body.colorblind .hm-cell.note{background:rgba(86,180,233,.35);color:#0a4a66}
 @supports(-webkit-touch-callout:none){
   .field input,.field select,.field textarea{font-size:16px}
 }
+
+/* ============================================================
+   24. КУРС
+   ============================================================ */
+.course-block-card{
+  background:var(--surface2);border-radius:var(--r-md);padding:14px;
+  margin-bottom:10px;display:flex;align-items:center;gap:12px;
+  cursor:pointer;border:1px solid transparent;
+  transition:border-color var(--t),background var(--t);
+}
+.course-block-card:hover{border-color:var(--border)}
+.course-block-card.done{background:var(--primary-bg);border-color:rgba(5,150,105,.3)}
+.course-block-card.locked{opacity:.5;cursor:not-allowed}
+.course-block-num{
+  width:38px;height:38px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--primary);color:#fff;font-weight:900;flex-shrink:0;
+}
+.course-block-card.done .course-block-num{background:var(--success)}
+.course-block-card.locked .course-block-num{background:var(--muted)}
+.course-block-body{flex:1;min-width:0}
+.course-block-body .t{font-weight:800;font-size:.92rem}
+.course-block-body .s{font-size:.78rem;color:var(--muted);margin-top:2px}
+.course-question{
+  background:var(--surface2);border-radius:var(--r-md);padding:16px;margin-bottom:12px;
+}
+.course-question .q{font-weight:800;font-size:.95rem;margin-bottom:12px;line-height:1.5}
+.course-options{display:flex;flex-direction:column;gap:8px}
+.course-option{
+  padding:10px 14px;border-radius:var(--r-sm);background:var(--surface);
+  border:1px solid var(--border);text-align:left;font-weight:600;font-size:.88rem;
+  transition:border-color var(--t),background var(--t);
+}
+.course-option:hover:not(:disabled){border-color:var(--primary);background:var(--primary-bg)}
+.course-option.correct{background:rgba(16,185,129,.15);border-color:var(--success);color:var(--success)}
+.course-option.wrong{background:rgba(239,68,68,.15);border-color:var(--danger);color:var(--danger)}
+.course-option:disabled{cursor:default}
+.course-explanation{
+  margin-top:10px;padding:10px 14px;border-radius:var(--r-sm);
+  background:var(--primary-bg);border:1px solid rgba(5,150,105,.2);
+  font-size:.82rem;line-height:1.5;
+}
+.course-explanation.wrong{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.3)}
+.course-explanation strong{color:var(--primary)}
+.course-explanation.wrong strong{color:var(--danger)}
+.promo-code-box{
+  background:linear-gradient(135deg, var(--primary), var(--primary-light));
+  color:#fff;border-radius:var(--r-lg);padding:24px;text-align:center;
+  margin:16px 0;
+}
+.promo-code-box .label{font-size:.85rem;opacity:.9;margin-bottom:8px}
+.promo-code-box .code{
+  font-size:1.6rem;font-weight:900;letter-spacing:2px;
+  font-family:'Courier New',monospace;word-break:break-all;
+  background:rgba(255,255,255,.15);padding:12px;border-radius:var(--r-md);
+  margin:8px 0;
+}
+.promo-code-box .note{font-size:.78rem;opacity:.8;margin-top:8px}
+
+/* ============================================================
+   25. ОПЛАТА
+   ============================================================ */
+.plan-selector{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.plan-option{
+  padding:18px;border-radius:var(--r-md);border:2px solid var(--border);
+  background:var(--surface);cursor:pointer;text-align:center;
+  transition:border-color var(--t),background var(--t);
+}
+.plan-option:hover{border-color:var(--primary-light)}
+.plan-option.active{border-color:var(--primary);background:var(--primary-bg)}
+.plan-option .title{font-weight:900;font-size:1.05rem;margin-bottom:4px}
+.plan-option .price{font-weight:900;font-size:1.3rem;color:var(--primary)}
+.plan-option .old{font-size:.8rem;color:var(--muted);text-decoration:line-through}
 </style>
 </head>
 <body>
@@ -844,10 +926,6 @@ body.colorblind .hm-cell.note{background:rgba(86,180,233,.35);color:#0a4a66}
   <span class="banner-text" data-lang="welcomeBanner">С возвращением! Вы не заходили более 24 часов.</span>
   <button onclick="dismissWelcomeBack()" data-lang="ok">Ок</button>
 </div>
-<div class="banner sandbox" id="sandboxBanner">
-  <span class="banner-text" data-lang="sandboxBanner">Режим песочницы: данные не сохраняются.</span>
-  <button onclick="disableSandbox()" data-lang="exitSimple">Выключить</button>
-</div>
 
 <!-- ============================================================
      ШАПКА
@@ -858,6 +936,7 @@ body.colorblind .hm-cell.note{background:rgba(86,180,233,.35);color:#0a4a66}
     <img src="https://raw.githubusercontent.com/egorsasnev672-sudo/limit_npd/main/zoomai-69478-1.png" alt="Логотип">
     <span data-lang="appName">Налоговый калькулятор</span>
   </div>
+  <span class="sandbox-badge" id="sandboxBadge">🧪 Песочница</span>
   <div class="hdr-spacer"></div>
   <div class="hdr-actions">
     <button class="hdr-btn" onclick="openSearch()" aria-label="Поиск" title="Поиск (Ctrl+K)">🔍</button>
@@ -951,6 +1030,9 @@ body.colorblind .hm-cell.note{background:rgba(86,180,233,.35);color:#0a4a66}
   </button>
 
   <div class="side-group-label" data-lang="settings">Настройки</div>
+  <button class="side-item" data-tab="payment" onclick="switchTab('payment')">
+    <span class="side-icon">💳</span><span class="side-text" data-lang="payment">Оплата</span>
+  </button>
   <button class="side-item" data-tab="settings" onclick="switchTab('settings')">
     <span class="side-icon">⚙</span><span class="side-text" data-lang="settings">Настройки</span>
   </button>
@@ -970,7 +1052,7 @@ body.colorblind .hm-cell.note{background:rgba(86,180,233,.35);color:#0a4a66}
 </aside>
 
 <!-- ============================================================
-     ОСНОВНОЙ КОНТЕНТ — 26 ВКЛАДОК
+     ОСНОВНОЙ КОНТЕНТ — 27 ВКЛАДОК
      ============================================================ -->
 <main class="main" id="main">
 
@@ -1794,20 +1876,20 @@ body.colorblind .hm-cell.note{background:rgba(86,180,233,.35);color:#0a4a66}
       <div class="card-title" data-lang="simulatorParams">Параметры</div>
       <div class="field mb-12">
         <label><span data-lang="simIncome">Доход:</span> <strong id="simIncLabel">1 200 000 ₽</strong></label>
-        <input id="simInc" type="range" min="0" max="20000000" step="10000" value="1200000" oninput="runSimulator()" style="width:100%">
+        <input id="simInc" type="range" min="0" max="20000000" step="10000" value="1200000" oninput="runSimulator()" style="width:100%" class="no-swipe">
       </div>
       <div class="field mb-12">
         <label><span data-lang="simExpenses">Расходы:</span> <strong id="simExpLabel">600 000 ₽</strong></label>
-        <input id="simExp" type="range" min="0" max="20000000" step="10000" value="600000" oninput="runSimulator()" style="width:100%">
+        <input id="simExp" type="range" min="0" max="20000000" step="10000" value="600000" oninput="runSimulator()" style="width:100%" class="no-swipe">
       </div>
       <div class="row cols-2">
         <div class="field">
           <label><span data-lang="simEmployees">Сотрудники:</span> <strong id="simEmpLabel">0</strong></label>
-          <input id="simEmp" type="range" min="0" max="200" step="1" value="0" oninput="runSimulator()" style="width:100%">
+          <input id="simEmp" type="range" min="0" max="200" step="1" value="0" oninput="runSimulator()" style="width:100%" class="no-swipe">
         </div>
         <div class="field">
           <label><span data-lang="simSalary">Зарплата:</span> <strong id="simSalaryLabel">30 000 ₽</strong></label>
-          <input id="simSalary" type="range" min="0" max="200000" step="1000" value="30000" oninput="runSimulator()" style="width:100%">
+          <input id="simSalary" type="range" min="0" max="200000" step="1000" value="30000" oninput="runSimulator()" style="width:100%" class="no-swipe">
         </div>
       </div>
       <div class="row cols-2">
@@ -1852,9 +1934,7 @@ body.colorblind .hm-cell.note{background:rgba(86,180,233,.35);color:#0a4a66}
   <!-- ========== 20. КУРС ========== -->
   <section class="tab-panel" id="tab-course">
     <h1 class="section-title" data-lang="course">Мини-курс</h1>
-    <div class="card" id="courseCard">
-      <div id="courseContent"></div>
-    </div>
+    <div id="courseContent"></div>
   </section>
 
   <!-- ========== 21. НК РФ ========== -->
@@ -1981,7 +2061,47 @@ body.colorblind .hm-cell.note{background:rgba(86,180,233,.35);color:#0a4a66}
     </div>
   </section>
 
-  <!-- ========== 25. НАСТРОЙКИ ========== -->
+  <!-- ========== 25. ОПЛАТА ========== -->
+  <section class="tab-panel" id="tab-payment">
+    <h1 class="section-title" data-lang="payment">Оплата</h1>
+    <div class="card">
+      <div class="card-title" data-lang="paymentPromo">Промокод</div>
+      <div class="card-sub" data-lang="paymentPromoSub">Введите промокод, полученный после прохождения курса, для скидки 20%.</div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="promoInput" data-lang="promoCode">Промокод</label>
+          <input id="promoInput" type="text" placeholder="XXXXX-XXXXX-XXXXX" autocomplete="off">
+        </div>
+        <div class="field" style="justify-content:flex-end">
+          <button class="btn btn-primary" onclick="applyPromoCode()" data-lang="apply">Применить</button>
+        </div>
+      </div>
+      <div id="promoResult" class="mt-8"></div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="paymentPlan">Выберите план</div>
+      <div class="plan-selector">
+        <div class="plan-option" id="planMonth" onclick="selectPlan('month')">
+          <div class="title" data-lang="planMonth">Месяц</div>
+          <div class="price">— ₽</div>
+        </div>
+        <div class="plan-option" id="planYear" onclick="selectPlan('year')">
+          <div class="title" data-lang="planYear">Год</div>
+          <div class="price">— ₽</div>
+        </div>
+      </div>
+      <div id="priceSummary" class="info-box"></div>
+      <div class="btn-group mt-12">
+        <button class="btn btn-primary btn-block" onclick="payNow()" data-lang="payNow">Оплатить</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="paymentStatus">Статус подписки</div>
+      <div id="paymentStatus" class="info-box"></div>
+    </div>
+  </section>
+
+  <!-- ========== 26. НАСТРОЙКИ ========== -->
   <section class="tab-panel" id="tab-settings">
     <h1 class="section-title" data-lang="settings">Настройки</h1>
     <div class="card">
@@ -2023,15 +2143,8 @@ body.colorblind .hm-cell.note{background:rgba(86,180,233,.35);color:#0a4a66}
       </div>
       <div class="row cols-2">
         <div class="field">
-          <label for="setIncognito" data-lang="incognito">Режим «Инкогнито»</label>
-          <select id="setIncognito" onchange="applyIncognito()">
-            <option value="off" data-lang="off">Выкл</option>
-            <option value="on" data-lang="incognitoOn">Вкл (не сохранять историю)</option>
-          </select>
-        </div>
-        <div class="field">
           <label for="setSandbox" data-lang="sandbox">Режим песочницы</label>
-          <select id="setSandbox" onchange="applySandbox()">
+          <select id="setSandbox" onchange="onSandboxChange()">
             <option value="off" data-lang="off">Выкл</option>
             <option value="on" data-lang="sandboxOn">Вкл (данные в памяти)</option>
           </select>
@@ -2073,7 +2186,7 @@ body.colorblind .hm-cell.note{background:rgba(86,180,233,.35);color:#0a4a66}
     </div>
   </section>
 
-  <!-- ========== 26. БЭКАП ========== -->
+  <!-- ========== 27. БЭКАП ========== -->
   <section class="tab-panel" id="tab-backup">
     <h1 class="section-title" data-lang="backup">Резервная копия</h1>
     <div class="card">
@@ -2130,8 +2243,8 @@ body.colorblind .hm-cell.note{background:rgba(86,180,233,.35);color:#0a4a66}
   <button class="bt-item" data-tab="scanner" onclick="switchTab('scanner')">
     <span class="bt-icon">📷</span><span data-lang="scannerShort">Сканер</span>
   </button>
-  <button class="bt-item" data-tab="kpi" onclick="switchTab('kpi')">
-    <span class="bt-icon">📈</span><span data-lang="kpiShort">KPI</span>
+  <button class="bt-item" data-tab="course" onclick="switchTab('course')">
+    <span class="bt-icon">🎓</span><span data-lang="courseShort">Курс</span>
   </button>
   <button class="bt-item" onclick="toggleMenu()">
     <span class="bt-icon">☰</span><span data-lang="more">Ещё</span>
@@ -2284,6 +2397,69 @@ body.colorblind .hm-cell.note{background:rgba(86,180,233,.35);color:#0a4a66}
 </div>
 
 <!-- ============================================================
+     МОДАЛКА: ПЕСОЧНИЦА — ВКЛЮЧЕНИЕ
+     ============================================================ -->
+<div class="modal-overlay" id="sandboxOnModal" onclick="if(event.target===this)cancelSandboxOn()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🧪 Включить режим песочницы?</div>
+      <button class="modal-close" onclick="cancelSandboxOn()" aria-label="Закрыть">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="info-box warn">
+        <strong>Внимание!</strong> Все данные (журнал, чеки, история, заметки) будут храниться <strong>только в памяти</strong>. После закрытия страницы они <strong>исчезнут безвозвратно</strong>.
+      </div>
+      <p class="mt-12">Используйте песочницу, чтобы попробовать приложение или показать демо — не боясь испортить реальные данные.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="cancelSandboxOn()">Отмена</button>
+      <button class="btn btn-warning" onclick="confirmSandboxOn()">Включить</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     МОДАЛКА: ПЕСОЧНИЦА — ВЫКЛЮЧЕНИЕ (перенос данных)
+     ============================================================ -->
+<div class="modal-overlay" id="sandboxOffModal" onclick="if(event.target===this)cancelSandboxOff()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🧪 Выключить режим песочницы?</div>
+      <button class="modal-close" onclick="cancelSandboxOff()" aria-label="Закрыть">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="mb-12">Вы сейчас в песочнице. Что сделать с текущими данными?</p>
+      <div class="info-box">
+        <strong>Сохранить</strong> — перенести журнал, чеки и историю в обычное хранилище.<br>
+        <strong>Удалить</strong> — стереть всё, что было в песочнице.
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="cancelSandboxOff()">Отмена</button>
+      <button class="btn btn-danger" onclick="sandboxOffDiscard()">Удалить</button>
+      <button class="btn btn-primary" onclick="sandboxOffKeep()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     МОДАЛКА: РЕЗУЛЬТАТ КУРСА (промокод)
+     ============================================================ -->
+<div class="modal-overlay" id="courseResultModal" onclick="if(event.target===this)closeCourseResult()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🎉 Курс пройден!</div>
+      <button class="modal-close" onclick="closeCourseResult()" aria-label="Закрыть">✕</button>
+    </div>
+    <div class="modal-body" id="courseResultBody"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeCourseResult()">Закрыть</button>
+      <button class="btn btn-primary" onclick="closeCourseResult();switchTab('payment')">К оплате</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
      ЭКРАН ПАРОЛЯ
      ============================================================ -->
 <div class="lock-screen" id="lockScreen">
@@ -2313,9 +2489,9 @@ body.colorblind .hm-cell.note{background:rgba(86,180,233,.35);color:#0a4a66}
     <p data-lang="obText3">Распознавание QR-кодов ФНС и текста чеков через AR-камеру или загрузку фото.</p>
   </div>
   <div class="onboarding-slide" data-slide="3">
-    <div class="ob-icon">📈</div>
-    <h2 data-lang="obTitle4">Всё локально</h2>
-    <p data-lang="obText4">Данные хранятся только в вашем браузере. Без сервера, регистрации и передачи данных.</p>
+    <div class="ob-icon">🎓</div>
+    <h2 data-lang="obTitle4">Мини-курс + скидка</h2>
+    <p data-lang="obText4">Пройдите 5 блоков вопросов — получите промокод на скидку 20%.</p>
   </div>
   <div class="onboarding-dots" id="onboardingDots">
     <div class="dot active"></div>
@@ -2459,6 +2635,14 @@ function simpleHash(str){
   }
   return Math.abs(hash).toString(36);
 }
+function generatePromoCode(){
+  var chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+  var code='';
+  for(var i=0;i<15;i++){
+    code+=chars.charAt(Math.floor(Math.random()*chars.length));
+  }
+  return code;
+}
 function animateCounter(el,from,to,duration){
   if(!el)return;
   duration=duration||600;
@@ -2517,12 +2701,14 @@ function deepClone(o){return JSON.parse(JSON.stringify(o));}
 var Storage={
   _mem:{},
   _sandbox:false,
-  _incognito:false,
   get:function(key,def){
     try{
       var raw;
-      if(this._sandbox)raw=this._mem[key];
-      else raw=localStorage.getItem(key);
+      if(this._sandbox){
+        raw=this._mem[key];
+      } else {
+        raw=localStorage.getItem(key);
+      }
       if(raw==null)return def;
       return JSON.parse(raw);
     }catch(e){
@@ -2564,33 +2750,107 @@ var Storage={
 };
 
 /* ============================================================
-   3. SANDBOX
+   3. SANDBOX — новая логика с предупреждением и переносом
    ============================================================ */
 var Sandbox={
-  enable:function(){
-    Storage._sandbox=true;
-    var b=document.getElementById('sandboxBanner');
-    if(b)b.classList.add('show');
-    Storage.set('sandbox','on');
-    showToast('Режим песочницы включён','warn');
-  },
-  disable:function(){
-    Storage._sandbox=false;
-    var b=document.getElementById('sandboxBanner');
-    if(b)b.classList.remove('show');
-    Storage.set('sandbox','off');
-    showToast('Режим песочницы выключен','info');
-  },
   init:function(){
     var saved=Storage.get('sandbox','off');
     if(saved==='on'){
       Storage._sandbox=true;
-      var b=document.getElementById('sandboxBanner');
-      if(b)b.classList.add('show');
+      this.updateBadge(true);
     }
+  },
+  updateBadge:function(on){
+    var badge=document.getElementById('sandboxBadge');
+    if(badge)badge.classList.toggle('show',on);
+    var sel=document.getElementById('setSandbox');
+    if(sel)sel.value=on?'on':'off';
+  },
+  requestEnable:function(){
+    var m=document.getElementById('sandboxOnModal');
+    if(m)m.classList.add('open');
+    var sel=document.getElementById('setSandbox');
+    if(sel)sel.value='off';
+  },
+  confirmEnable:function(){
+    Storage._sandbox=true;
+    Storage.set('sandbox','on');
+    this.updateBadge(true);
+    var m=document.getElementById('sandboxOnModal');
+    if(m)m.classList.remove('open');
+    showToast('Режим песочницы включён. Данные не сохранятся.','warn');
+  },
+  cancelEnable:function(){
+    var m=document.getElementById('sandboxOnModal');
+    if(m)m.classList.remove('open');
+    var sel=document.getElementById('setSandbox');
+    if(sel)sel.value='off';
+  },
+  requestDisable:function(){
+    var m=document.getElementById('sandboxOffModal');
+    if(m)m.classList.add('open');
+    var sel=document.getElementById('setSandbox');
+    if(sel)sel.value='on';
+  },
+  confirmDisableKeep:function(){
+    // Переносим данные из памяти в localStorage
+    var keys=Object.keys(Storage._mem);
+    keys.forEach(function(k){
+      try{localStorage.setItem(k,Storage._mem[k]);}catch(e){console.warn(e);}
+    });
+    Storage._sandbox=false;
+    Storage._mem={};
+    Storage.set('sandbox','off');
+    this.updateBadge(false);
+    var m=document.getElementById('sandboxOffModal');
+    if(m)m.classList.remove('open');
+    showToast('Данные из песочницы сохранены','success');
+  },
+  confirmDisableDiscard:function(){
+    Storage._sandbox=false;
+    Storage._mem={};
+    Storage.set('sandbox','off');
+    this.updateBadge(false);
+    var m=document.getElementById('sandboxOffModal');
+    if(m)m.classList.remove('open');
+    journalData=[];
+    receiptsData=[];
+    taxHistory=[];
+    calendarNotes={};
+    checklistState={};
+    courseAnswers={};
+    customJournalCategories={income:[],expense:[]};
+    if(typeof renderJournal==='function')renderJournal();
+    if(typeof renderTaxHistory==='function')renderTaxHistory();
+    if(typeof buildHeatmap==='function')buildHeatmap();
+    showToast('Данные песочницы удалены','warn');
+  },
+  cancelDisable:function(){
+    var m=document.getElementById('sandboxOffModal');
+    if(m)m.classList.remove('open');
+    var sel=document.getElementById('setSandbox');
+    if(sel)sel.value='on';
   }
 };
-function disableSandbox(){Sandbox.disable();}
+
+function onSandboxChange(){
+  var el=document.getElementById('setSandbox');
+  if(!el)return;
+  if(el.value==='on'){
+    Sandbox.requestEnable();
+  } else {
+    if(Storage._sandbox){
+      Sandbox.requestDisable();
+    }
+  }
+}
+function confirmSandboxOn(){Sandbox.confirmEnable();}
+function cancelSandboxOn(){Sandbox.cancelEnable();}
+function confirmSandboxOff(){Sandbox.confirmDisableKeep();}
+function cancelSandboxOff(){Sandbox.cancelDisable();}
+function sandboxOffKeep(){Sandbox.confirmDisableKeep();}
+function sandboxOffDiscard(){Sandbox.confirmDisableDiscard();}
+function disableSandbox(){Sandbox.requestDisable();}
 
 /* ============================================================
    4. UNDO MANAGER
@@ -2635,7 +2895,7 @@ var UndoManager={
 function performUndo(){UndoManager.undo();}
 
 /* ============================================================
-   5. THEME
+   5. THEME — без тоста, быстрая
    ============================================================ */
 var Theme={
   isDark:false,
@@ -2656,7 +2916,7 @@ var Theme={
     Storage.set('theme',this.isDark?'dark':'light');
     var sel=document.getElementById('setTheme');
     if(sel)sel.value=this.isDark?'dark':'light';
-    showToast(this.isDark?'Тёмная тема':'Светлая тема','info');
+    // Тост НЕ показываем. Графики НЕ перерисовываем.
   }
 };
 function toggleTheme(){Theme.toggle();}
@@ -2727,7 +2987,11 @@ var LazyLibs={
     return this._load('tesseract','https://cdn.jsdelivr.net/npm/tesseract.js@5.1.0/dist/tesseract.min.js','Tesseract');
   }
 };
-
+</script>
+<!-- ============================================================
+     ЧАСТЬ 3: ПЕРЕВОДЫ + ДАННЫЕ
+     ============================================================ -->
+<script>
 /* ============================================================
    8. ПЕРЕВОДЫ (RU + EN)
    ============================================================ */
@@ -2741,6 +3005,7 @@ var translations={
     ndfl:'Возврат НДФЛ', journal:'Журнал операций', scanner:'Сканер чеков', checklist:'Чек-лист ИП/ООО',
     heatmap:'Теплокарта года', simulator:'Симулятор', faq:'База знаний', course:'Мини-курс',
     nk:'НК РФ офлайн', court:'Судебная практика', govproc:'Госзакупки', cbr:'ЦБ/ФНС', backup:'Резервная копия',
+    payment:'Оплата',
     installPwa:'Установить PWA', installPwaText:'Установите приложение на устройство для офлайн-доступа к расчётам.',
     mode:'Налоговый режим', income:'Годовой доход, ₽', expenses:'Сумма расходов, ₽',
     calculate:'Рассчитать', reset:'Сбросить', tax:'Налог', netIncome:'Чистый доход', effRate:'Эфф. ставка',
@@ -2821,8 +3086,8 @@ var translations={
     chestnyZnak:'Честный знак', kktRegistry:'Реестр ККТ', settingsTitle:'Настройки', appearance:'Оформление',
     themeLabel:'Тема', themeLight:'Светлая', themeDark:'Тёмная', fontSize:'Размер шрифта (12–36 px)',
     fontPreview:'Превью шрифта', fontPreviewText:'Пример текста для оценки размера шрифта. Налоговый калькулятор.',
-    colorblind:'Режим для дальтоников', simpleMode:'Простой режим', incognito:'Режим «Инкогнито»',
-    incognitoOn:'Вкл (не сохранять историю)', sandbox:'Режим песочницы', sandboxOn:'Вкл (данные в памяти)',
+    colorblind:'Режим для дальтоников', simpleMode:'Простой режим',
+    sandbox:'Режим песочницы', sandboxOn:'Вкл (данные в памяти)',
     on:'Вкл', off:'Выкл', onboarding:'Онбординг', onboardingSub:'Показать обучающие слайды снова.',
     showOnboarding:'Показать онбординг', appPassword:'Пароль на приложение',
     appPasswordSub:'Защита доступа к данным. Пароль хранится в виде хеша.',
@@ -2844,17 +3109,17 @@ var translations={
     obText1:'Профессиональный расчёт налогов для самозанятых, ИП и ООО. Все 7 режимов, взносы, льготы.',
     obTitle2:'Журнал операций', obText2:'Учёт доходов и расходов, KPI-дашборд, экспорт в CSV, Excel и PDF.',
     obTitle3:'Сканер чеков', obText3:'Распознавание QR-кодов ФНС и текста чеков через AR-камеру или загрузку фото.',
-    obTitle4:'Всё локально', obText4:'Данные хранятся только в вашем браузере. Без сервера, регистрации и передачи данных.',
+    obTitle4:'Мини-курс + скидка', obText4:'Пройдите 5 блоков вопросов — получите промокод на скидку 20%.',
     skip:'Пропустить', next:'Далее', done:'Готово', undo:'Отменить', undoLabel:'Элемент удалён',
     simpleBanner:'Простой режим включён. Показаны только основные функции.',
     welcomeBanner:'С возвращением! Вы не заходили более 24 часов.',
-    sandboxBanner:'Режим песочницы: данные не сохраняются.', exitSimple:'Выключить', ok:'Ок',
+    exitSimple:'Выключить', ok:'Ок',
     deleted:'Удалено', added:'Добавлено', saved:'Сохранено', error:'Ошибка', warning:'Внимание', success:'Успешно',
     confirmDelete:'Вы уверены, что хотите удалить?',
     confirmClearAll:'Удалить ВСЕ данные без возможности восстановления?',
     noData:'Нет данных', loading:'Загрузка...', libError:'Ошибка загрузки библиотеки',
     offlineWarning:'Нет интернета. Некоторые функции недоступны.',
-    calcShort:'Расчёт', journalShort:'Журнал', scannerShort:'Сканер', kpiShort:'KPI', more:'Ещё',
+    calcShort:'Расчёт', journalShort:'Журнал', scannerShort:'Сканер', courseShort:'Курс', more:'Ещё',
     calcParams:'Параметры расчёта',
     calcSub:'Выберите режим и укажите данные — калькулятор посчитает налог, взносы и чистый доход.',
     modeNpd:'НПД (самозанятый)', modeUsn6:'ИП УСН «Доходы» 6%', modeUsn15:'ИП УСН «Д−Р» 15%',
@@ -2871,18 +3136,32 @@ var translations={
     catContrib:'Взносы', catChecks:'Проверки', catBanks:'Банки', eis:'ЕИС', rts:'РТС-тендер',
     sberAst:'Сбербанк-АСТ', eetp:'ЕЭТП',
     kpiCompare:'Сравнение с отраслью', above:'выше', below:'ниже',
-    quickstartTitle:'С чего начать?',
-    quickstartSub:'Пройдите 3 шага или загрузите демо-данные, чтобы освоить приложение.',
-    quickstartStart:'Начать расчёт', quickstartDemo:'Загрузить демо', quickstartHide:'Скрыть',
-    kpiHigher:'выше', kpiLower:'ниже',
-    qrErrors:'Ошибки в QR ФНС:', qrInvalid:'QR содержит ошибки',
     simLimitEmployees:'Превышен лимит сотрудников для УСН (130 чел.) — нужен переход на ОСН.',
     simLimitPsn:'Превышен лимит сотрудников для ПСН (15 чел.) — патент недоступен.',
     simNpdNoEmployees:'НПД не допускает сотрудников.',
-    incognitoNotSaved:'Инкогнито: операция не сохранена',
-    incognitoReceiptNotSaved:'Инкогнито: чек не сохранён',
-    historyCount:'История расчётов:',
-    backupQr:'QR для ссылки', shareCopied:'Ссылка скопирована'
+    qrErrors:'Ошибки в QR ФНС:', qrInvalid:'QR содержит ошибки',
+    historyCount:'История расчётов:', shareCopied:'Ссылка скопирована',
+    paymentPromo:'Промокод', paymentPromoSub:'Введите промокод, полученный после прохождения курса, для скидки 20%.',
+    promoCode:'Промокод', apply:'Применить',
+    paymentPlan:'Выберите план', planMonth:'Месяц', planYear:'Год', payNow:'Оплатить',
+    paymentStatus:'Статус подписки',
+    promoInvalid:'Промокод не найден', promoEmpty:'Введите промокод',
+    promoUsed:'Промокод уже использован', promoApplied:'Промокод применён. Скидка 20%.',
+    promoNoCourse:'Сначала пройдите курс, чтобы получить промокод.',
+    paymentNotReady:'Платёжная система будет подключена позже.',
+    paymentSelected:'Выбрано: {0}',
+    subscriptionActive:'Подписка активна', subscriptionInactive:'Подписка не оформлена',
+    plan:'План', paidDate:'Дата оплаты',
+    courseBlocks:'Блоки курса', courseBlockDone:'Пройден', courseBlockLocked:'Заблокирован',
+    courseBlockInProgress:'В процессе', courseQuestionOf:'Вопрос {0} из {1}',
+    courseErrorsTitle:'Ошибки в блоке', courseRetryErrors:'Пройти ошибки заново',
+    courseBlockPassed:'Блок пройден!', courseAllDone:'Все блоки пройдены!',
+    coursePromoTitle:'Ваш промокод на скидку 20%:',
+    coursePromoNote:'Промокод сохранён в «Настройках» и «Оплате». Используйте его при оформлении подписки.',
+    courseExplanation:'Пояснение:',
+    courseCorrectAnswer:'Правильный ответ:',
+    courseStartBlock:'Начать блок', courseContinueBlock:'Продолжить',
+    courseLocked:'Пройдите предыдущий блок, чтобы открыть этот.'
   },
   en:{
     appName:'Tax Calculator', menu:'Menu', search:'Search', theme:'Theme',
@@ -2893,6 +3172,7 @@ var translations={
     ndfl:'NDFL refund', journal:'Operations journal', scanner:'Receipt scanner', checklist:'IP/LLC checklist',
     heatmap:'Year heatmap', simulator:'Simulator', faq:'Knowledge base', course:'Mini-course',
     nk:'Tax Code offline', court:'Court practice', govproc:'Public procurement', cbr:'CBR/FNS', backup:'Backup',
+    payment:'Payment',
     installPwa:'Install PWA', installPwaText:'Install the app on your device for offline access.',
     mode:'Tax regime', income:'Annual income, ₽', expenses:'Expenses, ₽',
     calculate:'Calculate', reset:'Reset', tax:'Tax', netIncome:'Net income', effRate:'Effective rate',
@@ -2973,8 +3253,8 @@ var translations={
     chestnyZnak:'Chestny Znak', kktRegistry:'KKT registry', settingsTitle:'Settings', appearance:'Appearance',
     themeLabel:'Theme', themeLight:'Light', themeDark:'Dark', fontSize:'Font size (12–36 px)',
     fontPreview:'Font preview', fontPreviewText:'Sample text to evaluate font size. Tax calculator.',
-    colorblind:'Colorblind mode', simpleMode:'Simple mode', incognito:'Incognito mode',
-    incognitoOn:'On (do not save history)', sandbox:'Sandbox mode', sandboxOn:'On (data in memory)',
+    colorblind:'Colorblind mode', simpleMode:'Simple mode',
+    sandbox:'Sandbox mode', sandboxOn:'On (data in memory)',
     on:'On', off:'Off', onboarding:'Onboarding', onboardingSub:'Show tutorial slides again.',
     showOnboarding:'Show onboarding', appPassword:'App password',
     appPasswordSub:'Protect access to data. Password stored as hash.',
@@ -2996,17 +3276,17 @@ var translations={
     obText1:'Professional tax calculation for self-employed, IP and LLC. All 7 regimes, contributions, benefits.',
     obTitle2:'Operations journal', obText2:'Income and expense accounting, KPI dashboard, export to CSV, Excel and PDF.',
     obTitle3:'Receipt scanner', obText3:'FNS QR codes and receipt text recognition via AR camera or photo upload.',
-    obTitle4:'All local', obText4:'Data stored only in your browser. No server, registration or data transfer.',
+    obTitle4:'Mini-course + discount', obText4:'Pass 5 blocks of questions — get a 20% discount promo code.',
     skip:'Skip', next:'Next', done:'Done', undo:'Undo', undoLabel:'Item deleted',
     simpleBanner:'Simple mode enabled. Only basic functions shown.',
     welcomeBanner:'Welcome back! You have not visited for over 24 hours.',
-    sandboxBanner:'Sandbox mode: data is not saved.', exitSimple:'Disable', ok:'Ok',
+    exitSimple:'Disable', ok:'Ok',
     deleted:'Deleted', added:'Added', saved:'Saved', error:'Error', warning:'Warning', success:'Success',
     confirmDelete:'Are you sure you want to delete?',
     confirmClearAll:'Delete ALL data without recovery?',
     noData:'No data', loading:'Loading...', libError:'Library load error',
     offlineWarning:'No internet. Some features unavailable.',
-    calcShort:'Calc', journalShort:'Journal', scannerShort:'Scanner', kpiShort:'KPI', more:'More',
+    calcShort:'Calc', journalShort:'Journal', scannerShort:'Scanner', courseShort:'Course', more:'More',
     calcParams:'Calculation parameters',
     calcSub:'Select regime and enter data — calculator computes tax, contributions and net income.',
     modeNpd:'NPD (self-employed)', modeUsn6:'IP USN "Income" 6%', modeUsn15:'IP USN "Income−Expenses" 15%',
@@ -3023,18 +3303,32 @@ var translations={
     catContrib:'Contributions', catChecks:'Audits', catBanks:'Banks', eis:'EIS', rts:'RTS-tender',
     sberAst:'Sberbank-AST', eetp:'EETP',
     kpiCompare:'Industry comparison', above:'above', below:'below',
-    quickstartTitle:'Where to start?',
-    quickstartSub:'Complete 3 steps or load demo data to explore the app.',
-    quickstartStart:'Start calculation', quickstartDemo:'Load demo', quickstartHide:'Hide',
-    kpiHigher:'above', kpiLower:'below',
-    qrErrors:'FNS QR errors:', qrInvalid:'QR contains errors',
     simLimitEmployees:'Employee limit for USN exceeded (130) — switch to OSN.',
     simLimitPsn:'Employee limit for PSN exceeded (15) — patent unavailable.',
     simNpdNoEmployees:'NPD does not allow employees.',
-    incognitoNotSaved:'Incognito: operation not saved',
-    incognitoReceiptNotSaved:'Incognito: receipt not saved',
-    historyCount:'Calculation history:',
-    backupQr:'QR for link', shareCopied:'Link copied'
+    qrErrors:'FNS QR errors:', qrInvalid:'QR contains errors',
+    historyCount:'Calculation history:', shareCopied:'Link copied',
+    paymentPromo:'Promo code', paymentPromoSub:'Enter the promo code from the course for a 20% discount.',
+    promoCode:'Promo code', apply:'Apply',
+    paymentPlan:'Choose a plan', planMonth:'Month', planYear:'Year', payNow:'Pay',
+    paymentStatus:'Subscription status',
+    promoInvalid:'Promo code not found', promoEmpty:'Enter a promo code',
+    promoUsed:'Promo code already used', promoApplied:'Promo applied. 20% discount.',
+    promoNoCourse:'Complete the course first to get a promo code.',
+    paymentNotReady:'Payment system will be connected later.',
+    paymentSelected:'Selected: {0}',
+    subscriptionActive:'Subscription active', subscriptionInactive:'No subscription',
+    plan:'Plan', paidDate:'Payment date',
+    courseBlocks:'Course blocks', courseBlockDone:'Completed', courseBlockLocked:'Locked',
+    courseBlockInProgress:'In progress', courseQuestionOf:'Question {0} of {1}',
+    courseErrorsTitle:'Errors in block', courseRetryErrors:'Retry errors',
+    courseBlockPassed:'Block passed!', courseAllDone:'All blocks passed!',
+    coursePromoTitle:'Your 20% discount promo code:',
+    coursePromoNote:'Promo code saved in "Settings" and "Payment". Use it when subscribing.',
+    courseExplanation:'Explanation:',
+    courseCorrectAnswer:'Correct answer:',
+    courseStartBlock:'Start block', courseContinueBlock:'Continue',
+    courseLocked:'Complete the previous block to unlock this one.'
   }
 };
 
@@ -3210,23 +3504,7 @@ var courtCasesData=[
 ];
 
 /* ============================================================
-   12. ДАННЫЕ: МИНИ-КУРС (10 уроков)
-   ============================================================ */
-var courseData=[
-  {title:'Что такое налоговый режим',content:'Налоговый режим — это система уплаты налогов. В РФ для малого бизнеса: НПД, УСН, ПСН, ЕСХН, ОСН. Каждый режим имеет свои ставки, лимиты и отчётность.',quiz:{question:'Какой режим самый простой для новичка?',options:['ОСН','НПД','ЕСХН','ПСН'],correct:1,explanation:'НПД не требует отчётности и взносов.'}},
-  {title:'НПД',content:'Налог на профессиональный доход: 4% с юрлиц, 6% с физлиц. Лимит 2.4 млн ₽/год. Отчётность отсутствует, чеки формируются в «Мой налог».',quiz:{question:'Ставка НПД при работе с юрлицами?',options:['4%','6%','13%','15%'],correct:0,explanation:'4% — с юрлиц, 6% — с физлиц.'}},
-  {title:'УСН',content:'Упрощённая система: 6% с доходов или 15% с разницы доходы-расходы. Лимит 490.5 млн ₽, до 130 сотрудников.',quiz:{question:'Лимит дохода для УСН в 2026?',options:['150 млн','300 млн','490.5 млн','60 млн'],correct:2,explanation:'490.5 млн ₽ — с учётом коэффициента-дефлятора.'}},
-  {title:'ПСН',content:'Патентная система: 6% от потенциального дохода. Лимит 60 млн ₽, до 15 сотрудников. Патент от 1 до 12 месяцев.',quiz:{question:'Лимит дохода для ПСН?',options:['60 млн','150 млн','490.5 млн','2.4 млн'],correct:0,explanation:'60 млн ₽ в год.'}},
-  {title:'НДС',content:'С 2026 года ставка 22%. Порог освобождения — 20 млн ₽ (заморожен до 2029).',quiz:{question:'Порог освобождения от НДС?',options:['2 млн','10 млн','20 млн','60 млн'],correct:2,explanation:'20 млн ₽ — порог освобождения.'}},
-  {title:'Взносы ИП',content:'Фиксированные взносы 2026 — 57 390 ₽ + 1% с дохода свыше 300 000 ₽ (макс. 321 818 ₽).',quiz:{question:'Фиксированные взносы ИП в 2026?',options:['40 000','57 390','60 000','321 818'],correct:1,explanation:'57 390 ₽ — фиксированная часть.'}},
-  {title:'Налоговые каникулы',content:'Для впервые зарегистрированных ИП на УСН и ПСН — ставка 0% до 2 лет (ст. 346.20 НК РФ).',quiz:{question:'Срок каникул?',options:['1 год','2 года','3 года','5 лет'],correct:1,explanation:'До 2 лет.'}},
-  {title:'Отчётность и сроки',content:'УСН: декларация до 25 апреля. НПД: без декларации. ИП на ПСН: без декларации. Взносы ИП — до 28 декабря.',quiz:{question:'Срок сдачи декларации УСН за год?',options:['20 апреля','25 апреля','30 апреля','1 мая'],correct:1,explanation:'До 25 апреля.'}},
-  {title:'Онлайн-касса и 54-ФЗ',content:'ККТ обязательна для большинства режимов. Исключения: НПД, ПСН (отдельные виды), торговые автоматы.',quiz:{question:'Кому не нужна ККТ?',options:['ИП на УСН','ООО на УСН','Самозанятым (НПД)','ИП на ПСН (все)'],correct:2,explanation:'НПД освобождён от ККТ.'}},
-  {title:'Оптимизация налоговой нагрузки',content:'Законные способы: выбор режима, региональные льготы, каникулы, социальные вычеты, правильное оформление расходов.',quiz:{question:'Что НЕ является законной оптимизацией?',options:['Выбор режима','Региональные льготы','Дробление бизнеса','Соцвычеты'],correct:2,explanation:'Дробление — риск доначислений.'}}
-];
-
-/* ============================================================
-   13. ДАННЫЕ: FAQ / ЛАЙФХАКИ / ГЛОССАРИЙ
+   12. ДАННЫЕ: FAQ / ЛАЙФХАКИ / ГЛОССАРИЙ
    ============================================================ */
 var faqData=[
   {q:'Кто может применять НПД?',a:'Физлица и ИП с доходом до 2.4 млн ₽/год, без сотрудников, не занимающиеся перепродажей товаров.'},
@@ -3253,7 +3531,145 @@ var glossaryData=[
 ];
 
 /* ============================================================
-   14. КОНСТАНТЫ 2026
+   13. ДАННЫЕ: КУРС (5 блоков × 15 вопросов)
+   ============================================================ */
+var courseData=[
+  {
+    id:1,
+    title:'Налоговые режимы',
+    desc:'НПД, УСН, ПСН, ЕСХН, ОСН — ставки, лимиты, условия',
+    questions:[
+      {q:'Кто может применять НПД?',options:['Все ИП','Физлица и ИП с доходом до 2,4 млн ₽/год без сотрудников','Только ООО','Только самозанятые с сотрудниками'],correct:1,explanation:'НПД доступен физлицам и ИП без наёмных сотрудников с годовым доходом до 2,4 млн ₽.'},
+      {q:'Ставка НПД при расчётах с юрлицами?',options:['4%','6%','13%','15%'],correct:0,explanation:'С юрлицами — 4%, с физлицами — 6%.'},
+      {q:'Лимит дохода для УСН в 2026 году?',options:['150 млн ₽','300 млн ₽','490,5 млн ₽','60 млн ₽'],correct:2,explanation:'Лимит 490,5 млн ₽ с учётом коэффициента-дефлятора.'},
+      {q:'Лимит дохода для ПСН?',options:['60 млн ₽','150 млн ₽','490,5 млн ₽','2,4 млн ₽'],correct:0,explanation:'ПСН — 60 млн ₽ в год.'},
+      {q:'Максимум сотрудников для УСН?',options:['15','50','100','130'],correct:3,explanation:'УСН — до 130 сотрудников.'},
+      {q:'Максимум сотрудников для ПСН?',options:['5','15','30','50'],correct:1,explanation:'ПСН — до 15 сотрудников.'},
+      {q:'Что такое ЕСХН?',options:['Единый социальный налог','Единый сельхозналог','Единый страховой взнос','Единый строительный налог'],correct:1,explanation:'ЕСХН — единый сельскохозяйственный налог, 6% с разницы Д−Р, доля сельхоздохода ≥70%.'},
+      {q:'Можно ли совмещать УСН и ПСН?',options:['Нет','Да, с раздельным учётом','Только для ООО','Только при доходе до 1 млн'],correct:1,explanation:'Да, но нужен раздельный учёт доходов и расходов.'},
+      {q:'Кто не вправе применять УСН?',options:['ИП без сотрудников','ООО с одним учредителем','Организации с филиалами','ИП с доходом 500 тыс.'],correct:2,explanation:'Организации с филиалами не вправе применять УСН.'},
+      {q:'Ставка УСН «Д−Р» по умолчанию?',options:['5%','6%','10%','15%'],correct:3,explanation:'15%, регионы могут снижать до 5%.'},
+      {q:'Минимальный налог на УСН «Д−Р»?',options:['0,5% от дохода','1% от дохода','2% от дохода','3% от дохода'],correct:1,explanation:'Если налог по Д−Р меньше 1% от дохода — платится 1% от дохода.'},
+      {q:'Порог освобождения от НДС в 2026?',options:['2 млн ₽','10 млн ₽','20 млн ₽','60 млн ₽'],correct:2,explanation:'20 млн ₽ (заморожен до 2029).'},
+      {q:'Ставка НДС в 2026?',options:['18%','20%','22%','25%'],correct:2,explanation:'С 2026 года — 22%.'},
+      {q:'Что такое ОСН?',options:['Общая система','Основной социальный налог','Общий страховой взнос','Оптовая система'],correct:0,explanation:'ОСН — общая система налогообложения (налог на прибыль + НДС).'},
+      {q:'Кто может применять ПСН?',options:['Только ООО','Только ИП','ИП и ООО','Только самозанятые'],correct:1,explanation:'ПСН — только для ИП, ООО не может.'}
+    ]
+  },
+  {
+    id:2,
+    title:'Взносы и отчётность',
+    desc:'Фиксированные взносы ИП, МРОТ, сроки уплаты, декларации',
+    questions:[
+      {q:'Фиксированные взносы ИП в 2026?',options:['40 000 ₽','45 842 ₽','57 390 ₽','60 000 ₽'],correct:2,explanation:'57 390 ₽ — фиксированная часть.'},
+      {q:'Максимальные взносы ИП (1% с превышения)?',options:['200 000 ₽','321 818 ₽','400 000 ₽','500 000 ₽'],correct:1,explanation:'Максимум — 321 818 ₽.'},
+      {q:'С какого дохода ИП платит 1% доп. взносов?',options:['Свыше 100 000 ₽','Свыше 200 000 ₽','Свыше 300 000 ₽','Свыше 500 000 ₽'],correct:2,explanation:'1% с дохода свыше 300 000 ₽.'},
+      {q:'МРОТ 2026?',options:['22 440 ₽','25 000 ₽','27 093 ₽','30 000 ₽'],correct:2,explanation:'МРОТ 2026 — 27 093 ₽.'},
+      {q:'Срок уплаты фиксированных взносов ИП?',options:['31 января','31 марта','28 декабря','31 декабря'],correct:2,explanation:'До 28 декабря текущего года.'},
+      {q:'Срок уплаты 1% с дохода свыше 300 тыс.?',options:['1 апреля следующего года','1 июля следующего года','28 декабря текущего','31 декабря текущего'],correct:1,explanation:'До 1 июля следующего года.'},
+      {q:'Срок сдачи декларации УСН за год?',options:['20 апреля','25 апреля','30 апреля','1 мая'],correct:1,explanation:'До 25 апреля.'},
+      {q:'Срок сдачи декларации 3-НДФЛ?',options:['30 апреля','25 апреля','1 мая','30 июня'],correct:0,explanation:'До 30 апреля.'},
+      {q:'Нужна ли декларация на НПД?',options:['Да, до 25 апреля','Да, до 30 апреля','Нет','Да, ежеквартально'],correct:2,explanation:'На НПД декларация не сдаётся.'},
+      {q:'Нужна ли декларация на ПСН?',options:['Да, до 25 апреля','Да, ежеквартально','Нет','Только при превышении лимита'],correct:2,explanation:'На ПСН декларация не сдаётся.'},
+      {q:'Ставка страховых взносов для МСП с выплат свыше МРОТ?',options:['15%','22%','30%','7,6%'],correct:0,explanation:'С 2023 года МСП платят 15% с выплат свыше МРОТ.'},
+      {q:'Ставка страховых взносов для IT-компаний?',options:['7,6%','15%','22%','30%'],correct:0,explanation:'7,6% для аккредитованных IT-компаний.'},
+      {q:'Срок сдачи 6-НДФЛ за год?',options:['25 февраля','30 апреля','25 апреля','1 марта'],correct:0,explanation:'До 25 февраля следующего года.'},
+      {q:'Срок сдачи РСВ за год?',options:['25 января','25 февраля','25 марта','25 апреля'],correct:0,explanation:'До 25 января.'},
+      {q:'Нужно ли ИП на НПД платить фиксированные взносы?',options:['Да, обязательно','Нет, НПД освобождает','Только 1%','Только при доходе выше 300 тыс.'],correct:1,explanation:'НПД освобождает от фиксированных взносов.'}
+    ]
+  },
+  {
+    id:3,
+    title:'Лимиты, НДС, ККТ',
+    desc:'Пороги доходов, регистрация плательщика НДС, кассовая техника',
+    questions:[
+      {q:'Лимит НПД?',options:['1 млн ₽','2,4 млн ₽','10 млн ₽','60 млн ₽'],correct:1,explanation:'НПД — 2,4 млн ₽/год.'},
+      {q:'Лимит УСН?',options:['150 млн ₽','300 млн ₽','490,5 млн ₽','60 млн ₽'],correct:2,explanation:'УСН — 490,5 млн ₽ с учётом дефлятора.'},
+      {q:'Лимит ПСН?',options:['60 млн ₽','150 млн ₽','490,5 млн ₽','2,4 млн ₽'],correct:0,explanation:'ПСН — 60 млн ₽/год.'},
+      {q:'Лимит стоимости основных средств для УСН?',options:['50 млн ₽','100 млн ₽','150 млн ₽','200 млн ₽'],correct:2,explanation:'150 млн ₽ — лимит ОС для УСН.'},
+      {q:'Что происходит при превышении лимита УСН?',options:['Автоматический штраф','Переход на ОСН с момента превышения','Переход на НПД','Ничего'],correct:1,explanation:'С момента превышения — переход на ОСН.'},
+      {q:'Кто обязан применять ККТ?',options:['Только ООО','Только ИП','Все организации и ИП, кроме исключений','Только самозанятые'],correct:2,explanation:'ККТ обязательна для всех, кроме исключений (НПД, ПСН отдельные виды, торговые автоматы).'},
+      {q:'Нужна ли ККТ самозанятым (НПД)?',options:['Да','Нет','Только при доходе выше 1 млн','Только при работе с юрлицами'],correct:1,explanation:'НПД освобождён от ККТ — чеки формируются в «Мой налог».'},
+      {q:'Нужна ли ККТ на ПСН?',options:['Всегда','Только для отдельных видов','Никогда','Только для ООО'],correct:1,explanation:'На ПСН ККТ нужна только для отдельных видов деятельности.'},
+      {q:'Срок регистрации ККТ после начала деятельности?',options:['До начала расчётов','В течение 10 дней','В течение 30 дней','До конца года'],correct:0,explanation:'ККТ нужно зарегистрировать до начала расчётов.'},
+      {q:'Что такое фискальный накопитель?',options:['Программа','Устройство для хранения фискальных данных','Регистратор','Сервер'],correct:1,explanation:'ФН — устройство в составе ККТ для хранения чеков.'},
+      {q:'Срок замены ФН (не для торговли)?',options:['13 месяцев','36 месяцев','15 месяцев','18 месяцев'],correct:1,explanation:'36 месяцев для большинства сфер (для торговли — 13).'},
+      {q:'Когда наступает обязанность по НДС при превышении 20 млн?',options:['Сразу в том же месяце','Со следующего месяца','Со следующего квартала','Со следующего года'],correct:2,explanation:'С начала следующего квартала.'},
+      {q:'Можно ли добровольно платить НДС при УСН?',options:['Да','Нет','Только ООО','Только ИП'],correct:0,explanation:'С 2025 года можно добровольно перейти на НДС.'},
+      {q:'Что такое «разрыв НДС»?',options:['Штраф','Ситуация, когда контрагент не уплатил НДС','Ошибка в декларации','Возврат НДС'],correct:1,explanation:'Разрыв НДС — признак недобросовестного контрагента.'},
+      {q:'Какая ставка НДС для детских товаров?',options:['10%','20%','22%','0%'],correct:0,explanation:'10% — льготная ставка для детских товаров.'}
+    ]
+  },
+  {
+    id:4,
+    title:'Льготы, каникулы, оптимизация',
+    desc:'Налоговые каникулы, региональные льготы, законная оптимизация',
+    questions:[
+      {q:'Кто может получить налоговые каникулы?',options:['Все ИП','Впервые зарегистрированные ИП на УСН/ПСН','Только ООО','Только самозанятые'],correct:1,explanation:'Впервые зарегистрированные ИП на УСН/ПСН — до 2 лет.'},
+      {q:'Срок налоговых каникул?',options:['1 год','2 года','3 года','5 лет'],correct:1,explanation:'До 2 лет (ст. 346.20 НК РФ).'},
+      {q:'Минимальная ставка УСН «Доходы» в регионе?',options:['0%','1%','3%','6%'],correct:1,explanation:'Регионы могут снижать до 1%.'},
+      {q:'Минимальная ставка УСН «Д−Р» в регионе?',options:['1%','5%','7%','15%'],correct:1,explanation:'Регионы могут снижать до 5%.'},
+      {q:'Что такое каникулы 0%?',options:['Освобождение от отчётности','Ставка 0% для новых ИП','Отмена взносов','Возврат налога'],correct:1,explanation:'Ставка 0% для впервые зарегистрированных ИП на УСН/ПСН.'},
+      {q:'Можно ли уменьшить налог УСН 6% на взносы?',options:['Нет','Да, на 50%','Да, на 100% без сотрудников','Только на 1%'],correct:2,explanation:'100% без сотрудников, 50% с сотрудниками.'},
+      {q:'Что относится к законной оптимизации?',options:['Дробление бизнеса','Серая зарплата','Выбор режима','Фиктивные сделки'],correct:2,explanation:'Выбор режима — законный способ.'},
+      {q:'Что НЕ является законной оптимизацией?',options:['Региональные льготы','Соцвычеты','Дробление бизнеса','Каникулы'],correct:2,explanation:'Дробление бизнеса — риск доначислений.'},
+      {q:'Можно ли ИП на УСН 6% уменьшить налог на 100% взносов?',options:['Только если нет сотрудников','Всегда','Только при доходе до 1 млн','Никогда'],correct:0,explanation:'100% — только без сотрудников.'},
+      {q:'Что такое «налоговая нагрузка»?',options:['Сумма налога','Отношение налогов к выручке','Количество налогов','Штраф'],correct:1,explanation:'Налоговая нагрузка = налоги / выручка × 100%.'},
+      {q:'Можно ли совмещать УСН и ЕСХН?',options:['Да','Нет','Только для ООО','Только для ИП'],correct:1,explanation:'Нет, это разные режимы.'},
+      {q:'Что такое «упрощёнка»?',options:['УСН','ЕНВД','ПСН','НПД'],correct:0,explanation:'«Упрощёнка» — разговорное название УСН.'},
+      {q:'Что даёт патент?',options:['Освобождение от ККТ','Фиксированную стоимость налога','Освобождение от взносов','Отмену декларации'],correct:1,explanation:'Патент — фиксированная стоимость на срок.'},
+      {q:'Можно ли ИП на ПСН уменьшить налог на взносы?',options:['Да, на 100%','Да, на 50%','Нет','Только на 1%'],correct:0,explanation:'С 2023 года ИП на ПСН уменьшает налог на 100% взносов.'},
+      {q:'Что такое «камеральная проверка»?',options:['Проверка на месте','Проверка деклараций без выезда','Обыск','Опрос'],correct:1,explanation:'Камеральная — без выезда к налогоплательщику.'}
+    ]
+  },
+  {
+    id:5,
+    title:'Проверки, 115-ФЗ, судпрактика',
+    desc:'Виды проверок, блокировки счетов, судебные кейсы',
+    questions:[
+      {q:'Срок камеральной проверки?',options:['1 месяц','3 месяца','6 месяцев','1 год'],correct:1,explanation:'3 месяца с даты подачи декларации.'},
+      {q:'Срок выездной проверки?',options:['1 месяц','2 месяца','3 месяца (может продлеваться)','6 месяцев'],correct:2,explanation:'2 месяца, может продлеваться до 3 и более.'},
+      {q:'Что проверяет 115-ФЗ?',options:['Налоги','ПОД/ФТ (отмывание)','Кассу','Трудовые договоры'],correct:1,explanation:'115-ФЗ — противодействие отмыванию доходов.'},
+      {q:'Может ли банк заблокировать счёт по 115-ФЗ?',options:['Нет','Да, при подозрительных операциях','Только по решению суда','Только ФНС'],correct:1,explanation:'Да, при подозрительных операциях банк обязан сообщить в Росфинмониторинг.'},
+      {q:'Что такое «дробление бизнеса»?',options:['Разделение компании на несколько юрлиц для снижения налогов','Реорганизация','Слияние','Ликвидация'],correct:0,explanation:'Дробление — риск признания схемы незаконной.'},
+      {q:'Кейс «Афина» — о чём?',options:['О НДС','О дроблении бизнеса','О ККТ','О взносах'],correct:1,explanation:'ВС РФ признал дробление незаконным (дело «Афина»).'},
+      {q:'Чем опасно переоформление сотрудников в самозанятых?',options:['Штрафом','Переквалификацией в трудовые отношения','Ничем','Потерей статуса ИП'],correct:1,explanation:'Суд может переквалифицировать в трудовые отношения и доначислить налоги.'},
+      {q:'Что такое «фиктивная сделка»?',options:['Сделка без реальной цели','Обычная сделка','Экспорт','Импорт'],correct:0,explanation:'Фиктивная сделка — без реальной хозяйственной цели.'},
+      {q:'Можно ли оспорить блокировку счёта?',options:['Нет','Да, в суде','Только через ФНС','Только через ЦБ'],correct:1,explanation:'Да, через суд или жалобу в ЦБ.'},
+      {q:'Что такое «налоговая тайна»?',options:['Секретная информация ФНС','Данные о налогоплательщике','Штраф','Декларация'],correct:1,explanation:'Сведения о налогоплательщике, защищённые законом.'},
+      {q:'Может ли ФНС доначислить налоги за 3 года?',options:['Нет','Да, в пределах 3 лет','Только за 1 год','Только за 5 лет'],correct:1,explanation:'Выездная проверка — за 3 предшествующих года.'},
+      {q:'Что такое «встречная проверка»?',options:['Проверка контрагента','Проверка самого налогоплательщика','Проверка банка','Проверка суда'],correct:0,explanation:'Встречная — истребование документов у контрагента.'},
+      {q:'Кто рассматривает налоговые споры?',options:['Только ФНС','Арбитражный суд','Полиция','Прокуратура'],correct:1,explanation:'Арбитражный суд — для ИП и организаций.'},
+      {q:'Что такое «налоговое правонарушение»?',options:['Ошибка в декларации','Виновное противоправное деяние','Обычная сделка','Убыток'],correct:1,explanation:'Налоговое правонарушение — виновное деяние по НК РФ.'},
+      {q:'Можно ли избежать штрафа при самостоятельной уплате?',options:['Нет','Да, при уплате недоимки и пеней до проверки','Только через суд','Только через ФНС'],correct:1,explanation:'При добровольной уплате — освобождение от штрафа (ст. 81 НК РФ).'}
+    ]
+  }
+];
+
+/* ============================================================
+   14. ДАННЫЕ: ШАБЛОНЫ (16 штук)
+   ============================================================ */
+var quickTemplatesData=[
+  {id:'freelance',name:'Фрилансер',mode:'npd',income:600000,expenses:0,npdType:'legal'},
+  {id:'shop',name:'Магазин',mode:'usn6',income:3000000,expenses:0,employees:'yes'},
+  {id:'cafe',name:'Кафе',mode:'usn15',income:5000000,expenses:3500000},
+  {id:'it',name:'IT-компания',mode:'usn6',income:8000000,expenses:0,employees:'yes'},
+  {id:'consult',name:'Консалтинг',mode:'npd',income:1200000,expenses:0,npdType:'legal'},
+  {id:'production',name:'Производство',mode:'usn15',income:12000000,expenses:8000000},
+  {id:'tutor',name:'Репетитор',mode:'npd',income:600000,expenses:0,npdType:'person'},
+  {id:'marketplace',name:'Маркетплейс',mode:'usn6',income:5000000,expenses:0,employees:'yes'},
+  {id:'dentist',name:'Стоматология',mode:'usn15',income:12000000,expenses:8000000},
+  {id:'autoservice',name:'Автосервис',mode:'usn15',income:6000000,expenses:4000000},
+  {id:'beauty',name:'Салон красоты',mode:'usn6',income:3500000,expenses:0,employees:'yes'},
+  {id:'trucking',name:'Грузоперевозки',mode:'psn',income:1200000,expenses:0,psnIncome:1200000},
+  {id:'agro',name:'Агробизнес',mode:'esxn',income:15000000,expenses:10000000},
+  {id:'onlinestore',name:'Интернет-магазин',mode:'usn6',income:8000000,expenses:0,employees:'yes'},
+  {id:'construction',name:'Строительная бригада',mode:'usn15',income:10000000,expenses:7000000},
+  {id:'photographer',name:'Фотограф',mode:'npd',income:900000,expenses:0,npdType:'person'}
+];
+
+/* ============================================================
+   15. КОНСТАНТЫ 2026
    ============================================================ */
 var IP_CONTRIBUTIONS_2026={FIXED:57390,EXTRA_RATE:0.01,EXTRA_THRESHOLD:300000,EXTRA_MAX:321818};
 var SICK_CONSTANTS={MAX_DAILY:6827.40,MIN_DAILY:890.72,BASE_2024:2225000,BASE_2025:2759000};
@@ -3266,7 +3682,7 @@ var PSN_LIMIT=60000000;
 var NPD_LIMIT=2400000;
 
 /* ============================================================
-   15. СОСТОЯНИЕ ПРИЛОЖЕНИЯ
+   16. СОСТОЯНИЕ ПРИЛОЖЕНИЯ
    ============================================================ */
 var journalData=Storage.get('journalData',[]);
 var receiptsData=Storage.get('receiptsData',[]);
@@ -3274,13 +3690,10 @@ var taxHistory=Storage.get('taxHistory',[]);
 var riskAnswers=Storage.get('riskAnswers',{});
 var calendarNotes=Storage.get('calendarNotes',{});
 var checklistState=Storage.get('checklistState',{});
-var courseAnswers=Storage.get('courseAnswers',{});
 var customJournalCategories=Storage.get('customJournalCategories',{income:[],expense:[]});
 var heatmapMonth=0;
 var heatmapYear=2026;
 var checklistType='ip';
-var courseIndex=0;
-var modeQuizAnswers=Storage.get('modeQuizAnswers',{});
 
 var chartInstances={
   limits:null,
@@ -3289,13 +3702,37 @@ var chartInstances={
   cf:null,
   sim:null
 };
-</script>
-<!-- ============================================================
-     ЧАСТЬ 3: КАЛЬКУЛЯТОРЫ 1–6
+
+/* ============================================================
+   17. КУРС — СОСТОЯНИЕ
+   ============================================================ */
+var courseState={
+  currentBlock:null,
+  currentQuestion:0,
+  answers:{},
+  errors:{},
+  blocksDone:Storage.get('courseBlocksDone',{}),
+  promoCode:Storage.get('promoCode',''),
+  promoUsed:Storage.get('promoUsed',false)
+};
+if(courseState.promoCode){
+  courseState.blocksDone=Storage.get('courseBlocksDone',{});
+}
+
+/* ============================================================
+   18. ОПЛАТА — СОСТОЯНИЕ
+   ============================================================ */
+var paymentState={
+  plan:null,
+  promoApplied:false,
+  subscription:Storage.get('subscription',{plan:null,paid:false,date:''})
+};
+</script><!-- ============================================================
+     ЧАСТЬ 4: КАЛЬКУЛЯТОРЫ 1–6
      ============================================================ -->
 <script>
 /* ============================================================
-   16. КАЛЬКУЛЯТОР НАЛОГА
+   19. КАЛЬКУЛЯТОР НАЛОГА
    ============================================================ */
 function onModeChange(){
   var modeEl=document.getElementById('calcMode');
@@ -3408,12 +3845,11 @@ function calcTax(){
     }
   }
 
-  if(!Storage._incognito){
-    taxHistory.unshift({mode:mode,income:income,expenses:expenses,tax:tax,net:net,date:todayISO()});
-    if(taxHistory.length>20)taxHistory=taxHistory.slice(0,20);
-    Storage.set('taxHistory',taxHistory);
-    renderTaxHistory();
-  }
+  // Инкогнито убран — сохраняем всегда, кроме песочницы (в песочнице Storage сам пишет в память)
+  taxHistory.unshift({mode:mode,income:income,expenses:expenses,tax:tax,net:net,date:todayISO()});
+  if(taxHistory.length>20)taxHistory=taxHistory.slice(0,20);
+  Storage.set('taxHistory',taxHistory);
+  renderTaxHistory();
   Activation.markDone('calc');
 }
 
@@ -3471,17 +3907,8 @@ function clearTaxHistory(){
 }
 
 /* ============================================================
-   17. БЫСТРЫЕ ШАБЛОНЫ
+   20. БЫСТРЫЕ ШАБЛОНЫ
    ============================================================ */
-var quickTemplatesData=[
-  {id:'freelance',name:'Фрилансер',mode:'npd',income:600000,expenses:0,npdType:'legal'},
-  {id:'shop',name:'Магазин',mode:'usn6',income:3000000,expenses:0,employees:'yes'},
-  {id:'cafe',name:'Кафе',mode:'usn15',income:5000000,expenses:3500000},
-  {id:'it',name:'IT-компания',mode:'usn6',income:8000000,expenses:0,employees:'yes'},
-  {id:'consult',name:'Консалтинг',mode:'npd',income:1200000,expenses:0,npdType:'legal'},
-  {id:'production',name:'Производство',mode:'usn15',income:12000000,expenses:8000000}
-];
-
 function buildQuickTemplates(){
   var el=document.getElementById('quickTemplates');
   if(!el)return;
@@ -3501,12 +3928,13 @@ function applyTemplate(id){
   el=document.getElementById('calcExpenses');if(el&&tpl.expenses!=null)el.value=tpl.expenses;
   el=document.getElementById('calcNpdType');if(el&&tpl.npdType)el.value=tpl.npdType;
   el=document.getElementById('calcEmployees');if(el&&tpl.employees)el.value=tpl.employees;
+  el=document.getElementById('calcPsnIncome');if(el&&tpl.psnIncome)el.value=tpl.psnIncome;
   onModeChange();
   showToast('Шаблон «'+tpl.name+'» применён','success');
 }
 
 /* ============================================================
-   18. ЛИМИТЫ И ПРОГНОЗ
+   21. ЛИМИТЫ И ПРОГНОЗ
    ============================================================ */
 function renderLimitIndicators(){
   var el=document.getElementById('limIndicators');
@@ -3642,7 +4070,7 @@ function exportLimitsXLSX(){
 }
 
 /* ============================================================
-   19. АНАЛИЗ РИСКОВ
+   22. АНАЛИЗ РИСКОВ
    ============================================================ */
 var riskQuestionsData=[
   {q:'Есть ли у вас сотрудники, оформленные как самозанятые?',risk:3,block:'Организация'},
@@ -3756,7 +4184,7 @@ function saveRiskPDF(){
 }
 
 /* ============================================================
-   20. ЛЬГОТЫ И КАНИКУЛЫ
+   23. ЛЬГОТЫ И КАНИКУЛЫ
    ============================================================ */
 function initRegions(){
   var sel=document.getElementById('benRegion');
@@ -3818,6 +4246,8 @@ var modeQuizQuestions=[
   {q:'Вид деятельности: услуги/IT?',key:'services',options:[{v:'yes',l:'Да'},{v:'no',l:'Нет'}]}
 ];
 
+var modeQuizAnswers=Storage.get('modeQuizAnswers',{});
+
 function renderModeQuiz(){
   var el=document.getElementById('modeQuiz');
   if(!el)return;
@@ -3866,7 +4296,7 @@ function recommendMode(){
 }
 
 /* ============================================================
-   21. СРАВНЕНИЕ РЕЖИМОВ
+   24. СРАВНЕНИЕ РЕЖИМОВ
    ============================================================ */
 function renderCompStaticTable(){
   var el=document.getElementById('compStaticTable');
@@ -3989,7 +4419,7 @@ function renderLeasing(){
 }
 
 /* ============================================================
-   22. ДАШБОРД KPI
+   25. ДАШБОРД KPI
    ============================================================ */
 var industryAverages={
   it:{taxLoad:6,margin:25,avgCheck:150000,label:'IT'},
@@ -4022,7 +4452,6 @@ function renderKpi(){
         '<div class="result-card"><div class="lbl">'+t('avgCheck')+'</div><div class="val">'+formatMoney(avgCheck)+'</div></div>'+
         '<div class="result-card"><div class="lbl">'+t('operations')+'</div><div class="val">'+filtered.length+'</div></div>'+
       '</div>';
-    // Сравнение с отраслью
     var indEl=document.getElementById('kpiIndustry');
     var indKey=indEl?indEl.value:'services';
     var avg=industryAverages[indKey]||industryAverages.services;
@@ -4102,13 +4531,12 @@ function exportKpiXLSX(){
     showToast('Excel скачан','success');
   }).catch(function(){showToast(t('libError'),'error');});
 }
-</script>
-<!-- ============================================================
-     ЧАСТЬ 4: КАЛЬКУЛЯТОРЫ 7–13
+</script><!-- ============================================================
+     ЧАСТЬ 5: КАЛЬКУЛЯТОРЫ 7–13
      ============================================================ -->
 <script>
 /* ============================================================
-   23. БОЛЬНИЧНЫЙ
+   26. БОЛЬНИЧНЫЙ
    ============================================================ */
 function calcSickLeave(){
   var inc2024=num(document.getElementById('sickInc2024').value);
@@ -4213,7 +4641,7 @@ function exportSickLeaveXLSX(){
 }
 
 /* ============================================================
-   24. ОТПУСКНЫЕ
+   27. ОТПУСКНЫЕ
    ============================================================ */
 function calcVacation(){
   var inc=num(document.getElementById('vacIncome').value);
@@ -4302,7 +4730,7 @@ function exportVacationXLSX(){
 }
 
 /* ============================================================
-   25. ДЕКРЕТНЫЕ
+   28. ДЕКРЕТНЫЕ
    ============================================================ */
 function calcMaternity(){
   var inc2024=num(document.getElementById('matInc2024').value);
@@ -4393,7 +4821,7 @@ function exportMaternityXLSX(){
 }
 
 /* ============================================================
-   26. ТОЧКА БЕЗУБЫТОЧНОСТИ
+   29. ТОЧКА БЕЗУБЫТОЧНОСТИ
    ============================================================ */
 function calcBep(){
   var fix=num(document.getElementById('bepFix').value);
@@ -4499,7 +4927,7 @@ function exportBepXLSX(){
 }
 
 /* ============================================================
-   27. ROI
+   30. ROI
    ============================================================ */
 function calcRoi(){
   var inv=num(document.getElementById('roiInv').value,1);
@@ -4549,7 +4977,7 @@ function saveRoiPDF(){
 }
 
 /* ============================================================
-   28. CASH-FLOW
+   31. CASH-FLOW
    ============================================================ */
 function calcCashflow(){
   var start=num(document.getElementById('cfStart').value);
@@ -4629,7 +5057,7 @@ function saveCashflowPDF(){
 }
 
 /* ============================================================
-   29. НДФЛ
+   32. НДФЛ
    ============================================================ */
 function calcNdfl(){
   var inc=num(document.getElementById('ndflIncome').value);
@@ -4709,11 +5137,11 @@ function saveNdflPDF(){
   }).catch(function(){showToast(t('libError'),'error');});
 }
 </script><!-- ============================================================
-     ЧАСТЬ 5: ЖУРНАЛ, СКАНЕР, ЧЕК-ЛИСТ, ТЕПЛОКАРТА, СИМУЛЯТОР
+     ЧАСТЬ 6: ЖУРНАЛ, СКАНЕР, ЧЕК-ЛИСТ, ТЕПЛОКАРТА, СИМУЛЯТОР
      ============================================================ -->
 <script>
 /* ============================================================
-   30. ЖУРНАЛ: КАТЕГОРИИ
+   33. ЖУРНАЛ: КАТЕГОРИИ
    ============================================================ */
 var journalCategoriesData={
   income:['Продажа','Услуги','Консалтинг','Аренда','Аванс','Прочее'],
@@ -4801,7 +5229,7 @@ function closeCategoryManager(){
 }
 
 /* ============================================================
-   31. ЖУРНАЛ: ОПЕРАЦИИ
+   34. ЖУРНАЛ: ОПЕРАЦИИ
    ============================================================ */
 function addJournalEntry(){
   var typeEl=document.getElementById('jType');
@@ -4818,11 +5246,6 @@ function addJournalEntry(){
   var counterparty=cpEl?cpEl.value.trim():'';
   var comment=cmEl?cmEl.value.trim():'';
   if(amount<=0){showToast('Введите сумму','error');return;}
-  if(Storage._incognito){
-    showToast(t('incognitoNotSaved'),'warn');
-    amountEl.value='';
-    return;
-  }
   var entry={type:type,date:date,amount:amount,category:category,counterparty:counterparty,comment:comment};
   journalData.unshift(entry);
   Storage.set('journalData',journalData);
@@ -4857,12 +5280,6 @@ function addFabEntry(){
   var counterparty=cpEl?cpEl.value.trim():'';
   var comment=cmEl?cmEl.value.trim():'';
   if(amount<=0){showToast('Введите сумму','error');return;}
-  if(Storage._incognito){
-    showToast(t('incognitoNotSaved'),'warn');
-    amountEl.value='';
-    closeAddEntryModal();
-    return;
-  }
   var entry={type:type,date:date,amount:amount,category:category,counterparty:counterparty,comment:comment};
   journalData.unshift(entry);
   Storage.set('journalData',journalData);
@@ -4912,7 +5329,6 @@ function renderJournal(){
   var filterType=typeEl?typeEl.value:'all';
   var filterMonth=monthEl?monthEl.value:'';
   var filterCat=catFilter?catFilter.value:'';
-  // Заполняем селект категорий
   if(catFilter){
     var currentVal=catFilter.value;
     var allCats=[];
@@ -4972,7 +5388,7 @@ function clearJournalAll(){
 }
 
 /* ============================================================
-   32. ЭКСПОРТ ЖУРНАЛА
+   35. ЭКСПОРТ ЖУРНАЛА
    ============================================================ */
 function exportJournalCSV(){
   var rows=[['Дата','Тип','Категория','Сумма','Контрагент','Комментарий']];
@@ -5027,7 +5443,7 @@ function exportJournalPDF(){
 }
 
 /* ============================================================
-   33. СКАНЕР ЧЕКОВ
+   36. СКАНЕР ЧЕКОВ
    ============================================================ */
 var arStream=null;
 var arAnimationId=null;
@@ -5146,7 +5562,6 @@ function parseFNSQR(text){
     var idx=pair.indexOf('=');
     if(idx>0)params[pair.slice(0,idx)]=pair.slice(idx+1);
   });
-  // Валидация полей ФНС
   var errors=[];
   if(params.fn && !/^\d{10,12}$/.test(params.fn)) errors.push('ФН: должен быть 10–12 цифр');
   if(params.fd && !/^\d{1,6}$/.test(params.fd)) errors.push('ФД: должен быть 1–6 цифр');
@@ -5233,10 +5648,6 @@ function parseReceiptText(text){
 }
 
 function saveReceipt(receipt){
-  if(Storage._incognito){
-    showToast(t('incognitoReceiptNotSaved'),'warn');
-    return;
-  }
   receiptsData.unshift(receipt);
   if(receiptsData.length>100)receiptsData=receiptsData.slice(0,100);
   Storage.set('receiptsData',receiptsData);
@@ -5336,7 +5747,7 @@ function exportReceiptsXLSX(){
 }
 
 /* ============================================================
-   34. ЧЕК-ЛИСТ
+   37. ЧЕК-ЛИСТ
    ============================================================ */
 var checklistStepsData={
   ip:[
@@ -5464,7 +5875,7 @@ function printChecklist(){
 }
 
 /* ============================================================
-   35. ТЕПЛОКАРТА
+   38. ТЕПЛОКАРТА
    ============================================================ */
 var calendarEvents2026=[
   {date:'2026-01-25',title:'Аванс УСН за 2025'},
@@ -5608,7 +6019,7 @@ function printHeatmap(){
 }
 
 /* ============================================================
-   36. СИМУЛЯТОР
+   39. СИМУЛЯТОР
    ============================================================ */
 function runSimulator(){
   var incEl=document.getElementById('simInc');
@@ -5693,12 +6104,14 @@ function applySimulatorToCalc(){
   switchTab('calc');
   showToast('Применено к калькулятору','success');
 }
-</script><!-- ============================================================
-     ЧАСТЬ 6: СПРАВКА, НАСТРОЙКИ, БЭКАП, НАВИГАЦИЯ, INIT
+</script>
+<!-- ============================================================
+     ЧАСТЬ 7: СПРАВКА, КУРС, НАСТРОЙКИ, ПАРОЛЬ, БЭКАП, ОПЛАТА,
+              СВАЙП, НАВИГАЦИЯ, ПОИСК, ОНБОРДИНГ, PWA, INIT
      ============================================================ -->
 <script>
 /* ============================================================
-   37. FAQ / ЛАЙФХАКИ / ГЛОССАРИЙ
+   40. FAQ / ЛАЙФХАКИ / ГЛОССАРИЙ
    ============================================================ */
 function renderFaqLifehacks(){
   var faqEl=document.getElementById('faqList');
@@ -5733,53 +6146,271 @@ function toggleAcc(btn){
 }
 
 /* ============================================================
-   38. МИНИ-КУРС
+   41. МИНИ-КУРС (5 блоков × 15 вопросов + промокод)
    ============================================================ */
 function renderCourse(){
   var el=document.getElementById('courseContent');
   if(!el)return;
-  var lesson=courseData[courseIndex];
-  if(!lesson)return;
-  var answered=courseAnswers[courseIndex];
-  var html='<div class="small muted">'+t('courseLesson')+' '+(courseIndex+1)+' '+t('courseOf')+' '+courseData.length+'</div>'+
-    '<h3 style="margin:8px 0 12px">'+esc(lesson.title)+'</h3>'+
-    '<p style="line-height:1.7;margin-bottom:16px">'+esc(lesson.content)+'</p>'+
-    '<div class="info-box"><strong>Вопрос:</strong> '+esc(lesson.quiz.question)+'</div>';
-  lesson.quiz.options.forEach(function(opt,i){
-    var cls='btn btn-ghost btn-sm';
-    if(answered!==undefined){
-      if(i===lesson.quiz.correct)cls='btn btn-success btn-sm';
-      else if(i===answered)cls='btn btn-danger btn-sm';
-    }
-    html+='<button class="'+cls+'" style="margin:6px 6px 0 0" onclick="answerCourseQuiz('+i+')">'+esc(opt)+'</button>';
-  });
-  if(answered!==undefined){
-    html+='<div class="info-box '+(answered===lesson.quiz.correct?'':'warn')+'" style="margin-top:12px">'+
-      (answered===lesson.quiz.correct?'✓ '+t('courseCorrect'):'✗ '+t('courseWrong'))+' '+esc(lesson.quiz.explanation)+'</div>';
+  // Если открыт блок — рендерим вопросы
+  if(courseState.currentBlock!==null){
+    renderCourseBlock(el);
+    return;
   }
-  html+='<div class="btn-group mt-16">'+
-    '<button class="btn btn-ghost btn-sm" onclick="coursePrev()" '+(courseIndex===0?'disabled':'')+'>← '+t('coursePrev')+'</button>'+
-    '<button class="btn btn-primary btn-sm" onclick="courseNext()">'+(courseIndex===courseData.length-1?t('courseFinish'):t('courseNext')+' →')+'</button>'+
-  '</div>';
+  // Иначе — список блоков
+  var html='<div class="card">';
+  html+='<div class="card-title">'+t('courseBlocks')+'</div>';
+  html+='<div class="card-sub">Пройдите все 5 блоков по 15 вопросов. Блок засчитывается только после правильного ответа на все вопросы. После прохождения всех блоков — промокод на скидку 20%.</div>';
+  courseData.forEach(function(block,idx){
+    var isDone=!!courseState.blocksDone[block.id];
+    var isLocked=false;
+    if(idx>0){
+      var prevBlock=courseData[idx-1];
+      isLocked=!courseState.blocksDone[prevBlock.id];
+    }
+    var cls='course-block-card'+(isDone?' done':'')+(isLocked?' locked':'');
+    html+='<div class="'+cls+'" onclick="'+(isLocked?'showToast(\''+t('courseLocked')+'\',\'warn\')':'startCourseBlock('+idx+')')+'">'+
+      '<div class="course-block-num">'+(isDone?'✓':(idx+1))+'</div>'+
+      '<div class="course-block-body">'+
+        '<div class="t">'+esc(block.title)+'</div>'+
+        '<div class="s">'+esc(block.desc)+' · '+block.questions.length+' вопросов</div>'+
+      '</div>'+
+      '<span class="tag '+(isDone?'green':(isLocked?'':'amber'))+'">'+
+        (isDone?t('courseBlockDone'):(isLocked?t('courseBlockLocked'):t('courseBlockInProgress')))+
+      '</span>'+
+    '</div>';
+  });
+  if(courseState.promoCode){
+    html+='<div class="promo-code-box mt-16">'+
+      '<div class="label">'+t('coursePromoTitle')+'</div>'+
+      '<div class="code">'+esc(courseState.promoCode)+'</div>'+
+      '<div class="note">'+t('coursePromoNote')+'</div>'+
+    '</div>';
+  }
+  html+='</div>';
   el.innerHTML=html;
 }
 
-function answerCourseQuiz(i){
-  courseAnswers[courseIndex]=i;
-  Storage.set('courseAnswers',courseAnswers);
+function startCourseBlock(blockIdx){
+  var block=courseData[blockIdx];
+  if(!block)return;
+  courseState.currentBlock=blockIdx;
+  courseState.currentQuestion=0;
+  courseState.answers={};
+  courseState.errors={};
+  // Перемешиваем вопросы
+  courseState.shuffledQuestions=block.questions.map(function(q,i){return i;});
+  for(var i=courseState.shuffledQuestions.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var tmp=courseState.shuffledQuestions[i];
+    courseState.shuffledQuestions[i]=courseState.shuffledQuestions[j];
+    courseState.shuffledQuestions[j]=tmp;
+  }
+  // Перемешиваем варианты внутри каждого вопроса
+  courseState.shuffledOptions={};
+  block.questions.forEach(function(q,qi){
+    var opts=q.options.map(function(o,oi){return oi;});
+    for(var i=opts.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1));
+      var tmp=opts[i];opts[i]=opts[j];opts[j]=tmp;
+    }
+    courseState.shuffledOptions[qi]=opts;
+  });
   renderCourse();
 }
 
-function courseNext(){
-  if(courseIndex<courseData.length-1){courseIndex++;renderCourse();}
-  else{showToast('Курс завершён!','success');}
+function renderCourseBlock(el){
+  var block=courseData[courseState.currentBlock];
+  if(!block)return;
+  var qi=courseState.shuffledQuestions[courseState.currentQuestion];
+  var q=block.questions[qi];
+  var opts=courseState.shuffledOptions[qi]||q.options.map(function(o,oi){return oi;});
+  var html='<div class="card">';
+  html+='<div class="card-header">'+
+    '<div><div class="card-title">'+esc(block.title)+'</div>'+
+    '<div class="card-sub">'+tFormat('courseQuestionOf',[courseState.currentQuestion+1,block.questions.length])+'</div></div>'+
+    '<button class="btn btn-ghost btn-sm" onclick="exitCourseBlock()">← '+t('coursePrev')+'</button>'+
+  '</div>';
+  // Прогресс
+  var pct=Math.round((courseState.currentQuestion/block.questions.length)*100);
+  html+='<div class="progress mb-12"><div class="progress-bar" style="width:'+pct+'%"></div></div>';
+  // Вопрос
+  html+='<div class="course-question">';
+  html+='<div class="q">'+esc(q.q)+'</div>';
+  html+='<div class="course-options">';
+  opts.forEach(function(origIdx){
+    html+='<button class="course-option" onclick="answerCourseQuestion('+origIdx+')">'+esc(q.options[origIdx])+'</button>';
+  });
+  html+='</div>';
+  html+='</div>';
+  html+='</div>';
+  el.innerHTML=html;
 }
-function coursePrev(){
-  if(courseIndex>0){courseIndex--;renderCourse();}
+
+function answerCourseQuestion(origIdx){
+  var block=courseData[courseState.currentBlock];
+  var qi=courseState.shuffledQuestions[courseState.currentQuestion];
+  var q=block.questions[qi];
+  var isCorrect=(origIdx===q.correct);
+  if(isCorrect){
+    // Показываем зелёный
+    var el=document.getElementById('courseContent');
+    var qEl=el.querySelector('.course-question');
+    var btns=qEl.querySelectorAll('.course-option');
+    btns.forEach(function(b){b.disabled=true;});
+    // Подсвечиваем правильный
+    var opts=courseState.shuffledOptions[qi]||q.options.map(function(o,oi){return oi;});
+    opts.forEach(function(oidx,i){
+      if(oidx===q.correct)btns[i].classList.add('correct');
+    });
+    // Показываем пояснение
+    var expl=document.createElement('div');
+    expl.className='course-explanation';
+    expl.innerHTML='<strong>✓ '+t('courseCorrect')+'</strong> '+esc(q.explanation);
+    qEl.appendChild(expl);
+    setTimeout(function(){
+      courseState.currentQuestion++;
+      if(courseState.currentQuestion>=block.questions.length){
+        // Блок пройден
+        finishCourseBlock();
+      } else {
+        renderCourse();
+      }
+    },1500);
+  } else {
+    // Ошибка — показываем красный + правильный + пояснение
+    var el2=document.getElementById('courseContent');
+    var qEl2=el2.querySelector('.course-question');
+    var btns2=qEl2.querySelectorAll('.course-option');
+    btns2.forEach(function(b){b.disabled=true;});
+    var opts2=courseState.shuffledOptions[qi]||q.options.map(function(o,oi){return oi;});
+    opts2.forEach(function(oidx,i){
+      if(oidx===q.correct)btns2[i].classList.add('correct');
+      else if(oidx===origIdx)btns2[i].classList.add('wrong');
+    });
+    if(!courseState.errors[courseState.currentBlock])courseState.errors[courseState.currentBlock]=[];
+    courseState.errors[courseState.currentBlock].push(qi);
+    var expl2=document.createElement('div');
+    expl2.className='course-explanation wrong';
+    expl2.innerHTML='<strong>✗ '+t('courseWrong')+'</strong><br>'+t('courseCorrectAnswer')+' <strong>'+esc(q.options[q.correct])+'</strong><br>'+t('courseExplanation')+' '+esc(q.explanation);
+    qEl2.appendChild(expl2);
+    // Кнопка «Дальше»
+    var btnWrap=document.createElement('div');
+    btnWrap.className='mt-12';
+    btnWrap.innerHTML='<button class="btn btn-primary btn-sm" onclick="nextCourseQuestion()">'+t('courseNext')+' →</button>';
+    qEl2.appendChild(btnWrap);
+  }
+}
+
+function nextCourseQuestion(){
+  var block=courseData[courseState.currentBlock];
+  courseState.currentQuestion++;
+  if(courseState.currentQuestion>=block.questions.length){
+    // Все вопросы пройдены (с ошибками или без)
+    var errs=courseState.errors[courseState.currentBlock]||[];
+    if(errs.length>0){
+      // Показываем ошибки
+      renderCourseErrors();
+    } else {
+      finishCourseBlock();
+    }
+  } else {
+    renderCourse();
+  }
+}
+
+function renderCourseErrors(){
+  var block=courseData[courseState.currentBlock];
+  var errs=courseState.errors[courseState.currentBlock]||[];
+  var el=document.getElementById('courseContent');
+  var html='<div class="card">';
+  html+='<div class="card-title">'+t('courseErrorsTitle')+' ('+errs.length+')</div>';
+  html+='<div class="card-sub">Проёдите эти вопросы заново, чтобы завершить блок.</div>';
+  errs.forEach(function(qi){
+    var q=block.questions[qi];
+    html+='<div class="course-question">'+
+      '<div class="q">'+esc(q.q)+'</div>'+
+      '<div class="course-explanation wrong"><strong>✗ '+t('courseWrong')+'</strong><br>'+t('courseCorrectAnswer')+' <strong>'+esc(q.options[q.correct])+'</strong><br>'+t('courseExplanation')+' '+esc(q.explanation)+'</div>'+
+    '</div>';
+  });
+  html+='<button class="btn btn-primary" onclick="retryCourseErrors()">'+t('courseRetryErrors')+'</button>';
+  html+='</div>';
+  el.innerHTML=html;
+}
+
+function retryCourseErrors(){
+  var errs=courseState.errors[courseState.currentBlock]||[];
+  if(errs.length===0){finishCourseBlock();return;}
+  // Ставим очередь из ошибок
+  courseState.shuffledQuestions=errs.slice();
+  courseState.currentQuestion=0;
+  courseState.errors[courseState.currentBlock]=[];
+  // Перемешиваем варианты для этих вопросов
+  var block=courseData[courseState.currentBlock];
+  errs.forEach(function(qi){
+    var q=block.questions[qi];
+    var opts=q.options.map(function(o,oi){return oi;});
+    for(var i=opts.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1));
+      var tmp=opts[i];opts[i]=opts[j];opts[j]=tmp;
+    }
+    courseState.shuffledOptions[qi]=opts;
+  });
+  renderCourse();
+}
+
+function finishCourseBlock(){
+  var block=courseData[courseState.currentBlock];
+  courseState.blocksDone[block.id]=true;
+  Storage.set('courseBlocksDone',courseState.blocksDone);
+  // Проверяем все ли блоки пройдены
+  var allDone=courseData.every(function(b){return courseState.blocksDone[b.id];});
+  if(allDone&&!courseState.promoCode){
+    // Генерируем промокод
+    courseState.promoCode=generatePromoCode();
+    Storage.set('promoCode',courseState.promoCode);
+  }
+  courseState.currentBlock=null;
+  courseState.currentQuestion=0;
+  courseState.answers={};
+  courseState.errors={};
+  if(allDone){
+    showCourseResult();
+  } else {
+    showToast('Блок пройден!','success');
+    renderCourse();
+  }
+}
+
+function exitCourseBlock(){
+  courseState.currentBlock=null;
+  courseState.currentQuestion=0;
+  courseState.answers={};
+  courseState.errors={};
+  renderCourse();
+}
+
+function showCourseResult(){
+  var modal=document.getElementById('courseResultModal');
+  var body=document.getElementById('courseResultBody');
+  if(!modal||!body)return;
+  body.innerHTML=
+    '<div class="promo-code-box">'+
+      '<div class="label">'+t('coursePromoTitle')+'</div>'+
+      '<div class="code">'+esc(courseState.promoCode)+'</div>'+
+      '<div class="note">'+t('coursePromoNote')+'</div>'+
+    '</div>'+
+    '<p class="small muted">Промокод сохранён в «Настройках» и «Оплате». Используйте его при оформлении подписки.</p>';
+  modal.classList.add('open');
+}
+
+function closeCourseResult(){
+  var modal=document.getElementById('courseResultModal');
+  if(modal)modal.classList.remove('open');
+  renderCourse();
 }
 
 /* ============================================================
-   39. НК РФ
+   42. НК РФ
    ============================================================ */
 function renderNK(){
   var el=document.getElementById('nkList');
@@ -5800,7 +6431,7 @@ function renderNK(){
 }
 
 /* ============================================================
-   40. СУДПРАКТИКА
+   43. СУДПРАКТИКА
    ============================================================ */
 function renderCourt(){
   var el=document.getElementById('courtList');
@@ -5818,7 +6449,7 @@ function renderCourt(){
 }
 
 /* ============================================================
-   41. ГОСЗАКУПКИ
+   44. ГОСЗАКУПКИ
    ============================================================ */
 function renderGovChecklist(){
   var el44=document.getElementById('govChecklist44');
@@ -5877,7 +6508,7 @@ function renderGovChecklist(){
 }
 
 /* ============================================================
-   42. НАСТРОЙКИ: ШРИФТ / ТЕМА / РЕЖИМЫ
+   45. НАСТРОЙКИ: ШРИФТ / ТЕМА / РЕЖИМЫ
    ============================================================ */
 function applyFontSize(){
   var el=document.getElementById('setFont');
@@ -5930,22 +6561,8 @@ function applyThemeSetting(){
   Storage.set('theme',v);
 }
 
-function applyIncognito(){
-  var el=document.getElementById('setIncognito');
-  if(!el)return;
-  Storage._incognito=(el.value==='on');
-  Storage.set('incognito',el.value);
-  showToast(Storage._incognito?'Инкогнито включён':'Инкогнито выключен','info');
-}
-
-function applySandbox(){
-  var el=document.getElementById('setSandbox');
-  if(!el)return;
-  if(el.value==='on')Sandbox.enable();else Sandbox.disable();
-}
-
 /* ============================================================
-   43. ПАРОЛЬ
+   46. ПАРОЛЬ
    ============================================================ */
 var lockInput='';
 
@@ -6030,7 +6647,7 @@ function pressLockKey(k){
 }
 
 /* ============================================================
-   44. СТАТИСТИКА И ОЧИСТКА
+   47. СТАТИСТИКА И ОЧИСТКА
    ============================================================ */
 function renderDataStats(){
   var el=document.getElementById('dataStats');
@@ -6040,7 +6657,8 @@ function renderDataStats(){
     'Чеков: <strong>'+receiptsData.length+'</strong><br>'+
     'История расчётов: <strong>'+taxHistory.length+'</strong><br>'+
     'Заметок в календаре: <strong>'+Object.keys(calendarNotes).length+'</strong><br>'+
-    'Пользовательских категорий: <strong>'+((customJournalCategories.income||[]).length+(customJournalCategories.expense||[]).length)+'</strong>';
+    'Пользовательских категорий: <strong>'+((customJournalCategories.income||[]).length+(customJournalCategories.expense||[]).length)+'</strong><br>'+
+    'Промокод: <strong>'+(courseState.promoCode||'—')+'</strong>';
 }
 
 function clearAllData(){
@@ -6051,17 +6669,22 @@ function clearAllData(){
   taxHistory=[];
   calendarNotes={};
   checklistState={};
-  courseAnswers={};
   customJournalCategories={income:[],expense:[]};
+  courseState.blocksDone={};
+  courseState.promoCode='';
+  courseState.promoUsed=false;
+  paymentState.subscription={plan:null,paid:false,date:''};
   showToast('Все данные удалены','warn');
   renderDataStats();
   renderJournal();
   renderTaxHistory();
   buildHeatmap();
+  renderCourse();
+  renderPayment();
 }
 
 /* ============================================================
-   45. БЭКАП
+   48. БЭКАП
    ============================================================ */
 function exportBackup(){
   var data={
@@ -6070,8 +6693,11 @@ function exportBackup(){
     history:taxHistory,
     notes:calendarNotes,
     checklist:checklistState,
-    course:courseAnswers,
     categories:customJournalCategories,
+    courseBlocks:courseState.blocksDone,
+    promoCode:courseState.promoCode,
+    promoUsed:courseState.promoUsed,
+    subscription:paymentState.subscription,
     settings:{
       theme:Storage.get('theme','light'),
       fontSize:Storage.get('fontSize',16),
@@ -6123,20 +6749,28 @@ function importBackup(ev){
     if(data.history)taxHistory=data.history;
     if(data.notes)calendarNotes=data.notes;
     if(data.checklist)checklistState=data.checklist;
-    if(data.course)courseAnswers=data.course;
     if(data.categories)customJournalCategories=data.categories;
+    if(data.courseBlocks)courseState.blocksDone=data.courseBlocks;
+    if(data.promoCode)courseState.promoCode=data.promoCode;
+    if(data.promoUsed)courseState.promoUsed=data.promoUsed;
+    if(data.subscription)paymentState.subscription=data.subscription;
     Storage.set('journalData',journalData);
     Storage.set('receiptsData',receiptsData);
     Storage.set('taxHistory',taxHistory);
     Storage.set('calendarNotes',calendarNotes);
     Storage.set('checklistState',checklistState);
-    Storage.set('courseAnswers',courseAnswers);
     Storage.set('customJournalCategories',customJournalCategories);
+    Storage.set('courseBlocksDone',courseState.blocksDone);
+    if(courseState.promoCode)Storage.set('promoCode',courseState.promoCode);
+    Storage.set('promoUsed',courseState.promoUsed);
+    Storage.set('subscription',paymentState.subscription);
     showToast('Данные восстановлены','success');
     renderJournal();
     renderTaxHistory();
     buildHeatmap();
     renderDataStats();
+    renderCourse();
+    renderPayment();
   });
 }
 
@@ -6174,7 +6808,139 @@ function clearDemo(){
 }
 
 /* ============================================================
-   46. НАВИГАЦИЯ
+   49. ОПЛАТА
+   ============================================================ */
+function renderPayment(){
+  // Статус
+  var statusEl=document.getElementById('paymentStatus');
+  if(statusEl){
+    var sub=paymentState.subscription;
+    if(sub&&sub.paid){
+      statusEl.innerHTML='<strong>'+t('subscriptionActive')+'</strong><br>'+
+        t('plan')+': '+(sub.plan==='month'?t('planMonth'):t('planYear'))+'<br>'+
+        t('paidDate')+': '+formatDateRu(sub.date);
+    } else {
+      statusEl.innerHTML='<span class="muted">'+t('subscriptionInactive')+'</span>';
+    }
+  }
+  // Промокод
+  var promoEl=document.getElementById('promoResult');
+  if(promoEl){
+    if(courseState.promoCode){
+      if(courseState.promoUsed){
+        promoEl.innerHTML='<div class="info-box warn">'+t('promoUsed')+'</div>';
+      } else {
+        promoEl.innerHTML='<div class="info-box success"><strong>'+t('promoApplied')+'</strong> ('+esc(courseState.promoCode)+')</div>';
+      }
+    } else {
+      promoEl.innerHTML='<div class="info-box info">'+t('promoNoCourse')+'</div>';
+    }
+  }
+  // Планы
+  var mEl=document.getElementById('planMonth');
+  var yEl=document.getElementById('planYear');
+  if(mEl)mEl.classList.toggle('active',paymentState.plan==='month');
+  if(yEl)yEl.classList.toggle('active',paymentState.plan==='year');
+  // Summary
+  var sumEl=document.getElementById('priceSummary');
+  if(sumEl){
+    if(!paymentState.plan){
+      sumEl.innerHTML='<span class="muted">Выберите план</span>';
+    } else {
+      var planName=paymentState.plan==='month'?t('planMonth'):t('planYear');
+      var discount=paymentState.promoApplied&&!courseState.promoUsed?' (−20%)':'';
+      sumEl.innerHTML='<strong>'+planName+discount+'</strong>';
+    }
+  }
+}
+
+function selectPlan(plan){
+  paymentState.plan=plan;
+  renderPayment();
+}
+
+function applyPromoCode(){
+  var input=document.getElementById('promoInput');
+  if(!input)return;
+  var code=input.value.trim();
+  if(!code){showToast(t('promoEmpty'),'warn');return;}
+  if(!courseState.promoCode){
+    showToast(t('promoNoCourse'),'warn');
+    return;
+  }
+  if(courseState.promoUsed){
+    showToast(t('promoUsed'),'warn');
+    return;
+  }
+  if(code!==courseState.promoCode){
+    showToast(t('promoInvalid'),'error');
+    return;
+  }
+  paymentState.promoApplied=true;
+  renderPayment();
+  showToast(t('promoApplied'),'success');
+}
+
+function payNow(){
+  if(!paymentState.plan){
+    showToast('Выберите план','warn');
+    return;
+  }
+  if(paymentState.promoApplied&&!courseState.promoUsed){
+    courseState.promoUsed=true;
+    Storage.set('promoUsed',true);
+  }
+  paymentState.subscription={
+    plan:paymentState.plan,
+    paid:false,
+    date:todayISO(),
+    pending:true
+  };
+  Storage.set('subscription',paymentState.subscription);
+  showToast(t('paymentNotReady'),'info');
+  renderPayment();
+  renderDataStats();
+}
+
+/* ============================================================
+   50. СВАЙП (touch)
+   ============================================================ */
+var _swipeStart=null;
+function initSwipe(){
+  if(window.innerWidth>=1024)return;
+  document.addEventListener('touchstart',function(e){
+    if(e.touches.length!==1)return;
+    var t=e.touches[0];
+    if(t.target.closest('.no-swipe'))return;
+    _swipeStart={x:t.clientX,y:t.clientY,edge:(t.clientX<30?'left':(t.clientX>window.innerWidth-30?'right':null))};
+  },{passive:true});
+  document.addEventListener('touchmove',function(e){
+    if(!_swipeStart)return;
+    var t=e.touches[0];
+    var dx=t.clientX-_swipeStart.x;
+    var dy=t.clientY-_swipeStart.y;
+    if(Math.abs(dx)<60||Math.abs(dx)<Math.abs(dy))return;
+    var sb=document.getElementById('sidebar');
+    if(!sb)return;
+    if(dx>0&&_swipeStart.edge==='left'){
+      // свайп вправо от левого края → открыть
+      if(!sb.classList.contains('open')){
+        sb.classList.add('open');
+        _swipeStart=null;
+      }
+    } else if(dx<0&&_swipeStart.edge==='right'){
+      // свайп влево от правого края → закрыть
+      if(sb.classList.contains('open')){
+        sb.classList.remove('open');
+        _swipeStart=null;
+      }
+    }
+  },{passive:true});
+  document.addEventListener('touchend',function(){_swipeStart=null;},{passive:true});
+}
+
+/* ============================================================
+   51. НАВИГАЦИЯ
    ============================================================ */
 function toggleMenu(){
   var sb=document.getElementById('sidebar');
@@ -6218,11 +6984,12 @@ function switchTab(tab){
   if(tab==='nk')renderNK();
   if(tab==='court')renderCourt();
   if(tab==='govproc')renderGovChecklist();
+  if(tab==='payment')renderPayment();
   if(tab==='settings'){renderDataStats();updatePasswordStatus();}
 }
 
 /* ============================================================
-   47. ПОИСК
+   52. ПОИСК
    ============================================================ */
 function openSearch(){
   var m=document.getElementById('searchModal');
@@ -6258,8 +7025,8 @@ function runSearch(){
     }
   });
   courseData.forEach(function(c,i){
-    if(c.title.toLowerCase().indexOf(q)>=0||c.content.toLowerCase().indexOf(q)>=0){
-      res.push({t:'Курс: '+c.title,s:'Урок '+(i+1),tab:'course'});
+    if(c.title.toLowerCase().indexOf(q)>=0||c.desc.toLowerCase().indexOf(q)>=0){
+      res.push({t:'Курс: '+c.title,s:c.desc,tab:'course'});
     }
   });
   regionsData.forEach(function(r){
@@ -6285,7 +7052,7 @@ function runSearch(){
 }
 
 /* ============================================================
-   48. ОНБОРДИНГ
+   53. ОНБОРДИНГ
    ============================================================ */
 var onboardingSlide=0;
 function startOnboarding(){
@@ -6320,7 +7087,7 @@ function restartOnboarding(){
 }
 
 /* ============================================================
-   49. WELCOME BACK / PWA
+   54. WELCOME BACK / PWA
    ============================================================ */
 function showWelcomeBackIfNeeded(){
   var lastVisit=Storage.get('lastVisit',0);
@@ -6368,39 +7135,7 @@ function closeInstallModal(){
 }
 
 /* ============================================================
-   50. QUICKSTART
-   ============================================================ */
-function buildQuickstartCard(){
-  var calcTab=document.getElementById('tab-calc');
-  if(!calcTab)return;
-  if(document.getElementById('quickstartCard'))return;
-  var card=document.createElement('div');
-  card.id='quickstartCard';
-  card.className='card';
-  card.style.background='linear-gradient(135deg, var(--primary-bg), var(--surface))';
-  card.style.borderColor='rgba(5,150,105,.3)';
-  card.innerHTML=
-    '<div class="card-title">'+t('quickstartTitle')+'</div>'+
-    '<div class="card-sub">'+t('quickstartSub')+'</div>'+
-    '<div class="btn-group">'+
-      '<button class="btn btn-primary" onclick="dismissQuickstart();switchTab(\'calc\')">'+t('quickstartStart')+'</button>'+
-      '<button class="btn btn-ghost" onclick="dismissQuickstart();loadDemo();switchTab(\'journal\')">'+t('quickstartDemo')+'</button>'+
-      '<button class="btn btn-ghost" onclick="dismissQuickstart()">'+t('quickstartHide')+'</button>'+
-    '</div>';
-  var firstCard=calcTab.querySelector('.card');
-  if(firstCard&&firstCard.parentNode)firstCard.parentNode.insertBefore(card,firstCard);
-  else calcTab.appendChild(card);
-  if(Storage.get('quickstartDismissed',false))card.style.display='none';
-}
-
-function dismissQuickstart(){
-  var card=document.getElementById('quickstartCard');
-  if(card)card.style.display='none';
-  Storage.set('quickstartDismissed',true);
-}
-
-/* ============================================================
-   51. ИНИЦИАЛИЗАЦИЯ
+   55. ИНИЦИАЛИЗАЦИЯ
    ============================================================ */
 function initEventBindings(){
   var jDate=document.getElementById('jDate');
@@ -6426,16 +7161,16 @@ function initEventBindings(){
       }
     }
   });
+  // Свайп
+  initSwipe();
 }
 
 function initApp(){
   Theme.init();
   Sandbox.init();
-  Storage._incognito=Storage.get('incognito','off')==='on';
   initRegions();
   initEventBindings();
   buildQuickTemplates();
-  buildQuickstartCard();
   renderTaxHistory();
   calcTax();
   renderLimitIndicators();
@@ -6450,8 +7185,10 @@ function initApp(){
   runSimulator();
   renderDataStats();
   updatePasswordStatus();
+  renderCourse();
+  renderPayment();
 
-  // Настройки из Storage
+  // Настройки
   var fs=Storage.get('fontSize',16);
   document.documentElement.style.setProperty('--fs',fs+'px');
   var fsEl=document.getElementById('setFont');
@@ -6471,36 +7208,25 @@ function initApp(){
     var sb=document.getElementById('simpleBanner');
     if(sb)sb.classList.add('show');
   }
-  var incg=Storage.get('incognito','off');
-  var incgEl=document.getElementById('setIncognito');
-  if(incgEl)incgEl.value=incg;
   var lang=Storage.get('lang','ru');
   setLanguage(lang);
 
-  // Приветствие
   showWelcomeBackIfNeeded();
 
-  // Онбординг
   if(!Storage.get('onboardingDone',false)){
     startOnboarding();
   }
-
-  // Пароль
   if(Storage.get('appPasswordSet',false)){
     showLockScreen();
   }
-
-  // PWA
   if('serviceWorker' in navigator){
     navigator.serviceWorker.register('service-worker.js').catch(function(){});
   }
-
-  // Стартовая вкладка
   switchTab('calc');
 }
 
 /* ============================================================
-   52. ЭКСПОРТ В WINDOW
+   56. ЭКСПОРТ В WINDOW
    ============================================================ */
 var windowFunctions=[
   'toggleMenu','switchTab','toggleTheme','openSearch','closeSearch','runSearch','setLanguage',
@@ -6528,15 +7254,16 @@ var windowFunctions=[
   'switchChecklistType','buildChecklist','toggleChecklistItem','resetChecklist','renderDocsPackage','printChecklist',
   'buildHeatmap','changeHeatmapMonth','showHeatmapEvents','saveNote','deleteNote','exportCalendarICS','exportCalendarICSFull','printHeatmap',
   'runSimulator','applySimulatorToCalc',
-  'renderFaqLifehacks','toggleAcc','renderCourse','answerCourseQuiz','courseNext','coursePrev',
+  'renderFaqLifehacks','toggleAcc','renderCourse','answerCourseQuestion','nextCourseQuestion','retryCourseErrors','exitCourseBlock','startCourseBlock','closeCourseResult',
   'renderNK','renderCourt','renderGovChecklist',
   'applyFontSize','applyColorblind','applySimpleMode','exitSimpleMode','applyThemeSetting',
-  'applyIncognito','applySandbox','saveAppPassword','removeAppPassword',
+  'saveAppPassword','removeAppPassword',
   'pressLockKey','renderDataStats','clearAllData',
   'exportBackup','exportBackupHTML','importBackup','shareBackupLink','loadDemo','clearDemo',
   'startOnboarding','onboardingNext','onboardingSkip','restartOnboarding',
-  'dismissWelcomeBack','installApp','confirmInstall','closeInstallModal','disableSandbox','performUndo',
-  'dismissQuickstart'
+  'dismissWelcomeBack','installApp','confirmInstall','closeInstallModal','performUndo',
+  'onSandboxChange','confirmSandboxOn','cancelSandboxOn','confirmSandboxOff','cancelSandboxOff','sandboxOffKeep','sandboxOffDiscard','disableSandbox',
+  'renderPayment','selectPlan','applyPromoCode','payNow'
 ];
 windowFunctions.forEach(function(name){
   if(typeof window[name]==='undefined'&&typeof eval(name)==='function'){
@@ -6544,16 +7271,13 @@ windowFunctions.forEach(function(name){
   }
 });
 
-/* ============================================================
-   53. ЗАПУСК
-   ============================================================ */
 if(document.readyState==='loading'){
   document.addEventListener('DOMContentLoaded',initApp);
 } else {
   initApp();
 }
 
-console.log('Налоговый калькулятор инициализирован. Все 13 пробелов по ТЗ закрыты.');
+console.log('Налоговый калькулятор готов. 5 блоков курса, промокод, оплата, свайп — всё на месте.');
 </script>
 </body>
 </html>
