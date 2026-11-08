@@ -1,61 +1,66 @@
-/* Налоговый калькулятор — Service Worker (базовый кэш) */
-const CACHE_NAME = 'taxcalc-v1';
-const ASSETS = [
+/* ============================================================
+   M30: SERVICE WORKER — офлайн-кэш
+   Версия: увеличьте CACHE_VERSION при обновлении index.html
+   ============================================================ */
+var CACHE_VERSION = 'taxcalc-v1-2026-11-08';
+var CORE_ASSETS = [
   './',
   './index.html',
   './manifest.json',
-  'https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap',
-  'https://raw.githubusercontent.com/egorsasnev672-sudo/limit_npd/main/zoomai-69478-1.png'
+  './tessdata/rus.traineddata.gz',
+  './tessdata/eng.traineddata.gz'
 ];
 
-self.addEventListener('install', function(e) {
-  e.waitUntil(
-    caches.open(CACHE_NAME).then(function(cache) {
-      return cache.addAll(ASSETS.map(function(u){ 
-        return new Request(u, {mode: u.startsWith('http') ? 'cors' : 'same-origin'}); 
-      })).catch(function(){});
-    })
+self.addEventListener('install', function(event){
+  event.waitUntil(
+    caches.open(CACHE_VERSION).then(function(cache){
+      /* Кэшируем по одному, чтобы отсутствие tessdata не ломало установку */
+      return Promise.all(CORE_ASSETS.map(function(url){
+        return cache.add(url).catch(function(){ /* игнорируем отсутствующие */ });
+      }));
+    }).then(function(){ return self.skipWaiting(); })
   );
-  self.skipWaiting();
 });
 
-self.addEventListener('activate', function(e) {
-  e.waitUntil(
-    caches.keys().then(function(keys) {
-      return Promise.all(keys.filter(function(k){ return k !== CACHE_NAME; }).map(function(k){ return caches.delete(k); }));
-    })
+self.addEventListener('activate', function(event){
+  event.waitUntil(
+    caches.keys().then(function(keys){
+      return Promise.all(keys.map(function(k){
+        if(k !== CACHE_VERSION) return caches.delete(k);
+      }));
+    }).then(function(){ return self.clients.claim(); })
   );
-  self.clients.claim();
 });
 
-self.addEventListener('fetch', function(e) {
-  if (e.request.method !== 'GET') return;
-  
-  var url = e.request.url;
-  
-  // CDN библиотеки (Chart.js, jsPDF, XLSX, jsQR, Tesseract) — network-first
-  if (url.indexOf('cdn.jsdelivr.net') >= 0 || url.indexOf('fonts.gstatic.com') >= 0) {
-    e.respondWith(
-      fetch(e.request).then(function(resp) {
-        var copy = resp.clone();
-        caches.open(CACHE_NAME).then(function(c){ c.put(e.request, copy); });
-        return resp;
-      }).catch(function() {
-        return caches.match(e.request);
+self.addEventListener('fetch', function(event){
+  var req = event.request;
+  if(req.method !== 'GET') return;
+
+  /* Навигационные запросы — network-first, fallback на кэш */
+  if(req.mode === 'navigate'){
+    event.respondWith(
+      fetch(req).then(function(res){
+        var copy = res.clone();
+        caches.open(CACHE_VERSION).then(function(c){ c.put(req, copy); });
+        return res;
+      }).catch(function(){
+        return caches.match(req).then(function(r){ return r || caches.match('./index.html'); });
       })
     );
     return;
   }
-  
-  // Остальное (index.html, шрифты, иконки) — cache-first с fallback на network
-  e.respondWith(
-    caches.match(e.request).then(function(cached) {
-      return cached || fetch(e.request).then(function(resp) {
-        var copy = resp.clone();
-        caches.open(CACHE_NAME).then(function(c){ c.put(e.request, copy); });
-        return resp;
-      }).catch(function() {
-        if (e.request.destination === 'document') return caches.match('./index.html');
+
+  /* Остальное — cache-first, затем сеть */
+  event.respondWith(
+    caches.match(req).then(function(cached){
+      if(cached) return cached;
+      return fetch(req).then(function(res){
+        if(!res || res.status !== 200 || res.type === 'opaque') return res;
+        var copy = res.clone();
+        caches.open(CACHE_VERSION).then(function(c){ c.put(req, copy); });
+        return res;
+      }).catch(function(){
+        return caches.match('./index.html');
       });
     })
   );
