@@ -1,0 +1,341 @@
+/* ============================================================
+   5. КАРТОЧКИ
+   ============================================================ */
+.card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-lg);padding:20px;margin-bottom:16px;
+  box-shadow:var(--shadow);
+  transition:background var(--theme-t),border-color var(--theme-t),box-shadow var(--theme-t);
+}
+.card-title{
+  font-size:1.05rem;font-weight:800;margin-bottom:4px;
+  display:flex;align-items:center;gap:8px;color:var(--text);
+}
+.card-sub{font-size:.82rem;color:var(--muted);margin-bottom:16px;line-height:1.5}
+.card-header{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  gap:12px;margin-bottom:16px;flex-wrap:wrap;
+}
+.card-header .card-title{margin-bottom:0}
+.card-header-actions{display:flex;gap:6px;flex-wrap:wrap}
+
+/* ============================================================
+   6. СЕТКИ И ПОЛЯ
+   ============================================================ */
+.row{display:grid;gap:12px;margin-bottom:12px}
+.row:last-child{margin-bottom:0}
+.row.cols-2{grid-template-columns:1fr 1fr}
+.row.cols-3{grid-template-columns:1fr 1fr 1fr}
+.row.cols-4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:640px){
+  .row.cols-2,.row.cols-3,.row.cols-4{grid-template-columns:1fr}
+}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field label{font-size:.82rem;font-weight:700;color:var(--muted);line-height:1.3}
+.field label .req{color:var(--danger);margin-left:2px}
+.field input,
+.field select,
+.field textarea{
+  width:100%;padding:10px 12px;
+  border:1px solid var(--border);border-radius:var(--r-sm);
+  background:var(--surface);color:var(--text);outline:none;
+  transition:border-color var(--t),box-shadow var(--t),background var(--theme-t);
+  font-size:.95rem;min-height:44px;
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(5,150,105,.15);
+}
+.field input:disabled,
+.field select:disabled,
+.field textarea:disabled{opacity:.6;cursor:not-allowed;background:var(--surface2)}
+.field input::placeholder,
+.field textarea::placeholder{color:var(--muted);opacity:.7}
+.field textarea{resize:vertical;min-height:80px}
+.field .hint{font-size:.75rem;color:var(--muted);line-height:1.4}
+.field .error{font-size:.75rem;color:var(--danger);font-weight:700}
+.field.invalid input,
+.field.invalid select{border-color:var(--danger)}
+.checkbox-field{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:10px 0;cursor:pointer;
+}
+.checkbox-field input[type="checkbox"]{
+  width:20px;height:20px;min-height:20px;margin-top:2px;
+  accent-color:var(--primary);cursor:pointer;flex-shrink:0;
+}
+.checkbox-field span{font-size:.9rem;line-height:1.4;color:var(--text)}
+
+/* ============================================================
+   7. КНОПКИ
+   ============================================================ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:11px 20px;border-radius:var(--r-sm);
+  font-weight:800;font-size:.92rem;min-height:44px;
+  white-space:nowrap;line-height:1.2;
+  transition:transform .1s,background var(--t),box-shadow var(--t),color var(--t);
+}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-primary{background:var(--primary);color:#fff;box-shadow:0 2px 8px rgba(5,150,105,.25)}
+.btn-primary:hover:not(:disabled){background:var(--primary-light)}
+.btn-ghost{background:var(--surface2);color:var(--text)}
+.btn-ghost:hover:not(:disabled){background:var(--border)}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-danger:hover:not(:disabled){background:#dc2626}
+.btn-success{background:var(--success);color:#fff}
+.btn-success:hover:not(:disabled){background:var(--primary-light)}
+.btn-warning{background:var(--warning);color:#fff}
+.btn-outline{background:transparent;color:var(--primary);border:1px solid var(--primary)}
+.btn-outline:hover:not(:disabled){background:var(--primary-bg)}
+.btn-block{width:100%}
+.btn-sm{padding:7px 14px;font-size:.82rem;min-height:36px}
+.btn-xs{padding:5px 10px;font-size:.75rem;min-height:30px}
+.btn-icon{width:44px;height:44px;padding:0;border-radius:var(--r-sm)}
+.btn-icon.btn-sm{width:36px;height:36px}
+.btn-group{display:flex;gap:8px;flex-wrap:wrap}
+.btn-group .btn{flex:1;min-width:120px}
+
+/* ============================================================
+   8. РЕЗУЛЬТАТЫ
+   ============================================================ */
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.result-grid.cols-2{grid-template-columns:1fr 1fr}
+.result-grid.cols-4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:640px){
+  .result-grid,.result-grid.cols-2,.result-grid.cols-4{grid-template-columns:1fr}
+}
+.result-card{
+  background:var(--surface2);border-radius:var(--r-md);padding:14px;
+  text-align:center;border:1px solid transparent;
+  transition:background var(--theme-t),transform var(--t);
+}
+.result-card:hover{transform:translateY(-1px)}
+.result-card .lbl{
+  font-size:.75rem;color:var(--muted);font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;
+}
+.result-card .val{
+  font-size:1.4rem;font-weight:900;margin-top:2px;
+  color:var(--primary);word-break:break-word;
+}
+.result-card .sub{font-size:.75rem;color:var(--muted);margin-top:4px}
+.result-card.warn .val{color:var(--warning)}
+.result-card.danger .val{color:var(--danger)}
+.result-card.info .val{color:var(--info)}
+.result-card.neutral .val{color:var(--text)}
+.result-card.highlight{background:var(--primary-bg);border-color:rgba(5,150,105,.3)}
+.result-card.highlight .val{color:var(--primary)}
+.info-box{
+  background:var(--primary-bg);border:1px solid rgba(5,150,105,.2);
+  border-radius:var(--r-md);padding:14px 16px;font-size:.88rem;
+  color:var(--text);margin-top:12px;line-height:1.6;
+}
+.info-box strong{color:var(--primary);font-weight:800}
+.info-box.warn{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.3)}
+.info-box.warn strong{color:var(--warning)}
+.info-box.danger{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3)}
+.info-box.danger strong{color:var(--danger)}
+.info-box.info{background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.3)}
+.info-box.info strong{color:var(--info)}
+.info-box.success{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.3)}
+.info-box.success strong{color:var(--success)}
+.info-box ul{margin:8px 0 0 20px;line-height:1.7}
+.info-box ol{margin:8px 0 0 20px;line-height:1.7}
+
+/* ============================================================
+   9. ПРОГРЕСС-БАРЫ
+   ============================================================ */
+.progress{
+  height:10px;background:var(--surface2);border-radius:999px;
+  overflow:hidden;margin:8px 0;position:relative;
+}
+.progress-bar{
+  height:100%;background:var(--primary);border-radius:999px;
+  transition:width .4s ease,background var(--t);min-width:0;
+}
+.progress-bar.warn{background:var(--warning)}
+.progress-bar.danger{background:var(--danger)}
+.progress-header{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:.85rem;font-weight:700;margin-bottom:4px;
+  gap:8px;flex-wrap:wrap;
+}
+.progress-header .name{color:var(--text)}
+.progress-header .values{color:var(--muted);font-size:.82rem;font-weight:600}
+
+/* ============================================================
+   10. ЖУРНАЛ
+   ============================================================ */
+.widgets{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+@media(max-width:640px){.widgets{grid-template-columns:1fr}}
+.widget{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-md);padding:14px;text-align:center;
+  transition:background var(--theme-t);
+}
+.widget .l{
+  font-size:.72rem;color:var(--muted);font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;
+}
+.widget .v{font-size:1.2rem;font-weight:900;margin-top:4px;word-break:break-word}
+.widget .v.inc{color:var(--success)}
+.widget .v.exp{color:var(--danger)}
+.journal-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.journal-item{
+  display:flex;align-items:center;gap:12px;padding:12px 14px;
+  border-radius:var(--r-md);background:var(--surface2);
+  border:1px solid transparent;
+  transition:border-color var(--t),background var(--theme-t);
+}
+.journal-item:hover{border-color:var(--border)}
+.ji-icon{
+  width:38px;height:38px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-weight:900;font-size:1rem;
+}
+.ji-icon.inc{background:rgba(16,185,129,.15);color:var(--success)}
+.ji-icon.exp{background:rgba(239,68,68,.15);color:var(--danger)}
+.ji-icon.neutral{background:var(--surface);color:var(--muted)}
+.ji-body{flex:1;min-width:0}
+.ji-body .t{font-weight:800;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ji-body .s{font-size:.78rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.ji-amount{font-weight:900;font-size:.95rem;white-space:nowrap;flex-shrink:0}
+.ji-amount.inc{color:var(--success)}
+.ji-amount.exp{color:var(--danger)}
+.ji-del{
+  width:32px;height:32px;border-radius:8px;color:var(--muted);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:1rem;
+  transition:background var(--t),color var(--t);
+}
+.ji-del:hover{background:rgba(239,68,68,.1);color:var(--danger)}
+
+/* ============================================================
+   11. ТАБЛИЦЫ
+   ============================================================ */
+.table-wrapper{
+  overflow-x:auto;margin-top:12px;
+  border-radius:var(--r-md);border:1px solid var(--border);
+}
+.table{width:100%;border-collapse:collapse;font-size:.85rem;min-width:100%}
+.table th,.table td{
+  padding:10px 12px;text-align:left;
+  border-bottom:1px solid var(--border);vertical-align:top;
+}
+.table th{
+  font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;
+  color:var(--muted);font-weight:800;background:var(--surface2);white-space:nowrap;
+}
+.table tr:last-child td{border-bottom:none}
+.table tr.best{background:var(--primary-bg)}
+.table tr.best td{font-weight:800}
+.table tr.best td:first-child{color:var(--primary)}
+.table td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.table td.center{text-align:center}
+
+/* ============================================================
+   12. АККОРДЕОН
+   ============================================================ */
+.acc{
+  border:1px solid var(--border);border-radius:var(--r-md);
+  margin-bottom:8px;overflow:hidden;background:var(--surface);
+  transition:border-color var(--t),background var(--theme-t);
+}
+.acc:hover{border-color:var(--muted)}
+.acc-head{
+  width:100%;padding:13px 16px;text-align:left;
+  font-weight:800;font-size:.9rem;
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;background:var(--surface2);color:var(--text);
+  transition:background var(--t),color var(--t);line-height:1.4;
+}
+.acc-head:hover{background:var(--border)}
+.acc-head .acc-arrow{
+  flex-shrink:0;transition:transform var(--t);color:var(--muted);font-size:.8rem;
+}
+.acc.open .acc-head{background:var(--primary-bg);color:var(--primary)}
+.acc.open .acc-head .acc-arrow{transform:rotate(180deg);color:var(--primary)}
+.acc-body{
+  display:none;padding:14px 16px;font-size:.88rem;
+  line-height:1.6;border-top:1px solid var(--border);color:var(--text);
+}
+.acc.open .acc-body{display:block;animation:fadeIn .2s ease}
+.acc-body strong{color:var(--primary);font-weight:800}
+.acc-body ul{margin:8px 0 0 20px;line-height:1.7}
+.acc-body ol{margin:8px 0 0 20px;line-height:1.7}
+
+/* ============================================================
+   13. ТЕГИ И ПРОЧЕЕ
+   ============================================================ */
+.tag{
+  display:inline-flex;align-items:center;padding:2px 9px;
+  border-radius:999px;font-size:.72rem;font-weight:800;
+  background:var(--surface2);color:var(--muted);
+  white-space:nowrap;line-height:1.4;
+}
+.tag.green{background:rgba(16,185,129,.15);color:var(--success)}
+.tag.red{background:rgba(239,68,68,.15);color:var(--danger)}
+.tag.amber{background:rgba(245,158,11,.15);color:var(--warning)}
+.tag.blue{background:rgba(59,130,246,.15);color:var(--info)}
+.tag.primary{background:var(--primary);color:#fff}
+.muted{color:var(--muted)}
+.small{font-size:.8rem}
+.tiny{font-size:.72rem}
+.bold{font-weight:800}
+.center{text-align:center}
+.right{text-align:right}
+.mt-4{margin-top:4px}
+.mt-8{margin-top:8px}
+.mt-12{margin-top:12px}
+.mt-16{margin-top:16px}
+.mt-20{margin-top:20px}
+.mb-4{margin-bottom:4px}
+.mb-8{margin-bottom:8px}
+.mb-12{margin-bottom:12px}
+.mb-16{margin-bottom:16px}
+.flex{display:flex}
+.flex-col{flex-direction:column}
+.flex-wrap{flex-wrap:wrap}
+.items-center{align-items:center}
+.items-start{align-items:flex-start}
+.justify-between{justify-content:space-between}
+.justify-center{justify-content:center}
+.gap-4{gap:4px}
+.gap-8{gap:8px}
+.gap-12{gap:12px}
+.gap-16{gap:16px}
+.w-full{width:100%}
+.hidden{display:none !important}
+.divider{height:1px;background:var(--border);margin:16px 0}
+.chip{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 12px;border-radius:999px;
+  background:var(--surface2);font-size:.82rem;font-weight:700;
+  color:var(--text);border:1px solid var(--border);
+  transition:background var(--t),border-color var(--t);
+}
+.chip:hover{background:var(--border)}
+.chip .chip-del{color:var(--muted);font-size:.9rem;margin-left:2px}
+.chip .chip-del:hover{color:var(--danger)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+kbd{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:5px;padding:1px 6px;font-size:.75rem;
+  font-family:'Courier New',monospace;color:var(--text);
+}
+.loading-spinner{
+  display:inline-block;width:18px;height:18px;
+  border:2px solid rgba(255,255,255,.3);border-top-color:#fff;
+  border-radius:50%;animation:spin .7s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.canvas-wrapper{
+  position:relative;width:100%;height:280px;margin-top:12px;
+  background:var(--surface2);border-radius:var(--r-md);padding:8px;
+}
+@media(max-width:640px){.canvas-wrapper{height:220px}}
+.canvas-wrapper canvas{max-width:100%;max-height:100%}
