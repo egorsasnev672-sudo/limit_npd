@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Налоговый калькулятор</title>
+<meta name="theme-color" content="#059669">
+<meta name="description" content="Профессиональный налоговый калькулятор для самозанятых, ИП и ООО в России. Офлайн, без регистрации.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="https://raw.githubusercontent.com/egorsasnev672-sudo/limit_npd/main/zoomai-69478-1.png">
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/egorsasnev672-sudo/limit_npd/main/zoomai-69478-1.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/01-foundation.css">
+<link rel="stylesheet" href="css/02-shell.css">
+<link rel="stylesheet" href="css/03-components.css">
+<link rel="stylesheet" href="css/04-feature-widgets.css">
+<link rel="stylesheet" href="css/05-interactions.css">
+<link rel="stylesheet" href="css/06-special-modes.css">
+<link rel="stylesheet" href="css/07-fintech-redesign.css">
+
+</head>
+<body>
+
+<!-- ============================================================
+     БАННЕРЫ
+     ============================================================ -->
+<div class="banner simple" id="simpleBanner">
+  <span class="banner-text" data-lang="simpleBanner">Простой режим включён. Показаны только основные функции.</span>
+  <button onclick="exitSimpleMode()" data-lang="exitSimple">Выключить</button>
+</div>
+<div class="banner welcome" id="welcomeBanner">
+  <span class="banner-text" data-lang="welcomeBanner">С возвращением! Вы не заходили более 24 часов.</span>
+  <button onclick="dismissWelcomeBack()" data-lang="ok">Ок</button>
+</div>
+
+<!-- ============================================================
+     ШАПКА
+     ============================================================ -->
+<header class="header">
+  <button class="hdr-btn hamburger" onclick="toggleMenu()" aria-label="Открыть меню">☰</button>
+  <div class="hdr-title">
+    <img src="https://raw.githubusercontent.com/egorsasnev672-sudo/limit_npd/main/zoomai-69478-1.png" alt="Логотип">
+    <span data-lang="appName">Налоговый калькулятор</span>
+  </div>
+  <span class="sandbox-badge" id="sandboxBadge">🧪 Песочница</span>
+  <div class="hdr-spacer"></div>
+  <div class="hdr-actions">
+    <button class="hdr-btn" onclick="openSearch()" aria-label="Поиск" title="Поиск (Ctrl+K)">🔍</button>
+    <button class="hdr-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Сменить тему" title="Сменить тему">🌙</button>
+  </div>
+</header>
+
+<!-- ============================================================
+     БОКОВОЕ МЕНЮ
+     ============================================================ -->
+<aside class="sidebar" id="sidebar" aria-label="Главное меню">
+
+  <div class="side-group-label" data-lang="main">Основное</div>
+  <button class="side-item active" data-tab="calc" onclick="switchTab('calc')">
+    <span class="side-icon">🧮</span><span class="side-text" data-lang="calc">Расчёт налога</span>
+  </button>
+  <button class="side-item" data-tab="limits" data-advanced="true" onclick="switchTab('limits')">
+    <span class="side-icon">📊</span><span class="side-text" data-lang="limits">Лимиты и прогноз</span><span class="side-badge adv">PRO</span>
+  </button>
+  <button class="side-item" data-tab="risk" onclick="switchTab('risk')">
+    <span class="side-icon">⚠</span><span class="side-text" data-lang="risk">Анализ рисков</span>
+  </button>
+  <button class="side-item" data-tab="ben" onclick="switchTab('ben')">
+    <span class="side-icon">🎁</span><span class="side-text" data-lang="ben">Льготы и каникулы</span>
+  </button>
+  <button class="side-item" data-tab="comp" onclick="switchTab('comp')">
+    <span class="side-icon">⚖</span><span class="side-text" data-lang="comp">Сравнение режимов</span>
+  </button>
+  <button class="side-item" data-tab="kpi" data-advanced="true" onclick="switchTab('kpi')">
+    <span class="side-icon">📈</span><span class="side-text" data-lang="kpi">Дашборд KPI</span><span class="side-badge adv">PRO</span>
+  </button>
+
+  <div class="side-group-label" data-lang="calculators">Калькуляторы</div>
+  <button class="side-item" data-tab="sickleave" onclick="switchTab('sickleave')">
+    <span class="side-icon">🏥</span><span class="side-text" data-lang="sickleave">Больничный</span>
+  </button>
+  <button class="side-item" data-tab="vacation" onclick="switchTab('vacation')">
+    <span class="side-icon">🏖</span><span class="side-text" data-lang="vacation">Отпускные</span>
+  </button>
+  <button class="side-item" data-tab="maternity" onclick="switchTab('maternity')">
+    <span class="side-icon">👶</span><span class="side-text" data-lang="maternity">Декретные</span>
+  </button>
+  <button class="side-item" data-tab="bep" data-advanced="true" onclick="switchTab('bep')">
+    <span class="side-icon">📉</span><span class="side-text" data-lang="bep">Точка безубыточности</span><span class="side-badge adv">PRO</span>
+  </button>
+  <button class="side-item" data-tab="roi" data-advanced="true" onclick="switchTab('roi')">
+    <span class="side-icon">💹</span><span class="side-text" data-lang="roi">ROI инвестиций</span><span class="side-badge adv">PRO</span>
+  </button>
+  <button class="side-item" data-tab="cashflow" data-advanced="true" onclick="switchTab('cashflow')">
+    <span class="side-icon">💵</span><span class="side-text" data-lang="cashflow">Cash-flow</span><span class="side-badge adv">PRO</span>
+  </button>
+  <button class="side-item" data-tab="ndfl" onclick="switchTab('ndfl')">
+    <span class="side-icon">↩</span><span class="side-text" data-lang="ndfl">Возврат НДФЛ</span>
+  </button>
+
+  <div class="side-group-label" data-lang="tools">Инструменты</div>
+  <button class="side-item" data-tab="journal" onclick="switchTab('journal')">
+    <span class="side-icon">📓</span><span class="side-text" data-lang="journal">Журнал операций</span>
+  </button>
+  <button class="side-item" data-tab="scanner" onclick="switchTab('scanner')">
+    <span class="side-icon">📷</span><span class="side-text" data-lang="scanner">Сканер чеков</span>
+  </button>
+  <button class="side-item" data-tab="checklist" onclick="switchTab('checklist')">
+    <span class="side-icon">✓</span><span class="side-text" data-lang="checklist">Чек-лист ИП/ООО</span>
+  </button>
+  <button class="side-item" data-tab="heatmap" onclick="switchTab('heatmap')">
+    <span class="side-icon">🔥</span><span class="side-text" data-lang="heatmap">Теплокарта года</span>
+  </button>
+  <button class="side-item" data-tab="simulator" data-advanced="true" onclick="switchTab('simulator')">
+    <span class="side-icon">🎛</span><span class="side-text" data-lang="simulator">Симулятор</span><span class="side-badge adv">PRO</span>
+  </button>
+
+  <div class="side-group-label" data-lang="help">Справка</div>
+  <button class="side-item" data-tab="faq" onclick="switchTab('faq')">
+    <span class="side-icon">❓</span><span class="side-text" data-lang="faq">База знаний</span>
+  </button>
+  <button class="side-item" data-tab="course" onclick="switchTab('course')">
+    <span class="side-icon">🎓</span><span class="side-text" data-lang="course">Мини-курс</span>
+  </button>
+  <button class="side-item" data-tab="nk" data-advanced="true" onclick="switchTab('nk')">
+    <span class="side-icon">📖</span><span class="side-text" data-lang="nk">НК РФ офлайн</span><span class="side-badge adv">PRO</span>
+  </button>
+  <button class="side-item" data-tab="court" data-advanced="true" onclick="switchTab('court')">
+    <span class="side-icon">⚖</span><span class="side-text" data-lang="court">Судебная практика</span><span class="side-badge adv">PRO</span>
+  </button>
+  <button class="side-item" data-tab="govproc" data-advanced="true" onclick="switchTab('govproc')">
+    <span class="side-icon">🏛</span><span class="side-text" data-lang="govproc">Госзакупки</span><span class="side-badge adv">PRO</span>
+  </button>
+  <button class="side-item" data-tab="cbr" onclick="switchTab('cbr')">
+    <span class="side-icon">🔗</span><span class="side-text" data-lang="cbr">ЦБ/ФНС</span>
+  </button>
+
+  <div class="side-group-label" data-lang="settings">Настройки</div>
+  <button class="side-item" data-tab="payment" onclick="switchTab('payment')">
+    <span class="side-icon">💳</span><span class="side-text" data-lang="payment">Оплата</span>
+  </button>
+  <button class="side-item" data-tab="settings" onclick="switchTab('settings')">
+    <span class="side-icon">⚙</span><span class="side-text" data-lang="settings">Настройки</span>
+  </button>
+  <button class="side-item" data-tab="backup" data-advanced="true" onclick="switchTab('backup')">
+    <span class="side-icon">💾</span><span class="side-text" data-lang="backup">Резервная копия</span><span class="side-badge adv">PRO</span>
+  </button>
+
+  <div class="lang-switch">
+    <button id="langRu" class="active" onclick="setLanguage('ru')">RU</button>
+    <button id="langEn" onclick="setLanguage('en')">EN</button>
+  </div>
+
+  <div class="pwa-card">
+    <p data-lang="installPwaText">Установите приложение на устройство для офлайн-доступа к расчётам.</p>
+    <button onclick="installApp()" data-lang="installPwa">Установить PWA</button>
+  </div>
+</aside>
+
+<!-- ============================================================
+     ОСНОВНОЙ КОНТЕНТ — 27 ВКЛАДОК
+     ============================================================ -->
+<main class="main" id="main">
+
+  <!-- ========== 1. РАСЧЁТ НАЛОГА ========== -->
+  <section class="tab-panel active" id="tab-calc">
+    <h1 class="section-title" data-lang="calc">Расчёт налога</h1>
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title" data-lang="calcParams">Параметры расчёта</div>
+          <div class="card-sub" data-lang="calcSub">Выберите режим и укажите данные — калькулятор посчитает налог, взносы и чистый доход.</div>
+        </div>
+        <div class="card-header-actions">
+          <button class="btn btn-ghost btn-sm" onclick="openTaxHistory()" data-lang="history">История</button>
+        </div>
+      </div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="calcMode" data-lang="mode">Налоговый режим</label>
+          <select id="calcMode" onchange="onModeChange()">
+            <option value="npd" data-lang="modeNpd">НПД (самозанятый)</option>
+            <option value="usn6" data-lang="modeUsn6">ИП УСН «Доходы» 6%</option>
+            <option value="usn15" data-lang="modeUsn15">ИП УСН «Д−Р» 15%</option>
+            <option value="psn" data-lang="modePsn">ПСН (патент)</option>
+            <option value="ooo6" data-lang="modeOoo6">ООО УСН 6%</option>
+            <option value="ooo15" data-lang="modeOoo15">ООО УСН 15%</option>
+            <option value="esxn" data-lang="modeEsxn">ЕСХН 6%</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="calcIncome" data-lang="income">Годовой доход, ₽</label>
+          <input id="calcIncome" type="number" value="1200000" min="0" step="1000" oninput="calcTax()">
+        </div>
+      </div>
+      <div class="row cols-2" id="npdRow">
+        <div class="field">
+          <label for="calcNpdType" data-lang="npdType">Тип контрагента (НПД)</label>
+          <select id="calcNpdType" onchange="calcTax()">
+            <option value="legal" data-lang="npdLegal">Юрлицо / ИП — 4%</option>
+            <option value="person" data-lang="npdPerson">Физлицо — 6%</option>
+          </select>
+        </div>
+      </div>
+      <div class="row cols-2 hidden" id="empRow">
+        <div class="field">
+          <label for="calcEmployees" data-lang="employees">Есть сотрудники?</label>
+          <select id="calcEmployees" onchange="calcTax()">
+            <option value="no" data-lang="no">Нет</option>
+            <option value="yes" data-lang="yes">Да</option>
+          </select>
+        </div>
+      </div>
+      <div class="row cols-2 hidden" id="expRow">
+        <div class="field">
+          <label for="calcExpenses" data-lang="expenses">Сумма расходов, ₽</label>
+          <input id="calcExpenses" type="number" value="600000" min="0" step="1000" oninput="calcTax()">
+        </div>
+      </div>
+      <div class="row cols-2 hidden" id="psnRow">
+        <div class="field">
+          <label for="calcPsnIncome" data-lang="psnIncome">Потенциальный доход по патенту, ₽</label>
+          <input id="calcPsnIncome" type="number" value="600000" min="0" step="1000" oninput="calcTax()">
+        </div>
+      </div>
+      <div class="btn-group mt-12">
+        <button class="btn btn-primary" onclick="calcTax()" data-lang="calculate">Рассчитать</button>
+        <button class="btn btn-ghost" onclick="resetCalcForm()" data-lang="reset">Сбросить</button>
+      </div>
+      <div id="calcResult"></div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="insurance">Страховые взносы ИП за себя (2026)</div>
+      <div class="card-sub" data-lang="insuranceSub">Фиксированная часть 57 390 ₽ + 1% с дохода свыше 300 000 ₽ (максимум 321 818 ₽).</div>
+      <div id="insuranceResult"></div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="quickTemplates">Быстрые шаблоны</div>
+      <div class="card-sub" data-lang="quickTemplatesSub">Подставить параметры типового бизнеса.</div>
+      <div class="chips" id="quickTemplates"></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title" data-lang="taxHistory">История расчётов</div>
+        <div class="card-header-actions">
+          <button class="btn btn-ghost btn-sm" onclick="exportTaxHistoryJSON()" data-lang="export">Экспорт JSON</button>
+          <button class="btn btn-ghost btn-sm" onclick="clearTaxHistory()" data-lang="clear">Очистить</button>
+        </div>
+      </div>
+      <div id="taxHistoryList"></div>
+    </div>
+  </section>
+
+  <!-- ========== 2. ЛИМИТЫ ========== -->
+  <section class="tab-panel" id="tab-limits">
+    <h1 class="section-title" data-lang="limits">Лимиты и прогноз</h1>
+    <div class="card">
+      <div class="card-title" data-lang="accIncome">Накопленный доход</div>
+      <div class="card-sub" data-lang="accIncomeSub">Индикаторы приближения к лимитам режимов налогообложения.</div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="limIncome" data-lang="accIncomeLabel">Накопленный доход за год, ₽</label>
+          <input id="limIncome" type="number" value="1800000" min="0" step="10000" oninput="renderLimitIndicators()">
+        </div>
+      </div>
+      <div id="limIndicators"></div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="forecast">Прогноз и график</div>
+      <div class="card-sub" data-lang="forecastSub">Среднемесячный доход → прогноз накопленного дохода и месяц превышения порога.</div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="limAvg" data-lang="avgIncome">Среднемесячный доход, ₽</label>
+          <input id="limAvg" type="number" value="150000" min="0" step="10000" oninput="updForecast()">
+        </div>
+      </div>
+      <div class="chips mt-8" id="limThresholdsChips">
+        <label class="chip" style="cursor:pointer"><input type="checkbox" data-limit="npd" checked onchange="toggleLimitLine()" style="margin-right:6px">НПД (2,4 млн)</label>
+        <label class="chip" style="cursor:pointer"><input type="checkbox" data-limit="vat" checked onchange="toggleLimitLine()" style="margin-right:6px">НДС (20 млн)</label>
+        <label class="chip" style="cursor:pointer"><input type="checkbox" data-limit="psn" onchange="toggleLimitLine()" style="margin-right:6px">ПСН (60 млн)</label>
+        <label class="chip" style="cursor:pointer"><input type="checkbox" data-limit="usn" onchange="toggleLimitLine()" style="margin-right:6px">УСН (490,5 млн)</label>
+      </div>
+      <div class="canvas-wrapper">
+        <canvas id="limitsChart" width="800" height="280"></canvas>
+      </div>
+      <div id="limForecast" class="info-box"></div>
+      <div class="btn-group mt-12">
+        <button class="btn btn-ghost btn-sm" onclick="exportLimitsPNG()" data-lang="downloadPng">Скачать PNG</button>
+        <button class="btn btn-ghost btn-sm" onclick="exportLimitsPDF()" data-lang="downloadPdf">Скачать PDF</button>
+        <button class="btn btn-ghost btn-sm" onclick="exportLimitsXLSX()" data-lang="downloadExcel">Скачать Excel</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 3. РИСКИ ========== -->
+  <section class="tab-panel" id="tab-risk">
+    <h1 class="section-title" data-lang="risk">Анализ рисков</h1>
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title" data-lang="riskForm">Анкета налоговых рисков</div>
+          <div class="card-sub" data-lang="riskFormSub">Ответьте на вопросы — получите оценку уровня риска и рекомендации.</div>
+        </div>
+        <div class="card-header-actions">
+          <button class="btn btn-ghost btn-sm" onclick="resetRisk()" data-lang="reset">Сбросить</button>
+        </div>
+      </div>
+      <div id="riskQuestions"></div>
+      <div class="btn-group mt-12">
+        <button class="btn btn-primary" onclick="calcRisk()" data-lang="assessRisk">Оценить риск</button>
+        <button class="btn btn-ghost" onclick="saveRiskPDF()" data-lang="savePdf">Сохранить PDF</button>
+      </div>
+      <div id="riskResult"></div>
+    </div>
+  </section>
+
+  <!-- ========== 4. ЛЬГОТЫ ========== -->
+  <section class="tab-panel" id="tab-ben">
+    <h1 class="section-title" data-lang="ben">Льготы и каникулы</h1>
+    <div class="card">
+      <div class="card-title" data-lang="region">Регион</div>
+      <div class="card-sub" data-lang="regionSub">Выберите субъект РФ — покажем региональный закон, ставки и особые условия.</div>
+      <div class="field">
+        <label for="benRegion" data-lang="regionLabel">Субъект Российской Федерации</label>
+        <select id="benRegion" onchange="renderRegionBenefit()"></select>
+      </div>
+      <div id="benInfo" class="mt-12"></div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="federalBenefits">Федеральные льготы 2026</div>
+      <div class="info-box">
+        <strong data-lang="holidayTitle">Налоговые каникулы 0%</strong> — <span data-lang="holidayText">для впервые зарегистрированных ИП на УСН и ПСН до 2 лет (ст. 346.20 НК РФ).</span><br>
+        <strong data-lang="mspTitle">Пониженные тарифы взносов МСП</strong> — <span data-lang="mspText">15% с выплат свыше МРОТ.</span><br>
+        <strong data-lang="itTitle">ИТ-компании</strong> — <span data-lang="itText">7,6% страховых взносов.</span><br>
+        <strong data-lang="regionRatesTitle">Региональные ставки УСН</strong> — <span data-lang="regionRatesText">от 1% до 6% («Доходы») и от 5% до 15% («Д−Р»).</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="holidayCheck">Проверка права на каникулы</div>
+      <div class="card-sub" data-lang="holidayCheckSub">Ответьте на 3 вопроса — проверим, можете ли вы применить ставку 0%.</div>
+      <label class="checkbox-field">
+        <input type="checkbox" id="holidayFirst" onchange="checkHoliday()">
+        <span data-lang="holidayQ1">Вы впервые регистрируетесь как ИП</span>
+      </label>
+      <label class="checkbox-field">
+        <input type="checkbox" id="holidayUsn" onchange="checkHoliday()">
+        <span data-lang="holidayQ2">Вы применяете УСН или ПСН</span>
+      </label>
+      <label class="checkbox-field">
+        <input type="checkbox" id="holidayRegion" onchange="checkHoliday()">
+        <span data-lang="holidayQ3">В вашем регионе действует закон о каникулах</span>
+      </label>
+      <div id="holidayResult" class="info-box mt-12"></div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="modeQuiz">Индивидуальный подбор режима</div>
+      <div class="card-sub" data-lang="modeQuizSub">Ответьте на 8 вопросов — рекомендуем оптимальный режим.</div>
+      <div id="modeQuiz"></div>
+      <button class="btn btn-primary mt-12" onclick="recommendMode()" data-lang="recommendMode">Подобрать режим</button>
+      <div id="modeRecommendation" class="mt-12"></div>
+    </div>
+  </section>
+
+  <!-- ========== 5. СРАВНЕНИЕ ========== -->
+  <section class="tab-panel" id="tab-comp">
+    <h1 class="section-title" data-lang="comp">Сравнение режимов</h1>
+    <div class="card">
+      <div class="card-title" data-lang="compTable">Сравнительная таблица</div>
+      <div class="card-sub" data-lang="compTableSub">Ключевые параметры режимов налогообложения.</div>
+      <div class="table-wrapper">
+        <table class="table" id="compStaticTable"></table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="compCalc">Калькулятор сравнения</div>
+      <div class="card-sub" data-lang="compCalcSub">Введите доход и расходы — увидите налог и чистый доход по каждому режиму.</div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="compIncome" data-lang="income">Годовой доход, ₽</label>
+          <input id="compIncome" type="number" value="2000000" min="0" step="10000" oninput="renderCompare()">
+        </div>
+        <div class="field">
+          <label for="compExp" data-lang="expenses">Расходы, ₽</label>
+          <input id="compExp" type="number" value="800000" min="0" step="10000" oninput="renderCompare()">
+        </div>
+      </div>
+      <div id="compTable"></div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="ipVsEmployee">ИП vs наёмный сотрудник</div>
+      <div class="card-sub" data-lang="ipVsEmployeeSub">Сравнение чистого дохода при работе на себя и по трудовому договору.</div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="cmpSalary" data-lang="salary">Зарплата сотрудника, ₽/мес</label>
+          <input id="cmpSalary" type="number" value="80000" min="0" step="1000" oninput="renderIpVsEmployee()">
+        </div>
+      </div>
+      <div id="ipVsEmployeeResult"></div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="ipVsOoo">ИП vs ООО</div>
+      <div class="card-sub" data-lang="ipVsOooSub">С учётом бухгалтера, зарплаты директора и дивидендов.</div>
+      <div class="row cols-3">
+        <div class="field">
+          <label for="cmpRevenue" data-lang="revenue">Выручка, ₽/год</label>
+          <input id="cmpRevenue" type="number" value="5000000" min="0" step="100000" oninput="renderIpVsOoo()">
+        </div>
+        <div class="field">
+          <label for="cmpCosts" data-lang="costs">Расходы, ₽/год</label>
+          <input id="cmpCosts" type="number" value="3000000" min="0" step="100000" oninput="renderIpVsOoo()">
+        </div>
+        <div class="field">
+          <label for="cmpAccountant" data-lang="accountant">Бухгалтер, ₽/мес</label>
+          <input id="cmpAccountant" type="number" value="15000" min="0" step="1000" oninput="renderIpVsOoo()">
+        </div>
+      </div>
+      <div id="ipVsOooResult"></div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="salaryVsDividends">Зарплата vs дивиденды</div>
+      <div class="card-sub" data-lang="salaryVsDividendsSub">Сравнение налоговой нагрузки при выплате собственнику.</div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="cmpPayout" data-lang="payout">Сумма к выплате, ₽</label>
+          <input id="cmpPayout" type="number" value="1000000" min="0" step="10000" oninput="renderSalaryVsDividends()">
+        </div>
+      </div>
+      <div id="salaryVsDividendsResult"></div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="leasing">Лизинг vs кредит vs покупка</div>
+      <div class="card-sub" data-lang="leasingSub">Сравнение вариантов приобретения актива.</div>
+      <div class="row cols-3">
+        <div class="field">
+          <label for="cmpAsset" data-lang="asset">Стоимость актива, ₽</label>
+          <input id="cmpAsset" type="number" value="3000000" min="0" step="10000" oninput="renderLeasing()">
+        </div>
+        <div class="field">
+          <label for="cmpLeaseRate" data-lang="leaseRate">Ставка лизинга, %</label>
+          <input id="cmpLeaseRate" type="number" value="15" min="0" step="0.5" oninput="renderLeasing()">
+        </div>
+        <div class="field">
+          <label for="cmpCreditRate" data-lang="creditRate">Ставка кредита, %</label>
+          <input id="cmpCreditRate" type="number" value="20" min="0" step="0.5" oninput="renderLeasing()">
+        </div>
+      </div>
+      <div id="leasingResult"></div>
+    </div>
+  </section>
+
+  <!-- ========== 6. KPI ========== -->
+  <section class="tab-panel" id="tab-kpi">
+    <h1 class="section-title" data-lang="kpi">Дашборд KPI</h1>
+    <div class="card">
+      <div class="card-title" data-lang="period">Период</div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="kpiFrom" data-lang="from">С</label>
+          <input id="kpiFrom" type="date" value="2026-01-01">
+        </div>
+        <div class="field">
+          <label for="kpiTo" data-lang="to">По</label>
+          <input id="kpiTo" type="date" value="2026-12-31">
+        </div>
+      </div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="kpiIndustry" data-lang="industry">Отрасль для сравнения</label>
+          <select id="kpiIndustry">
+            <option value="it">IT</option>
+            <option value="manufacturing" data-lang="industryManufacturing">Производство</option>
+            <option value="retail" data-lang="industryRetail">Торговля</option>
+            <option value="services" selected data-lang="industryServices">Услуги</option>
+            <option value="other" data-lang="industryOther">Прочее</option>
+          </select>
+        </div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="renderKpi()" data-lang="buildChart">Построить</button>
+        <button class="btn btn-ghost" onclick="exportKpiPDF()" data-lang="downloadPdf">Скачать PDF</button>
+        <button class="btn btn-ghost" onclick="exportKpiXLSX()" data-lang="downloadExcel">Скачать Excel</button>
+      </div>
+      <div id="kpiResult"></div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="monthlyChart">График по месяцам</div>
+      <div class="canvas-wrapper">
+        <canvas id="kpiChart" width="800" height="280"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 7. БОЛЬНИЧНЫЙ ========== -->
+  <section class="tab-panel" id="tab-sickleave">
+    <h1 class="section-title" data-lang="sickleave">Больничный</h1>
+    <div class="card">
+      <div class="card-title" data-lang="sickLeaveData">Данные для расчёта</div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="sickInc2024" data-lang="inc2024">Доход 2024, ₽</label>
+          <input id="sickInc2024" type="number" value="1200000" min="0" step="1000" oninput="calcSickLeave()">
+        </div>
+        <div class="field">
+          <label for="sickInc2025" data-lang="inc2025">Доход 2025, ₽</label>
+          <input id="sickInc2025" type="number" value="1400000" min="0" step="1000" oninput="calcSickLeave()">
+        </div>
+      </div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="sickExp" data-lang="sickExp">Страховой стаж</label>
+          <select id="sickExp" onchange="calcSickLeave()">
+            <option value="0.6" data-lang="exp60">До 5 лет (60%)</option>
+            <option value="0.8" data-lang="exp80">5–8 лет (80%)</option>
+            <option value="1" selected data-lang="exp100">Более 8 лет (100%)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="sickDays" data-lang="sickDays">Дней болезни</label>
+          <input id="sickDays" type="number" value="7" min="1" max="365" oninput="calcSickLeave()">
+        </div>
+      </div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="sickReason" data-lang="sickReason">Причина</label>
+          <select id="sickReason" onchange="calcSickLeave()">
+            <option value="self" data-lang="sickSelf">Своя болезнь</option>
+            <option value="child7" data-lang="sickChild7">Уход за ребёнком до 7 лет</option>
+            <option value="child15" data-lang="sickChild15">Уход за ребёнком 8–15 лет</option>
+            <option value="adult" data-lang="sickAdult">Уход за взрослым</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="sickCoef" data-lang="sickCoef">Районный коэффициент</label>
+          <input id="sickCoef" type="number" value="1" min="1" max="2" step="0.05" oninput="calcSickLeave()">
+        </div>
+      </div>
+      <div class="btn-group mt-12">
+        <button class="btn btn-primary" onclick="calcSickLeave()" data-lang="calculate">Рассчитать</button>
+        <button class="btn btn-ghost" onclick="saveSickLeavePDF()" data-lang="downloadPdf">Скачать PDF</button>
+        <button class="btn btn-ghost" onclick="exportSickLeaveXLSX()" data-lang="downloadExcel">Скачать Excel</button>
+      </div>
+      <div id="sickResult"></div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="sickLimits">Ограничения 2026</div>
+      <div class="info-box">
+        <span data-lang="sickBase2024">База 2024:</span> <strong>2 225 000 ₽</strong><br>
+        <span data-lang="sickBase2025">База 2025:</span> <strong>2 759 000 ₽</strong><br>
+        <span data-lang="sickMaxDaily">Максимум в день:</span> <strong>6 827,40 ₽</strong><br>
+        <span data-lang="sickMinDaily">Минимум в день:</span> <strong>890,72 ₽</strong><br>
+        <span data-lang="mrot">МРОТ 2026:</span> <strong>27 093 ₽</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 8. ОТПУСКНЫЕ ========== -->
+  <section class="tab-panel" id="tab-vacation">
+    <h1 class="section-title" data-lang="vacation">Отпускные</h1>
+    <div class="card">
+      <div class="card-title" data-lang="vacationData">Данные для расчёта</div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="vacIncome" data-lang="vacIncome">Доход за 12 месяцев, ₽</label>
+          <input id="vacIncome" type="number" value="1200000" min="0" step="1000" oninput="calcVacation()">
+        </div>
+        <div class="field">
+          <label for="vacMonths" data-lang="vacMonths">Полных месяцев</label>
+          <input id="vacMonths" type="number" value="12" min="1" max="12" oninput="calcVacation()">
+        </div>
+      </div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="vacDays" data-lang="vacDays">Дней отпуска</label>
+          <input id="vacDays" type="number" value="14" min="1" max="60" oninput="calcVacation()">
+        </div>
+        <div class="field">
+          <label for="vacExcl" data-lang="vacExcl">Исключаемых дней</label>
+          <input id="vacExcl" type="number" value="0" min="0" max="365" oninput="calcVacation()">
+        </div>
+      </div>
+      <div class="btn-group mt-12">
+        <button class="btn btn-primary" onclick="calcVacation()" data-lang="calculate">Рассчитать</button>
+        <button class="btn btn-ghost" onclick="saveVacationPDF()" data-lang="downloadPdf">Скачать PDF</button>
+        <button class="btn btn-ghost" onclick="exportVacationXLSX()" data-lang="downloadExcel">Скачать Excel</button>
+      </div>
+      <div id="vacResult"></div>
+    </div>
+  </section>
+
+  <!-- ========== 9. ДЕКРЕТНЫЕ ========== -->
+  <section class="tab-panel" id="tab-maternity">
+    <h1 class="section-title" data-lang="maternity">Декретные</h1>
+    <div class="card">
+      <div class="card-title" data-lang="maternityData">Данные для расчёта</div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="matInc2024" data-lang="inc2024">Доход 2024, ₽</label>
+          <input id="matInc2024" type="number" value="1200000" min="0" step="1000" oninput="calcMaternity()">
+        </div>
+        <div class="field">
+          <label for="matInc2025" data-lang="inc2025">Доход 2025, ₽</label>
+          <input id="matInc2025" type="number" value="1400000" min="0" step="1000" oninput="calcMaternity()">
+        </div>
+      </div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="matType" data-lang="maternityType">Тип пособия</label>
+          <select id="matType" onchange="calcMaternity()">
+            <option value="140" data-lang="bir140">БиР — 140 дней</option>
+            <option value="156" data-lang="bir156">БиР — 156 дней</option>
+            <option value="194" data-lang="bir194">БиР — 194 дня</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="matExcl" data-lang="vacExcl">Исключаемых дней</label>
+          <input id="matExcl" type="number" value="0" min="0" max="730" oninput="calcMaternity()">
+        </div>
+      </div>
+      <div class="btn-group mt-12">
+        <button class="btn btn-primary" onclick="calcMaternity()" data-lang="calculate">Рассчитать</button>
+        <button class="btn btn-ghost" onclick="saveMaternityPDF()" data-lang="downloadPdf">Скачать PDF</button>
+        <button class="btn btn-ghost" onclick="exportMaternityXLSX()" data-lang="downloadExcel">Скачать Excel</button>
+      </div>
+      <div id="matResult"></div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="sickLimits">Ограничения 2026</div>
+      <div class="info-box">
+        <span data-lang="sickMaxDaily">Максимум в день:</span> <strong>6 827,40 ₽</strong><br>
+        <span data-lang="matMinMonthly">Минимум в месяц:</span> <strong>9 227 ₽</strong><br>
+        <span data-lang="matMaxCare">Максимум по уходу до 1,5 лет:</span> <strong>83 021 ₽/мес</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 10. BEP ========== -->
+  <section class="tab-panel" id="tab-bep">
+    <h1 class="section-title" data-lang="bep">Точка безубыточности</h1>
+    <div class="card">
+      <div class="card-title" data-lang="bepParams">Параметры</div>
+      <div class="row cols-3">
+        <div class="field">
+          <label for="bepFix" data-lang="bepFix">Постоянные расходы/мес, ₽</label>
+          <input id="bepFix" type="number" value="150000" min="0" step="1000" oninput="calcBep()">
+        </div>
+        <div class="field">
+          <label for="bepPrice" data-lang="bepPrice">Средняя цена, ₽</label>
+          <input id="bepPrice" type="number" value="1500" min="0" step="10" oninput="calcBep()">
+        </div>
+        <div class="field">
+          <label for="bepVar" data-lang="bepVar">Переменные/ед., ₽</label>
+          <input id="bepVar" type="number" value="700" min="0" step="10" oninput="calcBep()">
+        </div>
+      </div>
+      <div class="btn-group mt-12">
+        <button class="btn btn-primary" onclick="calcBep()" data-lang="calculate">Рассчитать</button>
+        <button class="btn btn-ghost" onclick="saveBepPDF()" data-lang="downloadPdf">Скачать PDF</button>
+        <button class="btn btn-ghost" onclick="exportBepXLSX()" data-lang="downloadExcel">Скачать Excel</button>
+      </div>
+      <div id="bepResult"></div>
+      <div class="canvas-wrapper mt-12">
+        <canvas id="bepChart" width="800" height="280"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 11. ROI ========== -->
+  <section class="tab-panel" id="tab-roi">
+    <h1 class="section-title" data-lang="roi">ROI инвестиций</h1>
+    <div class="card">
+      <div class="card-title" data-lang="roiParams">Параметры</div>
+      <div class="row cols-3">
+        <div class="field">
+          <label for="roiInv" data-lang="roiInv">Инвестиция, ₽</label>
+          <input id="roiInv" type="number" value="500000" min="0" step="10000" oninput="calcRoi()">
+        </div>
+        <div class="field">
+          <label for="roiProfit" data-lang="roiProfit">Прибыль/мес, ₽</label>
+          <input id="roiProfit" type="number" value="40000" min="0" step="1000" oninput="calcRoi()">
+        </div>
+        <div class="field">
+          <label for="roiMonths" data-lang="roiMonths">Срок анализа, мес</label>
+          <input id="roiMonths" type="number" value="24" min="1" max="120" oninput="calcRoi()">
+        </div>
+      </div>
+      <div class="btn-group mt-12">
+        <button class="btn btn-primary" onclick="calcRoi()" data-lang="calculate">Рассчитать</button>
+        <button class="btn btn-ghost" onclick="saveRoiPDF()" data-lang="downloadPdf">Скачать PDF</button>
+      </div>
+      <div id="roiResult"></div>
+    </div>
+  </section>
+
+  <!-- ========== 12. CASH-FLOW ========== -->
+  <section class="tab-panel" id="tab-cashflow">
+    <h1 class="section-title" data-lang="cashflow">Cash-flow прогноз</h1>
+    <div class="card">
+      <div class="card-title" data-lang="cfParams">Параметры</div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="cfStart" data-lang="cfStart">Стартовый остаток, ₽</label>
+          <input id="cfStart" type="number" value="200000" min="0" step="10000" oninput="calcCashflow()">
+        </div>
+        <div class="field">
+          <label for="cfIncome" data-lang="cfIncome">Средний доход/мес, ₽</label>
+          <input id="cfIncome" type="number" value="300000" min="0" step="10000" oninput="calcCashflow()">
+        </div>
+      </div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="cfExpense" data-lang="cfExpense">Средний расход/мес, ₽</label>
+          <input id="cfExpense" type="number" value="220000" min="0" step="10000" oninput="calcCashflow()">
+        </div>
+        <div class="field">
+          <label for="cfSeason" data-lang="cfSeason">Сезонность</label>
+          <select id="cfSeason" onchange="calcCashflow()">
+            <option value="0" data-lang="cfSeasonNone">Нет</option>
+            <option value="0.2" data-lang="cfSeason20">±20%</option>
+            <option value="0.5" data-lang="cfSeason50">±50%</option>
+          </select>
+        </div>
+      </div>
+      <div class="btn-group mt-12">
+        <button class="btn btn-primary" onclick="calcCashflow()" data-lang="calculate">Рассчитать</button>
+        <button class="btn btn-ghost" onclick="saveCashflowPDF()" data-lang="downloadPdf">Скачать PDF</button>
+      </div>
+      <div id="cfResult"></div>
+      <div class="canvas-wrapper mt-12">
+        <canvas id="cfChart" width="800" height="280"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 13. НДФЛ ========== -->
+  <section class="tab-panel" id="tab-ndfl">
+    <h1 class="section-title" data-lang="ndfl">Возврат НДФЛ</h1>
+    <div class="card">
+      <div class="card-title" data-lang="ndflIncomeTitle">Доход и уплаченный налог</div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="ndflIncome" data-lang="income">Годовой доход, ₽</label>
+          <input id="ndflIncome" type="number" value="900000" min="0" step="10000" oninput="calcNdfl()">
+        </div>
+        <div class="field">
+          <label for="ndflPaid" data-lang="ndflPaid">Уплаченный НДФЛ, ₽</label>
+          <input id="ndflPaid" type="number" value="117000" min="0" step="1000" oninput="calcNdfl()">
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="ndflExpenses">Расходы для вычетов</div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="ndflEduSelf" data-lang="ndflEduSelf">Обучение (своё/брата), ₽</label>
+          <input id="ndflEduSelf" type="number" value="0" min="0" step="1000" oninput="calcNdfl()">
+        </div>
+        <div class="field">
+          <label for="ndflEduChild" data-lang="ndflEduChild">Обучение детей, ₽</label>
+          <input id="ndflEduChild" type="number" value="0" min="0" step="1000" oninput="calcNdfl()">
+        </div>
+      </div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="ndflMed" data-lang="ndflMed">Лечение (обычное), ₽</label>
+          <input id="ndflMed" type="number" value="0" min="0" step="1000" oninput="calcNdfl()">
+        </div>
+        <div class="field">
+          <label for="ndflMedExp" data-lang="ndflMedExp">Дорогостоящее лечение, ₽</label>
+          <input id="ndflMedExp" type="number" value="0" min="0" step="1000" oninput="calcNdfl()">
+        </div>
+      </div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="ndflProp" data-lang="ndflProp">Имущественный вычет (жильё), ₽</label>
+          <input id="ndflProp" type="number" value="0" min="0" step="10000" oninput="calcNdfl()">
+        </div>
+        <div class="field">
+          <label for="ndflInterest" data-lang="ndflInterest">Проценты по ипотеке, ₽</label>
+          <input id="ndflInterest" type="number" value="0" min="0" step="10000" oninput="calcNdfl()">
+        </div>
+      </div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="ndflIis" data-lang="ndflIis">ИИС, ₽</label>
+          <input id="ndflIis" type="number" value="0" min="0" step="1000" oninput="calcNdfl()">
+        </div>
+        <div class="field">
+          <label for="ndflFitness" data-lang="ndflFitness">Фитнес, ₽</label>
+          <input id="ndflFitness" type="number" value="0" min="0" step="1000" oninput="calcNdfl()">
+        </div>
+      </div>
+      <div class="btn-group mt-12">
+        <button class="btn btn-primary" onclick="calcNdfl()" data-lang="calculate">Рассчитать</button>
+        <button class="btn btn-ghost" onclick="saveNdflPDF()" data-lang="downloadPdf">Скачать PDF</button>
+      </div>
+      <div id="ndflResult"></div>
+    </div>
+  </section>
+
+  <!-- ========== 14. ЖУРНАЛ ========== -->
+  <section class="tab-panel" id="tab-journal">
+    <h1 class="section-title" data-lang="journal">Журнал операций</h1>
+    <div class="widgets" id="journalWidgets"></div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title" data-lang="addOperation">Добавить операцию</div>
+        <div class="card-header-actions">
+          <button class="btn btn-ghost btn-sm" onclick="openAddEntryModal()" data-lang="quickAdd">Быстрое добавление</button>
+        </div>
+      </div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="jType" data-lang="type">Тип</label>
+          <select id="jType" onchange="buildJournalCategorySelect()">
+            <option value="income" data-lang="incomeType">Доход</option>
+            <option value="expense" data-lang="expenseType">Расход</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="jDate" data-lang="date">Дата</label>
+          <input id="jDate" type="date">
+        </div>
+      </div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="jAmount" data-lang="amount">Сумма, ₽</label>
+          <input id="jAmount" type="number" min="0" step="0.01" placeholder="0">
+        </div>
+        <div class="field">
+          <label for="jCategory" data-lang="category">Категория</label>
+          <select id="jCategory"></select>
+        </div>
+      </div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="jCounterparty" data-lang="counterparty">Контрагент</label>
+          <input id="jCounterparty" type="text" placeholder="ООО «Ромашка»">
+        </div>
+        <div class="field">
+          <label for="jComment" data-lang="comment">Комментарий</label>
+          <input id="jComment" type="text" placeholder="Оплата услуг">
+        </div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="addJournalEntry()" data-lang="add">Добавить</button>
+        <button class="btn btn-ghost" onclick="openCategoryManager()" data-lang="categories">Категории</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title" data-lang="operations">Операции</div>
+        <div class="card-header-actions">
+          <button class="btn btn-ghost btn-sm" onclick="exportJournalCSV()">CSV</button>
+          <button class="btn btn-ghost btn-sm" onclick="exportJournalXLSX()">Excel</button>
+          <button class="btn btn-ghost btn-sm" onclick="exportJournalPDF()">PDF</button>
+          <button class="btn btn-ghost btn-sm" onclick="clearJournalAll()" data-lang="clear">Очистить</button>
+        </div>
+      </div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="jFilterType" data-lang="filterType">Фильтр по типу</label>
+          <select id="jFilterType" onchange="renderJournal()">
+            <option value="all" data-lang="all">Все</option>
+            <option value="income" data-lang="incomeType">Доходы</option>
+            <option value="expense" data-lang="expenseType">Расходы</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="jFilterMonth" data-lang="month">Месяц</label>
+          <input id="jFilterMonth" type="month" onchange="renderJournal()">
+        </div>
+      </div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="jFilterCategory">Категория</label>
+          <select id="jFilterCategory" onchange="renderJournal()">
+            <option value="">Все</option>
+          </select>
+        </div>
+      </div>
+      <div id="journalList" class="journal-list"></div>
+    </div>
+  </section>
+
+  <!-- ========== 15. СКАНЕР ========== -->
+  <section class="tab-panel" id="tab-scanner">
+    <h1 class="section-title" data-lang="scanner">Сканер чеков</h1>
+    <div class="card">
+      <div class="card-title" data-lang="arCamera">AR-камера</div>
+      <div class="card-sub" data-lang="arCameraSub">Наведите камеру на QR-код чека ФНС. Автоматическое распознавание через jsQR. Для OCR текста — кнопка-затвор.</div>
+      <div class="scanner-video-wrap" id="arVideoWrap" style="display:none">
+        <video id="arVideo" autoplay playsinline muted></video>
+        <div class="scanner-frame"></div>
+      </div>
+      <div class="scanner-controls">
+        <button class="btn btn-primary" id="arStartBtn" onclick="startARScanner()" data-lang="arStart">Включить камеру</button>
+        <button class="btn btn-ghost" id="arStopBtn" onclick="stopARScanner()" style="display:none" data-lang="arStop">Остановить</button>
+        <button class="btn btn-ghost" id="arCaptureBtn" onclick="captureARFrame()" style="display:none" data-lang="arCapture">Затвор (OCR)</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="uploadPhoto">Загрузка фото из галереи</div>
+      <div class="card-sub" data-lang="uploadPhotoSub">JPG, PNG, PDF до 10 МБ. Распознавание QR и текста (OCR).</div>
+      <div class="field">
+        <input type="file" id="scannerFile" accept="image/*,application/pdf" onchange="handleScannerFile(event)">
+      </div>
+      <div id="scannerResult"></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title" data-lang="receiptsHistory">История чеков</div>
+        <div class="card-header-actions">
+          <button class="btn btn-ghost btn-sm" onclick="findDuplicateReceipts()" data-lang="duplicates">Дубликаты</button>
+          <button class="btn btn-ghost btn-sm" onclick="exportReceiptsCSV()">CSV</button>
+          <button class="btn btn-ghost btn-sm" onclick="exportReceiptsXLSX()">Excel</button>
+        </div>
+      </div>
+      <div class="field">
+        <input type="text" id="receiptsSearch" placeholder="Поиск по чекам..." oninput="searchReceipts(this.value)">
+      </div>
+      <div id="receiptsList"></div>
+    </div>
+  </section>
+
+  <!-- ========== 16. ЧЕК-ЛИСТ ========== -->
+  <section class="tab-panel" id="tab-checklist">
+    <h1 class="section-title" data-lang="checklist">Чек-лист регистрации</h1>
+    <div class="card">
+      <div class="card-header">
+        <div class="btn-group">
+          <button class="btn btn-primary btn-sm" id="clBtnIp" onclick="switchChecklistType('ip')" data-lang="ip">ИП</button>
+          <button class="btn btn-ghost btn-sm" id="clBtnOoo" onclick="switchChecklistType('ooo')" data-lang="ooo">ООО</button>
+        </div>
+        <div class="card-header-actions">
+          <button class="btn btn-ghost btn-sm" onclick="printChecklist()" data-lang="print">Печать</button>
+          <button class="btn btn-ghost btn-sm" onclick="resetChecklist()" data-lang="reset">Сбросить</button>
+        </div>
+      </div>
+      <div id="checklistProgress"></div>
+      <div id="checklistItems" class="mt-12"></div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="docsPackage">Пакет документов</div>
+      <div id="docsPackage"></div>
+    </div>
+  </section>
+
+  <!-- ========== 17. ТЕПЛОКАРТА ========== -->
+  <section class="tab-panel" id="tab-heatmap">
+    <h1 class="section-title" data-lang="heatmap">Теплокарта года 2026</h1>
+    <div class="card">
+      <div class="card-header">
+        <div class="btn-group">
+          <button class="btn btn-ghost btn-sm" onclick="changeHeatmapMonth(-1)">←</button>
+          <div id="hmTitle" class="bold" style="min-width:180px;text-align:center;padding:7px 0"></div>
+          <button class="btn btn-ghost btn-sm" onclick="changeHeatmapMonth(1)">→</button>
+        </div>
+        <div class="card-header-actions">
+          <button class="btn btn-ghost btn-sm" onclick="exportCalendarICS()">.ics</button>
+          <button class="btn btn-ghost btn-sm" onclick="exportCalendarICSFull()">.ics + напоминания</button>
+          <button class="btn btn-ghost btn-sm" onclick="printHeatmap()" data-lang="print">Печать</button>
+        </div>
+      </div>
+      <div class="heatmap" id="heatmap"></div>
+      <div class="mt-12 flex flex-wrap gap-12 small">
+        <span><span class="tag amber" data-lang="event">Событие</span> <span data-lang="eventTax">налоговое</span></span>
+        <span><span class="tag blue" data-lang="note">Заметка</span> <span data-lang="notePersonal">личная</span></span>
+        <span><span class="tag" style="background:rgba(139,92,246,.2);color:#5b21b6" data-lang="both">Оба</span> <span data-lang="bothSub">событие + заметка</span></span>
+      </div>
+      <div id="hmEvents" class="mt-12"></div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="heatmapLoad">Нагрузка по месяцам</div>
+      <div id="hmLoad"></div>
+    </div>
+  </section>
+
+  <!-- ========== 18. СИМУЛЯТОР ========== -->
+  <section class="tab-panel" id="tab-simulator">
+    <h1 class="section-title" data-lang="simulator">Симулятор</h1>
+    <div class="card">
+      <div class="card-title" data-lang="simulatorParams">Параметры</div>
+      <div class="field mb-12">
+        <label><span data-lang="simIncome">Доход:</span> <strong id="simIncLabel">1 200 000 ₽</strong></label>
+        <input id="simInc" type="range" min="0" max="20000000" step="10000" value="1200000" oninput="runSimulator()" style="width:100%" class="no-swipe">
+      </div>
+      <div class="field mb-12">
+        <label><span data-lang="simExpenses">Расходы:</span> <strong id="simExpLabel">600 000 ₽</strong></label>
+        <input id="simExp" type="range" min="0" max="20000000" step="10000" value="600000" oninput="runSimulator()" style="width:100%" class="no-swipe">
+      </div>
+      <div class="row cols-2">
+        <div class="field">
+          <label><span data-lang="simEmployees">Сотрудники:</span> <strong id="simEmpLabel">0</strong></label>
+          <input id="simEmp" type="range" min="0" max="200" step="1" value="0" oninput="runSimulator()" style="width:100%" class="no-swipe">
+        </div>
+        <div class="field">
+          <label><span data-lang="simSalary">Зарплата:</span> <strong id="simSalaryLabel">30 000 ₽</strong></label>
+          <input id="simSalary" type="range" min="0" max="200000" step="1000" value="30000" oninput="runSimulator()" style="width:100%" class="no-swipe">
+        </div>
+      </div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="simMode" data-lang="simMode">Режим</label>
+          <select id="simMode" onchange="runSimulator()">
+            <option value="npd">НПД</option>
+            <option value="usn6">УСН 6%</option>
+            <option value="usn15">УСН 15%</option>
+            <option value="psn">ПСН</option>
+          </select>
+        </div>
+      </div>
+      <div id="simWarnings"></div>
+      <div id="simResult" class="result-grid"></div>
+      <div class="canvas-wrapper mt-12">
+        <canvas id="simChart" width="800" height="280"></canvas>
+      </div>
+      <div class="btn-group mt-12">
+        <button class="btn btn-primary" onclick="applySimulatorToCalc()" data-lang="applyToCalc">Применить к калькулятору</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 19. FAQ ========== -->
+  <section class="tab-panel" id="tab-faq">
+    <h1 class="section-title" data-lang="faq">База знаний</h1>
+    <div class="card">
+      <div class="card-title" data-lang="faqTitle">FAQ</div>
+      <div id="faqList"></div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="lifehacks">Лайфхаки</div>
+      <div id="lifehacksList"></div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="glossary">Глоссарий</div>
+      <div id="glossaryList"></div>
+    </div>
+  </section>
+
+  <!-- ========== 20. КУРС ========== -->
+  <section class="tab-panel" id="tab-course">
+    <h1 class="section-title" data-lang="course">Мини-курс</h1>
+    <div id="courseContent"></div>
+  </section>
+
+  <!-- ========== 21. НК РФ ========== -->
+  <section class="tab-panel" id="tab-nk">
+    <h1 class="section-title" data-lang="nk">НК РФ офлайн</h1>
+    <div class="card">
+      <div class="row cols-2">
+        <div class="field">
+          <label for="nkSearch" data-lang="nkSearch">Поиск по статьям</label>
+          <input id="nkSearch" type="text" placeholder="346.20, УСН, НДС..." oninput="renderNK()">
+        </div>
+        <div class="field">
+          <label for="nkCategory" data-lang="nkCategory">Категория</label>
+          <select id="nkCategory" onchange="renderNK()">
+            <option value="" data-lang="all">Все</option>
+            <option value="УСН">УСН</option>
+            <option value="ПСН">ПСН</option>
+            <option value="ЕСХН">ЕСХН</option>
+            <option value="Взносы" data-lang="catContrib">Взносы</option>
+            <option value="НДС">НДС</option>
+            <option value="НДФЛ">НДФЛ</option>
+            <option value="Проверки" data-lang="catChecks">Проверки</option>
+            <option value="ККТ">ККТ</option>
+            <option value="Банки" data-lang="catBanks">Банки</option>
+          </select>
+        </div>
+      </div>
+      <div id="nkList"></div>
+    </div>
+  </section>
+
+  <!-- ========== 22. СУДПРАКТИКА ========== -->
+  <section class="tab-panel" id="tab-court">
+    <h1 class="section-title" data-lang="court">Судебная практика</h1>
+    <div class="card">
+      <div class="field mb-12">
+        <label for="courtSearch" data-lang="courtSearch">Поиск по теме</label>
+        <input id="courtSearch" type="text" placeholder="дробление, самозанятые, 115-ФЗ..." oninput="renderCourt()">
+      </div>
+      <div id="courtList"></div>
+    </div>
+  </section>
+
+  <!-- ========== 23. ГОСЗАКУПКИ ========== -->
+  <section class="tab-panel" id="tab-govproc">
+    <h1 class="section-title" data-lang="govproc">Госзакупки</h1>
+    <div class="card">
+      <div class="card-title" data-lang="govChecklist44">Чек-лист по 44-ФЗ (12 шагов)</div>
+      <div id="govChecklist44"></div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="govChecklist223">Чек-лист по 223-ФЗ (8 шагов)</div>
+      <div id="govChecklist223"></div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="govCompare">ИП vs ООО в закупках</div>
+      <div class="table-wrapper">
+        <table class="table" id="govCompareTable"></table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="govLinks">Полезные ссылки</div>
+      <div class="info-box">
+        <a href="https://zakupki.gov.ru/" target="_blank" rel="noopener">zakupki.gov.ru</a> — <span data-lang="eis">ЕИС</span><br>
+        <a href="https://www.rts-tender.ru/" target="_blank" rel="noopener">rts-tender.ru</a> — <span data-lang="rts">РТС-тендер</span><br>
+        <a href="https://www.sberbank-ast.ru/" target="_blank" rel="noopener">sberbank-ast.ru</a> — <span data-lang="sberAst">Сбербанк-АСТ</span><br>
+        <a href="https://etp-ets.ru/" target="_blank" rel="noopener">etp-ets.ru</a> — <span data-lang="eetp">ЕЭТП</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 24. ЦБ/ФНС ========== -->
+  <section class="tab-panel" id="tab-cbr">
+    <h1 class="section-title" data-lang="cbr">Актуальная информация ЦБ/ФНС</h1>
+    <div class="card">
+      <div class="card-title" data-lang="cbrCb">Центральный банк РФ</div>
+      <div class="info-box">
+        <a href="https://www.cbr.ru/hd_base/KeyRate/" target="_blank" rel="noopener" data-lang="keyRate">Ключевая ставка</a><br>
+        <a href="https://www.cbr.ru/hd_base/refinancing_rate/" target="_blank" rel="noopener" data-lang="refRate">Ставка рефинансирования</a><br>
+        <a href="https://www.cbr.ru/currency_base/daily/" target="_blank" rel="noopener" data-lang="currency">Курсы валют</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="cbrFns">ФНС России</div>
+      <div class="info-box">
+        <a href="https://www.nalog.gov.ru/" target="_blank" rel="noopener" data-lang="fnsSite">Сайт ФНС</a><br>
+        <a href="https://www.nalog.gov.ru/rn77/taxation/taxes/usn/" target="_blank" rel="noopener">УСН</a><br>
+        <a href="https://www.nalog.gov.ru/rn77/taxation/taxes/patent/" target="_blank" rel="noopener">ПСН</a><br>
+        <a href="https://www.nalog.gov.ru/rn77/taxation/taxes/npd/" target="_blank" rel="noopener">НПД</a><br>
+        <a href="https://www.nalog.gov.ru/rn77/taxation/taxes/nds/" target="_blank" rel="noopener">НДС</a><br>
+        <a href="https://www.nalog.gov.ru/rn77/taxation/taxes/ndfl/" target="_blank" rel="noopener">НДФЛ</a><br>
+        <a href="https://www.nalog.gov.ru/rn77/taxation/taxes/esh/" target="_blank" rel="noopener">ЕСХН</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="cbrLaws">Законы и консультант</div>
+      <div class="info-box">
+        <a href="https://www.consultant.ru/document/cons_doc_LAW_28165/" target="_blank" rel="noopener" data-lang="nkPart1">НК РФ часть 1</a><br>
+        <a href="https://www.consultant.ru/document/cons_doc_LAW_68562/" target="_blank" rel="noopener" data-lang="nkPart2">НК РФ часть 2</a><br>
+        <a href="https://www.consultant.ru/document/cons_doc_LAW_32834/" target="_blank" rel="noopener" data-lang="kkt54fz">54-ФЗ (ККТ)</a><br>
+        <a href="https://www.consultant.ru/document/cons_doc_LAW_389394/" target="_blank" rel="noopener" data-lang="mrot2026">МРОТ 2026</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="cbrCheck">Проверка контрагента</div>
+      <div class="info-box">
+        <a href="https://egrul.nalog.ru/" target="_blank" rel="noopener" data-lang="egrul">ЕГРЮЛ/ЕГРИП</a><br>
+        <a href="https://pb.nalog.ru/" target="_blank" rel="noopener" data-lang="transparentBusiness">Прозрачный бизнес</a><br>
+        <a href="https://service.nalog.ru/disqualified.do" target="_blank" rel="noopener" data-lang="disqualified">Дисквалифицированные лица</a><br>
+        <a href="https://fssp.gov.ru/iss/ip" target="_blank" rel="noopener" data-lang="fssp">ФССП — исполнительные производства</a><br>
+        <a href="https://kad.arbitr.ru/" target="_blank" rel="noopener" data-lang="kad">Картотека арбитражных дел</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="cbrReg">Регистрация и маркировка</div>
+      <div class="info-box">
+        <a href="https://service.nalog.ru/gosreg/" target="_blank" rel="noopener" data-lang="businessReg">Регистрация бизнеса</a><br>
+        <a href="https://www.gosuslugi.ru/" target="_blank" rel="noopener" data-lang="gosuslugi">Госуслуги</a><br>
+        <a href="https://lknpd.nalog.ru/" target="_blank" rel="noopener" data-lang="myTax">Мой налог (НПД)</a><br>
+        <a href="https://lkul.nalog.ru/" target="_blank" rel="noopener" data-lang="lkIp">Личный кабинет ИП</a><br>
+        <a href="https://честныйзнак.рф/" target="_blank" rel="noopener" data-lang="chestnyZnak">Честный знак</a><br>
+        <a href="https://www.nalog.gov.ru/rn77/taxation/reference_work/kk/" target="_blank" rel="noopener" data-lang="kktRegistry">Реестр ККТ</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 25. ОПЛАТА ========== -->
+  <section class="tab-panel" id="tab-payment">
+    <h1 class="section-title" data-lang="payment">Оплата</h1>
+    <div class="card">
+      <div class="card-title" data-lang="paymentPromo">Промокод</div>
+      <div class="card-sub" data-lang="paymentPromoSub">Введите промокод, полученный после прохождения курса, для скидки 20%.</div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="promoInput" data-lang="promoCode">Промокод</label>
+          <input id="promoInput" type="text" placeholder="XXXXX-XXXXX-XXXXX" autocomplete="off">
+        </div>
+        <div class="field" style="justify-content:flex-end">
+          <button class="btn btn-primary" onclick="applyPromoCode()" data-lang="apply">Применить</button>
+        </div>
+      </div>
+      <div id="promoResult" class="mt-8"></div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="paymentPlan">Выберите план</div>
+      <div class="plan-selector">
+        <div class="plan-option" id="planMonth" onclick="selectPlan('month')">
+          <div class="title" data-lang="planMonth">Месяц</div>
+          <div class="price">— ₽</div>
+        </div>
+        <div class="plan-option" id="planYear" onclick="selectPlan('year')">
+          <div class="title" data-lang="planYear">Год</div>
+          <div class="price">— ₽</div>
+        </div>
+      </div>
+      <div id="priceSummary" class="info-box"></div>
+      <div class="btn-group mt-12">
+        <button class="btn btn-primary btn-block" onclick="payNow()" data-lang="payNow">Оплатить</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="paymentStatus">Статус подписки</div>
+      <div id="paymentStatus" class="info-box"></div>
+    </div>
+  </section>
+
+  <!-- ========== 26. НАСТРОЙКИ ========== -->
+  <section class="tab-panel" id="tab-settings">
+    <h1 class="section-title" data-lang="settings">Настройки</h1>
+    <div class="card">
+      <div class="card-title" data-lang="appearance">Оформление</div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="setTheme" data-lang="themeLabel">Тема</label>
+          <select id="setTheme" onchange="applyThemeSetting()">
+            <option value="light" data-lang="themeLight">Светлая</option>
+            <option value="dark" data-lang="themeDark">Тёмная</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="setFont" data-lang="fontSize">Размер шрифта (12–36 px)</label>
+          <input id="setFont" type="number" min="12" max="36" value="16" oninput="applyFontSize()">
+        </div>
+      </div>
+      <div class="field mb-12">
+        <label for="setFontPreview" data-lang="fontPreview">Превью шрифта</label>
+        <div id="setFontPreview" style="padding:12px;background:var(--surface2);border-radius:var(--r-sm);font-size:var(--fs)">
+          <span data-lang="fontPreviewText">Пример текста для оценки размера шрифта. Налоговый калькулятор.</span>
+        </div>
+      </div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="setColorblind" data-lang="colorblind">Режим для дальтоников</label>
+          <select id="setColorblind" onchange="applyColorblind()">
+            <option value="off" data-lang="off">Выкл</option>
+            <option value="on" data-lang="on">Вкл</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="setSimple" data-lang="simpleMode">Простой режим</label>
+          <select id="setSimple" onchange="applySimpleMode()">
+            <option value="off" data-lang="off">Выкл</option>
+            <option value="on" data-lang="on">Вкл</option>
+          </select>
+        </div>
+      </div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="setSandbox" data-lang="sandbox">Режим песочницы</label>
+          <select id="setSandbox" onchange="onSandboxChange()">
+            <option value="off" data-lang="off">Выкл</option>
+            <option value="on" data-lang="sandboxOn">Вкл (данные в памяти)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="onboarding">Онбординг</div>
+      <div class="card-sub" data-lang="onboardingSub">Показать обучающие слайды снова.</div>
+      <button class="btn btn-ghost" onclick="restartOnboarding()" data-lang="showOnboarding">Показать онбординг</button>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="appPassword">Пароль на приложение</div>
+      <div class="card-sub" data-lang="appPasswordSub">Защита доступа к данным. Пароль хранится в виде хеша.</div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="setPassword" data-lang="newPassword">Новый пароль (4 цифры)</label>
+          <input id="setPassword" type="password" inputmode="numeric" maxlength="4" placeholder="••••">
+        </div>
+        <div class="field">
+          <label for="setPassword2" data-lang="repeatPassword">Повторите пароль</label>
+          <input id="setPassword2" type="password" inputmode="numeric" maxlength="4" placeholder="••••">
+        </div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="saveAppPassword()" data-lang="savePassword">Сохранить пароль</button>
+        <button class="btn btn-ghost" onclick="removeAppPassword()" data-lang="removePassword">Удалить пароль</button>
+      </div>
+      <div id="passwordStatus" class="mt-8 small muted"></div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="dataStats">Статистика данных</div>
+      <div id="dataStats" class="info-box"></div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="deleteData">Удаление данных</div>
+      <div class="card-sub" data-lang="deleteDataSub">Удаляет все данные: журнал, чеки, историю, настройки, заметки.</div>
+      <button class="btn btn-danger" onclick="clearAllData()" data-lang="deleteAllData">Удалить все данные</button>
+    </div>
+  </section>
+
+  <!-- ========== 27. БЭКАП ========== -->
+  <section class="tab-panel" id="tab-backup">
+    <h1 class="section-title" data-lang="backup">Резервная копия</h1>
+    <div class="card">
+      <div class="card-title" data-lang="backupExport">Экспорт</div>
+      <div class="card-sub" data-lang="backupExportSub">Сохраните данные в JSON или HTML-отчёт.</div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="backupPassword" data-lang="backupPassword">Пароль (опционально)</label>
+          <input id="backupPassword" type="password" placeholder="Пароль для шифрования">
+        </div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="exportBackup()" data-lang="downloadJson">Скачать JSON</button>
+        <button class="btn btn-ghost" onclick="exportBackupHTML()" data-lang="htmlReport">HTML-отчёт (PDF)</button>
+        <button class="btn btn-ghost" onclick="shareBackupLink()" data-lang="shareLink">Поделиться ссылкой</button>
+      </div>
+      <div id="shareResult" class="mt-12"></div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="backupImport">Импорт</div>
+      <div class="card-sub" data-lang="backupImportSub">Загрузите JSON или зашифрованный .enc файл.</div>
+      <div class="field">
+        <input type="file" id="importFile" accept=".json,.enc" onchange="importBackup(event)">
+      </div>
+      <div class="row cols-2 mt-12">
+        <div class="field">
+          <label for="importPassword" data-lang="importPassword">Пароль (если зашифровано)</label>
+          <input id="importPassword" type="password" placeholder="Пароль">
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" data-lang="backupDemo">Демо-данные</div>
+      <div class="card-sub" data-lang="backupDemoSub">Загрузить примеры для знакомства с приложением.</div>
+      <div class="btn-group">
+        <button class="btn btn-ghost" onclick="loadDemo()" data-lang="loadDemo">Загрузить демо</button>
+        <button class="btn btn-ghost" onclick="clearDemo()" data-lang="clearDemo">Удалить демо</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     МОБИЛЬНЫЕ ТАБЫ
+     ============================================================ -->
+<nav class="bottom-tabs" aria-label="Быстрая навигация">
+  <button class="bt-item active" data-tab="calc" onclick="switchTab('calc')">
+    <span class="bt-icon">🧮</span><span data-lang="calcShort">Расчёт</span>
+  </button>
+  <button class="bt-item" data-tab="journal" onclick="switchTab('journal')">
+    <span class="bt-icon">📓</span><span data-lang="journalShort">Журнал</span>
+  </button>
+  <button class="bt-item" data-tab="scanner" onclick="switchTab('scanner')">
+    <span class="bt-icon">📷</span><span data-lang="scannerShort">Сканер</span>
+  </button>
+  <button class="bt-item" data-tab="course" onclick="switchTab('course')">
+    <span class="bt-icon">🎓</span><span data-lang="courseShort">Курс</span>
+  </button>
+  <button class="bt-item" onclick="toggleMenu()">
+    <span class="bt-icon">☰</span><span data-lang="more">Ещё</span>
+  </button>
+</nav>
+
+<!-- ============================================================
+     FAB
+     ============================================================ -->
+<button class="fab" onclick="openAddEntryModal()" aria-label="Добавить операцию">+</button>
+
+<!-- ============================================================
+     МОДАЛКА: ПОИСК
+     ============================================================ -->
+<div class="search-modal" id="searchModal" onclick="if(event.target===this)closeSearch()">
+  <div class="search-box">
+    <input id="searchInput" placeholder="Поиск: НК, судпрактика, курс, регионы, глоссарий..." oninput="runSearch()">
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     МОДАЛКА: БЫСТРОЕ ДОБАВЛЕНИЕ
+     ============================================================ -->
+<div class="modal-overlay" id="addEntryModal" onclick="if(event.target===this)closeAddEntryModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" data-lang="quickAdd">Быстрое добавление операции</div>
+      <button class="modal-close" onclick="closeAddEntryModal()" aria-label="Закрыть">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="row cols-2">
+        <div class="field">
+          <label for="fabType" data-lang="type">Тип</label>
+          <select id="fabType" onchange="buildFabCategorySelect()">
+            <option value="income" data-lang="incomeType">Доход</option>
+            <option value="expense" data-lang="expenseType">Расход</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="fabDate" data-lang="date">Дата</label>
+          <input id="fabDate" type="date">
+        </div>
+      </div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="fabAmount" data-lang="amount">Сумма, ₽</label>
+          <input id="fabAmount" type="number" min="0" step="0.01" placeholder="0">
+        </div>
+        <div class="field">
+          <label for="fabCategory" data-lang="category">Категория</label>
+          <select id="fabCategory"></select>
+        </div>
+      </div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="fabCounterparty" data-lang="counterparty">Контрагент</label>
+          <input id="fabCounterparty" type="text" placeholder="ООО «Ромашка»">
+        </div>
+        <div class="field">
+          <label for="fabComment" data-lang="comment">Комментарий</label>
+          <input id="fabComment" type="text" placeholder="Оплата услуг">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeAddEntryModal()" data-lang="cancel">Отмена</button>
+      <button class="btn btn-primary" onclick="addFabEntry()" data-lang="add">Добавить</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     МОДАЛКА: ИСТОРИЯ РАСЧЁТОВ
+     ============================================================ -->
+<div class="modal-overlay" id="taxHistoryModal" onclick="if(event.target===this)closeTaxHistory()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" data-lang="taxHistory">История расчётов</div>
+      <button class="modal-close" onclick="closeTaxHistory()" aria-label="Закрыть">✕</button>
+    </div>
+    <div class="modal-body" id="taxHistoryModalBody"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="exportTaxHistoryJSON()" data-lang="export">Экспорт JSON</button>
+      <button class="btn btn-ghost" onclick="clearTaxHistory()" data-lang="clear">Очистить</button>
+      <button class="btn btn-primary" onclick="closeTaxHistory()" data-lang="close">Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     МОДАЛКА: КАТЕГОРИИ
+     ============================================================ -->
+<div class="modal-overlay" id="categoryModal" onclick="if(event.target===this)closeCategoryManager()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" data-lang="categories">Управление категориями</div>
+      <button class="modal-close" onclick="closeCategoryManager()" aria-label="Закрыть">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field mb-12">
+        <label for="newCategoryInput" data-lang="newCategory">Новая категория</label>
+        <input id="newCategoryInput" type="text" placeholder="Например: Реклама">
+      </div>
+      <div class="row cols-2">
+        <div class="field">
+          <label for="newCategoryType" data-lang="type">Тип</label>
+          <select id="newCategoryType">
+            <option value="income" data-lang="incomeType">Доход</option>
+            <option value="expense" data-lang="expenseType">Расход</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="addJournalCategory()" data-lang="add">Добавить категорию</button>
+      <div class="divider"></div>
+      <div class="card-title" data-lang="existingCategories">Существующие категории</div>
+      <div id="categoriesList" class="mt-8"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" onclick="closeCategoryManager()" data-lang="done">Готово</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     МОДАЛКА: УСТАНОВКА PWA
+     ============================================================ -->
+<div class="modal-overlay" id="installModal" onclick="if(event.target===this)closeInstallModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" data-lang="installTitle">Установка приложения</div>
+      <button class="modal-close" onclick="closeInstallModal()" aria-label="Закрыть">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="mb-12" data-lang="installText">Установите приложение на устройство для быстрого доступа и работы офлайн.</p>
+      <div class="info-box">
+        <strong data-lang="advantages">Преимущества:</strong>
+        <ul>
+          <li data-lang="advOffline">Работает без интернета</li>
+          <li data-lang="advDesktop">Запускается с рабочего стола</li>
+          <li data-lang="advNoBrowser">Не требует браузера</li>
+        </ul>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeInstallModal()" data-lang="cancel">Отмена</button>
+      <button class="btn btn-primary" onclick="confirmInstall()" data-lang="installPwa">Установить</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     МОДАЛКА: ПЕСОЧНИЦА — ВКЛЮЧЕНИЕ
+     ============================================================ -->
+<div class="modal-overlay" id="sandboxOnModal" onclick="if(event.target===this)cancelSandboxOn()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🧪 Включить режим песочницы?</div>
+      <button class="modal-close" onclick="cancelSandboxOn()" aria-label="Закрыть">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="info-box warn">
+        <strong>Внимание!</strong> Все данные (журнал, чеки, история, заметки) будут храниться <strong>только в памяти</strong>. После закрытия страницы они <strong>исчезнут безвозвратно</strong>.
+      </div>
+      <p class="mt-12">Используйте песочницу, чтобы попробовать приложение или показать демо — не боясь испортить реальные данные.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="cancelSandboxOn()">Отмена</button>
+      <button class="btn btn-warning" onclick="confirmSandboxOn()">Включить</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     МОДАЛКА: ПЕСОЧНИЦА — ВЫКЛЮЧЕНИЕ (перенос данных)
+     ============================================================ -->
+<div class="modal-overlay" id="sandboxOffModal" onclick="if(event.target===this)cancelSandboxOff()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🧪 Выключить режим песочницы?</div>
+      <button class="modal-close" onclick="cancelSandboxOff()" aria-label="Закрыть">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="mb-12">Вы сейчас в песочнице. Что сделать с текущими данными?</p>
+      <div class="info-box">
+        <strong>Сохранить</strong> — перенести журнал, чеки и историю в обычное хранилище.<br>
+        <strong>Удалить</strong> — стереть всё, что было в песочнице.
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="cancelSandboxOff()">Отмена</button>
+      <button class="btn btn-danger" onclick="sandboxOffDiscard()">Удалить</button>
+      <button class="btn btn-primary" onclick="sandboxOffKeep()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     МОДАЛКА: РЕЗУЛЬТАТ КУРСА (промокод)
+     ============================================================ -->
+<div class="modal-overlay" id="courseResultModal" onclick="if(event.target===this)closeCourseResult()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🎉 Курс пройден!</div>
+      <button class="modal-close" onclick="closeCourseResult()" aria-label="Закрыть">✕</button>
+    </div>
+    <div class="modal-body" id="courseResultBody"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeCourseResult()">Закрыть</button>
+      <button class="btn btn-primary" onclick="closeCourseResult();switchTab('payment')">К оплате</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     ЭКРАН ПАРОЛЯ
+     ============================================================ -->
+<div class="lock-screen" id="lockScreen">
+  <h2 data-lang="lockTitle">Введите пароль</h2>
+  <p data-lang="lockSub">Приложение защищено паролем</p>
+  <div class="lock-dots" id="lockDots"></div>
+  <div class="lock-keypad" id="lockKeypad"></div>
+</div>
+
+<!-- ============================================================
+     ОНБОРДИНГ
+     ============================================================ -->
+<div class="onboarding-overlay" id="onboardingOverlay">
+  <div class="onboarding-slide active" data-slide="0">
+    <div class="ob-icon">🧮</div>
+    <h2 data-lang="obTitle1">Налоговый калькулятор</h2>
+    <p data-lang="obText1">Профессиональный расчёт налогов для самозанятых, ИП и ООО. Все 7 режимов, взносы, льготы.</p>
+  </div>
+  <div class="onboarding-slide" data-slide="1">
+    <div class="ob-icon">📓</div>
+    <h2 data-lang="obTitle2">Журнал операций</h2>
+    <p data-lang="obText2">Учёт доходов и расходов, KPI-дашборд, экспорт в CSV, Excel и PDF.</p>
+  </div>
+  <div class="onboarding-slide" data-slide="2">
+    <div class="ob-icon">📷</div>
+    <h2 data-lang="obTitle3">Сканер чеков</h2>
+    <p data-lang="obText3">Распознавание QR-кодов ФНС и текста чеков через AR-камеру или загрузку фото.</p>
+  </div>
+  <div class="onboarding-slide" data-slide="3">
+    <div class="ob-icon">🎓</div>
+    <h2 data-lang="obTitle4">Мини-курс + скидка</h2>
+    <p data-lang="obText4">Пройдите 5 блоков вопросов — получите промокод на скидку 20%.</p>
+  </div>
+  <div class="onboarding-dots" id="onboardingDots">
+    <div class="dot active"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+  <div class="onboarding-actions">
+    <button class="btn btn-ghost" onclick="onboardingSkip()" data-lang="skip">Пропустить</button>
+    <button class="btn btn-primary" id="onboardingNextBtn" onclick="onboardingNext()" data-lang="next">Далее</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     TOAST + UNDO
+     ============================================================ -->
+<div class="toast-container" id="toastContainer"></div>
+<div class="undo-toast" id="undoToast">
+  <span id="undoText" data-lang="undoLabel">Элемент удалён</span>
+  <button onclick="performUndo()" data-lang="undo">Отменить</button>
+</div>
+<!-- ============================================================
+     ЧАСТЬ 2: БАЗОВЫЕ МОДУЛИ
+     ============================================================ -->
+<script src="js/01-core-and-storage.js"></script>
+<!-- ============================================================
+     ЧАСТЬ 3: ПЕРЕВОДЫ + ДАННЫЕ
+     ============================================================ -->
+<script src="js/02-data-and-state.js"></script><!-- ============================================================
+     ЧАСТЬ 4: КАЛЬКУЛЯТОРЫ 1–6
+     ============================================================ -->
+<script src="js/03-tax-and-dashboard.js"></script><!-- ============================================================
+     ЧАСТЬ 5: КАЛЬКУЛЯТОРЫ 7–13
+     ============================================================ -->
+<script src="js/04-personal-calculators.js"></script><!-- ============================================================
+     ЧАСТЬ 6: ЖУРНАЛ, СКАНЕР, ЧЕК-ЛИСТ, ТЕПЛОКАРТА, СИМУЛЯТОР
+     ============================================================ -->
+<script src="js/05-journal-and-tools.js"></script>
+<!-- ============================================================
+     ЧАСТЬ 7: СПРАВКА, КУРС, НАСТРОЙКИ, ПАРОЛЬ, БЭКАП, ОПЛАТА,
+              СВАЙП, НАВИГАЦИЯ, ПОИСК, ОНБОРДИНГ, PWA, INIT
+     ============================================================ -->
+<script src="js/06-reference-and-init.js"></script>
+</body>
+</html>
